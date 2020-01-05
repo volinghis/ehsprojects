@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ehs</groupId>
-	<artifactId>ehsui</artifactId>
+	<artifactId>uis</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ehsui</name>
+	<name>uis</name>
 	<description>Global UI for ehs</description>
 
 	<properties>

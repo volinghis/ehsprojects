@@ -3,13 +3,13 @@
 /ehsui/target
 /ehsui//src/main/resources/static
 /ehsui//dist
-/ehs/target/
-/ehs/.settings/org.eclipse.core.resources.prefs
-/ehs/.settings/org.eclipse.jdt.core.prefs
-/ehs/.settings/org.eclipse.m2e.core.prefs
-/ehsui/.settings/org.eclipse.core.resources.prefs
-/ehsui/.settings/org.eclipse.jdt.core.prefs
-/ehsui/.settings/org.eclipse.m2e.core.prefs
+/servers/target/
+/servers/.settings/org.eclipse.core.resources.prefs
+/servers/.settings/org.eclipse.jdt.core.prefs
+/servers/.settings/org.eclipse.m2e.core.prefs
+/uis/.settings/org.eclipse.core.resources.prefs
+/uis/.settings/org.eclipse.jdt.core.prefs
+/uis/.settings/org.eclipse.m2e.core.prefs
 # local env files
 .env.local
 .env.*.local
