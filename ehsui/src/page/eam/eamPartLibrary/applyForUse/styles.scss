@@ -1,0 +1,41 @@
+/deep/.el-pagination__sizes {
+  margin-right: 30px;
+}
+.el-card__body{
+  padding: 10px;
+}
+.buttonHeight{
+  float:left;
+  margin-bottom: 5px;
+}
+.pageHeight{
+  margin-top: 5px;
+}
+.el-dialog__title{
+  font-weight: bolder;
+}
+.el-divider--horizontal {
+  margin: 15px 0px;
+  height: 1px;
+}
+.el-divider {
+  background-color: #409EFF;
+}
+.title{
+  // font-weight: bold;
+  font-size: 14px;
+}
+.el-dialog {
+  width: 60%;
+  margin-top: 10vh;
+}
+.el-dialog__body {
+  padding: 1px 20px;
+}
+/deep/.el-input-group__append {
+  background-color: #409EFF;
+  border: 1px solid #409EFF;
+}
+/deep/.el-icon-search{
+  color: #ffffff;
+}

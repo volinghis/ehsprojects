@@ -1,0 +1,224 @@
+[
+  { "code": "home", "label": "首页", "key": "home", "path": "/home", "component": "/layout/content/portal", "leaf": true, "icon": "fa-home" },
+  {
+    "code": "eamAccountPrintManager",
+    "label": "设备管理",
+    "key": "2",
+    "path": "",
+    "leaf": false,
+    "icon": "fa-gears",
+    "children": [
+      {
+        "code": "eamLedgerManagerManager",
+        "label": "设备台帐",
+        "key": "21",
+        "path": "/eam/eamLedgerManager/eamLedger/index",
+        "component": "/eam/eamLedgerManager/eamLedger/index",
+        "leaf": true
+      },
+      {
+        "code": "eamLedgerManagerEdit",
+        "label": "设备编辑",
+        "key": "22",
+        "path": "/eam/eamLedgerManager/eamLedger/edit/index",
+        "component": "/eam/eamLedgerManager/eamLedger/edit/index",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamLedgerManagerDetail",
+        "label": "设备详情",
+        "key": "23",
+        "path": "/eam/eamLedgerManager/eamLedger/details/index",
+        "component": "/eam/eamLedgerManager/eamLedger/details/index",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamScrapManager",
+        "label": "设备报废",
+        "key": "24",
+        "path": "/eam/eamLedgerManager/eamScrap/index",
+        "component": "/eam/eamLedgerManager/eamScrap/index",
+        "leaf": true
+      },
+      {
+        "code": "eamScrapBaseForm",
+        "label": "报废步骤",
+        "key": "241",
+        "path": "/eam/eamLedgerManager/eamScrap/stepForm/baseForm",
+        "component": "/eam/eamLedgerManager/eamScrap/stepForm/baseForm",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamScrapStep1",
+        "label": "步骤一",
+        "key": "2411",
+        "path": "/eam/eamLedgerManager/eamScrap/stepForm/step1",
+        "component": "/eam/eamLedgerManager/eamScrap/stepForm/step1",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamScrapStep2",
+        "label": "步骤二",
+        "key": "2412",
+        "path": "/eam/eamLedgerManager/eamScrap/stepForm/step2",
+        "component": "/eam/eamLedgerManager/eamScrap/stepForm/step2",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamScrapStep3",
+        "label": "步骤三",
+        "key": "2413",
+        "path": "/eam/eamLedgerManager/eamScrap/stepForm/step3",
+        "component": "/eam/eamLedgerManager/eamScrap/stepForm/step3",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamScrapStep4",
+        "label": "步骤四",
+        "key": "2414",
+        "path": "/eam/eamLedgerManager/eamScrap/stepForm/step4",
+        "component": "/eam/eamLedgerManager/eamScrap/stepForm/step4",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamAllocate",
+        "label": "设备调拨",
+        "key": "26",
+        "path": "/eam/eamLedgerManager/eamAllocate/index",
+        "component": "/eam/eamLedgerManager/eamAllocate/index",
+        "leaf": true
+      }
+    ]
+  },
+  {
+    "code": "eamPartLibraryManager",
+    "label": "备件管理",
+    "key": "3",
+    "path": "",
+    "icon": "fa-archive",
+    "leaf": false,
+    "children": [
+      { "code": "partsAccount", "label": "备件台帐", "key": "31", "path": "/eam/eamPartLibrary/partsAccount/index", "component": "/eam/eamPartLibrary/partsAccount/index", "leaf": true },
+      { "code": "partsAccountDetails", "label": "备件台帐详情页", "key": "311", "path": "/eam/eamPartLibrary/partsAccount/component/details/index", "component": "/eam/eamPartLibrary/partsAccount/component/details/index", "leaf": true, "business": true },
+      { "code": "partsAccountEdit", "label": "备件台帐编辑页", "key": "312", "path": "/eam/eamPartLibrary/partsAccount/component/edit/index", "component": "/eam/eamPartLibrary/partsAccount/component/edit/index", "leaf": true, "business": true },
+      { "code": "enterWarehouse", "label": "入库管理", "key": "32", "path": "/eam/eamPartLibrary/enterWarehouse/index", "component": "/eam/eamPartLibrary/enterWarehouse/index", "leaf": true },
+      { "code": "enterWarehouseEdit", "label": "新增入库", "key": "321", "path": "/eam/eamPartLibrary/enterWarehouse/component/edit/index", "component": "/eam/eamPartLibrary/enterWarehouse/component/edit/index", "leaf": true, "business": true },
+      { "code": "applyForUse", "label": "领用申请", "key": "33", "path": "/eam/eamPartLibrary/applyForUse/index", "component": "/eam/eamPartLibrary/applyForUse/index", "leaf": true },
+      { "code": "stepForm", "label": "申请流程", "key": "331", "path": "/eam/eamPartLibrary/applyForUse/component/stepForm/baseForm/index", "component": "/eam/eamPartLibrary/applyForUse/component/stepForm/baseForm/index", "leaf": true, "business": true },
+      { "code": "partStepOne", "label": "申请流程1", "key": "3311", "path": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepOne/index", "component": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepOne/index", "leaf": true, "business": true },
+      { "code": "partStepTwo", "label": "申请流程2", "key": "3312", "path": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepTwo/index", "component": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepTwo/index", "leaf": true, "business": true },
+      { "code": "partStepThree", "label": "申请流程3", "key": "3313", "path": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepThree/index", "component": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepThree/index", "leaf": true, "business": true },
+      { "code": "partStepFour", "label": "申请流程4", "key": "3314", "path": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepFour/index", "component": "/eam/eamPartLibrary/applyForUse/component/stepForm/stepFour/index", "leaf": true, "business": true },
+      { "code": "applyDetails", "label": "领用详情", "key": "332", "path": "/eam/eamPartLibrary/applyForUse/component/details/index", "component": "/eam/eamPartLibrary/applyForUse/component/details/index", "leaf": true, "business": true },
+      { "code": "outWarehouse", "label": "出库管理", "key": "34", "path": "/eam/eamPartLibrary/outWarehouse/index", "component": "/eam/eamPartLibrary/outWarehouse/index", "leaf": true },
+      { "code": "outWarehouseEdit", "label": "新增出库", "key": "341", "path": "/eam/eamPartLibrary/outWarehouse/component/edit/index", "component": "/eam/eamPartLibrary/outWarehouse/component/edit/index", "leaf": true, "business": true }
+    ]
+  }, {
+    "code": "eamInspection",
+    "label": "设备巡检",
+    "key": "4",
+    "icon": "fa-wrench",
+    "path": "",
+    "leaf": false,
+    "children": [
+      {
+        "code": "eamInspectionTask",
+        "label": "巡检任务",
+        "key": "41",
+        "icon": "fa-tasks",
+        "path": "/eam/eamInspection/inspectionTask/index",
+        "component": "/eam/eamInspection/inspectionTask/index",
+        "leaf": true,
+        "business": false
+      },
+      {
+        "code": "eamInspectionDetails",
+        "label": "巡检任务详情",
+        "key": "411",
+        "icon": "fa-tasks",
+        "path": "/eam/eamInspection/inspectionTask/component/details/index",
+        "component": "/eam/eamInspection/inspectionTask/component/details/index",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamInspectionParam",
+        "label": "设备列表",
+        "key": "412",
+        "path": "/eam/eamInspection/inspectionTask/component/paramsTable/index",
+        "component": "/eam/eamInspection/inspectionTask/component/paramsTable/index",
+        "leaf": true,
+        "business": true
+      }
+    ]
+  },
+  {
+    "code": "eamBasicDataManager",
+    "label": "基础数据管理",
+    "key": "5",
+    "icon": "fa-database",
+    "path": "",
+    "leaf": false,
+    "children": [
+      {
+        "code": "eamInfoAdd",
+        "label": "基础数据新增页",
+        "key": "51",
+        "path": "/eam/eamBasicData/eamInfoAdd",
+        "component": "/eam/eamBasicData/eamInfoAdd",
+        "leaf": true,
+        "business": true
+      },
+      {
+        "code": "eamInfoAdd",
+        "label": "基础数据库",
+        "key": "52",
+        "path": "/eam/eamBasicData/index",
+        "component": "/eam/eamBasicData/index",
+        "leaf": true
+      }
+    ]
+  },
+  {
+    "code": "dataBase",
+    "label": "资料库",
+    "key": "6",
+    "icon": "fa-folder-o",
+    "path": "",
+    "leaf": false,
+    "children": [
+      {
+        "code": "eamDataBase",
+        "label": "设备资料",
+        "key": "61",
+        "path": "/eam/eamDataBase/index",
+        "component": "/eam/eamDataBase/index",
+        "leaf": true,
+        "business": false
+      }
+
+    ]
+  },
+  {
+    "code": "systemManager",
+    "label": "系统管理",
+    "key": "7",
+    "icon": "fa-cog",
+    "path": "",
+    "leaf": false,
+    "children": [
+
+        { "code": "user", "label": "人员管理", "key": "402", "path": "/system/userManager/user/index", "component": "/system/userManager/user/index", "leaf": true, "business": false },
+        { "code": "userCenter", "label": "个人设置", "key": "41", "path": "/system/account/setting/index", "component": "/system/account/setting/index", "leaf": true, "business": true },
+        { "code": "useretting", "label": "个人中心", "key": "42", "path": "/system/account/center/index", "component": "/system/account/center/index", "leaf": true, "business": false },
+        { "code": "roleManager", "label": "角色管理", "key": "43", "path": "/system/roleManager/index", "component": "/system/roleManager/index", "leaf": true, "business": false },
+        { "code": "menuManager", "label": "菜单授权", "key": "44", "path": "/system/menuManager/index", "component": "/system/menuManager/index", "leaf": true, "business": false }
+    ] }
+]

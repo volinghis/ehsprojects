@@ -1,0 +1,43 @@
+.title {
+  width: 75px;
+  float: left;
+  line-height: 25px;
+  font-size: small;
+  font-weight: bold;
+}
+.content {
+  float: left;
+  line-height: 25px;
+  font-size: small;
+}
+.el-card__header {
+  /* background-color: whitesmoke; */
+  background-color: #dcdfe6;
+  padding: 10px 20px;
+}
+.item-block {
+  .item-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+.el-form--label-top .el-form-item__label {
+  padding: 0 0 0px;
+}
+.el-form-item {
+  margin-bottom: 10px;
+}
+.contents{
+  line-height: 30px;
+}
+.el-divider--horizontal{
+  margin:6px 0;
+  background-color: #015cf2;
+}
+.info-title{
+  color: #606266;
+  font-weight: bold;
+}
+.info-content{
+  color: #909399;
+}

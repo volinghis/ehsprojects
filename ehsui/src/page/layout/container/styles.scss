@@ -1,0 +1,27 @@
+.el-header:not(.tabHeader){
+  height: $headerHeight !important;
+  overflow: hidden;
+  background: linear-gradient(90deg,#1d42ab,#2173dc,#1e93ff);
+  padding: 0 0 0 0px !important;
+
+}
+.tabHeader{
+  height: $tabHeight !important;
+  
+}
+.el-main{
+  padding: 0px;
+  overflow: auto !important;
+  padding: 0 0 0 0px !important;
+  padding-top: 10px !important;
+}
+.el-aside{
+  overflow: auto;
+  width: $siderWidth !important;
+  background-color: $menuBgColor;
+  padding: 0 0 0 0px !important;
+}
+.el-container {
+  padding: 0 0 0 0px !important;
+
+}

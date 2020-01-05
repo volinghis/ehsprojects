@@ -1,0 +1,79 @@
+[
+  {
+  "code": "201901110001",
+  "date": "2019-01-11",
+  "type": "领用出库",
+  "department": "设备部",
+  "person": "张三",
+  "warehouse": "1号仓库",
+  "responsible": "王三",
+  "remark": "维修领用",
+  "status": "申请中"
+  }, 
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "领用出库",
+    "department": "检修部",
+    "person": "李伟",
+    "warehouse": "1号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "已完结"
+  },
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "电气专业",
+    "department": "设备部",
+    "person": "张三",
+    "warehouse": "1号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "已完结"
+  },
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "借用出库",
+    "department": "设备部",
+    "person": "赵武",
+    "warehouse": "2号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "申请中"
+  },
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "领用出库",
+    "department": "设备部",
+    "person": "何晨",
+    "warehouse": "1号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "已完结"
+  },
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "借用出库",
+    "department": "设备部",
+    "person": "张三",
+    "warehouse": "2号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "申请中"
+  },
+  {
+    "code": "201901110001",
+    "date": "2019-01-11",
+    "type": "领用出库",
+    "department": "设备部",
+    "person": "张三",
+    "warehouse": "1号仓库",
+    "responsible": "王三",
+    "remark": "维修领用",
+    "status": "申请中"
+  }
+]

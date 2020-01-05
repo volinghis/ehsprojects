@@ -1,0 +1,47 @@
+[
+    {
+        "refDevice": "1001",
+        "repairTime": "2019-05-02",
+        "repairName": "2019第一次锅炉检修",
+        "repairTeam": "锅炉一班",
+        "repairNature": "A级",
+        "founder": "张三",
+        "personLiable": "王小虎"
+    },
+    {
+        "refDevice": "1001",
+        "repairTime": "2019-05-02",
+        "repairName": "2019第一次锅炉检修",
+        "repairTeam": "锅炉一班",
+        "repairNature": "A级",
+        "founder": "张三",
+        "personLiable": "王小虎"
+    },
+    {
+        "refDevice":"1003",
+        "repairTime": "2019-05-02",
+        "repairName": "2019第一次汽机检修",
+        "repairTeam": "热控一班",
+        "repairNature": "A级",
+        "founder": "张三",
+        "personLiable": "李四"
+    },
+    {
+        "refDevice":"1003",
+        "repairTime": "2019-11-02",
+        "repairName": "2019第二次汽机检修",
+        "repairTeam": "热控一班",
+        "repairNature": "A级",
+        "founder": "张三",
+        "personLiable": "李四"
+    },
+    {
+        "refDevice":"1002",
+        "repairTime": "2019-05-02",
+        "repairName": "2019第一次锅炉检修",
+        "repairTeam": "锅炉一班",
+        "repairNature": "A级",
+        "founder": "张三",
+        "personLiable": "李四"
+    }
+]
