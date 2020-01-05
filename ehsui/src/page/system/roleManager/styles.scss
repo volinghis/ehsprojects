@@ -1,0 +1,15 @@
+.operation{
+    margin-bottom: 10px;
+}
+.el-pagination{
+    text-align: right;
+    margin-top: 10px;
+}
+/deep/.el-pager li.active{
+    border: 1px solid;
+}
+/deep/.el-input-group__append {
+    background-color: #409EFF;
+    border: 1px solid #409EFF;
+    color:#fff
+  }

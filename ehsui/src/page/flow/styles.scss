@@ -1,0 +1,35 @@
+.el-container{
+ 
+  .el-main{
+    padding:0 0 0 0px !important;
+    overflow: auto;
+  }
+  height: 100%;
+  width: 100%;
+  .el-timeline-item{
+    margin-top:10px;
+    margin-left: -40px !important;
+  }
+  .el-button{
+    margin-top: 5px;
+  }
+  .el-row{
+    height: 25px;
+    margin-top: 5px !important;
+  }
+  .el-col{
+    line-height: 25px;
+    vertical-align: middle;
+  }
+
+
+  .ehs-flows-right{
+    padding-top: 10px;
+    padding-left: 10px;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+  }
+
+}

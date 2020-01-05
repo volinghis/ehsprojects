@@ -1,0 +1,29 @@
+.DS_Store
+/ehsui/node_modules
+/ehsui/target
+/ehsui//src/main/resources/static
+/ehsui//dist
+/ehs/target/
+/ehs/.settings/org.eclipse.core.resources.prefs
+/ehs/.settings/org.eclipse.jdt.core.prefs
+/ehs/.settings/org.eclipse.m2e.core.prefs
+/ehsui/.settings/org.eclipse.core.resources.prefs
+/ehsui/.settings/org.eclipse.jdt.core.prefs
+/ehsui/.settings/org.eclipse.m2e.core.prefs
+# local env files
+.env.local
+.env.*.local
+*.bak
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

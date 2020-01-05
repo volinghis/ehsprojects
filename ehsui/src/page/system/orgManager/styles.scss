@@ -1,0 +1,42 @@
+.buttonStyle {
+  position: absolute;
+  right: 0px;
+}
+/*节点*/
+.slot-tree .slot-t-node--label {
+  font-weight: 600;
+}
+/*输入框*/
+.slot-tree .slot-t-input .el-input__inner {
+  height: 26px;
+  line-height: 26px;
+}
+/*按钮列表*/
+.slot-tree .slot-t-node .slot-t-icons {
+  display: none;
+  margin-left: 2px;
+}
+.slot-tree .slot-t-icons {
+  margin-left: 2px;
+}
+.el-button + .el-button {
+  margin-left: 3px;
+}
+.slot-tree .el-tree-node__content:hover .slot-t-icons {
+  display: inline-block;
+}
+.operation{
+  margin-bottom: 5px;
+}
+/deep/.dialog-footer{
+  text-align: center;
+}
+/deep/.el-dialog__body{
+  padding: 5px 20px;
+}
+.el-divider--vertical{
+  height: 820px;
+}
+.el-col-1 {
+  width: 1%;
+}

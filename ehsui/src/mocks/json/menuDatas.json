@@ -1,0 +1,49 @@
+[
+  { "code": "home", "label": "首页", "key": "home", "path": "/home", "component": "/layout/content/portal", "leaf": true, "icon": "fa-home" },
+  {
+    "code": "eamAccountPrintManager",
+    "label": "设备管理",
+    "key": "2",
+    "path": "",
+    "leaf": false,
+    "icon": "fa-cubes",
+    "children": [
+      { "code": "eamAccountPrintManager", "label": "设备台帐", "key": "21", "path": "/eam/eamAccountPrint/index", "component": "/eam/eamAccountPrint/index", "leaf": true, "icon": "fa-hdd-o" },
+      { "code": "eamAccountPrintEdit", "label": "设备编辑", "key": "211", "path": "/eam/eamAccountPrint/edit", "component": "/eam/eamAccountPrint/edit", "leaf": true, "business": true },
+      { "code": "eamAccountPrintDetail", "label": "设备详情", "key": "212", "path": "/eam/eamAccountPrint/details", "component": "/eam/eamAccountPrint/details", "leaf": true, "business": true },
+      { "code": "eamAccountPrintManager", "label": "设备报废", "key": "22", "path": "/eam/eamAccountPrint/index", "component": "/eam/eamAccountPrint/index", "leaf": true },
+      { "code": "eamAccountPrintManager", "label": "设备变卖", "key": "23", "path": "/eam/eamAccountPrint/index", "component": "/eam/eamAccountPrint/index", "leaf": true },
+      { "code": "eamAccountPrintManager", "label": "设备转移", "key": "24", "path": "/eam/eamAccountPrint/index", "component": "/eam/eamAccountPrint/index", "leaf": true },
+      { "code": "eamAccountPrintManager", "label": "设备折价", "key": "25", "path": "/eam/eamAccountPrint/index", "component": "/eam/eamAccountPrint/index", "leaf": true }
+    ]
+  },
+  {
+    "code": "eamPartLibraryManager",
+    "label": "备件管理",
+    "key": "3",
+    "path": "",
+    "icon": "fa-ticket",
+    "leaf": false,
+    "children": [
+      { "code": "eamPartManager", "label": "备件台帐", "key": "311", "path": "/eam/eamPartLibrary/index", "component": "/eam/eamPartLibrary/index", "leaf": true },
+      { "code": "eamPartManager", "label": "入库管理", "key": "322", "path": "/eam/eamPartLibrary/index", "component": "/eam/eamPartLibrary/index", "leaf": true },
+      { "code": "eamPartManager", "label": "领用申请", "key": "333", "path": "/eam/eamPartLibrary/index", "component": "/eam/eamPartLibrary/index", "leaf": true },
+      { "code": "eamPartManager", "label": "出库管理", "key": "344", "path": "/eam/eamPartLibrary/index", "component": "/eam/eamPartLibrary/index", "leaf": true },
+      { "code": "eamPartManagerEdit", "label": "备件台帐编辑", "key": "355", "path": "/eam/eamPartLibrary/edit", "component": "/eam/eamPartLibrary/edit", "leaf": true, "business": true }
+    ]
+  },
+  {
+    "code": "systemManager",
+    "label": "系统管理",
+    "key": "4",
+    "icon": "fa-cog",
+    "path": "",
+    "leaf": false,
+    "children": [
+        { "code": "user", "label": "人员管理", "key": "402", "path": "/system/userManager/user/index", "component": "/system/userManager/user/index", "leaf": true, "business": false },
+        { "code": "userCenter", "label": "个人设置", "key": "41", "path": "/system/account/setting/index", "component": "/system/account/setting/index", "leaf": true, "business": true },
+        { "code": "useretting", "label": "个人中心", "key": "42", "path": "/system/account/center/index", "component": "/system/account/center/index", "leaf": true, "business": false },
+        { "code": "roleManager", "label": "角色管理", "key": "43", "path": "/system/roleManager/index", "component": "/system/roleManager/index", "leaf": true, "business": false },
+        { "code": "menuManager", "label": "菜单授权", "key": "44", "path": "/system/menuManager/index", "component": "/system/menuManager/index", "leaf": true, "business": false }
+    ] }
+]
