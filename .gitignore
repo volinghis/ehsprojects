@@ -1,8 +1,8 @@
 .DS_Store
-/ehsui/node_modules
-/ehsui/target
-/ehsui//src/main/resources/static
-/ehsui//dist
+/uis/node_modules
+/uis/target
+/uis/src/main/resources/static
+/uis/dist
 /servers/target/
 /servers/.settings/org.eclipse.core.resources.prefs
 /servers/.settings/org.eclipse.jdt.core.prefs
