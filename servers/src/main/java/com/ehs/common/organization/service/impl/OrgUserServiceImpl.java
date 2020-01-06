@@ -194,7 +194,11 @@ public class OrgUserServiceImpl implements OrgUserService{
 			//保存用户信息
 			orgUser.setSysUserKey(sysUser.getKey());
 			orgUser.setState(sysUser.getState());
-			return baseCommonService.saveOrUpdate(orgUser);
+			OrgUser u =baseCommonService.saveOrUpdate(orgUser);
+			SysUser sysUser2 =baseCommonService.findByKey(SysUser.class, sysUser.getKey());
+			sysUser2.setUserKey(u.getKey());
+			baseCommonService.saveOrUpdate(sysUser2);
+			return u;
 		}
 		SysUser user= baseCommonService.findByKey(SysUser.class, orgUser.getSysUserKey());
 		user.setAccount(orgUser.getDataCode());
