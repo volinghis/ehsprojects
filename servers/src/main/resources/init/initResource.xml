@@ -47,25 +47,18 @@
 		</menu>
 		
 		<!-- 备件管理 -->
-		<menu dataCode="eamPartLibraryManager" key="eamPartLibraryManager" name="备件管理" url="" icon="fa-archive" leaf="false" sort="9992">
-			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartLibraryManager"  url="/eam/eamPartLibrary/partsAccount/index"  sort="31">
-				<menu dataCode="partsAccountEdit" key="partsAccountEdit" name="备件台账编辑" url="/eam/eamPartLibrary/partsAccount/component/edit/index" business="true" sort="311"></menu>
-				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="备件台账详情" url="/eam/eamPartLibrary/partsAccount/component/details/index" business="true" sort="312"></menu>
+		<menu dataCode="eamPartsManager" key="eamPartsManager" name="备件管理" url="" icon="fa-archive" leaf="false" sort="9992">
+			<menu dataCode="partsBaseInfo" key="partsBaseInfo" name="备件基础数据" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsBaseInfo/index"  sort="35">
+				<menu dataCode="partsBaseInfoEdit" key="partsBaseInfoEdit" name="备件台账编辑" url="/eam/eamPartsManager/partsBaseInfo/component/edit/index" business="true" sort="351"></menu>
+				<menu dataCode="partsBaseInfoDetails" key="partsBaseInfoDetails" name="备件台账详情" url="/eam/eamPartsManager/partsBaseInfo/component/details/index" business="true" sort="352"></menu>
 			</menu>
-			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartLibrary/enterWarehouse/index" parentKey="eamPartLibraryManager" sort="32">
-				<menu dataCode="enterWarehouseEdit" key="enterWarehouseEdit" name="入库编辑" url="/eam/eamPartLibrary/enterWarehouse/component/edit/index" business="true" sort="321"></menu>
+			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsAccount/index"  sort="31">
 			</menu>
-			<menu dataCode="applyForUse" key="applyForUse" name="领用申请" url="/eam/eamPartLibrary/applyForUse/index" parentKey="eamPartLibraryManager" icon="fa-gears" sort="33">
-				<menu dataCode="stepForm" key="stepForm" name="申请步骤" url="/eam/eamPartLibrary/applyForUse/component/stepForm/baseForm/index" business="true" sort="331">
-					<menu dataCode="partStepOne" key="partStepOne" name="领用步骤1" url="/eam/eamPartLibrary/applyForUse/component/stepForm/stepOne/index" business="true" sort="3311"></menu>
-					<menu dataCode="partStepTwo" key="partStepTwo" name="领用步骤2" url="/eam/eamPartLibrary/applyForUse/component/stepForm/stepTwo/index" business="true" sort="3312"></menu>
-					<menu dataCode="partStepThree" key="partStepThree" name="领用步骤3" url="/eam/eamPartLibrary/applyForUse/component/stepForm/stepThree/index" business="true" sort="3313"></menu>
-					<menu dataCode="partStepFour" key="partStepFour" name="领用步骤4" url="/eam/eamPartLibrary/applyForUse/component/stepForm/stepFour/index" business="true" sort="3314"></menu>
-				</menu>
-				<menu dataCode="applyDetails" key="applyDetails" name="领用详情" url="/eam/eamPartLibrary/applyForUse/component/details/index" business="true" sort="332"></menu>
+			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartsManager/enterWarehouse/index" parentKey="eamPartsManager" sort="32">
+				<menu dataCode="enterWarehouseEdit" key="enterWarehouseEdit" name="入库编辑" url="/eam/eamPartsManager/enterWarehouse/component/edit/index" business="true" sort="321"></menu>
 			</menu>
-			<menu dataCode="outWarehouse" key="outWarehouse" name="出库管理" url="/eam/eamPartLibrary/outWarehouse/index" parentKey="eamPartLibraryManager" sort="34">
-				<menu dataCode="outWarehouseEdit" key="outWarehouseEdit" name="出库编辑" url="/eam/eamPartLibrary/outWarehouse/component/edit/index" business="true" sort="341"></menu>
+			<menu dataCode="outWarehouse" key="outWarehouse" name="出库管理" url="/eam/eamPartsManager/outWarehouse/index" parentKey="eamPartsManager" sort="34">
+				<menu dataCode="outWarehouseEdit" key="outWarehouseEdit" name="出库编辑" url="/eam/eamPartsManager/outWarehouse/component/edit/index" business="true" sort="341"></menu>
 			</menu>
 		</menu>
 		
