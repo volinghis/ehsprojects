@@ -17,4 +17,5 @@ public interface FlowBaseService {
 	public void processCancel(FlowProcessInfo flowProcessInfo);
 	
 	public ProcessInstance startProcess(FlowBaseEntity flowEntity,FlowProcessInfo flowProcessInfo);
+	
 }

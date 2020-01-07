@@ -32,6 +32,7 @@ public class FlowConstans {
 
 	public static final String FLOW_START_ACTIVITY_ID="startActivityId";
 	
+	public static final String FLOW_FORM_PAGE="formPage";
 	/**
 	 * 开始环节ID
 	 */

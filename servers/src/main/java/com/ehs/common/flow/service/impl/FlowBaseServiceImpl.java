@@ -185,7 +185,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 	@Override
 	public ProcessInstance startProcess(FlowBaseEntity flowBaseEntity,FlowProcessInfo flowProcessInfo) {
 		try {
-			String processId=flowBaseEntity.getFlowProcessId();
+			String processId=flowBaseEntity.getFlow();
 			//部署流程
 		   repositoryService.createDeployment().addClasspathResource("processes/"+processId+".bpmn").deploy();
 		   //System.out.println(d);
@@ -194,7 +194,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 		    Map maps=new HashMap();
 		    maps.putAll(flowProcessInfo.getVars());
 		    maps.put(FlowConstans.TASK_ASSIGNEE, SysAccessUser.get().getUserKey());
-		    
+		    maps.put(FlowConstans.FLOW_FORM_PAGE, flowBaseEntity.getPage());
 		    Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
 		    ProcessInstance pi=   runtimeService.startProcessInstanceByKey(pd.getKey(), flowProcessInfo.getKey(),maps);
 		    Authentication.setAuthenticatedUserId(null);
@@ -376,5 +376,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 	    baseCommonService.saveOrUpdate(flowProcessInfo);
 
 	}
+
+
 
 }

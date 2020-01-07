@@ -1,8 +1,20 @@
+@import "@/styles/mixin.scss";
 .el-container{
- 
   .el-main{
-    padding:0 0 0 0px !important;
     overflow: auto;
+  }
+  .el-header{
+    padding-top: 10px;
+    height: 70px !important;
+    background: linear-gradient(90deg,#2173dc,#1e93ff);
+  }
+  .el-steps{
+    /deep/ .el-step__title{
+      font-size: 14px !important;
+    }
+    /deep/ .el-step__title.is-wait{
+      color: white;
+    }
   }
   height: 100%;
   width: 100%;

@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,7 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		SysMenu sysMenu = baseCommonService.findByKey(SysMenu.class, menuKey);
 		List<SysRole> roles = new ArrayList<SysRole>();
-		if (sysMenu != null) {
+		if (sysMenu != null&&StringUtils.isNotBlank(sysMenu.getRoles())) {
 			List<RoleBean> roleBeans =JsonUtils.parseList(sysMenu.getRoles(),RoleBean.class);
 			for (RoleBean roleBean : roleBeans) {
 				roles.add(baseCommonService.findByKey(SysRole.class, roleBean.getRoleKey()));

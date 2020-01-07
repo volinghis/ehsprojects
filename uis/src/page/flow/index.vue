@@ -1,6 +1,6 @@
 <template>
    <el-container >
-     <el-header> <el-steps  :active="0">
+     <el-header> <el-steps  :active="activeStep"  process-status="process  " finish-status="success">
     <el-step v-for="item in processDefineInfo.steps" :key="item.stepKey" :title="item.stepName"></el-step>
   </el-steps></el-header>
       <el-container>
@@ -9,6 +9,7 @@
     </el-container>
     <div style="width:200px" class="ehs-flows-right"><el-input
         type="textarea"
+        v-model="processInfo.vars.taskComment"
         :rows="4"
         placeholder="审批意见"
         />
@@ -17,7 +18,7 @@
         <el-col :span="8">审批人:</el-col>
         <el-col :span="16"><user-selector @change="userSelectorChange"></user-selector></el-col>
       </el-row>
-      <el-button type="primary"  :size="GlobalCss.buttonSize" @click="startFlow">发起审批</el-button>
+      <el-button type="primary"  :size="GlobalCss.buttonSize" @click="startFlow" >发起审批</el-button>
     </div>
       <el-timeline>
     <el-timeline-item

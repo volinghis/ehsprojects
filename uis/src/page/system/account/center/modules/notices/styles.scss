@@ -1,0 +1,8 @@
+.el-pagination{
+  float: right;
+  height: 30px !important;
+}
+ /deep/ .el-table__header-wrapper{
+   display: none;
+   height: 30px !important;
+ }

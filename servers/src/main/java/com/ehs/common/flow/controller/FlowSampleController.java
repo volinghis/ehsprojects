@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.controller.bean.FlowSampleBean;
@@ -20,7 +21,7 @@ public class FlowSampleController {
 	@Resource
 	private FlowSampleService flowSampleService;
 	
-	@RequestAuth(menuKeys = {"userManager"})
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/flow/sample/save")
 	public String save(HttpServletRequest request, @RequestBody FlowSampleBean flowSampleBean) {
 		ResultBean resultBean = new ResultBean();

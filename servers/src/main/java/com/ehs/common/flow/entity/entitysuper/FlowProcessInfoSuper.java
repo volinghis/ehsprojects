@@ -33,6 +33,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	
 	private String businessEntityKey;
 	
+	
 	/**
 	 * 流程实例ID
 	 */

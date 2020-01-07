@@ -1,31 +1,31 @@
 
 export default {
-
   methods: {
     startFlow () {
-      if (!this.flowOper) {
+      if (!this.processInfo.vars.taskAssignee) {
         this.$message.error('请选择流程处理人！')
+        return
       }
-      this.$refs.flowContent.handerSubmit(1)
+      this.$refs.flowContent.handerSubmit(this.processInfo)
     },
     userSelectorChange (v) {
-      this.flowOper = v
+      this.processInfo.vars.taskAssignee = v
     }
+
   },
   mounted () {
-    console.log(this.$router.currentRoute)
-    console.log(location.href)
-    var processDefineKey = JSON.parse(this.$route.params.processInfo).processDefineKey
+    var flowInfo = JSON.parse(this.$route.params.processInfo)
+    var processDefineKey = flowInfo.processDefineKey
     this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessByProcessDefineKey?processDefineKey=' + processDefineKey)
       .then(res => {
         this.processDefineInfo = res.data
       })
-    console.log(processDefineKey)
   },
   data () {
     return {
+      processInfo: { vars: { taskAssignee: '', taskComment: '', taskId: '' } },
       processDefineInfo: {},
-      flowOper: '',
+      activeStep: 0,
       activities: [{
         content: '张三（提交）',
         comments: '同意',

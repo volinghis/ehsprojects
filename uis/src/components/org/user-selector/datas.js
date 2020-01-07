@@ -71,11 +71,11 @@ export default {
           disabled: 'disabled',
           org: true,
           children: [{
-            value: 'cexiangdaohang',
-            label: '报销'
+            value: 'b0c2046f-82b5-4f84-bd63-782083136fee',
+            label: 'zhaol'
           }, {
-            value: 'dingbudaohang',
-            label: '审计'
+            value: 'bffca95f-d70d-48b1-8530-a5b2b639e68c',
+            label: 'test2'
           }]
         }]
       }]
