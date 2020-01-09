@@ -9,7 +9,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.flow.enums.FlowStatus;
 
 @MappedSuperclass
 public abstract class FlowProcessInfoSuper extends BaseEntity{
@@ -48,8 +47,6 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	/**
 	 * 审批流程状态 APPROVING,END,CANCELED
 	 */
-	@Enumerated(EnumType.STRING)
-	private FlowStatus flowStatus=FlowStatus.APPROVING;
 	
 	
 	/**
@@ -99,12 +96,6 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	}
 	public void setBusinessEntityKey(String businessEntityKey) {
 		this.businessEntityKey = businessEntityKey;
-	}
-	public FlowStatus getFlowStatus() {
-		return flowStatus;
-	}
-	public void setFlowStatus(FlowStatus flowStatus) {
-		this.flowStatus = flowStatus;
 	}
 	public Map<String, Object> getVars() {
 		return vars;

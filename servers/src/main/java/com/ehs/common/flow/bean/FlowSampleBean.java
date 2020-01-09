@@ -1,4 +1,4 @@
-package com.ehs.common.flow.controller.bean;
+package com.ehs.common.flow.bean;
 
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.entity.impl.FlowSample;

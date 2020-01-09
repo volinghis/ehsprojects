@@ -1,26 +1,48 @@
-package com.ehs.common.flow.controller.bean;
+package com.ehs.common.flow.bean;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ApplysBean {
+public class ProcessApplysBean {
 
 	private String processName;
 	private String currentStep;
 	private String currentUser;
 	private String processInstanceId;
 	
-	private String processFormPage;
+	private String processPage;
 	
 	
 	
 	
-    public String getProcessFormPage() {
-		return processFormPage;
+	
+	
+	private String businessKey;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
+	private Date createTime;
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	public String getProcessPage() {
+		return processPage;
 	}
-	public void setProcessFormPage(String processFormPage) {
-		this.processFormPage = processFormPage;
+	public void setProcessPage(String processPage) {
+		this.processPage = processPage;
+	}
+
+	public String getBusinessKey() {
+		return businessKey;
+	}
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
 	}
 	public String getProcessInstanceId() {
 		return processInstanceId;
@@ -28,8 +50,7 @@ public class ApplysBean {
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
 	}
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",  timezone="GMT+8")
-	private Date createTime;
+
 	public String getProcessName() {
 		return processName;
 	}

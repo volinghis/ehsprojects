@@ -3,8 +3,13 @@ export default {
     return {
       flowSample: {
         content: ''
-      }
+      },
+      businessKey: ''
     }
+  },
+  mounted () {
+    var flowInfo = JSON.parse(this.$route.params.processInfo)
+    this.businessKey = flowInfo.businessKey
   },
   methods: {
     handerSubmit: function (process) {

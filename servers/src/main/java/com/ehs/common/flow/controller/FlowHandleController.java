@@ -11,21 +11,22 @@ import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.bean.FlowSampleBean;
-import com.ehs.common.flow.service.FlowSampleService;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.ResultBean;
 
 @RestController
-public class FlowSampleController {
+public class FlowHandleController {
 
-	
 	@Resource
-	private FlowSampleService flowSampleService;
+	private FlowBaseService flowBaseService;
 	
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/flow/sample/save")
-	public String save(HttpServletRequest request, @RequestBody FlowSampleBean flowSampleBean) {
+	@RequestMapping(value = "/flow/handle/cancelProcess")
+	public String cancelProcess(HttpServletRequest request, @RequestBody FlowProcessInfo processInfo) {
 		ResultBean resultBean = new ResultBean();
-		flowSampleService.saveFlowSample(flowSampleBean.getFlowSample(), flowSampleBean.getFlowProcessInfo());
+		flowBaseService.processCancel(processInfo);
 		return JsonUtils.toJsonString(resultBean.ok("提交流程成功！"));
 	}
+	
 }

@@ -33,9 +33,20 @@ public abstract class FlowSampleSuper extends FlowBaseEntity{
 		return "TestFlow";
 	}
 
+
+
 	@Override
-	public String getPage() {
+	public String getEditPage() {
 		return "sampleEdit";
 	}
+
+
+
+	@Override
+	public String getViewPage() {
+		return "sampleEdit";
+	}
+
+
 
 }

@@ -28,11 +28,11 @@ public class FlowConstans {
 	
 	public static final String TASK_ID="taskId";
 	public static final String TASK_COMMENT="taskComment";
-	public static final String FLOW_DELETE_REASON="deleteReason";
 
 	public static final String FLOW_START_ACTIVITY_ID="startActivityId";
 	
-	public static final String FLOW_FORM_PAGE="formPage";
+	public static final String FLOW_FORM_EDIT_PAGE="formEditPage";
+	public static final String FLOW_FORM_VIEW_PAGE="formViewPage";
 	/**
 	 * 开始环节ID
 	 */

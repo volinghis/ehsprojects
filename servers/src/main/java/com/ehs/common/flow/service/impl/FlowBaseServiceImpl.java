@@ -56,6 +56,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.AccessUtils;
 import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.common.flow.enums.FlowStatus;
 import com.ehs.common.flow.enums.FlowTaskOper;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.utils.FlowConstans;
@@ -124,7 +125,6 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			    	currentStep=String.join(",",tasks.stream().map(u -> u.getTaskDefinitionKey()).collect(Collectors.toList()));
 			    	currentStepName=String.join(",",tasks.stream().map(u -> u.getName()).collect(Collectors.toList()));
 			    }
-			    
 			    flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
 			    flowProcessInfo.setFlowPrevPersonName(flowProcessInfo.getFlowCurrentPersonName());
 			    flowProcessInfo.setFlowPrevStep(flowProcessInfo.getFlowCurrentStep());
@@ -185,6 +185,9 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 	@Override
 	public ProcessInstance startProcess(FlowBaseEntity flowBaseEntity,FlowProcessInfo flowProcessInfo) {
 		try {
+			if(StringUtils.isBlank(flowBaseEntity.getKey())) {
+				flowBaseEntity.setKey(UUID.randomUUID().toString());
+			}
 			String processId=flowBaseEntity.getFlow();
 			//部署流程
 		   repositoryService.createDeployment().addClasspathResource("processes/"+processId+".bpmn").deploy();
@@ -194,9 +197,10 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 		    Map maps=new HashMap();
 		    maps.putAll(flowProcessInfo.getVars());
 		    maps.put(FlowConstans.TASK_ASSIGNEE, SysAccessUser.get().getUserKey());
-		    maps.put(FlowConstans.FLOW_FORM_PAGE, flowBaseEntity.getPage());
+		    maps.put(FlowConstans.FLOW_FORM_EDIT_PAGE, flowBaseEntity.getEditPage());
+		    maps.put(FlowConstans.FLOW_FORM_VIEW_PAGE, flowBaseEntity.getViewPage());
 		    Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-		    ProcessInstance pi=   runtimeService.startProcessInstanceByKey(pd.getKey(), flowProcessInfo.getKey(),maps);
+		    ProcessInstance pi=   runtimeService.startProcessInstanceByKey(pd.getKey(), flowBaseEntity.getKey(),maps);
 		    Authentication.setAuthenticatedUserId(null);
 		    
 		    
@@ -335,8 +339,8 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			
 		    String currentUser="";
 		    String currentUserName="";
-		    String currentStep="";
-		    String currentStepName="";
+		    String currentStep=FlowStatus.END.name();
+		    String currentStepName="已结束";
 		    flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
 		    flowProcessInfo.setFlowPrevPersonName(flowProcessInfo.getFlowCurrentPersonName());
 		    flowProcessInfo.setFlowPrevStep(flowProcessInfo.getFlowCurrentStep());
@@ -358,13 +362,24 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 	@Override
 	@Transactional
 	public void processCancel(FlowProcessInfo flowProcessInfo) {
-		Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-		runtimeService.deleteProcessInstance(flowProcessInfo.getFlowProcessInstanceId(),StringUtils.defaultIfBlank((String)flowProcessInfo.getVars().get(FlowConstans.FLOW_DELETE_REASON), ""));
+		
+		ProcessInstance pi=runtimeService.createProcessInstanceQuery().includeProcessVariables().processInstanceId(flowProcessInfo.getFlowProcessInstanceId()).singleResult();
+	    List<Task> tasks= taskService.createTaskQuery().processInstanceId(flowProcessInfo.getFlowProcessInstanceId()).active().list();
+	    
+	    
+	    Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
+		taskService.addComment(tasks.get(0).getId(), pi.getId(), FlowTaskOper.CANCELD.name(),StringUtils.defaultIfBlank((String)flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT),""));
 		Authentication.setAuthenticatedUserId(null);
+
+		 runtimeService.createChangeActivityStateBuilder()
+		.processInstanceId(flowProcessInfo.getFlowProcessInstanceId())
+        .moveActivityIdTo(flowProcessInfo.getFlowCurrentStep(), (String)pi.getProcessVariables().get(FlowConstans.FLOW_START_ACTIVITY_ID))
+        .changeState();
+	   
 	    String currentUser="";
 	    String currentUserName="";
-	    String currentStep="";
-	    String currentStepName="";
+	    String currentStep=FlowStatus.CANCELED.name();
+	    String currentStepName="已撤销";
 	    flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
 	    flowProcessInfo.setFlowPrevPersonName(flowProcessInfo.getFlowCurrentPersonName());
 	    flowProcessInfo.setFlowPrevStep(flowProcessInfo.getFlowCurrentStep());

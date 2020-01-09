@@ -20,7 +20,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.flow.enums.FlowStatus;
 
 
 /**   
@@ -45,39 +44,40 @@ public abstract class FlowBaseEntity extends BaseEntity {
 	
 	public abstract String getFlow();
 	
-	public abstract String getPage();
+	public abstract String getEditPage();
+	
+	public abstract String getViewPage();
 
 	public static final String FLOW_PROCESS_INFO_KEY = "flowProcessInfoKey" ;
 	
 	private String flowProcessInfoKey;
 
+	@Transient
 	private String flowProcessKey;
+
+	@Transient
+	private String flowBusinessEditPage;
 	
-	private String flowBusinessPage;
-	
+	@Transient
+	private String flowBusinessViewPage;
+
+
 	
 
-	public String getFlowBusinessPage() {
-		if(StringUtils.isBlank(flowBusinessPage)) {
-			return getPage();
-		}
-		return flowBusinessPage;
+	public String getFlowBusinessEditPage() {
+		return getEditPage();
 	}
 
-	public void setFlowBusinessPage(String flowBusinessPage) {
-		this.flowBusinessPage = flowBusinessPage;
+
+	public String getFlowBusinessViewPage() {
+		return getViewPage();
 	}
+
 
 	public String getFlowProcessKey() {
-		if(StringUtils.isBlank(flowProcessKey)) {
-			return getFlow();
-		}
-		return flowProcessKey;
+		return getFlow();
 	}
 
-	public void setFlowProcessKey(String flowProcessKey) {
-		this.flowProcessKey = flowProcessKey;
-	}
 
 	public String getFlowProcessInfoKey() {
 		return flowProcessInfoKey;

@@ -15,7 +15,7 @@ import com.ehs.common.flow.entity.impl.FlowSample;
 import com.ehs.common.flow.service.FlowBaseService;
 
 @Service
-public class FlowSampleService implements com.ehs.common.flow.service.FlowSampleService {
+public class FlowSampleServiceImpl implements com.ehs.common.flow.service.FlowSampleService {
 
 	@Resource
 	private BaseCommonService baseCommonService;

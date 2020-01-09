@@ -18,12 +18,23 @@
   }
   height: 100%;
   width: 100%;
+  .el-timeline{
+    margin-top: 20px;
+  }
   .el-timeline-item{
     margin-top:10px;
     margin-left: -40px !important;
   }
+  /deep/ .el-timeline-item__wrapper{
+    padding-left: 15px !important;
+  }
+  /deep/ .el-timeline-item__content{
+    @include font-styles;
+    color: black !important;
+  }
   .el-button{
     margin-top: 5px;
+    margin-left: 0px !important;
   }
   .el-row{
     height: 25px;

@@ -2,52 +2,56 @@
 export default {
   methods: {
     startFlow () {
-      if (!this.processInfo.vars.taskAssignee) {
+      if (!this.vars.taskAssignee) {
         this.$message.error('请选择流程处理人！')
         return
       }
+      this.processInfo.vars = this.vars
       this.$refs.flowContent.handerSubmit(this.processInfo)
     },
+    cancelProcess () {
+      this.processInfo.vars = this.vars
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/handle/cancelProcess', this.processInfo)
+        .then(res => {
+        // 成功了, 更新数据(成功)
+          this.$message.success('撤销流程成功')
+        // window.close()
+        }).catch(function () {
+          this.$message.error('撤销流程异常')
+        }).then(function () {
+        })
+    },
     userSelectorChange (v) {
-      this.processInfo.vars.taskAssignee = v
+      this.vars.taskAssignee = v
     }
 
   },
   mounted () {
     var flowInfo = JSON.parse(this.$route.params.processInfo)
-    var processDefineKey = flowInfo.processDefineKey
-    this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessByProcessDefineKey?processDefineKey=' + processDefineKey)
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessDefine', flowInfo)
       .then(res => {
         this.processDefineInfo = res.data
+      })
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessComments', flowInfo)
+      .then(res => {
+        this.comments = res.data
+      })
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessInfo', flowInfo)
+      .then(res => {
+        this.processInfo = res.data
+      })
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessInstance', flowInfo)
+      .then(res => {
+        this.processInstance = res.data
       })
   },
   data () {
     return {
-      processInfo: { vars: { taskAssignee: '', taskComment: '', taskId: '' } },
-      processDefineInfo: {},
-      activeStep: 0,
-      activities: [{
-        content: '张三（提交）',
-        comments: '同意',
-        timestamp: '2018-04-12 20:46',
-        size: 'large',
-        type: 'primary',
-        icon: 'el-icon-more'
-      }, {
-        content: '李四（驳回）',
-        comments: '不合格',
-        timestamp: '2018-04-03 20:46',
-        color: '#0bbd87'
-      }, {
-        content: '张三（提交）',
-        comments: '同意',
-        timestamp: '2018-04-03 20:46',
-        size: 'large'
-      }, {
-        content: '李四（通过）',
-        comments: '同意',
-        timestamp: '2018-04-03 20:46'
-      }]
+      processInfo: { },
+      vars: { taskAssignee: '', taskComment: '', taskId: '' },
+      processDefineInfo: { start: false, currentStepNum: 0 },
+      processInstance: {},
+      comments: []
     }
   }
 }

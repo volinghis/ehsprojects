@@ -8,6 +8,9 @@ export default {
       })
     },
     processNameClick (v) {
+      console.log(123)
+      console.log(v)
+      this.GlobalMethods.openFlowWin(v.processPage, { processInstanceId: v.processInstanceId, businessKey: v.businessKey })
     }
   },
   mounted () {

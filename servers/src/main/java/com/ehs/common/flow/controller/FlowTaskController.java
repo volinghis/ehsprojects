@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.auth.local.SysAccessUser;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
-import com.ehs.common.flow.controller.bean.ApplysBean;
+import com.ehs.common.flow.bean.ProcessApplysBean;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.flow.utils.FlowConstans;
@@ -42,19 +43,25 @@ public class FlowTaskController {
 		PageInfoBean pib=new PageInfoBean();
 		long count=runtimeService.createProcessInstanceQuery().startedBy(SysAccessUser.get().getUserKey()).count();
 		pib.setTotalCount(count);
-		List<ApplysBean> applys=new ArrayList<ApplysBean>();
+		List<ProcessApplysBean> applys=new ArrayList<ProcessApplysBean>();
 		List<ProcessInstance> pis= runtimeService.createProcessInstanceQuery().startedBy(SysAccessUser.get().getUserKey()).includeProcessVariables().listPage((pageBody.getPage()-1)*pageBody.getSize(), pageBody.getSize());
 		if(pis!=null&&!pis.isEmpty()) {
 			for(ProcessInstance pi:pis) {
-				ApplysBean ab=new ApplysBean();
+				ProcessApplysBean ab=new ProcessApplysBean();
 				ab.setProcessName(pi.getProcessDefinitionName());
 				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByProcessInstanceId(pi.getId());
-				if(fpi!=null) {
-					ab.setCurrentStep(fpi.getFlowCurrentStepName());
-					ab.setCurrentUser(fpi.getFlowCurrentPersonName());
+				ab.setCurrentStep(fpi.getFlowCurrentStepName());
+				ab.setCurrentUser(fpi.getFlowCurrentPersonName());
+				ab.setBusinessKey(pi.getBusinessKey());
+				
+				String currentStep=fpi.getFlowCurrentStep();
+				if(StringUtils.equals(currentStep, String.valueOf(pi.getProcessVariables().get(FlowConstans.FLOW_START_ACTIVITY_ID)))) {
+					ab.setProcessPage(String.valueOf(pi.getProcessVariables().get(FlowConstans.FLOW_FORM_EDIT_PAGE)));
+				}else {
+					ab.setProcessPage(String.valueOf(pi.getProcessVariables().get(FlowConstans.FLOW_FORM_VIEW_PAGE)));
 				}
-				ab.setProcessFormPage(String.valueOf(pi.getProcessVariables().get(FlowConstans.FLOW_FORM_PAGE)));
-				ab.setProcessInstanceId(fpi.getId());
+				
+				ab.setProcessInstanceId(pi.getId());
 				ab.setCreateTime(pi.getStartTime());
 				applys.add(ab);
 				

@@ -74,8 +74,8 @@ export default {
             value: 'b0c2046f-82b5-4f84-bd63-782083136fee',
             label: 'zhaol'
           }, {
-            value: 'bffca95f-d70d-48b1-8530-a5b2b639e68c',
-            label: 'test2'
+            value: '3bb19825-5ca3-408e-88dc-89dab7597c19',
+            label: 'flow2'
           }]
         }]
       }]
