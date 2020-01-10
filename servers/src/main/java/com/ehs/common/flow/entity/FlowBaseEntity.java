@@ -18,8 +18,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 
+import org.apache.commons.lang.StringUtils;
+
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.flow.enums.FlowStatus;
+
 
 
 /**   
@@ -42,11 +44,45 @@ public abstract class FlowBaseEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public abstract String getFlowProcessId();
+
+	public abstract String getFlow();
+	
+	public abstract String getEditPage();
+	
+	public abstract String getViewPage();
+
 
 	public static final String FLOW_PROCESS_INFO_KEY = "flowProcessInfoKey" ;
 	
 	private String flowProcessInfoKey;
+
+
+	@Transient
+	private String flowProcessKey;
+
+	@Transient
+	private String flowBusinessEditPage;
+	
+	@Transient
+	private String flowBusinessViewPage;
+
+
+	
+
+	public String getFlowBusinessEditPage() {
+		return getEditPage();
+	}
+
+
+	public String getFlowBusinessViewPage() {
+		return getViewPage();
+	}
+
+
+	public String getFlowProcessKey() {
+		return getFlow();
+	}
+
 
 	public String getFlowProcessInfoKey() {
 		return flowProcessInfoKey;

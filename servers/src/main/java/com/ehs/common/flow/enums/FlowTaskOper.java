@@ -4,5 +4,6 @@ public enum FlowTaskOper {
 
 	COMMIT,
 	REJECT,
-	AGREE
+	AGREE,
+	CANCELD
 }

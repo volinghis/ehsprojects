@@ -4,9 +4,31 @@ import java.util.List;
 
 public class ProcessDefineBean {
 
+
+	
 	private String key;
 	private String name;
 	private List<ProcessStepBean> steps;
+	private Integer currentStepNum=0;
+	
+	private boolean start;
+	
+	
+	
+	
+	public boolean isStart() {
+		return start;
+	}
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+	public Integer getCurrentStepNum() {
+		return currentStepNum;
+	}
+	public void setCurrentStepNum(Integer currentStepNum) {
+		this.currentStepNum = currentStepNum;
+	}
+
 	public String getKey() {
 		return key;
 	}

@@ -95,6 +95,7 @@
         "component": "/eam/eamLedgerManager/eamAllocate/index",
         "leaf": true
       }
+
     ]
   },
   {
@@ -102,6 +103,7 @@
     "label": "备件管理",
     "key": "3",
     "path": "",
+
     "icon": "fa-archive",
     "leaf": false,
     "children": [
@@ -204,12 +206,13 @@
         "business": false
       }
 
+
     ]
   },
   {
     "code": "systemManager",
     "label": "系统管理",
-    "key": "7",
+    "key": "4",
     "icon": "fa-cog",
     "path": "",
     "leaf": false,

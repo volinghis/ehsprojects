@@ -1,17 +1,44 @@
+
+@import "@/styles/mixin.scss";
 .el-container{
- 
   .el-main{
-    padding:0 0 0 0px !important;
     overflow: auto;
+  }
+  .el-header{
+    padding-top: 10px;
+    height: 70px !important;
+    background: linear-gradient(90deg,#2173dc,#1e93ff);
+  }
+  .el-steps{
+    /deep/ .el-step__title{
+      font-size: 14px !important;
+    }
+    /deep/ .el-step__title.is-wait{
+      color: white;
+    }
   }
   height: 100%;
   width: 100%;
+  .el-timeline{
+    margin-top: 20px;
+  }
+
   .el-timeline-item{
     margin-top:10px;
     margin-left: -40px !important;
   }
+
+  /deep/ .el-timeline-item__wrapper{
+    padding-left: 15px !important;
+  }
+  /deep/ .el-timeline-item__content{
+    @include font-styles;
+    color: black !important;
+  }
   .el-button{
     margin-top: 5px;
+    margin-left: 5px !important;
+
   }
   .el-row{
     height: 25px;

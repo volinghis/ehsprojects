@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.flow.enums.FlowStatus;
+
 
 @MappedSuperclass
 public abstract class FlowProcessInfoSuper extends BaseEntity{
@@ -29,10 +29,48 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public static final String FLOW_PREV_STEP_NAME = "flowPrevStepName" ;
 	public static final String FLOW_PROCESS_INSTANCE_ID = "flowProcessInstanceId" ;
 	public static final String BUSINESS_ENTITY_KEY = "businessEntityKey" ;
+
+	public static final String FLOW_EDIT_PAGE = "flowEditPage" ;
+	public static final String FLOW_VIEW_PAGE = "flowViewPage" ;
+	public static final String FLOW_PROCESS_NAME = "flowProcessName" ;
+	public static final String FLOW_START_ACTIVITY_ID = "flowStartActivityId" ;
+	
+	private String flowEditPage;
+	private String flowViewPage;
+	private String flowProcessName;
+	private String flowStartActivityId;
 	
 	
+	
+	
+	public String getFlowStartActivityId() {
+		return flowStartActivityId;
+	}
+	public void setFlowStartActivityId(String flowStartActivityId) {
+		this.flowStartActivityId = flowStartActivityId;
+	}
+	public String getFlowEditPage() {
+		return flowEditPage;
+	}
+	public void setFlowEditPage(String flowEditPage) {
+		this.flowEditPage = flowEditPage;
+	}
+	public String getFlowViewPage() {
+		return flowViewPage;
+	}
+	public void setFlowViewPage(String flowViewPage) {
+		this.flowViewPage = flowViewPage;
+	}
+	public String getFlowProcessName() {
+		return flowProcessName;
+	}
+	public void setFlowProcessName(String flowProcessName) {
+		this.flowProcessName = flowProcessName;
+	}
 	private String businessEntityKey;
 	
+	
+
 	/**
 	 * 流程实例ID
 	 */
@@ -47,9 +85,8 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	/**
 	 * 审批流程状态 APPROVING,END,CANCELED
 	 */
-	@Enumerated(EnumType.STRING)
-	private FlowStatus flowStatus=FlowStatus.APPROVING;
-	
+
+
 	
 	/**
 	 * 当前环节
@@ -99,12 +136,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public void setBusinessEntityKey(String businessEntityKey) {
 		this.businessEntityKey = businessEntityKey;
 	}
-	public FlowStatus getFlowStatus() {
-		return flowStatus;
-	}
-	public void setFlowStatus(FlowStatus flowStatus) {
-		this.flowStatus = flowStatus;
-	}
+
 	public Map<String, Object> getVars() {
 		return vars;
 	}

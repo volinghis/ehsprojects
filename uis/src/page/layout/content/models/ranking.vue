@@ -1,5 +1,6 @@
 <template >
   <div>
+
     <el-table :data="datas"
               :size="GlobalCss.buttonSize"
               style="width: 100%">
@@ -29,6 +30,7 @@
                        label="贡献度">
       </el-table-column>
     </el-table>
+
   </div>
 </template>
 
@@ -36,6 +38,7 @@
 export default {
   data () {
     return {
+
       datas: [
         { rankingUrl: require('@/assets/images/medals/medal-1.svg'), circleUrl: require('@/assets/Avatar.svg'), name: '张德江', contribution: '25568' },
         { rankingUrl: require('@/assets/images/medals/medal-2.svg'), circleUrl: require('@/assets/Avatar.svg'), name: '赵凯', contribution: '19877' },
@@ -47,11 +50,13 @@ export default {
         { rankingUrl: require('@/assets/images/medals/medal-8.svg'), circleUrl: require('@/assets/Avatar.svg'), name: '何军', contribution: '15324' },
         { rankingUrl: require('@/assets/images/medals/medal-9.svg'), circleUrl: require('@/assets/Avatar.svg'), name: '王思达', contribution: '15324' },
         { rankingUrl: require('@/assets/images/medals/medal-10.svg'), circleUrl: require('@/assets/Avatar.svg'), name: '何欣鑫', contribution: '15324' }
+
       ]
     }
   }
 }
 </script>
+
 <style lang="scss" scoped>
 /deep/.el-table__row > td {
   border: none;
@@ -59,4 +64,5 @@ export default {
 .el-table::before {
   height: 0px;
 }
+
 </style>

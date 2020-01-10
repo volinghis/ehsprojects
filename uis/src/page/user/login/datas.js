@@ -50,13 +50,12 @@ export default {
                 } else {
                   localStorage.removeItem(current.GlobalVars.userLocal)
                 }
-                current.$router.push({ name: 'index' })
+
+                current.$router.push({ name: 'index', replace: true })
               } else {
                 current.result.message = res.data.message
               }
             }).catch(function () {
-
-            }).then(function () {
               current.loading = false
             })
         }

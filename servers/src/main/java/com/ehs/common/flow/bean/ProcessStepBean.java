@@ -2,9 +2,15 @@ package com.ehs.common.flow.bean;
 
 public class ProcessStepBean {
 
+
+	
 	private String stepKey;
 	
+	
 	private String stepName;
+
+	
+	
 
 	public String getStepKey() {
 		return stepKey;

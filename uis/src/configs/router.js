@@ -22,8 +22,10 @@ function _import (file) {
 }
 // 全局路由(无需嵌套)
 const globalRoutes = [
-  { path: '/404', component: _import('/404'), name: '404', meta: { title: '404' } },
-  { path: '/user/login', component: _import('/user/login/index'), name: 'login', meta: { title: '登录' } }
+
+  { path: '/404', component: _import('/404'), name: '404', meta: { title: '404', business: true } },
+  { path: '/user/login', component: _import('/user/login/index'), name: 'login', meta: { title: '登录', business: true } }
+
 ]
 // 主入口路由(需嵌套整体布局页面)
 const mainRoutes = {
@@ -41,7 +43,7 @@ const vueRouter = new Router({
 // 判断当前是否全局路由
 function isGlobalRoutes (to) {
   for (var i in globalRoutes) {
-    if (globalRoutes[i].path === to.path) {
+    if (globalRoutes[i].name === to.name) {
       return true
     }
   }
@@ -54,11 +56,7 @@ function addDynamicMenu (routes, md, type) {
       if (md[i].component && md[i].leaf && !md[i].children) {
         var router = {}
 
-        if (type === 'flow') {
-          router.path = md[i].path + '/:processInfo'
-        } else {
-          router.path = md[i].path
-        }
+        router.path = type + md[i].key + (type === 'flow' ? '/:processInfo' : '')
         router.name = type + md[i].key
         router.meta = { title: md[i].label, business: md[i].business }
         router.component = _import(md[i].component)
@@ -70,10 +68,17 @@ function addDynamicMenu (routes, md, type) {
   }
 }
 function toDoPage (from, to, next) {
-  console.log(123)
-  console.log(vueRouter.query)
+  console.log(to.path)
   if (isGlobalRoutes(to) || vueRouter.options.isAdd) {
-    next()
+    if (to.name && to.name !== 'index') {
+      next({ replace: true })
+    } else {
+      if (to.path.startsWith('/flow')) {
+        next({ path: to.path, replace: true })
+      } else {
+        next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })
+      }
+    }
   } else {
     Store.dispatch(GlobalVars.setResourceMenuKeyMethod, from.name)
     Axios.get(GlobalVars.globalServiceServlet + '/auth/menu/menuDatas').then(function (res) {
@@ -84,8 +89,6 @@ function toDoPage (from, to, next) {
       var flows = []
       addDynamicMenu(flows, Store.state.menuDatas, 'flow')
       flowMainRoutes.children = flows
-      flowMainRoutes.children.push({ name: 'flowroleedit', meta: { business: true }, path: '/flowSample/:processInfo', component: _import('/flow/sample/index') })
-      // mainRoutes.children.push(flowMainRoutes)
 
       vueRouter.addRoutes([// vue-routers2.2版本以上才支持。
         mainRoutes,
@@ -93,10 +96,16 @@ function toDoPage (from, to, next) {
         { path: '*', redirect: { name: '404' } }
       ])
       vueRouter.options.isAdd = true
-      if (to.name === 'index') {
-        next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })
+
+      if (to.name && to.name !== 'index') {
+        next({ replace: true })
       } else {
-        next({ path: to.path, replace: true })
+        if (to.path.startsWith('/flow')) {
+          console.log(1)
+          next({ path: to.path, replace: true })
+        } else {
+          next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })
+        }
       }
     })
   }
@@ -114,7 +123,7 @@ vueRouter.beforeEach((to, from, next) => { // 添加动态(菜单)路由
   const token = sessionStorage.getItem(GlobalVars.userToken)
   if (!token) {
     if (isGlobalRoutes(to)) {
-      next()
+      next({ replace: true })
     } else {
       Store.dispatch(GlobalVars.setResourceMenuKeyMethod, from.name)
       Axios.get(GlobalVars.globalServiceServlet + '/base/user/getCurrentUser')

@@ -2,52 +2,88 @@
 export default {
 
   methods: {
-    startFlow () {
-      if (!this.flowOper) {
-        this.$message.error('请选择流程处理人！')
+
+    doneProcess (stepKey) {
+      this.processInfo.vars = this.vars
+      this.processInfo.vars.taskId = this.processInstance.activeTaskId
+      var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
+      if (stepKey === 'END') {
+        url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
       }
-      this.$refs.flowContent.handerSubmit(1)
+      this.$axios.post(url, this.processInfo)
+        .then(res => {
+          // 成功了, 更新数据(成功)
+          this.$message.success('提交成功')
+          // window.close()
+        }).catch(function () {
+          this.$message.error('提交异常')
+        }).then(function () {
+        })
+    },
+    startFlow () {
+      if (!this.vars.taskAssignee) {
+        this.$message.error('请选择流程处理人！')
+        return
+      }
+      this.processInfo.vars = this.vars
+      this.$refs.flowContent.handerSubmit(this.processInfo)
+    },
+    cancelProcess () {
+      this.processInfo.vars = this.vars
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/handle/cancelProcess', this.processInfo)
+        .then(res => {
+        // 成功了, 更新数据(成功)
+          this.$message.success('撤销流程成功')
+        // window.close()
+        }).catch(function () {
+          this.$message.error('撤销流程异常')
+        }).then(function () {
+        })
+    },
+    rejectProcess () {
+      this.processInfo.vars = this.vars
+      this.processInfo.vars.taskId = this.processInstance.activeTaskId
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/handle/rejectProcess', this.processInfo)
+        .then(res => {
+        // 成功了, 更新数据(成功)
+          this.$message.success('驳回流程成功')
+        // window.close()
+        }).catch(function () {
+          this.$message.error('驳回流程异常')
+        }).then(function () {
+        })
     },
     userSelectorChange (v) {
-      this.flowOper = v
+      this.vars.taskAssignee = v
     }
+
   },
   mounted () {
-    console.log(this.$router.currentRoute)
-    console.log(location.href)
-    var processDefineKey = JSON.parse(this.$route.params.processInfo).processDefineKey
-    this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessByProcessDefineKey?processDefineKey=' + processDefineKey)
+    var flowInfo = JSON.parse(this.$route.params.processInfo)
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessDefine', flowInfo)
       .then(res => {
         this.processDefineInfo = res.data
       })
-    console.log(processDefineKey)
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessComments', flowInfo)
+      .then(res => {
+        this.comments = res.data
+      })
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessInfo', flowInfo)
+      .then(res => {
+        this.processInfo = res.data
+      })
+    this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/flowInfo/getProcessInstance', flowInfo)
+      .then(res => {
+        this.processInstance = res.data
+      })
   },
   data () {
     return {
-      processDefineInfo: {},
-      flowOper: '',
-      activities: [{
-        content: '张三（提交）',
-        comments: '同意',
-        timestamp: '2018-04-12 20:46',
-        size: 'large',
-        type: 'primary',
-        icon: 'el-icon-more'
-      }, {
-        content: '李四（驳回）',
-        comments: '不合格',
-        timestamp: '2018-04-03 20:46',
-        color: '#0bbd87'
-      }, {
-        content: '张三（提交）',
-        comments: '同意',
-        timestamp: '2018-04-03 20:46',
-        size: 'large'
-      }, {
-        content: '李四（通过）',
-        comments: '同意',
-        timestamp: '2018-04-03 20:46'
-      }]
+      processInfo: { },
+      vars: { taskAssignee: '', taskComment: '', taskId: '' },
+      processDefineInfo: { start: false, currentStepNum: 0 },
+      processInstance: {},
+      comments: []
     }
   }
 }

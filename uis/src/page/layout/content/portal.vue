@@ -1,4 +1,5 @@
 <template>
+
   <div class="account-center-index-wrapper">
     <el-row :gutter="20">
       <el-col :span="5">
@@ -185,6 +186,7 @@
             </el-row>
           </el-col>
         </el-row>
+
       </el-col>
     </el-row>
   </div>
@@ -240,4 +242,5 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/mixin.scss";
 @import "./styles.scss";
+
 </style>

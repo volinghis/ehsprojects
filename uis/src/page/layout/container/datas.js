@@ -1,7 +1,6 @@
 
 export default {
   methods: {
-
     resetPaddingStyle () {
       let boWidth = 0
       if (document.body.offsetWidth > parseInt(this.GlobalCss.serviceMaxWidth)) {

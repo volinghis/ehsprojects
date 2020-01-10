@@ -55,9 +55,6 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        // if (this.ruleForm.checkPass !== '') {
-        //   this.$refs.ruleForm.validateField('checkPass')
-        // }
         callback()
       }
     }
@@ -93,7 +90,6 @@ export default {
     submitForm () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/userManager/changPassword', this.ruleForm).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
@@ -106,11 +102,8 @@ export default {
                 type: 'info'
               })
             }
-          }).catch((error) => {
-            console.log(error)
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })

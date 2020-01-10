@@ -98,8 +98,6 @@ export default {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
         this.loading = false
-      }).catch(error => {
-        console.log(error)
       })
     },
     handleSelectionChange (val) {

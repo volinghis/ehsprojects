@@ -2,45 +2,56 @@ package com.ehs.common.flow.bean;
 
 import java.util.List;
 
+
+
+
 public class ProcessInstanceBean {
 
 
 	
-	private String processInstanceKey;
+
+	private String processInstanceId;
 	
-	private ProcessStepBean currentStep;
-	
-	private ProcessStepBean prevStep;
+
 	
 	private List<ProcessStepBean> nextStep;
 	
 	
+
+	private boolean candoCanel=false;
 	
+	
+    private String activeTaskId;
+    
+    
+    
 
 
-	public String getProcessInstanceKey() {
-		return processInstanceKey;
+	public String getActiveTaskId() {
+		return activeTaskId;
 	}
 
-	public void setProcessInstanceKey(String processInstanceKey) {
-		this.processInstanceKey = processInstanceKey;
+	public void setActiveTaskId(String activeTaskId) {
+		this.activeTaskId = activeTaskId;
 	}
 
-	public ProcessStepBean getCurrentStep() {
-		return currentStep;
+	public boolean isCandoCanel() {
+		return candoCanel;
 	}
 
-	public void setCurrentStep(ProcessStepBean currentStep) {
-		this.currentStep = currentStep;
+	public void setCandoCanel(boolean candoCanel) {
+		this.candoCanel = candoCanel;
 	}
 
-	public ProcessStepBean getPrevStep() {
-		return prevStep;
+	public String getProcessInstanceId() {
+		return processInstanceId;
 	}
 
-	public void setPrevStep(ProcessStepBean prevStep) {
-		this.prevStep = prevStep;
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
 	}
+
+
 
 	public List<ProcessStepBean> getNextStep() {
 		return nextStep;

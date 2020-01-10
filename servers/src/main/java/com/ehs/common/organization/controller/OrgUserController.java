@@ -357,7 +357,12 @@ public class OrgUserController {
 		if (count >= 1l) {
 			return JsonUtils.toJsonString(resultBean.error("该员工工号已经存在，请重新确认"));
 		}
-		return JsonUtils.toJsonString(resultBean.ok("该工号可以使用"));
+
+		if(StringUtils.isNotBlank(dataCode)) {
+			return JsonUtils.toJsonString(resultBean.ok("该工号可以使用"));
+		}
+		return JsonUtils.toJsonString("");
+
 	}
 	
 	/**

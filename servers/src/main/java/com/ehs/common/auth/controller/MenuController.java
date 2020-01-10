@@ -90,7 +90,7 @@ public class MenuController {
 			return "[]";
 		}
 		if (smList.size()> 1) {
-			smList.sort((a, b) -> a.getSort() - b.getSort());
+			smList.sort((a, b) -> (a.getSort()==null?0:a.getSort()) - (b.getSort()==null?0:b.getSort()));
 		}
 		List<MenuNode> menus = new ArrayList<MenuNode>();
 		createMenuNode(menus, smList, null);
