@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     handleSelect (tab) {
-      console.log(tab)
       if (tab.name === 'first') {
         this.$router.push({ name: 'userCenter' })
       }
