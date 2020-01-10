@@ -1,6 +1,24 @@
 
 export default {
+
   methods: {
+    doneProcess (stepKey) {
+      this.processInfo.vars = this.vars
+      this.processInfo.vars.taskId = this.processInstance.activeTaskId
+      var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
+      if (stepKey === 'END') {
+        url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
+      }
+      this.$axios.post(url, this.processInfo)
+        .then(res => {
+          // 成功了, 更新数据(成功)
+          this.$message.success('提交成功')
+          // window.close()
+        }).catch(function () {
+          this.$message.error('提交异常')
+        }).then(function () {
+        })
+    },
     startFlow () {
       if (!this.vars.taskAssignee) {
         this.$message.error('请选择流程处理人！')
@@ -18,6 +36,19 @@ export default {
         // window.close()
         }).catch(function () {
           this.$message.error('撤销流程异常')
+        }).then(function () {
+        })
+    },
+    rejectProcess () {
+      this.processInfo.vars = this.vars
+      this.processInfo.vars.taskId = this.processInstance.activeTaskId
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/handle/rejectProcess', this.processInfo)
+        .then(res => {
+        // 成功了, 更新数据(成功)
+          this.$message.success('驳回流程成功')
+        // window.close()
+        }).catch(function () {
+          this.$message.error('驳回流程异常')
         }).then(function () {
         })
     },

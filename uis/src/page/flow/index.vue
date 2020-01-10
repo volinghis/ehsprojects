@@ -1,6 +1,6 @@
 <template>
    <el-container >
-     <el-header> <el-steps  :active="processDefineInfo.currentStepNum"  process-status="process  " finish-status="success">
+     <el-header> <el-steps  :active="processDefineInfo.currentStepNum"   finish-status="success" >
     <el-step v-for="item in processDefineInfo.steps" :key="item.stepKey" :title="item.stepName"></el-step>
   </el-steps></el-header>
       <el-container>
@@ -20,15 +20,15 @@
         <el-col :span="16"><user-selector @change="userSelectorChange"></user-selector></el-col>
       </el-row>
       <el-button type="primary"  :size="GlobalCss.buttonSize" @click="startFlow" v-if="processDefineInfo.start" >提交</el-button>
-      <el-button type="info" v-for="step in processInstance.nextStep" :key="step.stepKey" :size="GlobalCss.buttonSize">部门经理审批</el-button>
-      <el-button type="danger"  :size="GlobalCss.buttonSize" v-if="processInstance.nextStep">驳回</el-button>
-       <el-button type="warning"  :size="GlobalCss.buttonSize" v-if="processInstance.candoCanel" @click="cancelProcess">撤回</el-button>
+      <el-button type="success" v-for="step in processInstance.nextStep" :key="step.stepKey" :size="GlobalCss.buttonSize" @click="doneProcess(step.stepKey)">{{step.stepName}}</el-button>
+      <el-button type="danger"  :size="GlobalCss.buttonSize" v-if="processInstance.nextStep&&!processInstance.candoCanel" @click="rejectProcess">驳回</el-button>
+       <el-button type="warning"  :size="GlobalCss.buttonSize" v-if="processInstance.candoCanel" @click="cancelProcess">撤销</el-button>
     </div>
       <el-timeline>
     <el-timeline-item
       v-for="(comment, index) in comments"
       :key="index"
-      :color="(index==comments.length-1)?'#0bbd87':''"
+      :color="(index==0?'#0bbd87':'')"
       :timestamp="comment.creationTime">
       {{comment.creationName}}({{comment.operType}})<br>备注:{{comment.content}}
     </el-timeline-item>

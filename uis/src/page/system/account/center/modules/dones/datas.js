@@ -2,7 +2,7 @@ export default {
   methods: {
     flushData () {
       var self = this
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findTasks', self.pages).then(response => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findDones', self.pages).then(response => {
         self.pages.total = response.data.totalCount
         self.datas = response.data.dataList
       })

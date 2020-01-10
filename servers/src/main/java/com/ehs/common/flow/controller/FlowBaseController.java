@@ -16,12 +16,14 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.SequenceFlow;
 import org.flowable.bpmn.model.UserTask;
+import org.flowable.engine.HistoryService;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Comment;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -66,6 +68,9 @@ public class FlowBaseController {
 
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
+	
+	@Resource
+	private HistoryService historyService;
 
 	/**
 	 * 
@@ -94,12 +99,27 @@ public class FlowBaseController {
 		String processDefineId = "";
 		if (StringUtils.isNotBlank(taskId)) {
 			Task t = taskService.createTaskQuery().taskId(taskId).singleResult();
-			processDefineId = t.getProcessDefinitionId();
-			processInstanceId = t.getProcessInstanceId();
+			if(t==null) {
+				HistoricTaskInstance hti= historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+				processDefineId=hti.getProcessDefinitionId();
+				processInstanceId=hti.getProcessInstanceId();
+			}else {
+				processDefineId = t.getProcessDefinitionId();
+				processInstanceId = t.getProcessInstanceId();
+			}
+
 		} else {
 			if (StringUtils.isNotBlank(processInstanceId)) {
-				processDefineId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
-						.singleResult().getProcessDefinitionId();
+				
+				ProcessInstance pi=runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
+						.singleResult();
+				if(pi==null) {
+					processDefineId=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
+				}else {
+					processDefineId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
+							.singleResult().getProcessDefinitionId();
+				}
+
 			} else {
 				processDefineId = repositoryService.createProcessDefinitionQuery()
 						.processDefinitionKey(processDefineKey).latestVersion().singleResult().getId();
@@ -111,6 +131,9 @@ public class FlowBaseController {
 
 		org.flowable.bpmn.model.Process process = bpmnModel.getMainProcess();
 		ProcessDefineBean pdb = new ProcessDefineBean();
+		
+		
+		
 		if(StringUtils.isBlank(taskId)&&StringUtils.isBlank(processInstanceId)) {
 			pdb.setStart(true);
 		}
@@ -180,7 +203,11 @@ public class FlowBaseController {
 		Task t = null;
 		if (StringUtils.isNotBlank(taskId)) {
 			t = taskService.createTaskQuery().taskId(taskId).singleResult();
-			processInstanceId = t.getProcessInstanceId();
+			if(t==null) {
+				processInstanceId=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult().getProcessInstanceId();
+			}else {
+				processInstanceId = t.getProcessInstanceId();
+			}
 		}
 		List<Comment> comments = taskService.getProcessInstanceComments(processInstanceId);
 		if (comments != null && !comments.isEmpty()) {
@@ -218,17 +245,20 @@ public class FlowBaseController {
 
 		String processInstanceId = processQueryBody.getProcessInstanceId();
 		String taskId = processQueryBody.getTaskId();
-		ProcessInstance pi = null;
 
 		if(StringUtils.isBlank(taskId)&&StringUtils.isBlank(processInstanceId)) {
 			return JsonUtils.toJsonString(new FlowProcessInfo());
 		}else {
 			if (StringUtils.isNotBlank(taskId)) {
-				pi = runtimeService.createProcessInstanceQuery().processInstanceId(taskService.createTaskQuery().taskId(taskId).singleResult().getProcessInstanceId()).singleResult();
-			} else {
-				pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-			}
-			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(pi.getId());
+				Task t=taskService.createTaskQuery().taskId(taskId).singleResult();
+				if(t==null) {
+					HistoricTaskInstance hti= historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+					processInstanceId=hti.getProcessInstanceId();
+				}else {
+					processInstanceId=t.getProcessInstanceId();
+				}
+			} 
+			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(processInstanceId);
 			return JsonUtils.toJsonString(fpi);
 		}
 	}
@@ -245,23 +275,28 @@ public class FlowBaseController {
 			return JsonUtils.toJsonString(pib);
 		}
 		Task t = null;
-		ProcessInstance pi = null;
-		
 		if (StringUtils.isNotBlank(taskId)) {
 			t = taskService.createTaskQuery().taskId(taskId).singleResult();
-			pi = runtimeService.createProcessInstanceQuery().processInstanceId(t.getProcessInstanceId()).singleResult();
+			if(t!=null) {
+				processInstanceId=runtimeService.createProcessInstanceQuery().processInstanceId(t.getProcessInstanceId()).singleResult().getId();
+			}else {
+				processInstanceId=historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult().getProcessInstanceId();
+			}
 		} else {
-			pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-			t = taskService.createTaskQuery().processInstanceId(pi.getId())
-					.taskAssignee(SysAccessUser.get().getUserKey()).active().singleResult();
+			ProcessInstance p= runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+			if(p!=null) {
+				t = taskService.createTaskQuery().processInstanceId(processInstanceId)
+						.taskAssignee(SysAccessUser.get().getUserKey()).active().singleResult();
+			}
+
 		}
 		
-		FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(pi.getId());
+		FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(processInstanceId);
 		if(StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.CANCELED.name())||StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.END.name())) {
 			return JsonUtils.toJsonString(pib);
 		}
 		
-		if (StringUtils.equals(SysAccessUser.get().getUserKey(), pi.getStartUserId())) {
+		if (StringUtils.equals(SysAccessUser.get().getUserKey(), fpi.getOwner())) {
 			pib.setCandoCanel(true);
 		}
 

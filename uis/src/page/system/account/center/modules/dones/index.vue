@@ -11,15 +11,15 @@
      <span class="processNames" @click="processNameClick(scope.row)">{{scope.row.processName}}</span>
       </template>
       </el-table-column>
-      <el-table-column prop="currentStep"
-                        align="center"
-                        label="当前环节">
-      </el-table-column>
-      <el-table-column prop="currentUser"
-                        align="center"
-                        label="当前处理人">
-      </el-table-column>
       <el-table-column prop="createTime"
+                        align="center"
+                        label="办理时间">
+      </el-table-column>
+      <el-table-column prop="processCreateUser"
+                        align="center"
+                        label="申请人">
+      </el-table-column>
+      <el-table-column prop="processCreateTime"
                         align="center"
                         label="申请时间">
       </el-table-column>

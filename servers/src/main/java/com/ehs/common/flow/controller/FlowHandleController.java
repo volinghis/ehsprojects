@@ -26,7 +26,32 @@ public class FlowHandleController {
 	public String cancelProcess(HttpServletRequest request, @RequestBody FlowProcessInfo processInfo) {
 		ResultBean resultBean = new ResultBean();
 		flowBaseService.processCancel(processInfo);
+		return JsonUtils.toJsonString(resultBean.ok("撤销流程成功！"));
+	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/flow/handle/rejectProcess")
+	public String rejectProcess(HttpServletRequest request, @RequestBody FlowProcessInfo processInfo) {
+		ResultBean resultBean = new ResultBean();
+		flowBaseService.processReject(processInfo);
+		return JsonUtils.toJsonString(resultBean.ok("驳回流程成功！"));
+	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/flow/handle/sendProcess")
+	public String sendProcess(HttpServletRequest request, @RequestBody FlowProcessInfo processInfo) {
+		ResultBean resultBean = new ResultBean();
+		flowBaseService.processSend(processInfo);
 		return JsonUtils.toJsonString(resultBean.ok("提交流程成功！"));
+	}
+	
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/flow/handle/endProcess")
+	public String endProcess(HttpServletRequest request, @RequestBody FlowProcessInfo processInfo) {
+		ResultBean resultBean = new ResultBean();
+		flowBaseService.processEnd(processInfo);
+		return JsonUtils.toJsonString(resultBean.ok("提交成功！"));
 	}
 	
 }

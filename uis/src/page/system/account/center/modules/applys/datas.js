@@ -8,10 +8,13 @@ export default {
       })
     },
     processNameClick (v) {
-      console.log(123)
-      console.log(v)
       this.GlobalMethods.openFlowWin(v.processPage, { processInstanceId: v.processInstanceId, businessKey: v.businessKey })
+    },
+    changePage (v) {
+      this.pages.page = v
+      this.flushData()
     }
+
   },
   mounted () {
     this.flushData()
@@ -22,7 +25,7 @@ export default {
       pages: {
         size: 20,
         total: 0,
-        currentPage: 1
+        page: 1
       }
     }
   }

@@ -28,8 +28,43 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public static final String FLOW_PREV_STEP_NAME = "flowPrevStepName" ;
 	public static final String FLOW_PROCESS_INSTANCE_ID = "flowProcessInstanceId" ;
 	public static final String BUSINESS_ENTITY_KEY = "businessEntityKey" ;
+	public static final String FLOW_EDIT_PAGE = "flowEditPage" ;
+	public static final String FLOW_VIEW_PAGE = "flowViewPage" ;
+	public static final String FLOW_PROCESS_NAME = "flowProcessName" ;
+	public static final String FLOW_START_ACTIVITY_ID = "flowStartActivityId" ;
+	
+	private String flowEditPage;
+	private String flowViewPage;
+	private String flowProcessName;
+	private String flowStartActivityId;
 	
 	
+	
+	
+	public String getFlowStartActivityId() {
+		return flowStartActivityId;
+	}
+	public void setFlowStartActivityId(String flowStartActivityId) {
+		this.flowStartActivityId = flowStartActivityId;
+	}
+	public String getFlowEditPage() {
+		return flowEditPage;
+	}
+	public void setFlowEditPage(String flowEditPage) {
+		this.flowEditPage = flowEditPage;
+	}
+	public String getFlowViewPage() {
+		return flowViewPage;
+	}
+	public void setFlowViewPage(String flowViewPage) {
+		this.flowViewPage = flowViewPage;
+	}
+	public String getFlowProcessName() {
+		return flowProcessName;
+	}
+	public void setFlowProcessName(String flowProcessName) {
+		this.flowProcessName = flowProcessName;
+	}
 	private String businessEntityKey;
 	
 	

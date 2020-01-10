@@ -7,7 +7,7 @@
               <label>我的代办</label>
               <i class="fa fa-angle-double-right fa-2x"></i>
             </div>
-            <MyTask></MyTask>
+            <Approves></Approves>
           </el-col>
           <el-col :span="9" class="paddingStyle" >
             <div class="block-title"
@@ -33,23 +33,21 @@
               <label>我的已办</label>
               <i class="fa fa-angle-double-right fa-2x"></i>
             </div>
-            <Approval />
+            <Dones />
           </el-col>
         </el-row>
   </div>
 </template>
 <script>
-import MyTask from './modules/myTask'
 import Applys from './modules/applys/index'
-import Application from './modules/application'
-import Approval from './modules/approval'
+import Dones from './modules/dones/index.vue'
+import Approves from './modules/approves/index.vue'
 import Notices from './modules/notices/index.vue'
 import datas from './datas'
 export default datas
 datas.components = {
-  MyTask,
-  Application,
-  Approval,
+  Dones,
+  Approves,
   Notices,
   Applys
 }
