@@ -43,7 +43,14 @@
 					<menu dataCode="eamScrapStep4" key="eamScrapStep4" name="设备报废步骤4" url="/eam/eamLedgerManager/eamScrap/stepForm/step4" business="true" sort="2214"></menu>
 				</menu>
 			</menu>
-			<menu dataCode="eamAllocate" key="eamAllocate" name="设备调拨" url="/eam/eamLedgerManager/eamAllocate/index" parentKey="eamLedgerManager" icon="fa-gears" sort="23"></menu>
+			<menu dataCode="eamAllocate" key="eamAllocate" name="设备调拨" url="/eam/eamLedgerManager/eamAllocate/index" parentKey="eamLedgerManager" icon="fa-gears" sort="23">
+				<menu dataCode="eamAllocateBaseForm" key="eamAllocateBaseForm" name="设备报废步骤" url="/eam/eamLedgerManager/eamAllocate/stepForm/baseForm" business="true" sort="231">
+					<menu dataCode="eamAllocateStep1" key="eamAllocateStep1" name="设备报废步骤1" url="/eam/eamLedgerManager/eamAllocate/stepForm/step1" business="true" sort="2311"></menu>
+					<menu dataCode="eamAllocateStep2" key="eamAllocateStep2" name="设备报废步骤2" url="/eam/eamLedgerManager/eamAllocate/stepForm/step2" business="true" sort="2312"></menu>
+					<menu dataCode="eamAllocateStep3" key="eamAllocateStep3" name="设备报废步骤3" url="/eam/eamLedgerManager/eamAllocate/stepForm/step3" business="true" sort="2313"></menu>
+					<menu dataCode="eamAllocateStep4" key="eamAllocateStep4" name="设备报废步骤4" url="/eam/eamLedgerManager/eamAllocate/stepForm/step4" business="true" sort="2314"></menu>
+				</menu>
+			</menu>
 		</menu>
 		
 		<!-- 备件管理 -->
