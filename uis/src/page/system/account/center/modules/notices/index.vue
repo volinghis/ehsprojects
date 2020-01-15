@@ -2,7 +2,7 @@
 <div>
         <el-table :data="notices"
                         :size="GlobalCss.buttonSize"
-                           :height="(($store.state.contentHeight-10)/2-40-30)"
+                           :height="(($store.state.contentHeight-10)/3-30-30)"
                         >
   <el-table-column prop="notice">
                 </el-table-column>
@@ -10,6 +10,7 @@
      <el-pagination
       :current-page="1"
       :page-size="20"
+      :pager-count="5"
       layout="total, prev, pager, next"
       :total="1000">
     </el-pagination>

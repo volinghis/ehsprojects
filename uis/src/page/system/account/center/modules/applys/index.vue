@@ -2,7 +2,7 @@
 <div>
         <el-table :data="datas"
                         :size="GlobalCss.buttonSize"
-                           :height="(($store.state.contentHeight-10)/2-40-30)"
+                           :height="(($store.state.contentHeight-10)/3-30-30)"
                         >
       <el-table-column prop="processName"
                         align="center"

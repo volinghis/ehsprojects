@@ -10,5 +10,6 @@ import com.ehs.common.oper.bean.PageInfoBean;
 public interface FlowProcessInfoService {
 	public FlowProcessInfo findProcessInfoByProcessInstanceId(String processInstanceId);
 	public PageInfoBean findProcessInfo(ApplysQueryBean applysQueryBean);
+	public List<FlowProcessInfo> findProcessInfoNotScore();
 
 }

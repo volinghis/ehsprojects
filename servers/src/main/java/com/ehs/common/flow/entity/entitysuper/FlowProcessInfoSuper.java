@@ -18,7 +18,6 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	
 	
-	public static final String FLOW_STATUS = "flowStatus" ;
 	public static final String FLOW_CURRENT_STEP = "flowCurrentStep" ;
 	public static final String FLOW_CURRENT_STEP_NAME = "flowCurrentStepName" ;
 	public static final String FLOW_CURRENT_PERSON = "flowCurrentPerson" ;
@@ -34,15 +33,24 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public static final String FLOW_VIEW_PAGE = "flowViewPage" ;
 	public static final String FLOW_PROCESS_NAME = "flowProcessName" ;
 	public static final String FLOW_START_ACTIVITY_ID = "flowStartActivityId" ;
+	public static final String FLOW_SCORE="flowScore";
+	
 	
 	private String flowEditPage;
 	private String flowViewPage;
 	private String flowProcessName;
 	private String flowStartActivityId;
 	
+	private Boolean flowScore=false;
 	
 	
 	
+	public Boolean getFlowScore() {
+		return flowScore;
+	}
+	public void setFlowScore(Boolean flowScore) {
+		this.flowScore = flowScore;
+	}
 	public String getFlowStartActivityId() {
 		return flowStartActivityId;
 	}
