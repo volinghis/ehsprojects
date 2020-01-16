@@ -4,7 +4,6 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import GlobalVars from '@components/global/globalVars.js'
 import Store from '@/configs/store'
-import Router from '@/configs/router'
 
 // 添加请求拦截器
 Axios.interceptors.request.use(function (config) {
@@ -32,7 +31,7 @@ Axios.interceptors.response.use(function (response) {
   NProgress.done()
   if (error.response.status === 901) {
     sessionStorage.removeItem(GlobalVars.userToken)
-    Router.push({ name: 'login' })
+    location.reload()
   } else {
     if (process.env.NODE_ENV === 'production') {
       Vue.prototype.$notify.error({
