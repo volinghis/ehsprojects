@@ -11,6 +11,8 @@ package com.ehs.eam.eamLedgerManager.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamParametersSuper;
+
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
 * @ClassName: EamParametersHis.java
@@ -27,7 +29,7 @@ import javax.persistence.Table;
 */
 @Entity
 @Table(name = "EAM_PARAMETERS_HIS")
-public class EamParametersHis  extends EamParameters{
+public class EamParametersHis  extends EamParametersSuper {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

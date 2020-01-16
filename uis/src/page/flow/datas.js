@@ -55,6 +55,9 @@ export default {
     },
     userSelectorChange (v) {
       this.vars.taskAssignee = v
+    },
+    prevStep () { // 返回上一步
+      this.$refs.flowContent.prevStep()
     }
 
   },

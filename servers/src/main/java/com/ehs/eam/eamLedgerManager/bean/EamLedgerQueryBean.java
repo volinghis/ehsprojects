@@ -28,6 +28,8 @@ public class EamLedgerQueryBean extends PageBody {
 
 	private String query;
 
+	
+	private String deviceKey;
 	/**
 	 * @return the query
 	 */
@@ -41,5 +43,21 @@ public class EamLedgerQueryBean extends PageBody {
 	public void setQuery(String query) {
 		this.query = query;
 	}
+
+	/**
+	 * @return the deviceKey
+	 */
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	/**
+	 * @param deviceKey the deviceKey to set
+	 */
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
+	
+	
 
 }

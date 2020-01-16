@@ -13,6 +13,7 @@ import java.util.List;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
+import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 
@@ -53,4 +54,110 @@ public interface EamLedgerService {
 	public void saveEamLedger(EamRequestBean eamRequestBean);
 	
 	public List<EamParameters> getEamParametersByKey(String code);
+
+
+	/**   
+	* @Function:getInspectorsByKey 
+	* @Description: 该函数的功能描述
+	* @param key
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月6日 下午1:29:26 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月6日     qjj        v1.0.0            修改原因
+	*/
+	List<EamInspectors> getInspectorsByKey(String key);
+
+
+	/**   
+	* @Function:getChildDevByKey 
+	* @Description: 该函数的功能描述
+	* @param deviceKey
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	 * @return 
+	* @date: 2020年1月6日 下午8:47:11 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月6日     qjj        v1.0.0            修改原因
+	*/
+	List<EamLedger> getChildDevByKey(String deviceKey);
+
+	/**   
+	* @Function:findLeftEamLedgerList 
+	* @Description: 不属于当前设备的所有子设备
+	* @param querybean
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月7日 上午11:29:26 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月7日     qjj        v1.0.0            修改原因
+	*/
+	PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean);
+
+
+	/**   
+	* @Function:saveRelatedDevices 
+	* @Description: 该函数的功能描述
+	* @param deviceKey
+	* @param keys
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月7日 下午1:33:07 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月7日     qjj        v1.0.0            修改原因
+	*/
+	void saveRelatedDevices(String deviceKey, String keys);
+
+
+	/**   
+	* @Function:removeRelatedEamLedgers 
+	* @Description: 该函数的功能描述
+	* @param devicekey
+	* @param keys
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月7日 下午4:44:04 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月7日     qjj        v1.0.0            修改原因
+	*/
+	void removeRelatedEamLedgers(String devicekey, String keys);
+
+	/**   
+	* @Function:findLeftEamLedgerForScrap 
+	* @Description: 该函数的功能描述
+	* @param querybean
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月8日 下午2:31:12 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月8日     qjj        v1.0.0            修改原因
+	*/
+	PageInfoBean findLeftEamLedgerForScrap(EamLedgerQueryBean querybean);
 }

@@ -11,11 +11,8 @@ export default {
         query: ''
       },
       form: {},
-      state: '',
-      restaurants: [],
+      suggestions: [],
       activeName: 'first',
-      currentPage: 1,
-      pageSize: 10,
       total: 0,
       tableData: [],
       tableId: ''
@@ -23,7 +20,7 @@ export default {
   },
   mounted: function () {
     this.initTable()
-    this.loadAll()
+    this.loadSuggestions()
   },
   methods: {
     initTable () {
@@ -31,7 +28,7 @@ export default {
         this.tableData = res.data.dataList
         this.total = res.data.totalCount
       }).catch(error => {
-        console.log(error)
+        this.$message.message({ message: error })
       })
     },
     customColorMethod: function (percentage) {
@@ -43,10 +40,9 @@ export default {
         return '#67c23a'
       }
     },
-    handleViewClick: function (scope) {
+    handldbClick: function (row) {
       // 详情查看
-      console.log(scope)
-      this.$router.push({ name: 'eamLedgerDetail', params: { flag: 'view', data: scope } })
+      this.$router.push({ name: 'eamLedgerDetail', params: { flag: 'view', data: row } })
     },
     // 编辑
     handleEditClick: function (scope) {
@@ -56,7 +52,10 @@ export default {
     },
     handleSizeChange: function () {
     },
-    handleCurrentChange (val) {
+    handleQuery () {
+      this.initTable()
+    },
+    handleCurrentChange (val) { // 联动检修记录
       this.tableId = val.id
     },
     handleAdd () {
@@ -69,31 +68,57 @@ export default {
         type: 'warning'
       })
     },
-    handleDelete () {
-      this.$message({
-        showClose: true,
-        message: '继续删除',
+    handleDelete (row) {
+      this.$confirm('此操作将删除相关联设备, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
+      }).then(() => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/deleteEamLedgerByKey', { params: { key: row.key } }).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.initTable()
+          } else {
+            this.$message({
+              type: 'info',
+              message: '删除失败!'
+            })
+          }
+        }).catch(error => {
+          this.$message.message({ message: error })
+        })
       })
     },
     querySearch (queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      var suggestions = this.suggestions
+      var results = queryString ? suggestions.filter(this.createStateFilter(queryString)) : suggestions
       // 调用 callback 返回建议列表的数据
-      cb(results)
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        cb(results)
+      }, 1000 * Math.random())
     },
-    createFilter (queryString) {
-      return (restaurant) => {
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+    createStateFilter (queryString) {
+      return (suggestion) => {
+        return (suggestion.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
       }
     },
     handleSelect (item) {
-      console.log(item)
+      this.queryParam.query = item.value
     },
-    loadAll () {
-      // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
-      //   this.restaurants = res.data
-      // })
+    loadSuggestions () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
+        this.suggestions = res.data
+      }).catch(error => {
+        this.$message.message({ message: error })
+      })
+    },
+    changePage (val) { // 页码跳转
+      this.queryParam.page = val
+      this.initTable()
     }
   }
 }

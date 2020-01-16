@@ -4,19 +4,32 @@
       <el-row>
         <el-col :md="24">
           <el-row type="flex"
-                  justify="left">
+                  justify="space-between">
             <el-col :span="8">
               <div class="table-search-wrapper">
-                <el-autocomplete class="inline-input"
-                                 v-model="queryParam.query"
+                <el-autocomplete v-model="queryParam.query"
+                                 :fetch-suggestions="querySearch"
+                                 @select="handleSelect"
                                  size="small"
                                  style="margin-bottom:10px;width:100%;"
-                                 placeholder="可查询设备名称设备编号"
-                                 @select="handleSelect">
+                                 placeholder="可查询设备名称设备编号">
                   <el-button slot="append"
                              type="primary"
+                             @click="handleQuery"
                              icon="el-icon-search">搜索</el-button>
                 </el-autocomplete>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="operate">
+                <el-button type="primary"
+                           :size="GlobalCss.buttonSize"
+                           @click="handleAdd"
+                           icon="fa fa-plus pull-left">新增</el-button>
+                <el-button type="success"
+                           :size="GlobalCss.buttonSize"
+                           @click="handleExport"
+                           icon="fa fa-download pull-left">导出</el-button>
               </div>
             </el-col>
           </el-row>
@@ -26,15 +39,14 @@
               <el-table :data="tableData"
                         style="width: 100%"
                         border
+                        @row-dblclick="handldbClick"
                         highlight-current-row
                         @current-change="handleCurrentChange"
-                        size="mini">
+                        :size="GlobalCss.buttonSize">
                 <el-table-column type="index"
                                  align="center"
                                  width="50"
                                  fixed="left"></el-table-column>
-                <!-- <el-table-column type="selection"
-                                 width="50"> </el-table-column> -->
                 <el-table-column prop="deviceImg"
                                  label="图片"
                                  align="center"
@@ -54,7 +66,7 @@
                                  align="center"
                                  label="设备名称"
                                  width="120"></el-table-column>
-                <el-table-column prop="deviceName"
+                <el-table-column prop="deviceModel"
                                  align="center"
                                  label="规格型号"
                                  width="120"></el-table-column>
@@ -73,10 +85,10 @@
                                  align="center"
                                  width="120"
                                  :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="supplier"
+                <!-- <el-table-column prop="supplier"
                                  label="供应商"
                                  align="center"
-                                 width="120"></el-table-column>
+                                 width="120"></el-table-column> -->
                 <el-table-column prop="installLocation"
                                  label="安装位置"
                                  align="center"
@@ -93,14 +105,14 @@
                                  align="center"
                                  label="采购时间"
                                  width="100"></el-table-column>
-                <el-table-column prop="warranty"
+                <!-- <el-table-column prop="warranty"
                                  label="保修期"
                                  align="center"
                                  width="100"></el-table-column>
                 <el-table-column prop="repairFrequency"
                                  align="center"
                                  label="检修频率"
-                                 width="100"></el-table-column>
+                                 width="100"></el-table-column> -->
                 <el-table-column prop="buyingPrice"
                                  label="采购价格"
                                  align="center"
@@ -114,7 +126,7 @@
                                  align="center"
                                  width="100">
                   <template slot-scope="scope">
-                    <el-tag :type="scope.row.deviceStatus === '正常' ? 'primary' : 'success'"
+                    <el-tag :type="scope.row.deviceStatus === '正常' ? 'success' : 'warning'"
                             disable-transitions>{{scope.row.deviceStatus}}</el-tag>
                   </template>
                 </el-table-column>
@@ -123,37 +135,25 @@
                                  label="操作"
                                  width="180">
                   <template slot-scope="scope">
-                    <el-button @click="handleViewClick(scope.row)"
-                               type="primary"
-                               :size="GlobalCss.buttonSize">查看</el-button>
                     <el-button type="warning"
                                @click="handleEditClick(scope.row)"
+                               icon="fa fa-edit pull-left"
                                :size="GlobalCss.buttonSize">编辑</el-button>
+                    <el-button type="danger"
+                               :size="GlobalCss.buttonSize"
+                               @click="handleDelete(scope.row)"
+                               icon="fa fa-trash-o pull-left">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
 
               <div class="tableFooter">
-                <div class="operate">
-                  <el-button type="primary"
-                             :size="GlobalCss.buttonSize"
-                             @click="handleAdd"
-                             icon="fa fa-plus pull-left">新增</el-button>
-                  <el-button type="primary"
-                             :size="GlobalCss.buttonSize"
-                             @click="handleDelete"
-                             icon="fa fa-trash-o pull-left">删除</el-button>
-                  <el-button type="primary"
-                             :size="GlobalCss.buttonSize"
-                             @click="handleExport"
-                             icon="fa fa-download pull-left">导出</el-button>
-                </div>
                 <div class="pagination"
                      style="text-align:right;margin-top:12px;">
                   <el-pagination background
-                                 @size-change="handleSizeChange"
-                                 :current-page="currentPage"
-                                 :page-size="pageSize"
+                                 @current-change="changePage"
+                                 :current-page="queryParam.page"
+                                 :page-size="queryParam.size"
                                  layout="total, prev, pager, next, jumper"
                                  :total="total">
                   </el-pagination>

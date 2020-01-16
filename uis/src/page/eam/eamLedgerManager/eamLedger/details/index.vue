@@ -108,7 +108,7 @@
                   <span class="info-title">投运日期</span>:&nbsp;<span class="info-content">{{ eamInfos.runDate }}</span>
                   </el-col>
                   <el-col :span="12">
-                  <span class="info-title">创建人:</span>:&nbsp;<span class="info-content">{{ eamInfos.person }}</span>
+                  <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamInfos.person }}</span>
                 </el-col>
              </el-row>
             </div>
@@ -117,7 +117,7 @@
           <div class="item-block right">
             <div class="item-title">设备主要参数</div>
             <el-divider></el-divider>
-            <params-table></params-table>
+            <params-table :deviceKey="deviceKey" :isDisable="true"></params-table>
           </div>
           <div class="item-block right">
             <div class="item-title">定期工作标准</div>
@@ -134,14 +134,18 @@
           <div class="item-block right">
             <div class="item-title">历任点检员</div>
             <el-divider></el-divider>
-            <past-inspectors></past-inspectors>
+            <past-inspectors :deviceKey="deviceKey" :isDisable="true"></past-inspectors>
+          </div>
+           <!--子设备-->
+          <div class="item-block right">
+            <ChildEamTable :deviceKey="deviceKey" :isDisable="true"/>
           </div>
         </el-col>
       </el-row>
       <el-form-item style="text-align: center;">
         <el-button :size="GlobalCss.buttonSize"
                    type="primary"
-                   @click="$router.go(-1)">返回</el-button>
+                   @click="back">返回</el-button>
         <el-button :size="GlobalCss.buttonSize"
                    @click="handlePrint">打印</el-button>
       </el-form-item>

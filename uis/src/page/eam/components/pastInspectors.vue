@@ -3,59 +3,48 @@
     <el-row>
       <el-col :span="24">
         <el-table size="mini"
-                  :data="master_user.data"
+                  :data="eam_Inspectors.data"
+                  border
                   style="width: 100%"
                   highlight-current-row>
           <el-table-column type="index"
                            align="center"></el-table-column>
-          <!-- <el-table-column v-for="(item,index) in master_user.columns"
-                           :label="item.label"
-                           :prop="item.prop"
-                           :key="index"
-                           align="center">
-            <template slot-scope="scope">
-              <span v-if="scope.row.isSet">
-                <el-input size="mini"
-                          placeholder="请输入内容"
-                          v-model="master_user.sel[item.prop]"></el-input>
-              </span>
-              <span v-else>{{scope.row[item.prop]}}</span>
-            </template>
-          </el-table-column> -->
           <el-table-column prop="name"
                            label="姓名"
                            align="center">
-            align="center">
             <template slot-scope="scope">
               <span v-if="scope.row.isSet">
-                <user-select></user-select>
+                <user-select @change="handleChange"
+                             ref="userSelect"></user-select>
               </span>
-              <span v-else>{{scope.row['departureTime']}}</span>
+              <span v-else>{{scope.row['name']}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serveTime"
+          <el-table-column prop="serverTime"
                            label="担任时间"
-                           width="230"
+                           width="240"
                            align="center">
             <template slot-scope="scope">
               <span v-if="scope.row.isSet">
-                <el-date-picker v-model="master_user.sel['serveTime']"
+                <el-date-picker v-model="eam_Inspectors.sel['serverTime']"
+                                value-format="yyyy-MM-dd"
                                 type="date"
                                 size="mini"
                                 placeholder="选择日期">
                 </el-date-picker>
               </span>
-              <span v-else>{{scope.row['serveTime']}}</span>
+              <span v-else>{{scope.row['serverTime']}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="departureTime"
+          <el-table-column prop="serveTime"
                            label="离任时间"
-                           width="230"
+                           width="240"
                            align="center">
             <template slot-scope="scope">
               <span v-if="scope.row.isSet">
-                <el-date-picker v-model="master_user.sel['departureTime']"
+                <el-date-picker v-model="eam_Inspectors.sel['departureTime']"
                                 type="date"
+                                value-format="yyyy-MM-dd"
                                 size="mini"
                                 placeholder="选择日期">
                 </el-date-picker>
@@ -70,8 +59,8 @@
               <span v-if="scope.row.isSet">
                 <el-input size="mini"
                           :readonly="true"
-                          placeholder="请输入内容"
-                          v-model="master_user.sel['department']"></el-input>
+                          placeholder="根据用户自动填写"
+                          v-model="eam_Inspectors.sel['department']"></el-input>
               </span>
               <span v-else>{{scope.row['department']}}</span>
             </template>
@@ -83,35 +72,39 @@
               <span v-if="scope.row.isSet">
                 <el-input size="mini"
                           placeholder="请输入内容"
-                          v-model="master_user.sel['remark']"></el-input>
+                          v-model="eam_Inspectors.sel['remark']"></el-input>
               </span>
               <span v-else>{{scope.row['remark']}}</span>
             </template>
           </el-table-column>
+          <template v-if="!isDisable" >
           <el-table-column label="操作"
+                           align="center"
                            width="220">
             <template slot-scope="scope">
               <el-button type="success"
                          :size="GlobalCss.buttonSize"
-                         @click.stop="saveRow(scope.row,scope.$index)">
-                <!-- {{scope.row.isSet?'保存':"修改"}} -->保存
+                         @click.stop="saveRow(scope.row,scope.$index)"
+                         v-if="scope.row.isSet">保存
               </el-button>
               <el-button type="primary"
                          :size="GlobalCss.buttonSize"
                          @click="editRow(scope.row,scope.$index)">
                 编辑
               </el-button>
-              <el-button type="warning"
+              <el-button type="danger"
                          :size="GlobalCss.buttonSize"
-                         @click="deleteRow(scope.$index,master_user.data)">
+                         @click="deleteRow(scope.row,scope.$index)">
                 删除
               </el-button>
             </template>
           </el-table-column>
+          </template>
         </el-table>
       </el-col>
       <el-col :span="24">
         <div class="el-table-add-row"
+             v-if="!isDisable"
              style="width: 100%;color:#409EFF;cursor:pointer;"
              @click="add()"><span>+ 添加历任点检员</span></div>
       </el-col>
@@ -125,46 +118,92 @@ export default {
   components: {
     UserSelect
   },
+  props: {
+    deviceKey: String,
+    isDisable: Boolean
+  },
   name: '',
   data () {
     return {
-      master_user: {
+      nameLab: '',
+      eam_Inspectors: {
         sel: null, // 选中行
         data: []
       }
     }
   },
+  watch: {
+    nameLab (value) { // 部门动态赋值
+      this.eam_Inspectors.sel['department'] = this.$refs.userSelect.getCheckedNodes()[0].parent.data.label
+    },
+    deviceKey: function (val) {
+      this.getInspectorsDataByKey(val)
+    }
+  },
   methods: {
+    getInspectorsDataByKey (val) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getInspectorsByKey', { params: { key: val } }).then(res => {
+        this.eam_Inspectors.data = res.data
+      }).catch(error => {
+        this.$message.message({ message: error })
+      })
+    },
+    handleChange (value) {
+      const node = this.$refs.userSelect.getCheckedNodes()[0]
+      this.eam_Inspectors.sel['name'] = node.data.label
+      this.nameLab = node.data.label
+    },
     add () {
-      for (let i of this.master_user.data) {
+      for (let i of this.eam_Inspectors.data) {
         if (i.isSet) return this.$message.warning('请先保存当前编辑项')
       }
       let j = {
-        'paramName': '',
-        'paramValue': '',
-        'date': '',
+        'name': '',
+        'serverTime': '',
+        'departureTime': '',
+        'department': '',
         'remark': '',
         'isSet': true
       }
-      this.master_user.data.push(j)
-      this.master_user.sel = JSON.parse(JSON.stringify(j))
+      this.eam_Inspectors.data.push(j)
+      this.eam_Inspectors.sel = JSON.parse(JSON.stringify(j))
     },
     saveRow (row, index) { // 保存
-      let data = JSON.parse(JSON.stringify(this.master_user.sel))
+      let data = JSON.parse(JSON.stringify(this.eam_Inspectors.sel))
       for (let k in data) {
-        row[k] = data[k] // 将sel里面的value赋值给这一行。ps(for....in..)的妙用，细心的同学发现这里我并没有循环对象row
+        row[k] = data[k] // 将sel里面的value赋值给这一行
       }
+      this.$emit('getInspectors', data)
       row.isSet = false
     },
     editRow (row) { // 编辑
-      for (let i of this.master_user.data) {
-        if (i.isSet) return this.$message.warning('请先保存当前编辑11项')
+      for (let i of this.eam_Inspectors.data) {
+        if (i.isSet) return this.$message.warning('请先保存当前编辑')
       }
-      this.master_user.sel = row
+      this.eam_Inspectors.sel = row
       row.isSet = true
     },
-    deleteRow (index, rows) { // 删除
-      rows.splice(index, 1)
+    deleteRow (rows, index) { // 删除
+      if (rows.key === undefined) { // 未持久化的历任点检员数据可直接删除
+        this.eam_Inspectors.data.splice(index, 1)
+      } else {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/deleteInspectors', { params: { key: rows.key } }).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.eam_Inspectors.data.splice(index, 1)
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: 'info'
+            })
+          }
+        }).catch(error => {
+          this.$message.message({ message: error })
+        })
+      }
     }
   }
 }

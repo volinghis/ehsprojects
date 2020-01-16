@@ -27,7 +27,6 @@ import com.ehs.common.auth.service.RoleService;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.fasterxml.jackson.databind.JavaType;
 
 /**
  * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司

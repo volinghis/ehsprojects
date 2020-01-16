@@ -6,32 +6,35 @@
                ref="scrapStepForm"
                :rules="rules"
                label-width="100px"
-               size="small">
+               :size="GlobalCss.buttonSize">
         <el-form-item label="申请人："
-                      prop="code">
-          <el-input v-model="scrapStepForm.code"
-                    placeholder="申请人"></el-input>
+                      prop="applicant">
+          <el-input v-model="sessionUser.username"
+                    :readonly="true"></el-input>
         </el-form-item>
         <el-form-item label="申请部门："
-                      prop="dept">
-          <org v-model="scrapStepForm.dept" style="width:100%;"></org>
+                      prop="scrapDept">
+          <el-input v-model="sessionUser.orgName"
+                    :readonly="true"></el-input>
         </el-form-item>
-        <el-form-item label="报废名称"
-                      prop="scrapName">
-          <el-input v-model="scrapStepForm.scrapName"
+        <el-form-item label="报废名称："
+                      prop="applicationName">
+          <el-input v-model="scrapStepForm.applicationName"
                     placeholder="请填写报废名称"></el-input>
         </el-form-item>
         <el-form-item label="申请日期："
-                      prop="date">
-          <el-date-picker v-model="date"
+                      prop="applicationTime">
+          <el-date-picker v-model="scrapStepForm.applicationTime"
                           type="date"
+                          value-format="yyyy-MM-dd"
                           placeholder="选择日期"
                           style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <el-form-item label="备注：">
+        <el-form-item label="报废原因："
+                      prop="scrapReason">
           <el-input type="textarea"
                     :rows="2"
-                    v-model="scrapStepForm.remark"
+                    v-model="scrapStepForm.scrapReason"
                     maxlength="100"
                     show-word-limit></el-input>
         </el-form-item>
@@ -40,8 +43,9 @@
     <el-divider></el-divider>
     <div style="text-align:center;">
       <el-button @click="cancel"
+                 type="warning"
                  :size="GlobalCss.buttonSize"
-                 style="margin:10px;">撤销</el-button>
+                 style="margin:10px;">取消</el-button>
       <el-button type="primary"
                  :size="GlobalCss.buttonSize"
                  @click="nextStep(scrapStepForm)"
@@ -50,61 +54,45 @@
   </div>
 </template>
 <script>
-import org from '@/components/org/org-selector'
 export default {
-  name: 'partStepOne',
-  components: {
-    'org': org
-  },
+  name: 'stepOne',
   data () {
     return {
       value: '1',
-      options: [
-        {
-          value: '1',
-          label: '电气专业'
-        },
-        {
-          value: '2',
-          label: '锅炉专业'
-        },
-        {
-          value: '3',
-          label: '汽机专业'
-        }
-      ],
-      rules: {
-        code: [
-          { required: true, message: '请输入负责人', trigger: 'change' }
-        ],
-        dept: [
-          { required: true, message: '请选择部门', trigger: 'change' }
-        ],
-        scrapName: [
-          { required: true, message: '请输入报废名称', trigger: 'change' }
-        ]
-      },
+      sessionUser: {},
       scrapStepForm: {
-        type: '',
-        date: '',
-        dept: ''
+        applicant: '',
+        scrapReason: '',
+        applicationName: '',
+        applicationTime: new Date(),
+        scrapDept: ''
+      },
+      rules: {
+        applicationName: [
+          { required: true, message: '请输入报废名称', trigger: 'blur' }
+        ],
+        scrapReason: [
+          { required: true, message: '请输入报废原因', trigger: 'blur' }
+        ]
       },
       date: new Date()
     }
+  },
+  mounted () {
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   methods: {
     nextStep: function (scrapStepForm) {
       this.$refs.scrapStepForm.validate((valid) => {
         if (valid) {
-          this.$emit('nextStep')
+          this.$emit('nextStep', this.scrapStepForm)
         } else {
           return false
         }
       })
     },
     cancel: function () {
-      this.$emit('finish')
-      this.$router.push({ name: '24' })
+      this.$emit('handleCancel')
     }
   }
 }

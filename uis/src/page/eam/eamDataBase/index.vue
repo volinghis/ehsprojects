@@ -281,7 +281,6 @@ export default {
   mounted: function () {
     var h = document.querySelector('.searchCol').offsetHeight
     this.mainHeight = this.$store.state.contentHeight - h - 8
-    console.log(this.$store.state.contentHeight)
   },
   methods: {
     handleViewClick: function (scope) {
@@ -293,7 +292,6 @@ export default {
     handlePageChange: function () {
     },
     handleNodeClick: function (data) {
-      console.log(data)
     }
   }
 }

@@ -1,0 +1,87 @@
+import constructKeys from '../../commom/utils.js'
+export default {
+  components: {
+    constructKeys
+  },
+  data () {
+    return {
+      queryParam: {
+        page: 1,
+        size: 10,
+        query: ''
+
+      },
+      form: {},
+      selections: [],
+      tableData: [],
+      totalCount: 0
+    }
+  },
+  mounted: function () {
+    this.getAllocateEamList()
+  },
+  methods: {
+    getAllocateEamList () {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateEamList', this.queryParam).then(res => {
+        this.tableData = res.data.dataList
+        this.total = res.data.totalCount
+      }).catch(() => {
+      })
+    },
+    customColorMethod: function (percentage) {
+      if (percentage < 30) {
+        return '#909399'
+      } else if (percentage < 70) {
+        return '#e6a23c'
+      } else {
+        return '#67c23a'
+      }
+    },
+    handleDelete: function () {
+      var _this = this.selections
+      if (_this.length <= 0) {
+        this.$message({
+          message: '请选择一条记录',
+          type: 'warning'
+        })
+      } else {
+        var keys = constructKeys.handlerArrayDatas(_this)
+        this.handleDeleteFun(keys)
+      }
+    },
+    onChange: function (row) {
+      this.selections = row
+    },
+    handlePageChange: function () {
+    },
+    // 新增操作
+    handleAllocate: function () {
+      // this.$router.push({ name: 'eamAllocateBaseForm' })
+      this.GlobalMethods.openFlowWin('eamAllocateBaseForm', { processDefineKey: 'EamScrapFlow' })
+    },
+    handleDeleteFun (keys) {
+      this.$confirm('是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/deleteEamAllocate', { params: { keys: keys } }).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getAllocateEamList()
+          } else {
+            this.$message({
+              type: 'info',
+              message: '删除失败!'
+            })
+          }
+        }).catch(error => {
+          this.$message.message({ message: error })
+        })
+      })
+    }
+  }
+}

@@ -11,16 +11,16 @@
                 class="tableHeight"
                 :size="GlobalCss.controlSize">
         <el-table-column type="index"> </el-table-column>
-        <el-table-column prop="code"
+        <el-table-column prop="deviceNum"
                          label="设备编号"> </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="deviceName"
                          label="设备名称"> </el-table-column>
-        <el-table-column prop="type"
-                         label="设备类型"> </el-table-column>
-        <el-table-column prop="stock"
-                         label="库存"> </el-table-column>
-        <el-table-column prop="unit"
-                         label="单位"> </el-table-column>
+        <el-table-column prop="deviceModel"
+                         label="规格型号"> </el-table-column>
+        <el-table-column prop="installLocation"
+                         label="安装位置"> </el-table-column>
+        <el-table-column prop="person"
+                         label="负责人"> </el-table-column>
       </el-table>
     </template>
     <div style="text-align:center;">
@@ -35,12 +35,14 @@
     <!--设备选择弹窗-->
     <el-dialog title="设备台账"
                :visible.sync="dialogTableVisible">
-      <eam-list></eam-list>
+      <eam-list @handlerSelect="handlerSelect" flag="scrap"></eam-list>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button @click="dialogTableVisible = false"
+                   :size="GlobalCss.buttonSize">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogTableVisible = false">确 定</el-button>
+                   @click="handleDetermine"
+                   :size="GlobalCss.buttonSize">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -49,53 +51,44 @@
 <script>
 import EamList from '../../../components/eamList'
 export default {
-  name: 'partStepTwo',
+  name: 'stepTwo',
   components: {
     EamList
   },
   methods: {
     nextStep: function () {
-      this.$emit('nextStep')
+      if (!this.tableData.length > 0) {
+        this.$message({
+          message: '请选择需要报废的设备',
+          type: 'info'
+        })
+        return
+      }
+      this.$emit('nextStep', this.tableData)
     },
     prevStep: function () {
       this.$emit('prevStep')
+    },
+    handleDetermine () {
+      this.dialogTableVisible = false
+      this.tableData = this.selectRows
+    },
+    handlerSelect (val) {
+      this.selectRows = val
     }
   },
   data () {
     return {
       dialogTableVisible: false,
+      selectRows: [],
       form: {
         deviceName: '',
         deviceNum: '',
-        deviceTree: '',
-        runDate: '',
-        factoryName: '',
+        installLocation: '',
         person: '',
-        remark: ''
+        deviceModel: ''
       },
-      tableData: [
-        {
-          code: 'FM-0001',
-          name: '阀门',
-          type: '阀门',
-          stock: '100',
-          unit: '个'
-        },
-        {
-          code: 'FM-0001',
-          name: '阀门',
-          type: '阀门',
-          stock: '100',
-          unit: '个'
-        },
-        {
-          code: 'FM-0001',
-          name: '阀门',
-          type: '阀门',
-          stock: '100',
-          unit: '个'
-        }
-      ]
+      tableData: []
     }
   }
 }

@@ -11,7 +11,7 @@ package com.ehs.eam.eamLedgerManager.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamInspectors;
+import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamInspectorsSuper;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -29,7 +29,7 @@ import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamInspectors;
 */
 @Entity
 @Table(name = "EAM_INSPECTORS_HIS")
-public class EamInspectorsHis extends EamInspectors {
+public class EamInspectorsHis extends EamInspectorsSuper {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

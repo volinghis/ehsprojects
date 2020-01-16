@@ -77,7 +77,7 @@ export default {
           this.dialogFormVisible = false
         }
       }).catch((error) => {
-        console.log(error)
+        this.$message.message({ message: error })
       })
     },
     handleDelete (row) {
@@ -96,7 +96,7 @@ export default {
               this.initTable()
             }
           }).catch((error) => {
-            console.log(error)
+            this.$message.message({ message: error })
           })
       }).catch(() => {
         this.$message({

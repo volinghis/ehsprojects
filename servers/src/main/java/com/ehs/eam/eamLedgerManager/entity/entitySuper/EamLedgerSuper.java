@@ -7,6 +7,7 @@
  * @date: 2019年10月31日 下午1:56:48 
  */
 package com.ehs.eam.eamLedgerManager.entity.entitySuper;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -16,26 +17,26 @@ import javax.persistence.MappedSuperclass;
 import com.ehs.common.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**   
-* Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
-* @ClassName: EamAccountPrint.java
-* @Description: 设备台账实体类
-*
-* @version: v1.0.0
-* @author: qjj
-* @date: 2019年10月31日 下午1:56:48 
-*
-* Modification History:
-* Date         Author          Version            Description
-*---------------------------------------------------------*
-* 2019年10月31日     qjj           v1.0.0               修改原因
-*/
+/**
+ * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
+ * 
+ * @ClassName: EamAccountPrint.java
+ * @Description: 设备台账实体类
+ *
+ * @version: v1.0.0
+ * @author: qjj
+ * @date: 2019年10月31日 下午1:56:48
+ *
+ *        Modification History: Date Author Version Description
+ *        ---------------------------------------------------------* 2019年10月31日
+ *        qjj v1.0.0 修改原因
+ */
 @MappedSuperclass
-public abstract class EamLedger extends BaseEntity {
+public abstract class EamLedgerSuper extends BaseEntity {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String DEVICE_NUM = "deviceNum";
 	public static final String DEVICE_NAME = "deviceName";
 	public static final String DEVICE_MODEL = "deviceModel";
@@ -44,6 +45,7 @@ public abstract class EamLedger extends BaseEntity {
 	public static final String DEVICE_STATUS = "deviceStatus";
 	public static final String RUN_DATE = "runDate";
 	public static final String INSTALL_LOCATION = "installLocation";
+	public static final String PROFESSION = "profession";
 	public static final String PURCHASE_TIME = "purchaseTime";
 	public static final String WARRANTY = "warranty";
 	public static final String SERVICE_LIFE = "serviceLife";
@@ -54,6 +56,10 @@ public abstract class EamLedger extends BaseEntity {
 	public static final String REPAIR_NUMBER = "repairNumber";
 	public static final String FAULTS_NUMBER = "faultsNumber";
 	public static final String REMARKS = "remarks";
+
+	public static final String REF_DEVICE_KEY = "refDeviceKey";
+	public static final String SCRAP_KEY = "scrapKey";
+	public static final String ALLOCATE_KEY = "allocateKey";
 
 	/**
 	 * 设备编码
@@ -95,6 +101,11 @@ public abstract class EamLedger extends BaseEntity {
 	 * 安装位置
 	 */
 	private String installLocation;
+	
+	/**
+	 * 专业
+	 */
+	private String profession;
 
 	/**
 	 * 采购时间
@@ -148,6 +159,22 @@ public abstract class EamLedger extends BaseEntity {
 	@Column(length = 3000)
 	private String remarks;
 
+	/**
+	 * 关联子设备Key
+	 */
+	@Column(length = 4000)
+	private String refDeviceKey;
+
+	/**
+	 * 报废申请key
+	 */
+	private String scrapKey;
+	
+	/**
+	 * 调拨申请key
+	 */
+	private String allocateKey;
+	
 	/**
 	 * @return the deviceNum
 	 */
@@ -400,4 +427,61 @@ public abstract class EamLedger extends BaseEntity {
 		this.remarks = remarks;
 	}
 
+	/**
+	 * @return the refDeviceKey
+	 */
+	public String getRefDeviceKey() {
+		return refDeviceKey;
+	}
+
+	/**
+	 * @param refDeviceKey the refDeviceKey to set
+	 */
+	public void setRefDeviceKey(String refDeviceKey) {
+		this.refDeviceKey = refDeviceKey;
+	}
+
+	/**
+	 * @return the scrapKey
+	 */
+	public String getScrapKey() {
+		return scrapKey;
+	}
+
+	/**
+	 * @param scrapKey the scrapKey to set
+	 */
+	public void setScrapKey(String scrapKey) {
+		this.scrapKey = scrapKey;
+	}
+
+	/**
+	 * @return the allocateKey
+	 */
+	public String getAllocateKey() {
+		return allocateKey;
+	}
+
+	/**
+	 * @param allocateKey the allocateKey to set
+	 */
+	public void setAllocateKey(String allocateKey) {
+		this.allocateKey = allocateKey;
+	}
+
+	/**
+	 * @return the profession
+	 */
+	public String getProfession() {
+		return profession;
+	}
+
+	/**
+	 * @param profession the profession to set
+	 */
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+	
+	
 }

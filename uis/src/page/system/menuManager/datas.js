@@ -23,9 +23,8 @@ export default {
     initTree () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
         this.treeData = res.data
-        console.log(this.treeData)
       }).catch(error => {
-        console.log(error)
+        this.$message.message({ message: error })
       })
     },
     handleNodeClick (data) {
@@ -36,7 +35,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/findMenuRoles', { params: { menuKey: key } }).then(res => {
         this.tableData = res.data
       }).catch(error => {
-        console.log(error)
+        this.$message.message({ message: error })
       })
     },
     handleRomoveAuth (row) {
@@ -57,7 +56,7 @@ export default {
               this.findRolesByMenu(this.currentMenuKey)
             }
           }).catch((error) => {
-            console.log(error)
+            this.$message.message({ message: error })
           })
       }).catch(() => {
         this.$message({
@@ -79,7 +78,6 @@ export default {
     },
     handleSubmit () {
       const roles = this.selectRoles
-      console.log(roles)
       var roleBeans = []
       for (let i = 0; i < roles.length; i++) {
         const e = roles[i]
@@ -103,7 +101,7 @@ export default {
             alert('失败')
           }
         }).catch(error => {
-          console.log(error)
+          this.$message.message({ message: error })
         })
       }
     },

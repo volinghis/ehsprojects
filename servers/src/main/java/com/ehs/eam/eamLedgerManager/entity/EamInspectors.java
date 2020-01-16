@@ -30,7 +30,7 @@ import com.ehs.common.base.config.DataConfig;
 */
 @Entity
 @Table(name = "EAM_INSPECTORS",uniqueConstraints = @UniqueConstraint(columnNames = DataConfig.TABLE_UNIQUE_KEY))
-public class EamInspectors extends com.ehs.eam.eamLedgerManager.entity.entitySuper.EamInspectors{
+public class EamInspectors extends com.ehs.eam.eamLedgerManager.entity.entitySuper.EamInspectorsSuper{
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

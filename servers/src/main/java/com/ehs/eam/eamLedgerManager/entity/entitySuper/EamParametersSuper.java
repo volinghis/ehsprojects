@@ -27,7 +27,7 @@ import com.ehs.common.base.entity.BaseEntity;
  *        qjj v1.0.0 修改原因
  */
 @MappedSuperclass
-public abstract class EamParameters extends BaseEntity {
+public abstract class EamParametersSuper extends BaseEntity {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

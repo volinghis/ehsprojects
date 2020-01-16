@@ -11,7 +11,7 @@ package com.ehs.eam.eamLedgerManager.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerSuper;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -29,7 +29,7 @@ import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedger;
 */
 @Entity
 @Table(name = "EAM_LEDGER_HIS")
-public class EamLedgerHis extends EamLedger {
+public class EamLedgerHis extends EamLedgerSuper {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

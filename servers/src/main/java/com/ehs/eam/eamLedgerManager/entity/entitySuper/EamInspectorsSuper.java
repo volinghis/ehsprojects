@@ -8,14 +8,9 @@
  */
 package com.ehs.eam.eamLedgerManager.entity.entitySuper;
 
-import java.lang.reflect.Field;
 import java.sql.Timestamp;
 
 import javax.persistence.MappedSuperclass;
-import javax.security.auth.message.callback.PrivateKeyCallback;
-
-import org.apache.commons.lang.StringUtils;
-
 import com.ehs.common.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  *        qjj v1.0.0 修改原因
  */
 @MappedSuperclass
-public abstract class EamInspectors extends BaseEntity {
+public abstract class EamInspectorsSuper extends BaseEntity {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
@@ -51,17 +46,18 @@ public abstract class EamInspectors extends BaseEntity {
 	/**
 	 * 担任时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Timestamp serverTime;
 
 	/**
 	 * 离任时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Timestamp departureTime;
 	
+	private String remark;
 	
-	private String devicekey;
+	private String deviceKey;
 
 	/**
 	 * @return the name
@@ -120,17 +116,31 @@ public abstract class EamInspectors extends BaseEntity {
 	}
 
 	/**
-	 * @return the devicekey
+	 * @return the deviceKey
 	 */
-	public String getDevicekey() {
-		return devicekey;
+	public String getDeviceKey() {
+		return deviceKey;
 	}
 
 	/**
-	 * @param devicekey the devicekey to set
+	 * @param deviceKey the deviceKey to set
 	 */
-	public void setDevicekey(String devicekey) {
-		this.devicekey = devicekey;
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
 	}
-	
+
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 }

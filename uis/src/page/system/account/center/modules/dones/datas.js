@@ -8,6 +8,7 @@ export default {
       })
     },
     processNameClick (v) {
+      console.log(v)
       this.GlobalMethods.openFlowWin(v.processPage, { taskId: v.taskId, businessKey: v.businessKey })
     },
     changePage (v) {
