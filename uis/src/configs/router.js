@@ -65,7 +65,6 @@ function addDynamicMenu (routes, md, type) {
   }
 }
 function toDoPage (from, to, next) {
-  console.log(to.path)
   if (isGlobalRoutes(to) || vueRouter.options.isAdd) {
     if (to.name && to.name !== 'index') {
       next({ replace: true })
@@ -120,15 +119,7 @@ vueRouter.beforeEach((to, from, next) => { // 添加动态(菜单)路由
     if (isGlobalRoutes(to)) {
       next({ replace: true })
     } else {
-      Store.dispatch(GlobalVars.setResourceMenuKeyMethod, from.name)
-      Axios.get(GlobalVars.globalServiceServlet + '/base/user/getCurrentUser')
-        .then(res => {
-          sessionStorage.setItem(
-            GlobalVars.userToken,
-            JSON.stringify(res.data)
-          )
-          toDoPage(from, to, next)
-        })
+      next({ name: 'login', replace: true })
     }
   } else {
     toDoPage(from, to, next)

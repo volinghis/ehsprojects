@@ -50,7 +50,15 @@ export default {
                 } else {
                   localStorage.removeItem(current.GlobalVars.userLocal)
                 }
-                current.$router.push({ name: 'index', replace: true })
+                current.$store.dispatch(current.GlobalVars.setResourceMenuKeyMethod, 'login')
+                current.$axios.get(current.GlobalVars.globalServiceServlet + '/base/user/getCurrentUser')
+                  .then(res => {
+                    sessionStorage.setItem(
+                      current.GlobalVars.userToken,
+                      JSON.stringify(res.data)
+                    )
+                    current.$router.push({ name: 'index', replace: true })
+                  })
               } else {
                 current.result.message = res.data.message
               }
