@@ -9,10 +9,15 @@ public class OrganizationBean {
 	 */
 	private String id;
 	
+	private String value;
+	
+	
 	/**
 	 * 父节点Id
 	 */
 	private String parentId;
+	
+	
 	/**
 	 * 名称
 	 */
@@ -52,6 +57,8 @@ public class OrganizationBean {
 		this.label = label;
 	}
 
+	
+	
 //	public Boolean getIsEdit() {
 //		return isEdit;
 //	}
@@ -59,6 +66,14 @@ public class OrganizationBean {
 //	public void setIsEdit(Boolean isEdit) {
 //		this.isEdit = isEdit;
 //	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 	public List<OrganizationBean> getChildren() {
 		return children;

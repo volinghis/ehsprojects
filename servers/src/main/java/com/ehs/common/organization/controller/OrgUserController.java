@@ -1,6 +1,11 @@
 package com.ehs.common.organization.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,14 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.bean.RoleQueryBean;
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.bean.OrganizationBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
+import com.ehs.common.organization.bean.UserTreeDataBean;
 import com.ehs.common.organization.entity.OrgUser;
+import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
 
 /**   
@@ -69,6 +78,47 @@ public class OrgUserController {
 		PageInfoBean pb = orgUserService.getAllUser(userQueryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/auth/orgUser/getAllForTree")
+	@ResponseBody
+	public String findAllOrg(HttpServletRequest request, HttpServletResponse response) {
+		List<OrganizationInfo> orgList =(List<OrganizationInfo>)baseCommonService.findAll(OrganizationInfo.class);
+		if (orgList == null || orgList.isEmpty()) {
+			return "[]";
+		}
+		String parentKey=request.getParameter("parentKey");
+		List<OrganizationInfo> ois=orgList.stream().filter(s->
+		(StringUtils.isBlank(parentKey)?StringUtils.isBlank(s.getParentKey()):StringUtils.equals(parentKey, s.getParentKey()))
+		).collect(Collectors.toList());
+		List<UserTreeDataBean> users = new LinkedList<UserTreeDataBean>();
+
+		if (ois != null && !ois.isEmpty()) {
+			ois.sort((a, b) -> a.getSort() - b.getSort());
+			ois.forEach(s->{
+				UserTreeDataBean utb=new UserTreeDataBean();
+				utb.setDisabled(true);
+				utb.setOrg(true);
+				utb.setLeaf(false);
+				utb.setValue(s.getKey());
+				utb.setLabel(s.getName());
+				users.add(utb);
+			});
+			
+		}
+		List<OrgUser> orgUsers=orgUserService.findUserByOrgKey(parentKey);
+		if(orgUsers!=null&&!orgUsers.isEmpty()) {
+			orgUsers.forEach(s->{
+				UserTreeDataBean utb=new UserTreeDataBean();
+				utb.setValue(s.getKey());
+				utb.setLabel(s.getName());
+				users.add(utb);
+			});
+		}
+		return JsonUtils.toJsonString(users);
+	}
+	
+
 	
 	/**
 	 * 

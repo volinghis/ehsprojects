@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -70,7 +71,7 @@ public class OrganizationController {
 	*---------------------------------------------------------*
 	* 2019年12月13日     zhaol           v1.0.0               修改原因
 	 */
-	@RequestAuth(menuKeys = {"orgManager"})
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/auth/orgManager/getAllForTree")
 	@ResponseBody
 	public String findAllOrg(HttpServletRequest request, HttpServletResponse response) {
@@ -85,7 +86,6 @@ public class OrganizationController {
 		createOrg(orgs, orgList, null);
 		return JsonUtils.toJsonString(orgs);
 	}
-	
 	/**
 	 * 
 	* @Function: OrganizationController.java
@@ -110,6 +110,7 @@ public class OrganizationController {
 			orgBean.setId(c.getKey());
 			orgBean.setLabel(c.getName());
 			orgBean.setParentId(c.getParentKey()); 
+			orgBean.setValue(c.getKey());
 			List ll=new ArrayList();
 			createOrg(ll,orgs,c.getKey());
 			if(ll.size()>0) {

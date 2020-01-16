@@ -39,46 +39,33 @@ export default {
   mounted () {
   },
   data () {
+    let that = this
     return {
       orgValue: this.propOrgValue,
-      defaultProps: Object.assign({ multiple: false, checkStrictly: true, emitPath: false }, this.props),
-      options: [{
-        value: 'zhinan',
-        label: 'MISS组织',
-        disabled: 'disabled',
-        org: true,
-        children: [{
-          value: 'shejiyuanze',
-          label: '行政部',
-          disabled: 'disabled',
-          org: true,
-          children: [{
-            value: 'yizhi',
-            label: '人力'
-          }, {
-            value: 'fankui',
-            label: '出纳'
-          }, {
-            value: 'xiaolv',
-            label: '采购部'
-          }, {
-            value: 'kekong',
-            label: '合同管理部'
-          }]
-        }, {
-          value: 'daohang',
-          label: '财务部',
-          disabled: 'disabled',
-          org: true,
-          children: [{
-            value: 'b0c2046f-82b5-4f84-bd63-782083136fee',
-            label: 'zhaol'
-          }, {
-            value: '3bb19825-5ca3-408e-88dc-89dab7597c19',
-            label: 'flow2'
-          }]
-        }]
-      }]
+      defaultProps: Object.assign({ multiple: false,
+        checkStrictly: true,
+        emitPath: false,
+        lazy: true,
+        lazyLoad (node, resolve) {
+          console.log(node)
+          var parentKey = node.value ? node.value : ''
+          that.$axios.get(that.GlobalVars.globalServiceServlet + '/auth/orgUser/getAllForTree?parentKey=' + parentKey)
+            .then((res) => {
+              resolve(res.data)
+            })
+          // const { level } = node
+          // setTimeout(() => {
+          //   const nodes = Array.from({ length: level + 1 })
+          //     .map(item => ({
+          //       value: ++id,
+          //       label: `选项${id}`,
+          //       leaf: level >= 2
+          //     }))
+          //   // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+          //   resolve(nodes)
+          // }, 1000)
+        } }, this.props),
+      options: []
     }
   }
 }

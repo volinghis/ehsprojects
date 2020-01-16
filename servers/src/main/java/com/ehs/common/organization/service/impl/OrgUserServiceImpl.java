@@ -21,6 +21,7 @@ import com.ehs.common.auth.dao.RoleDao;
 import com.ehs.common.auth.entity.SysRole;
 import com.ehs.common.auth.entity.SysUser;
 import com.ehs.common.auth.service.RoleService;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
@@ -411,8 +412,7 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	@Override
 	public List<OrgUser> findUserByOrgKey(String key) {
-		// TODO Auto-generated method stub
-		return orgUserDao.findUsrByOrgKey(key);
+		return orgUserDao.findOrgUserByOrgKeyAndDataModelIn( key,new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 	}
 
 	/**
@@ -482,6 +482,7 @@ public class OrgUserServiceImpl implements OrgUserService{
 		}
 		return null;
 	}
-	
+
+
 
 }
