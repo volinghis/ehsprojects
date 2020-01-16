@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.organization.entity.OrgUser;
 
@@ -92,26 +93,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
 	public Page<OrgUser> findUsers(PageRequest pageRequest);
 
-	/**
-	 * 
-	* @Function: OrgUserDao.java
-	* @Description: 根据部门查找用户
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 上午11:23:43 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	@Query(" select u from OrgUser u where u.orgKey=?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
-	public List<OrgUser> findUsrByOrgKey(String key);
+
 
 	/**
 	 * 
@@ -135,4 +117,6 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	public Page<OrgUser> findUserByOrgKey(String orgKey, PageRequest pageRequest);
 
 	public OrgUser findOrgUserBySysUserKey(String sysUserKey);
+	
+	public List<OrgUser> findOrgUserByOrgKeyAndDataModelIn(String orgKey,DataModel[] dataModel);
 }

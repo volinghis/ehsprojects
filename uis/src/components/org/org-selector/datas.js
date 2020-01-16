@@ -10,7 +10,16 @@ export default {
   model: {
     prop: 'propOrgValue'
   },
+  mounted () {
+    this.loadDatas()
+  },
   methods: {
+    loadDatas () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getAllForTree')
+        .then((res) => {
+          this.options = res.data
+        })
+    },
     clearCheckedNodes () {
       this.$refs['orgCasCader'].clearCheckedNodes()
     },
@@ -36,43 +45,11 @@ export default {
       this.$emit('remove-tag', v)
     }
   },
-  mounted () {
-  },
   data () {
     return {
       orgValue: this.propOrgValue,
       defaultProps: Object.assign({ multiple: false, checkStrictly: true, emitPath: false }, this.props),
-      options: [{
-        value: 'zhinan',
-        label: 'MISS组织',
-        children: [{
-          value: 'shejiyuanze',
-          label: '行政部',
-          children: [{
-            value: 'yizhi',
-            label: '人力'
-          }, {
-            value: 'fankui',
-            label: '出纳'
-          }, {
-            value: 'xiaolv',
-            label: '采购部'
-          }, {
-            value: 'kekong',
-            label: '合同管理部'
-          }]
-        }, {
-          value: 'daohang',
-          label: '财务部',
-          children: [{
-            value: 'cexiangdaohang',
-            label: '报销'
-          }, {
-            value: 'dingbudaohang',
-            label: '审计'
-          }]
-        }]
-      }]
+      options: []
     }
   }
 }
