@@ -1,7 +1,7 @@
 export default {
   methods: {
     handleAdd: function () {
-      this.$router.push({ name: '411' })
+      this.$router.push({ name: 'eamInspectionParam' })
     },
     handleDelete: function () {
       this.$message({
@@ -10,10 +10,10 @@ export default {
       })
     },
     handleClick: function (row) {
-      this.$router.push({ name: '411' })
+      this.$router.push({ name: 'eamInspectionDetails' })
     },
     handleEdit: function (row) {
-      this.$router.push({ name: '411' })
+      this.$router.push({ name: 'eamInspectionParam' })
     },
     exportExcel: function () {
       this.$message('正在导出，请稍等···')

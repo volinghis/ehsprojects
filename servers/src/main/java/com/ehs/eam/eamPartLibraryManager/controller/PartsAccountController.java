@@ -6,13 +6,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.interfaces.RequestAuth;
@@ -20,6 +17,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
@@ -39,61 +37,131 @@ import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 * 2019年12月30日     zhaol           v1.0.0               修改原因
 */
 @RestController
+@RequestMapping(value = "/eam/partsAccount")
 public class PartsAccountController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PartsAccountController.class);
+	
 	@Resource
 	private BaseCommonService baseCommonService;
 	
 	@Resource
-	private PartsAccountService eamPartLibraryService;
+	private PartsAccountService partsAccountService;
 	
-	@RequestAuth(menuKeys = {"partsAccount"})
-	@RequestMapping(value = "/eam/partsAccount/savePartsAccount")
-	public String savePartsAccount(@RequestBody PartsAccount partsAccount, HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入saveEamPartLibrary方法=============");
-		ResultBean resultBean=new ResultBean();
-		List<PartsAccount> partsAccounts = (List<PartsAccount>)baseCommonService.findAll(PartsAccount.class);
-		if(partsAccounts !=null && partsAccounts.size() > 0) {
-			long c = partsAccounts.stream().filter(s->StringUtils.equals(s.getDeviceCode(),partsAccount.getDeviceCode()) && !StringUtils.equals(s.getKey(), partsAccount.getKey())).count();
-			if(c>0) {
-				return JsonUtils.toJsonString(resultBean.error("保存数据失败:已存在相同编号"));
-			}
-		}
-		if (partsAccount != null) {
-			PartsAccount pa = eamPartLibraryService.saveOrUpdateEamPart(partsAccount);
-			logger.info("===========退出saveEamPartLibrary方法=============");
-			return JsonUtils.toJsonString(resultBean.ok("保存成功！",pa.getKey()));
-		}
-		return JsonUtils.toJsonString(resultBean.error("保存数据失败"));
-	}
+	/**
+	 * 
+	* @Function: PartsAccountController.java
+	* @Description: 保存备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年1月3日 上午10:27:24 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年1月3日     zhaol           v1.0.0               修改原因
+	 */
+//	@RequestAuth(menuKeys = {"partsAccount"})
+//	@RequestMapping(value = "/savePartsAccount")
+//	public String savePartsAccount(@RequestBody PartsBean partsBean, HttpServletRequest request,HttpServletResponse response) {
+//		logger.info("===========进入saveEamPartLibrary方法=============");
+//		ResultBean resultBean=new ResultBean();
+//		try {
+//			partsAccountService.saveOrUpdateEamPart(partsBean);
+//			return JsonUtils.toJsonString(resultBean.ok("数据保存成功！"));
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+////		List<PartsAccount> partsAccounts = (List<PartsAccount>)baseCommonService.findAll(PartsAccount.class);
+////		if(partsAccounts !=null && partsAccounts.size() > 0) {
+////			long c = partsAccounts.stream().filter(s->StringUtils.equals(s.getDeviceCode(),partsAccount.getDeviceCode()) && !StringUtils.equals(s.getKey(), partsAccount.getKey())).count();
+////			if(c>0) {
+////				return JsonUtils.toJsonString(resultBean.error("保存数据失败:已存在相同编号"));
+////			}
+////		}
+////		if (partsAccount != null) {
+////			eamPartLibraryService.saveOrUpdateEamPart(partsAccount,JsonUtils.parseList(partsParam, PartsParam.class));
+//			logger.info("===========退出saveEamPartLibrary方法=============");
+////			return JsonUtils.toJsonString(resultBean.ok("数据保存成功！"));
+////		}
+//		return JsonUtils.toJsonString(resultBean.error("数据保存失败"));
+//	}
 	
+	
+	/**
+	 * 
+	* @Function: PartsAccountController.java
+	* @Description: 查找备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年1月3日 上午10:27:44 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年1月3日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"partsAccount"})
-	@RequestMapping(value = "/eam/partsAccount/getPartsAccountAll")
+	@RequestMapping(value = "/getPartsAccountAll")
 	public String getPartsAccountAll(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getPartsAccountAll方法=============");
-		PageInfoBean pb = eamPartLibraryService.findPartsAccountAll(queryBean);
-		System.out.println("pb==============="+JsonUtils.toJsonString(pb));
+		PageInfoBean pb = partsAccountService.findPartsAccountAll(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
-	@RequestAuth(menuKeys = {"partsAccount"})
-	@RequestMapping(value = "/eam/partsAccount/getPartsAccount")
-	public String getEamPartLibrary(HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getEamPartLibrary方法=============");
-		String key=request.getParameter("key");
-		PartsAccount partsAccount= baseCommonService.findByKey(PartsAccount.class, key);
-		return partsAccount==null?"{}":JsonUtils.toJsonString(partsAccount);
-	}
+//	@RequestAuth(menuKeys = {"partsAccount"})
+//	@RequestMapping(value = "/getPartsAccountsByKey")
+//	public String getPartsAccountsByKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+//		logger.info("===========进入getEamPartLibrary方法=============");
+//		String key=request.getParameter("key");
+//		PageInfoBean pb = partsAccountService.getPartsAccountsByKey(queryBean,key);
+//		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+//	}
 	
+	/**
+	 * 
+	* @Function: PartsAccountController.java
+	* @Description: 删除备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年1月3日 上午10:28:09 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年1月3日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"partsAccount"})
-	@RequestMapping(value = "/eam/partsAccount/deletePartsAccount")
+	@RequestMapping(value = "/deletePartsAccount")
 	public String deletePartsAccount(HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入deleteEamPartLibrary方法=============");
 		ResultBean resultBean=new ResultBean();
-		String key=request.getParameter("key");
-		baseCommonService.deleteByKey(PartsAccount.class, key);
-		return JsonUtils.toJsonString(resultBean.ok("删除备件成功！"));
+		try {
+			String key=request.getParameter("key");
+			partsAccountService.deletePartsByKey(key);
+			return JsonUtils.toJsonString(resultBean.ok("删除备件成功！"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("删除备件失败！"));
 	}
+
 
 }

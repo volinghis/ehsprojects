@@ -1,30 +1,45 @@
 <template>
   <div>
-    <el-form :model="partForm" inline="inline" :size="GlobalCss.controlSize">
-      <el-row>
-        <el-form-item label="备件名称：" prop="name">
-          <el-input v-model="partForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="备件编号：" prop="code">
-          <el-input v-model="partForm.code"></el-input>
-        </el-form-item>
-        <el-form-item label="备件类型：" prop="type">
-          <el-input v-model="partForm.type"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="search('partForm')" style="margin-left: 5px;">搜索</el-button>
-        </el-form-item>
-      </el-row>
+    <el-form :model="form">
+      <el-input :size="GlobalCss.controlSize"
+                v-model="form.query"
+                placeholder="请输入名称、编号、类型搜索"
+                style="margin:5px 0px; width:30%;float:left;">
+        <el-button slot="append"
+                   @click="getAllParts"
+                   icon="el-icon-search"></el-button>
+      </el-input>
     </el-form>
     <template>
-      <el-table :data="tableData" border ref="multipleTable" :size="GlobalCss.controlSize">
+      <el-table :data="tableData"
+                border
+                ref="multipleTable"
+                 @selection-change="handleSelectionChange"
+                :size="GlobalCss.controlSize">
         <el-table-column type="selection"> </el-table-column>
-        <el-table-column prop="code" label="备件编号" align="center"> </el-table-column>
-        <el-table-column prop="name" label="备件名称" align="center"> </el-table-column>
-        <el-table-column prop="type" label="备件类型" align="center"> </el-table-column>
-        <el-table-column prop="model" label="备件型号" align="center"> </el-table-column>
-        <el-table-column prop="norm" label="备件规格" align="center"> </el-table-column>
+        <el-table-column prop="deviceCode"
+                         label="备件编号"
+                         align="center"> </el-table-column>
+        <el-table-column prop="deviceName"
+                         label="备件名称"
+                         align="center"> </el-table-column>
+        <el-table-column prop="norm"
+                         label="规格型号"
+                         align="center"> </el-table-column>
+        <el-table-column prop="materialType"
+                         label="物资类别"
+                         align="center"> </el-table-column>
+        <el-table-column prop="warningValue"
+                         label="预警值"
+                         align="center"> </el-table-column>
       </el-table>
+      <el-pagination style="float:right;"
+                     background
+                     :current-page.sync="form.page"
+                     :page-size="form.size"
+                     layout="total, prev, pager, next"
+                     :total="totalCount">
+      </el-pagination>
     </template>
   </div>
 </template>
@@ -32,120 +47,38 @@
 export default {
   data () {
     return {
-      partForm: {
-        name: '',
-        code: '',
-        type: ''
-      },
-      tableData: [{
-        code: 'FM-0001',
-        name: '阀门',
-        completion: 80,
-        type: '阀门',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }, {
-        code: 'GL-0001',
-        name: '锅炉',
-        completion: 20,
-        type: '锅炉',
-        model: '阀门',
-        norm: 'FM_0001_01',
-        brand: '上海市普陀牌',
-        warehouse: '1号仓库',
-        unit: '个',
-        price: '100',
-        amount: '56',
-        warningValue: '10'
-      }]
+      multipleSelection: [],
+      totalCount: 0,
+      tableData: [],
+      form: {
+        query: '',
+        page: 1,
+        size: 20
+      }
+    }
+  },
+  mounted: function () {
+    this.getAllParts()
+  },
+  methods: {
+    getAllParts: function () {
+      console.log('getAllParts')
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsBaseInfo/getPartsBaseInfos', this.form).then(res => {
+        this.tableData = res.data.dataList
+        this.totalCount = res.data.totalCount
+      })
+    },
+    handleSelectionChange: function (val) {
+      this.multipleSelection = val
+      this.$emit('partsData', this.multipleSelection)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-
+/deep/.el-input-group__append {
+  background-color: #409eff;
+  border: 1px solid #409eff;
+  color: #fff;
+}
 </style>>

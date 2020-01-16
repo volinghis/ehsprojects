@@ -1,8 +1,9 @@
 package com.ehs.eam.eamPartLibraryManager.service;
 
+
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.eamPartLibraryManager.bean.PartsInfoBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
-import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -20,7 +21,10 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 */
 public interface PartsAccountService {
 
-	public PartsAccount saveOrUpdateEamPart(PartsAccount eamPartLibrary);
+	public void saveOrUpdateEamPart(PartsInfoBean partsBean);
 	
 	public PageInfoBean findPartsAccountAll(QueryBean queryBean);
+
+	public void deletePartsByKey(String key);
+
 }

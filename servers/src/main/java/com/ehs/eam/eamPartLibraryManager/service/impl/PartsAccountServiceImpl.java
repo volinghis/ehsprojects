@@ -1,18 +1,24 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.eamPartLibraryManager.bean.PartsInfoBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
+import com.ehs.eam.eamPartLibraryManager.entity.PartsParam;
 import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
+import com.ehs.eam.eamPartLibraryManager.service.PartsParamsService;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -33,10 +39,13 @@ import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 public class PartsAccountServiceImpl implements PartsAccountService{
 
 	@Resource
-	private PartsAccountDao eamPartLibraryDao;
+	private PartsAccountDao partsAccountDao;
 	
 	@Resource
 	private BaseCommonService baseCommonService;
+	
+	@Resource
+	private PartsParamsService partsParamsService;
 
 	/**
 	 * 
@@ -59,15 +68,19 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	 */
 	@Override
 	@Transactional
-	public PartsAccount saveOrUpdateEamPart(PartsAccount eamPartLibrary) {
+	public void saveOrUpdateEamPart(PartsInfoBean partsBean) {
 		// TODO Auto-generated method stub
-		try {
-			return baseCommonService.saveOrUpdate(eamPartLibrary);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+//		if (partsBean.getPartsAccounts() != null) {
+//			PartsAccount partsAccount =baseCommonService.saveOrUpdate(partsBean.getPartsAccounts());
+//			String key = partsAccount.getKey();
+//			List<PartsParam> params =partsBean.getPartsParams();
+//			if (params != null && params.size() > 0) {
+//				for (PartsParam partsParam : params) {
+//					partsParam.setParamKey(key);
+//					baseCommonService.saveOrUpdate(partsParam);
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -93,12 +106,37 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	public PageInfoBean findPartsAccountAll(QueryBean queryBean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		Page<PartsAccount> eamParts = eamPartLibraryDao.findEamPart(queryBean.getQuery(), pageRequest);
-		if (eamParts!=null) {
+		Page<PartsAccount> parts = partsAccountDao.findPartsAccountAll(pageRequest);
+		if (parts!=null) {
 			PageInfoBean pb=new PageInfoBean();
-			pb.setDataList(eamParts.getContent());
-			pb.setTotalCount(eamParts.getTotalElements());
+			pb.setDataList(parts.getContent());
+			pb.setTotalCount(parts.getTotalElements());
 			return pb;
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void deletePartsByKey(String key) {
+		// TODO Auto-generated method stub
+		try {
+			baseCommonService.deleteByKey(PartsAccount.class, key);
+			List<PartsParam> params =partsParamsService.getAllPartsParamByKey(key);
+			if (params != null && params.size() > 0) {
+				for (PartsParam partsParam : params) {
+					baseCommonService.deleteByKey(PartsParam.class, partsParam.getKey());
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public PartsAccount findPartsAccountByKey(String key) {
+		if (StringUtils.isNotBlank(key)) {
+			return baseCommonService.findByKey(PartsAccount.class, key);
 		}
 		return null;
 	}
