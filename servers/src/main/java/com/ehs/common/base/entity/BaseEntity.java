@@ -74,7 +74,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	private Boolean reCompletePoint=true;
 
 
-	private Long baseSortNum;
+	private Long baseSortNum=0l;
 	
 	/**
 	 * 主键

@@ -10,6 +10,7 @@ package com.ehs.common.base.service.impl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,12 +69,23 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 			old = (T) findByKey(t.getClass(), t.getKey());
 		}
 		if (t.getReCompletePoint()) {
+			
+			
 			Class ss = t.getClass();
-			Field[] fields = ss.getDeclaredFields();
+			List<Field> fields=new ArrayList<Field>();
+			while(ss!=null&&!StringUtils.equalsIgnoreCase(ss.getClass().getName(), Object.class.getName())) {
+				Field[] fs=ss.getDeclaredFields();
+				if(fs!=null) {
+					for(Field f:fs) {
+						fields.add(f);
+					}
+				}
+				ss=ss.getSuperclass();
+			}
 			int fieldCount = 0;
 			int notNullCount = 0;
-			for (int i = 0; i < fields.length; i++) {
-				Field field = fields[i];
+			for (int i = 0; i < fields.size(); i++) {
+				Field field = fields.get(i);
 				if ((!field.isAnnotationPresent(Transient.class)) && (!Modifier.isStatic(field.getModifiers()))
 						&& !Modifier.isFinal(field.getModifiers())) {
 					field.setAccessible(true);
