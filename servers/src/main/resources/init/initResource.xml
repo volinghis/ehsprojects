@@ -15,7 +15,8 @@
 	</orgs> 
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
-			<menu dataCode="home" key="home" name="首页" url="/system/account/center/index" icon="fa-home"  sort="1"></menu>
+		<!-- 首页 -->
+		<menu dataCode="home" key="home" name="首页" url="/system/account/center/index" icon="fa-home"  sort="1"></menu>
 		<menu dataCode="sampleEdit" key="sampleEdit" name="流程案例" url="/flow/sample/index"  sort="9999"  business="true" ></menu>
 		<!-- 系统管理 -->
 		<menu dataCode="systemManager" key="systemManager" name="系统管理" url="" icon="fa-cog" leaf="false" sort="9999" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'>
@@ -28,10 +29,6 @@
 			<menu dataCode="menuManager" key="menuManager" name="菜单授权" url="/system/menuManager/index" icon="fa-list"  parentKey="systemManager"  sort="44" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 
 		</menu>
-		
-		<!-- 首页 -->
-		<menu dataCode="home" key="home" name="首页" url="/system/account/center/index" icon="fa-home"  sort="1"></menu>
-		
 		<!-- 设备台账管理 -->
 		<menu dataCode="eamLedgerManager" key="eamLedgerManager" name="设备管理" url="" icon="fa-gears" leaf="false" sort="9991">
 			<menu dataCode="eamLedger" key="eamLedger" name="设备台账" url="/eam/eamLedgerManager/eamLedger/index" parentKey="eamLedgerManager" icon="fa-gears" sort="21">
@@ -76,7 +73,7 @@
 		<menu dataCode="eamInspection" key="eamInspection" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
 			<menu dataCode="eamInspectionTask" key="eamInspectionTask" name="巡检任务" url="/eam/eamInspection/inspectionTask/index" icon="fa-tasks" parentKey="eamInspection" sort="4">
 				<menu dataCode="eamInspectionDetails" key="eamInspectionDetails" name="巡检任务详情" url="/eam/eamInspection/inspectionTask/component/details/index" business="true" sort="41"></menu>
-				<menu dataCode="eamInspectionParam" key="eamInspectionParam" name="巡检参数" url="/eam/eamInspection/inspectionTask/component/paramsTable/index" business="true" sort="42"></menu>
+				<menu dataCode="eamInspectionEdit" key="eamInspectionEdit" name="巡检任务编辑" url="/eam/eamInspection/inspectionTask/component/edit/index" business="true" sort="42"></menu>
 			</menu>
 		</menu>
 		<!-- 基础数据管理 -->
@@ -89,10 +86,5 @@
 		<menu dataCode="eamDataBase" key="eamDataBase" name="资料库" url="" icon="fa-folder-o" leaf="false" sort="9995">
 			<menu dataCode="eamDataBaseInfo" key="eamDataBaseInfo" name="设备资料" url="/eam/eamDataBase/index" parentKey="eamDataBase" sort="61"></menu>
 		</menu>
-		
-				
-			
-		
-	
 	</menus>
 </root>
