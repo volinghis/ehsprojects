@@ -8,7 +8,10 @@ export default {
       })
     },
     processNameClick (v) {
-      this.GlobalMethods.openFlowWin(v.processPage, { taskId: v.taskId, businessKey: v.businessKey })
+      var that = this
+      this.GlobalMethods.openFlowWin(v.processPage, v, function () {
+        that.flushData()
+      })
     },
     changePage (v) {
       this.pages.page = v

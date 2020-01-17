@@ -68,6 +68,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		if (StringUtils.isNotBlank(t.getKey())) {
 			old = (T) findByKey(t.getClass(), t.getKey());
 		}
+
 		if (t.getReCompletePoint()) {
 			
 			
@@ -103,6 +104,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 				t.setCompletePoint(Byte.valueOf(String.valueOf(notNullCount * 100 / fieldCount)));
 			}
 		}
+
 		if (old == null) {
 			t.initCreate();
 			t.setId(null);
