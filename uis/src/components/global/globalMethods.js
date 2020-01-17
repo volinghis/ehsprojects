@@ -10,10 +10,10 @@ function openFlowWin (routerName, obj, closeCallBack) {
   var openerWin = window.open(router.href, 'flowwin' + (obj.processDefineKey ? obj.processDefineKey : '') + (obj.processInstanceId ? obj.processInstanceId : ''), 'status=0,toolbar=0,titlebar=0,location=0,menubar=0,resizable=0,scrollbars=0,width=' + w + ',height=' + h)
   var openerTimer = setInterval(function () {
     if (openerWin.closed) {
+      clearInterval(openerTimer)
       if (closeCallBack) {
         try { closeCallBack() } catch (e) {}
       }
-      clearInterval(openerTimer)
     }
   }, 500)
 }
