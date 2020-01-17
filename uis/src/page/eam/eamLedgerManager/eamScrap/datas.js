@@ -28,7 +28,7 @@ export default {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handleViewClick (row) { // 查看
@@ -41,7 +41,7 @@ export default {
           this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId })
         }
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handleDelete: function () {
@@ -85,7 +85,7 @@ export default {
             })
           }
         }).catch(error => {
-          this.$message.message({ message: error })
+          this.$message({ message: error })
         })
       })
     }

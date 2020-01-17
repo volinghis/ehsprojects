@@ -96,7 +96,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamParamsByKey', { params: { key: res } }).then(res => {
         this.eam_params.data = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     add () {
@@ -150,7 +150,7 @@ export default {
             })
           }
         }).catch(error => {
-          this.$message.message({ message: error })
+          this.$message({ message: error })
         })
       }
     }

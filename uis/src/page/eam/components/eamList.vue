@@ -95,7 +95,7 @@ export default {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     getLedgerListNotScrap () { // 未报废的设备集合
@@ -103,7 +103,7 @@ export default {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     getLedgerListNotAllocate () { // 未调拨设备，暂时有问题

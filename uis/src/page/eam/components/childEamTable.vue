@@ -105,14 +105,14 @@ export default {
           })
         }
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     getRelatedDeviceByKey () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getChildDevByKey', { params: { key: this.deviceKey } }).then(res => {
         this.tableData = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handlerConfirm (val) {

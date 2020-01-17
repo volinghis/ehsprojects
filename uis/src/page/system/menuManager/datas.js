@@ -24,7 +24,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
         this.treeData = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handleNodeClick (data) {
@@ -35,7 +35,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/findMenuRoles', { params: { menuKey: key } }).then(res => {
         this.tableData = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handleRomoveAuth (row) {
@@ -56,7 +56,7 @@ export default {
               this.findRolesByMenu(this.currentMenuKey)
             }
           }).catch((error) => {
-            this.$message.message({ message: error })
+            this.$message({ message: error })
           })
       }).catch(() => {
         this.$message({
@@ -101,7 +101,7 @@ export default {
             alert('失败')
           }
         }).catch(error => {
-          this.$message.message({ message: error })
+          this.$message({ message: error })
         })
       }
     },

@@ -145,7 +145,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getInspectorsByKey', { params: { key: val } }).then(res => {
         this.eam_Inspectors.data = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     handleChange (value) {
@@ -201,7 +201,7 @@ export default {
             })
           }
         }).catch(error => {
-          this.$message.message({ message: error })
+          this.$message({ message: error })
         })
       }
     }

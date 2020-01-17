@@ -90,7 +90,7 @@ export default {
               this.$router.push({ name: 'eamLedger' }) // 保存成功后页面跳转
             }
           }).catch(error => {
-            this.$message.message({ message: error })
+            this.$message({ message: error })
           })
         } else {
           return false

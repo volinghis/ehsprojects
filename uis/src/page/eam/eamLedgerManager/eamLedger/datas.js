@@ -28,7 +28,7 @@ export default {
         this.tableData = res.data.dataList
         this.total = res.data.totalCount
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     customColorMethod: function (percentage) {
@@ -88,7 +88,7 @@ export default {
             })
           }
         }).catch(error => {
-          this.$message.message({ message: error })
+          this.$message({ message: error })
         })
       })
     },
@@ -113,7 +113,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
         this.suggestions = res.data
       }).catch(error => {
-        this.$message.message({ message: error })
+        this.$message({ message: error })
       })
     },
     changePage (val) { // 页码跳转

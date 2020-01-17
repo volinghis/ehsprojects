@@ -91,7 +91,7 @@ export default {
       //     })
       //   }
       // }).catch(error => {
-      //   this.$message.message({ message: error })
+      //   this.$message({ message: error })
       // })
     },
     keepAdd () { // 继续添加
