@@ -3,21 +3,30 @@ export default {
 
   methods: {
     doneProcess (stepKey) {
-      this.processInfo.vars = this.vars
-      this.processInfo.vars.taskId = this.processInstance.activeTaskId
-      var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
-      if (stepKey === 'END') {
-        url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
+      if (this.processInfo.flowStartActivityId === stepKey) {
+        this.startFlow()
+      } else {
+        this.processInfo.vars = this.vars
+        this.processInfo.vars.taskId = this.processInstance.activeTaskId
+        var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
+        if (stepKey === 'END') {
+          url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
+        } else {
+          if (!this.vars.taskAssignee) {
+            this.$message.error('请选择流程处理人！')
+            return
+          }
+        }
+        this.$axios.post(url, this.processInfo)
+          .then(res => {
+            // 成功了, 更新数据(成功)
+            this.$message.success('提交成功')
+            // window.close()
+          }).catch(function () {
+            this.$message.error('提交异常')
+          }).then(function () {
+          })
       }
-      this.$axios.post(url, this.processInfo)
-        .then(res => {
-          // 成功了, 更新数据(成功)
-          this.$message.success('提交成功')
-          // window.close()
-        }).catch(function () {
-          this.$message.error('提交异常')
-        }).then(function () {
-        })
     },
     startFlow () {
       if (!this.vars.taskAssignee) {
