@@ -1,11 +1,35 @@
 export default {
+  data () {
+    return {
+      tableHeight: ' ',
+      // drawer: false,
+      // direction: 'rtl',
+      tableData: [],
+      totalCount: 0,
+      queryParam: {
+        page: 1,
+        size: 20
+      }
+    }
+  },
+  props: {
+    deviceSet: Array
+  },
+  watch: {
+    deviceSet: {
+      handler (val) {
+        console.log(val)
+        this.tableData = val
+      }
+    }
+  },
   mounted: function () {
-    var hdiv = document.querySelector('.divHeight').offsetHeight
-    var hsubmiit = document.querySelector('.submitHeight').offsetHeight
-    var hsearch = document.querySelector('.searchHeight').offsetHeight
-    var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    var hpage = document.querySelector('.pageHeight').offsetHeight
-    this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
+    // var hdiv = document.querySelector('.divHeight').offsetHeight
+    // var hsubmiit = document.querySelector('.submitHeight').offsetHeight
+    // var hsearch = document.querySelector('.searchHeight').offsetHeight
+    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
+    // var hpage = document.querySelector('.pageHeight').offsetHeight
+    // this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
   },
   methods: {
     handleSizeChange: function (val) {
@@ -25,6 +49,9 @@ export default {
         message: '恭喜你，这是一条成功消息',
         type: 'success'
       })
+    },
+    handleClickDel: function (index, rows) {
+      rows.splice(index, 1)
     },
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
@@ -70,110 +97,6 @@ export default {
         }
       })
       return sums
-    }
-  },
-  data () {
-    return {
-      tableHeight: ' ',
-      drawer: false,
-      direction: 'rtl',
-      currentPage: 1,
-      form: {
-        name: '',
-        code: '',
-        type: '',
-        price: '',
-        amount: '',
-        unit: ''
-      },
-      rules: {
-        price: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-        unit: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-        amount: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-      },
-      tableData: [
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        },
-        {
-          id: '12987122',
-          name: '阀门',
-          type: 'GL_FM_0001',
-          amount: '234',
-          price: '10',
-          unit: '个',
-          totalPrice: 234 * 10
-        }
-      ]
     }
   }
 }

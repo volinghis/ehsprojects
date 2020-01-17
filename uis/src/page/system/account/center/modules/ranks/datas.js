@@ -8,8 +8,6 @@ export default {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/scores/userscore/getAllUserScoresByMonth', self.pages).then(response => {
         self.pages.total = response.data.totalCount
         self.ranks = response.data.dataList
-
-        console.log(self.ranks)
       })
     }
   },

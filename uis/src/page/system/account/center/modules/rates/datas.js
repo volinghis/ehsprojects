@@ -1,7 +1,6 @@
 export default {
   methods: {
     transNum (v) {
-      console.log(v)
       return v > 5 ? 5 : v
     },
     flushData () {

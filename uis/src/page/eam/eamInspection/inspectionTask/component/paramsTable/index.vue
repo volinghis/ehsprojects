@@ -1,28 +1,27 @@
 <template>
   <div>
     <el-table :data="tableData" resizable highlight-current-row border :max-height="tableHeight" :size="GlobalCss.buttonSize" style="width: 100%;">
-      <el-table-column fixed="left" prop="id" label="设备编号" align="center"></el-table-column>
-      <el-table-column fixed="left" prop="name" label="设备名称" align="center"></el-table-column>
-      <el-table-column prop="type" label="设备型号" align="center"></el-table-column>
-      <el-table-column prop="amount" label="设备类型" align="center"></el-table-column>
-      <el-table-column prop="price" label="位置" align="center"></el-table-column>
+      <el-table-column fixed="left" prop="deviceNum" label="设备编号" align="center"></el-table-column>
+      <el-table-column fixed="left" prop="deviceName" label="设备名称" align="center"></el-table-column>
+      <el-table-column prop="deviceModel" label="设备型号" align="center"></el-table-column>
+      <!-- <el-table-column prop="runDate" label="运行日期" align="center"></el-table-column> -->
+      <el-table-column prop="profession" label="设备专业" align="center"></el-table-column>
+      <el-table-column prop="installLocation" label="安装位置" align="center"></el-table-column>
+      <el-table-column prop="deviceStatus" label="运行状态" align="center"></el-table-column>
       <el-table-column fixed="right" label="操作" width="160" align="center">
         <template slot-scope="scope">
-          <el-button @click="drawer = true" type="primary" size="mini" style="margin-left: 16px;">编辑</el-button>
-          <el-button @click="handleClickDel(scope.row)" size="mini"  type="danger">删除</el-button>
+          <!-- <el-button @click="drawer = true" type="primary" size="mini" style="margin-left: 16px;">编辑</el-button> -->
+          <el-button @click="handleClickDel(scope.$index,tableData)" size="mini"  type="danger">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination class="pageHeight" background style="text-align:right;"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-sizes="[10, 20, 50]"
-      :page-size="10"
+    <!-- <el-pagination class="pageHeight" background style="text-align:right;"
+      :current-page.sync="queryParam.page"
+      :page-size="queryParam.size"
       layout="total, sizes, prev, pager, next"
-      :total="100">
-    </el-pagination>
-    <el-drawer title="设备编辑" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+      :total="totalCount">
+    </el-pagination> -->
+    <!-- <el-drawer title="设备编辑" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
       <div style="margin-right:20px;">
         <el-form :model="form" :rules="rules" :size="GlobalCss.buttonSize" ref="form" label-width="100px">
           <el-form-item label="设备编号：">
@@ -52,7 +51,7 @@
           </el-form-item>
         </el-form>
       </div>
-    </el-drawer>
+    </el-drawer> -->
   </div>
 </template>
 

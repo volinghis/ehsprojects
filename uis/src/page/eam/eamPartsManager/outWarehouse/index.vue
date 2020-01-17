@@ -54,12 +54,12 @@
         <el-table-column prop="outBoundDate"
                          label="出库日期"
                          align="center"></el-table-column>
-        <el-table-column prop="completion"
+        <el-table-column prop="completePoint"
                          label="资料完整度"
                          sortable
                          align="center">
           <template slot-scope="scope">
-            <el-progress :percentage="scope.row.completion"
+            <el-progress :percentage="scope.row.completePoint"
                          :color="customColors"></el-progress>
           </template>
         </el-table-column>
