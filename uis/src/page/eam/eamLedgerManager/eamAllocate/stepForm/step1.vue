@@ -58,13 +58,12 @@ export default {
   data () {
     return {
       value: '1',
-      sessionUser: {},
       allocateForm: {
-        applicant: this.sessionUser.username,
+        applicant: '',
         allocateReason: '',
         applicationName: '',
         applicationTime: new Date(),
-        allocateDept: this.sessionUser.orgName
+        allocateDept: ''
       },
       rules: {
         // applicant: [
@@ -76,12 +75,14 @@ export default {
         // allocateReason: [
         //   { required: true, message: '请输入调拨原因', trigger: 'blur' }
         // ]
-      },
-      date: new Date()
+      }
     }
   },
   mounted () {
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    const curUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    this.allocateForm.applicant = curUser.username
+    this.allocateForm.allocateDept = curUser.orgName
+    console.log(curUser)
   },
   methods: {
     nextStep: function (allocateForm) {
