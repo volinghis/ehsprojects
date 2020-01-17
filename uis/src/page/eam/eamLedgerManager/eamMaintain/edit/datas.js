@@ -36,6 +36,15 @@ export default {
         ],
         profession: [
           { required: true, message: '请选择设备专业', trigger: 'blur' }
+        ],
+        person: [
+          { required: true, message: '请选择责任人', trigger: 'blur' }
+        ],
+        runDate: [
+          { required: true, message: '请选择投运日期', trigger: 'blur' }
+        ],
+        installLocation: [
+          { required: true, message: '请输入设备位置', trigger: 'blur' }
         ]
       },
       fileList: [{

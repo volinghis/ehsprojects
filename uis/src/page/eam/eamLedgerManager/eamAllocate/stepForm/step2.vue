@@ -32,11 +32,8 @@
         <el-table-column prop="targetDept"
                          align="center"
                          label="调入部门">
-          <template slot-scope="scope">
-            <OrgSelect v-model="orgValue"
-                       @change="handleChange(scope.$index, scope.row)"
-                       ref="orgSelect"></OrgSelect>
-          </template></el-table-column>
+            <OrgSelect @change="handleChange" ref="orgSelect"></OrgSelect>
+        </el-table-column>
         <el-table-column prop="targetPosition"
                          align="center"
                          label="调入位置">
@@ -143,8 +140,7 @@ export default {
     handleSelectDev () { // 选择设备
       this.dialogTableVisible = true
     },
-    handleChange (index, row) { // 获取部门
-      const node = this.$refs.orgSelect.getCheckedNodes(true)
+    handleChange (node) { // 获取部门
       console.log(node)
     }
   },

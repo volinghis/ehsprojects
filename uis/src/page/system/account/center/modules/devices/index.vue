@@ -27,7 +27,7 @@
            <el-table-column prop="person"
                         align="center"
                         label="责任人"
-                          width="60"
+                          width="80"
                         >
 
       </el-table-column>
@@ -37,7 +37,7 @@
                          width="60"
                         >
       <template slot-scope="scope">
-     <span class="processNames" @click="deviceClick(scope.row.completePoint)">去补全</span>
+     <span class="processNames" @click="deviceClick(scope.row)">去补全</span>
       </template>
       </el-table-column>
         </el-table>
