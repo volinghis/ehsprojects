@@ -83,20 +83,63 @@ public class MenuController {
 	@ResponseBody
 	public String getMenu(HttpServletRequest request,HttpServletResponse response) {
 		List<SysMenu> smList =(List<SysMenu>)baseCommonService.findAll(SysMenu.class);
-		if (Boolean.valueOf(request.getParameter("menuAuth"))) {
-			smList=smList.stream().filter(sm->!sm.getBusiness()).collect(Collectors.toList());
-		}
+
 		if (smList == null || smList.isEmpty()) {
 			return "[]";
 		}
-		if (smList.size()> 1) {
-			smList.sort((a, b) -> (a.getSort()==null?0:a.getSort()) - (b.getSort()==null?0:b.getSort()));
-		}
+		
+		
 		List<MenuNode> menus = new ArrayList<MenuNode>();
-		createMenuNode(menus, smList, null);
+		if(StringUtils.isNotBlank(SysAccessUser.get().getRoleKeys())&&Arrays.asList(StringUtils.split(SysAccessUser.get().getRoleKeys(), ",")).contains(AuthConstants.ADMIN_ROLE_KEY)) {
+			createMenuNode(menus, smList, null);
+		}else {
+			List<SysMenu> smListByRoles= smList.stream().filter(sm->{
+				if(!sm.getLeaf()) {
+					return false;
+				}
+				if(StringUtils.isBlank(sm.getRoles())) {
+					return true;
+				}
+				List<RoleBean> list= (List<RoleBean>)JsonUtils.parseObject(sm.getRoles(), new TypeReference<List<RoleBean>>(){});
+				long fs=list.stream().filter(r->(RoleType.ORG==r.getRoleType()&&StringUtils.equals(r.getRoleKey(), SysAccessUser.get().getOrgKey()))
+						||(RoleType.SYSUSER==r.getRoleType()&&StringUtils.equals(r.getRoleKey(), SysAccessUser.get().getSysUserKey()))
+						||(RoleType.ROLE==r.getRoleType()&&StringUtils.isNotBlank(SysAccessUser.get().getRoleKeys())&&Arrays.asList(StringUtils.split(SysAccessUser.get().getRoleKeys(), ",")).contains(r.getRoleKey()))
+						).count();
+				return fs>0;
+			}
+			).collect(Collectors.toList());
+			if(smListByRoles==null||smListByRoles.isEmpty()) {
+				return "[]";
+			}
+			List<String> parentKeyList=new ArrayList<String>();
+			smListByRoles.forEach(s->{
+				 int i=0;
+				 String parentKey=s.getParentKey();
+				 while(StringUtils.isNotBlank(parentKey)&&i<100) {
+					 if(!parentKeyList.contains(parentKey)) {
+						 parentKeyList.add(parentKey);
+					 }
+					 final String temp=parentKey;
+					 SysMenu sm=smList.stream().filter(ss->StringUtils.equals(ss.getKey(), temp)).findFirst().get();
+					 parentKey=sm.getParentKey();
+					 i++;
+				 }
+			});
+			
+			
+			List<SysMenu> resultMenus=new ArrayList<SysMenu>();
+			resultMenus.addAll(smListByRoles);
+			parentKeyList.forEach(s->{
+				 SysMenu sm=smList.stream().filter(ss->StringUtils.equals(ss.getKey(), s)).findFirst().get();
+				 resultMenus.add(sm);
+			});
+			createMenuNode(menus, resultMenus, null);
+
+		}
+		menus.sort((a, b) -> (a.getSort()==null?0:a.getSort()) - (b.getSort()==null?0:b.getSort()));
 		return JsonUtils.toJsonString(menus);
 	}
-	
+
 	/**
 	 * 
 	* @Function: MenuController.java
@@ -117,40 +160,30 @@ public class MenuController {
 	 */
 	private void createMenuNode(List<MenuNode> menuNodes,List<SysMenu> menus,String parentkey) {
 		menus.stream().filter(s->StringUtils.equals(s.getParentKey(),parentkey)).forEach(c->{
-			boolean isAdd=true;
 			
-			if(StringUtils.isNotBlank(SysAccessUser.get().getRoleKeys())&&Arrays.asList(StringUtils.split(SysAccessUser.get().getRoleKeys(), ",")).contains(AuthConstants.ADMIN_ROLE_KEY)) {
-				isAdd=true;
-			}else {
-				if(StringUtils.isNotBlank(c.getRoles())) {
-					List<RoleBean> list= (List<RoleBean>)JsonUtils.parseObject(c.getRoles(), new TypeReference<List<RoleBean>>(){});
-					long fs=list.stream().filter(r->(RoleType.ORG==r.getRoleType()&&StringUtils.equals(r.getRoleKey(), SysAccessUser.get().getOrgKey()))
-							||(RoleType.SYSUSER==r.getRoleType()&&StringUtils.equals(r.getRoleKey(), SysAccessUser.get().getSysUserKey()))
-							||(RoleType.ROLE==r.getRoleType()&&StringUtils.isNotBlank(SysAccessUser.get().getRoleKeys())&&Arrays.asList(StringUtils.split(SysAccessUser.get().getRoleKeys(), ",")).contains(r.getRoleKey()))
-							).count();
-					isAdd=fs>0;
-				}
-			}
-
-			if(isAdd) {
-				MenuNode MenuNode=new MenuNode();
-				MenuNode.setKey(c.getKey());
-				MenuNode.setCode(c.getKey());
-				MenuNode.setLabel(c.getName());
-				MenuNode.setPath(c.getUrl());
-				MenuNode.setComponent(c.getUrl());
-				MenuNode.setIcon(c.getIcon());
-				MenuNode.setBusiness(c.getBusiness());
-				MenuNode.setLeaf(c.getLeaf());
-				List ll=new ArrayList();
-				createMenuNode(ll,menus,c.getDataCode());
+				MenuNode menuNode=new MenuNode();
+		
+				List<MenuNode> ll=new ArrayList<MenuNode>();
+				createMenuNode(ll,menus,c.getKey());
 				if(ll.size()>0) {
-					MenuNode.setChildren(ll);
-				}else {
-					MenuNode.setLeaf(true);
+					ll.sort((a, b) -> (a.getSort()==null?0:a.getSort()) - (b.getSort()==null?0:b.getSort()));
+					menuNode.setChildren(ll);
 				}
-				menuNodes.add(MenuNode);
-			}
+				boolean isAdd=ll.size()>0||c.getLeaf();
+				if(isAdd) {
+					menuNode.setKey(c.getKey());
+					menuNode.setCode(c.getKey());
+					menuNode.setLabel(c.getName());
+					menuNode.setPath(c.getUrl());
+					menuNode.setComponent(c.getUrl());
+					menuNode.setIcon(c.getIcon());
+					menuNode.setBusiness(c.getBusiness());
+					menuNode.setLeaf(c.getLeaf());
+					menuNode.setSort(c.getSort());
+					menuNodes.add(menuNode);
+				}
+				
+			
 		});
 	}
 	/**
