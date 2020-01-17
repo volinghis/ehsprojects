@@ -28,7 +28,7 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 @Repository
 public interface EnterWareHouseDao extends JpaRepository<EnterWareHouse, String>{
 
-	@Query(" select ewh from EnterWareHouse ewh where ewh."+EnterWareHouse.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select ewh from EnterWareHouse ewh where ewh."+EnterWareHouse.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	Page<EnterWareHouse> findAll(PageRequest pageRequest);
 
 }

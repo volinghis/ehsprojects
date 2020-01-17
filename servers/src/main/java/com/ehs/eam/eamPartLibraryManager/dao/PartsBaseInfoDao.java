@@ -28,6 +28,6 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsBaseInfo;
 @Repository
 public interface PartsBaseInfoDao extends JpaRepository<PartsBaseInfo, String> {
 
-	@Query(" select b from PartsBaseInfo b where b."+PartsBaseInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select b from PartsBaseInfo b where b."+PartsBaseInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<PartsBaseInfo> getBaseInfos(PageRequest pageRequest);
 }

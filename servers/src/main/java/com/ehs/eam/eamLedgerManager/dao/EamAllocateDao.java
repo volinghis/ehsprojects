@@ -35,6 +35,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
 @Repository
 public interface EamAllocateDao extends JpaRepository<EamAllocate, String>{
 
-	@Query(" select el from EamAllocate el where el."+EamAllocate.ALLOCATE_NUM+" like %?1%  and el."+EamAllocate.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select el from EamAllocate el where el."+EamAllocate.ALLOCATE_NUM+" like %?1%  and el."+EamAllocate.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamAllocate> findEamAllocateList(String query,Pageable pageable);
 }

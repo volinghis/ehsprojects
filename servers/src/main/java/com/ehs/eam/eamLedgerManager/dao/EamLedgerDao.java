@@ -37,10 +37,10 @@ import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 @Repository
 public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 
-	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1%  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1%  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamLedger> findEamLedgerList(String query,Pageable pageable);
 	
-	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
     public EamLedger findEamLedgerByKey(String key);
 	
 	/**
@@ -59,6 +59,6 @@ public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 	*---------------------------------------------------------*
 	* 2020年1月8日     qjj        v1.0.0            修改原因
 	 */
-	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1%  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and el."+EamLedger.SCRAP_KEY+" IS NULL order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1%  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and el."+EamLedger.SCRAP_KEY+" IS NULL order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamLedger> findEamLedgerListNotScrap(String query,Pageable pageable);
 }

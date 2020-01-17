@@ -35,6 +35,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 @Repository
 public interface EamInspectorsDao extends JpaRepository<EamInspectors, String>{
 
-	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<EamInspectors> findEamInspectorsByDeviceKey(String key);
 }

@@ -13,7 +13,7 @@ import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
 @Repository
 public interface OutWareHouseDao  extends JpaRepository<OutWareHouse, String> {
 
-	@Query(" select ewh from OutWareHouse ewh where ewh."+OutWareHouse.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select ewh from OutWareHouse ewh where ewh."+OutWareHouse.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<OutWareHouse> findAll(PageRequest pageRequest);
 
 }

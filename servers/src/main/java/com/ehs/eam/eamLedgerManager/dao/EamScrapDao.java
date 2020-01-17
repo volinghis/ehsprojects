@@ -36,7 +36,7 @@ import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 @Repository
 public interface EamScrapDao extends JpaRepository<EamScrap, String>{
 
-	@Query(" select el from EamScrap el where el."+EamScrap.SCRAP_NUM+" like %?1%  and el."+EamScrap.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select el from EamScrap el where el."+EamScrap.SCRAP_NUM+" like %?1%  and el."+EamScrap.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamScrap> findEamScrapList(String query,Pageable pageable);
 	
 	@Query(" select u from FlowProcessInfo u where u."+FlowProcessInfo.BUSINESS_ENTITY_KEY+"=?1 and  u."+BaseEntity.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.OWNER_CREATION_TIME+" desc ")
