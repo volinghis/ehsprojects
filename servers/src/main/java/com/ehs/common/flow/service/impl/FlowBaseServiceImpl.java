@@ -196,6 +196,11 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 	@Override
 	public ProcessInstance startProcess(FlowBaseEntity flowBaseEntity, FlowProcessInfo flowProcessInfo) {
 		try {
+			if(StringUtils.isNotBlank(flowProcessInfo.getFlowProcessInstanceId())) {
+				ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(flowProcessInfo.getFlowProcessInstanceId()).singleResult();
+				processSend(flowProcessInfo);
+				return pi;
+			}
 			if (StringUtils.isBlank(flowBaseEntity.getKey())) {
 				flowBaseEntity.setKey(UUID.randomUUID().toString());
 			}
@@ -263,6 +268,11 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				currentStep = String.join(",",
 						tasks.stream().map(u -> u.getTaskDefinitionKey()).collect(Collectors.toList()));
 				currentStepName = String.join(",", tasks.stream().map(u -> u.getName()).collect(Collectors.toList()));
+			}else {
+				 currentUser = "";
+				 currentUserName = "";
+				 currentStep = FlowStatus.END.name();
+				 currentStepName = "已结束";
 			}
 
 			flowProcessInfo.setFlowCurrentPerson(currentUser);
