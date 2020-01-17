@@ -65,13 +65,9 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public static final String CREATION_TIME = "creationTime" ;
 	public static final String DATA_MODEL = "dataModel" ;
 	public static final String BASE_SORT_NUM="baseSortNum";
-	public static final String COMPLETE_POINT = "completePoint" ;
 	
 	
-	private Byte completePoint=0;
-	
-	@Transient
-	private Boolean reCompletePoint=true;
+
 
 
 	private Long baseSortNum;
@@ -149,18 +145,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public void setBaseSortNum(Long baseSortNum) {
 		this.baseSortNum = baseSortNum;
 	}
-	public Boolean getReCompletePoint() {
-		return reCompletePoint;
-	}
-	public void setReCompletePoint(Boolean reCompletePoint) {
-		this.reCompletePoint = reCompletePoint;
-	}
-	public Byte getCompletePoint() {
-		return completePoint;
-	}
-	public void setCompletePoint(Byte completePoint) {
-		this.completePoint = completePoint;
-	}
+
 	public String getOwnerName() {
 		return ownerName;
 	}
