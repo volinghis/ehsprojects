@@ -70,7 +70,7 @@
         <el-table-column prop="warehouseName"
                          label="所在仓库"
                          align="center"></el-table-column>
-        <el-table-column prop="wareHousePerson"
+        <el-table-column prop="founder"
                          label="入库人"
                          align="center"></el-table-column>
         <!-- <el-table-column prop="remark"
