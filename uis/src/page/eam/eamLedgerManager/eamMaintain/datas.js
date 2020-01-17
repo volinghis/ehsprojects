@@ -1,8 +1,4 @@
-import RepairRecord from '../../components/repairRecord'
 export default {
-  components: {
-    RepairRecord
-  },
   data () {
     return {
       queryParam: {
@@ -44,6 +40,10 @@ export default {
       // 详情查看
       this.$router.push({ name: 'eamLedgerDetail', params: { flag: 'view', data: row } })
     },
+    // 编辑
+    handleEditClick: function (scope) {
+      this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'edit', data: scope } })
+    },
     handleClick: function (tab, event) {
     },
     handleSizeChange: function () {
@@ -51,14 +51,38 @@ export default {
     handleQuery () {
       this.initTable()
     },
-    handleCurrentChange (val) { // 联动检修记录
-      this.tableId = val.id
+    handleAdd () {
+      this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'add' } })
     },
     handleExport () {
       this.$message({
         showClose: true,
         message: '准备导出',
         type: 'warning'
+      })
+    },
+    handleDelete (row) {
+      this.$confirm('此操作将删除相关联设备, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/deleteEamLedgerByKey', { params: { key: row.key } }).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.initTable()
+          } else {
+            this.$message({
+              type: 'info',
+              message: '删除失败!'
+            })
+          }
+        }).catch(error => {
+          this.$message({ message: error })
+        })
       })
     },
     querySearch (queryString, cb) {

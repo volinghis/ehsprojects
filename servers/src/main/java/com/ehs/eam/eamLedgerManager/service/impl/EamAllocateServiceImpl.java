@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -75,7 +76,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		// TODO Auto-generated method stub
 		List<EamLedger> ledgers=reqBean.getEamLedgerDatas();
 		EamAllocate reqAllocate = reqBean.getAllocateForm();
-		reqAllocate.setAllocateNum(getAllocateNum());
+		reqAllocate.setAllocateNum(BaseUtils.getNumberForAll(null));
 		if (!CollectionUtils.isEmpty(ledgers)) {
 			reqAllocate.setProfession(ledgers.get(0).getProfession());
 			reqAllocate.setInstallLocation(ledgers.get(0).getInstallLocation());
@@ -106,28 +107,6 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 			return pb;
 		}
 		return null;
-	}
-
-
-	/**
-	 * 
-	* @Function:getAllocateNum 
-	* @Description:时间戳+（自增数字）
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月9日 下午3:44:55 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月9日     qjj        v1.0.0            修改原因
-	 */
-	private String getAllocateNum() {
-		DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-		String prefixStr=sdf.format(new Date());
-		return prefixStr;
 	}
 
 	/** 

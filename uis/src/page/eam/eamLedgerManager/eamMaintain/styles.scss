@@ -1,0 +1,12 @@
+.operate {
+    text-align: right;
+  }
+/deep/.el-pagination__sizes {
+    margin: 0 30px 0 0;
+}
+// 搜索按钮样式
+/deep/.el-input-group__append{
+  background-color:#409EFF;
+  border-color:#409EFF ;
+  color: #ffffff;
+}

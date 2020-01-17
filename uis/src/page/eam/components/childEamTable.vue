@@ -29,18 +29,18 @@
         <el-table-column prop="deviceName"
                          label="设备名称"></el-table-column>
         <el-table-column prop="installLocation"
-                         label="类型"></el-table-column>
+                         label="位置"></el-table-column>
         <el-table-column prop="deviceModel"
                          label="型号"></el-table-column>
-        <el-table-column prop="brand"
-                         label="品牌"></el-table-column>
+        <el-table-column prop="profession"
+                         label="专业"></el-table-column>
       </el-table>
     </div>
     <!--设备选择弹窗-->
     <el-dialog title="设备台账"
                :visible.sync="dialogTableVisible">
       <eam-list @handlerSelect="handlerSelect"
-                :deviceKey="deviceKey"></eam-list>
+                :deviceKey="deviceKey" flag="child"></eam-list>
       <div slot="footer"
            class="dialog-footer">
         <el-button @click="dialogTableVisible = false"
@@ -80,6 +80,7 @@ export default {
     // 移除
     handleDeleteClick () {
       const checked = this.checkedDatas
+      console.log(checked)
       if (!checked.length > 0) {
         this.$message({
           message: '请选择要移除的子设备',
@@ -116,10 +117,9 @@ export default {
       })
     },
     handlerConfirm (val) {
-      const datas = this.selectDatas
-      this.tableData = datas
+      this.tableData = this.selectDatas
       this.dialogTableVisible = false
-      this.$emit('getRelatedKeys', this.handlerArrayDatas(datas))
+      this.$emit('getRelatedKeys', ConstructKeys.handlerArrayDatas(this.selectDatas))
     },
     handlerSelect (data) { // 传递给子组件的方法
       this.selectDatas = data

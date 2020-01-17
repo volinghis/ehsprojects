@@ -22,6 +22,10 @@
             </el-col>
             <el-col :span="8">
               <div class="operate">
+                <el-button type="primary"
+                           :size="GlobalCss.buttonSize"
+                           @click="handleAdd"
+                           icon="fa fa-plus pull-left">新增</el-button>
                 <el-button type="success"
                            :size="GlobalCss.buttonSize"
                            @click="handleExport"
@@ -36,8 +40,6 @@
                         style="width: 100%"
                         border
                         @row-dblclick="handldbClick"
-                        highlight-current-row
-                        @current-change="handleCurrentChange"
                         :size="GlobalCss.buttonSize">
                 <el-table-column type="index"
                                  align="center"
@@ -69,7 +71,8 @@
                 <el-table-column prop="completePoint"
                                  label="资料完整度"
                                  align="center"
-                                 sortable>
+                                 sortable
+                                 width="150">
                   <template slot-scope="scope">
                     <el-progress :percentage="scope.row.completePoint"
                                  :color="customColorMethod"></el-progress>
@@ -78,7 +81,7 @@
                 <el-table-column prop="factoryName"
                                  label="生产厂家"
                                  align="center"
-                                 width="150"
+                                 width="120"
                                  :show-overflow-tooltip="true"></el-table-column>
                 <!-- <el-table-column prop="supplier"
                                  label="供应商"
@@ -125,7 +128,23 @@
                             disable-transitions>{{scope.row.deviceStatus}}</el-tag>
                   </template>
                 </el-table-column>
+                <el-table-column fixed="right"
+                                 align="center"
+                                 label="操作"
+                                 width="180">
+                  <template slot-scope="scope">
+                    <el-button type="warning"
+                               @click="handleEditClick(scope.row)"
+                               icon="fa fa-edit pull-left"
+                               :size="GlobalCss.buttonSize">编辑</el-button>
+                    <el-button type="danger"
+                               :size="GlobalCss.buttonSize"
+                               @click="handleDelete(scope.row)"
+                               icon="fa fa-trash-o pull-left">删除</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
+
               <div class="tableFooter">
                 <div class="pagination"
                      style="text-align:right;margin-top:12px;">
@@ -143,18 +162,6 @@
         </el-col>
       </el-row>
     </el-card>
-    <div class="refTabs">
-      <el-tabs v-model="activeName"
-               type="border-card"
-               @tab-click="handleClick">
-        <el-tab-pane label="检修记录"
-                     name="first">
-          <repair-record :tableId="tableId"></repair-record>
-        </el-tab-pane>
-        <el-tab-pane label="关联备件"
-                     name="second">关联备件</el-tab-pane>
-      </el-tabs>
-    </div>
   </div>
 </template>
 <script>

@@ -14,16 +14,26 @@
     <div class="table-list">
       <el-table :data="tableData"
                 style="width: 100%"
+                highlight-current-row
                 ref="leftTable"
-                @current-change="handleSelectionChange"
+                @current-change="handleCurrentChange"
+                @selection-change="handleSelectionChange"
                 border
                 :size="GlobalCss.controlSize">
+        <template v-if="flag==='allocate'">
           <el-table-column width="50"
                            align="center">
-             <template slot-scope="scope">
-                <el-radio  v-model="tableRadio" :label="scope.row"><i></i></el-radio>
+            <template slot-scope="scope">
+              <el-radio v-model="tableRadio"
+                        :label="scope.row"><i></i></el-radio>
             </template>
           </el-table-column>
+        </template>
+        <template v-else>
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+        </template>
         <el-table-column prop="deviceNum"
                          label="设备编号"
                          align="center"></el-table-column>
@@ -31,16 +41,13 @@
                          label="设备名称"
                          align="center"></el-table-column>
         <el-table-column prop="installLocation"
-                         label="类型"
+                         label="位置"
+                         align="center"></el-table-column>
+        <el-table-column prop="profession"
+                         label="专业"
                          align="center"></el-table-column>
         <el-table-column prop="deviceModel"
                          label="型号"
-                         align="center"></el-table-column>
-        <el-table-column prop="supplier"
-                         label="品牌"
-                         align="center"></el-table-column>
-        <el-table-column prop="installLocation"
-                         label="位置"
                          align="center"></el-table-column>
       </el-table>
     </div>
@@ -48,7 +55,7 @@
          style="text-align:right;margin-top:12px;">
       <el-pagination background
                      layout="total, prev, pager, next"
-                     @current-change="handleCurrentChange"
+                     @current-change="handleCurrentPageChange"
                      :current-page="queryParam.page"
                      :page-size="queryParam.size"
                      :total="totalCount">
@@ -76,13 +83,10 @@ export default {
     flag: String
   },
   mounted: function () {
-    if (this.flag === 'scrap') {
-      this.getLedgerListNotScrap()
-    } else if (this.flag === 'allocate') {
-      // this.getLedgerListNotAllocate()
-      this.getLedgerListNotScrap()// 暂时与报废获取的设备一致
-    } else {
+    if (this.flag === 'child') {
       this.getLeftChildList()
+    } else {
+      this.getLedgerListNotScrap()
     }
     this.$refs.leftTable.clearSelection()
   },
@@ -105,23 +109,20 @@ export default {
         this.$message({ message: error })
       })
     },
-    getLedgerListNotAllocate () { // 未调拨设备，暂时有问题
-    },
-    handleCurrentChange: function (val) {
+    handleCurrentPageChange: function (val) {
       this.queryParam.page = val
-      if (this.flag === 'scrap') {
-        this.getLedgerListNotScrap()
-      } else if (this.flag === 'allocate') {
-        // this.getLedgerListNotAllocate()
-        this.getLedgerListNotScrap()
-      } else {
+      if (this.flag === 'child') {
         this.getLeftChildList()
+      } else {
+        this.getLedgerListNotScrap()
       }
     },
     handleEditClick: function () {
     },
+    handleCurrentChange (val) {
+      this.$emit('handlerSelect', val)
+    },
     handleSelectionChange (val) {
-      console.log(val)
       this.$emit('handlerSelect', val)
     }
   }

@@ -12,9 +12,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.support.StaticApplicationContext;
 
 import net.bytebuddy.asm.Advice.This;
 import sun.misc.BASE64Decoder;
@@ -94,6 +99,35 @@ public class BaseUtils {
 		// 生成盐
 		return sBuilder.toString();
 	}
+	
+	
+	/**
+	 * 
+	* @Function:getAllocateNum 
+	* @Description:时间戳+（自增数字）
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月9日 下午3:44:55 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月9日     qjj        v1.0.0            修改原因
+	 */
+	public static String getNumberForAll(Date date) {
+		DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String prefixStr=""; // 编号生成暂用（还得再拼接自定义的自增数字）
+		if (date!=null) {
+			prefixStr=sdf.format(date);
+		}else {
+			prefixStr=sdf.format(new Date());
+		}
+		return prefixStr;
+	}
+	
+	
 	
 	/**
 	 * 

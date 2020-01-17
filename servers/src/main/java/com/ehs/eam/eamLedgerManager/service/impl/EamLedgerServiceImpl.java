@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
@@ -44,9 +45,9 @@ import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
  * @author: qjj
  * @date: 2019年12月30日 下午4:06:57
  *
- *        Modification History: Date Author Version Description
- *        ---------------------------------------------------------* 2019年12月30日
- *        qjj v1.0.0 修改原因
+ * Modification History: Date Author Version Description
+ * ---------------------------------------------------------* 2019年12月30日
+ * qjj v1.0.0 修改原因
  */
 @Service
 public class EamLedgerServiceImpl implements EamLedgerService {
@@ -89,14 +90,17 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		// TODO Auto-generated method stub
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
 		String newKeys = "";
-		if (StringUtils.isNotBlank(reqEamLedger.getKey())) {
+		String oldKeys = reqEamLedger.getRefDeviceKey();
+		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
+			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
+		} else {
+			newKeys = eamRequestBean.getDeviceKeys();
+		}
+		reqEamLedger.setRefDeviceKey(newKeys);
+		System.out.println("---------------------------->" + newKeys);
+		if (StringUtils.isBlank(reqEamLedger.getKey())) {// 设备新建的时候初始化的值
 			reqEamLedger.setDeviceStatus("正常");
-			if (StringUtils.isNotBlank(reqEamLedger.getRefDeviceKey())) {
-				newKeys = reqEamLedger.getRefDeviceKey() + "," + eamRequestBean.getDeviceKeys();
-			} else {
-				newKeys = eamRequestBean.getDeviceKeys();
-			}
-			reqEamLedger.setRefDeviceKey(newKeys);
+			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll(reqEamLedger.getRunDate()));
 		}
 		EamLedger eamLedger = baseCommonService.saveOrUpdate(reqEamLedger);
 		if (eamLedger != null) {// 设备台账保存成功后

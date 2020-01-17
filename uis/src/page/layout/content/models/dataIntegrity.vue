@@ -36,6 +36,18 @@ export default {
         { color: 'success', score: 70, name: '11号输煤机' }
       ]
     }
+  },
+  mounted () {
+    this.inintTable()
+  },
+  methods: {
+    inintTable () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getLedgerList').then(res => {
+
+      }).catch(error => {
+        this.$message({ message: error })
+      })
+    }
   }
 }
 </script>

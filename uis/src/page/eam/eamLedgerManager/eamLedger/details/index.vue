@@ -108,7 +108,7 @@
                   <span class="info-title">投运日期</span>:&nbsp;<span class="info-content">{{ eamInfos.runDate }}</span>
                   </el-col>
                   <el-col :span="12">
-                  <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamInfos.person }}</span>
+                  <span class="info-title">负责人</span>:&nbsp;<span class="info-content">{{ eamInfos.person }}</span>
                 </el-col>
              </el-row>
             </div>

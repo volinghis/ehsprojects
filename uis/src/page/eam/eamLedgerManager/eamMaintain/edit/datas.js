@@ -16,7 +16,6 @@ export default {
       inspectorsDatas: [],
       relatedKyes: '',
       deviceKey: '',
-      sessionUser: '',
       form: {
         deviceName: '',
         deviceNum: '',
@@ -53,9 +52,6 @@ export default {
     if (this.$route.params.flag === 'edit') {
       this.form = deviceData
       this.deviceKey = deviceData.key
-    } else {
-      this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-      this.form.person = this.sessionUser.username
     }
   },
   methods: {
@@ -73,13 +69,13 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.form)
           const reqBean = {
             eamLedger: this.form,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas
           }
+          console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

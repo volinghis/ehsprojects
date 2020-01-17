@@ -57,7 +57,7 @@ export default {
     // 新增操作
     handleAllocate: function () {
       // this.$router.push({ name: 'eamAllocateBaseForm' })
-      this.GlobalMethods.openFlowWin('eamAllocateBaseForm', { processDefineKey: 'EamScrapFlow' })
+      this.GlobalMethods.openFlowWin('eamAllocateBaseForm', { processDefineKey: 'EamAllocateFlow' })
     },
     handleDeleteFun (keys) {
       this.$confirm('是否继续?', '提示', {

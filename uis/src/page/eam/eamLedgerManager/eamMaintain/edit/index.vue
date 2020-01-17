@@ -82,7 +82,7 @@
                                :stroke-width="10"></el-progress>
                 </el-col>
                 <el-col :span="12">
-                  <span> 当前设备资料的完整度为75%，请尽快完善资料</span>
+                  <span> 当前设备资料的完整度为{{form.completePoint}}%，请尽快完善资料</span>
                 </el-col>
               </el-card>
             </el-row>
@@ -131,10 +131,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="设备编码"
+              <!-- <el-form-item label="设备编码"
                             prop="deviceNum">
                 <el-input v-model="form.deviceNum"
                           placeholder="不用填写，系统自动生成"></el-input>
+              </el-form-item> -->
+               <el-form-item label="负责人"
+                            prop="person">
+                <UserSelector v-model="form.person" style="width:100%;"></UserSelector>
               </el-form-item>
               <el-form-item label="出厂编号"
                             prop="leaveNum">

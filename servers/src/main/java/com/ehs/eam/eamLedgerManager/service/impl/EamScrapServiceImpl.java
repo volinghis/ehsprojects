@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -68,24 +69,9 @@ public class EamScrapServiceImpl implements EamScrapService {
 	@Override
 	public void saveEamScrap(EamScrapRequestBean reqBean) {
 		EamScrap reqScrap = reqBean.getEamScrap();
-		reqScrap.setScrapNum(getScrapNum());
+		reqScrap.setScrapNum(BaseUtils.getNumberForAll(null));
 		//开始流程
 		flowBaseService.startProcess(reqScrap, reqBean.getFlowProcessInfo());
-		//保存设备报废申请信息
-//		String scrapKey = "";
-//		if (eamScrap != null) {
-//			scrapKey=eamScrap.getKey();
-//		}
-		
-//		//处理准备报废的设备（流程申请成功后）
-//		List<EamLedger> ledgers=reqBean.getScrapDatas();
-//		if (!ledgers.isEmpty()&&ledgers!=null) {
-//			for (EamLedger el : ledgers) {
-//				el.setScrapKey(scrapKey);
-//				baseCommonService.saveOrUpdate(el);
-//			}
-//		}
-		
 	}
 
 	/** 
@@ -110,28 +96,6 @@ public class EamScrapServiceImpl implements EamScrapService {
 			return pb;
 		}
 		return null;
-	}
-
-
-	/**
-	 * 
-	* @Function:getScrapNum 
-	* @Description:时间戳+（自增数字）
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月9日 下午3:44:55 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月9日     qjj        v1.0.0            修改原因
-	 */
-	private String getScrapNum() {
-		DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-		String prefixStr=sdf.format(new Date());
-		return prefixStr;
 	}
 
 	/** 
