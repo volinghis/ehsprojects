@@ -21,7 +21,7 @@ export default {
           .then(res => {
             // 成功了, 更新数据(成功)
             this.$message.success('提交成功')
-            // window.close()
+            window.close()
           }).catch(function () {
             this.$message.error('提交异常')
           }).then(function () {
@@ -42,7 +42,7 @@ export default {
         .then(res => {
         // 成功了, 更新数据(成功)
           this.$message.success('撤销流程成功')
-        // window.close()
+          window.close()
         }).catch(function () {
           this.$message.error('撤销流程异常')
         }).then(function () {
@@ -55,7 +55,7 @@ export default {
         .then(res => {
         // 成功了, 更新数据(成功)
           this.$message.success('驳回流程成功')
-        // window.close()
+          window.close()
         }).catch(function () {
           this.$message.error('驳回流程异常')
         }).then(function () {
