@@ -46,4 +46,6 @@ public interface BaseCommonDao {
 	
 	public Session getSession();
 	
+	public Object findSignle(String hql, List<Object> params);
+	
 }

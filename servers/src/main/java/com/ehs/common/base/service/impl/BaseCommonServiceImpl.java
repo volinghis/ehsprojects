@@ -94,6 +94,11 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		if (old == null) {
 			t.initCreate();
 			t.setId(null);
+			StringBuilder builder = new StringBuilder(" select max(be."+BaseEntity.BASE_SORT_NUM+") from  ");
+			builder.append(t.getClass().getSimpleName());
+			builder.append(" be ");
+			Object object = baseCommonDao.findSignle(builder.toString(),null);
+			t.setBaseSortNum(object==null?1:Long.parseLong(object.toString())+1);
 			baseCommonDao.save(t);
 		} else {
 			if (old.getDataModel() == DataModel.REMOVE) {
@@ -149,7 +154,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		builder.append(" be where be.");
 		builder.append(BaseEntity.KEY);
 		builder.append(" = ?0  order by  ");
-		builder.append(BaseEntity.CREATION_TIME);
+		builder.append(BaseEntity.BASE_SORT_NUM);
 		builder.append(" desc");
 		List<Object> params = new LinkedList<Object>();
 		params.add(0, key);
@@ -169,7 +174,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		builder.append(" be where be.");
 		builder.append(BaseEntity.DATA_MODEL);
 		builder.append(" in ?0 order by ");
-		builder.append(BaseEntity.CREATION_TIME);
+		builder.append(BaseEntity.BASE_SORT_NUM);
 		builder.append(" desc");
 		List<Object> params = new LinkedList<Object>();
 		List<DataModel> ll = new LinkedList<DataModel>();

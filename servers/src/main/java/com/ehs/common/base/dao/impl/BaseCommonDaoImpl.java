@@ -47,6 +47,18 @@ public class BaseCommonDaoImpl implements com.ehs.common.base.dao.BaseCommonDao 
 		return query.getResultList();
 
 	}
+	
+	@Override
+	public Object findSignle(String hql, List<Object> params) {
+		Query query=entityManager.createQuery(hql);
+		if(params!=null&&!params.isEmpty()) {
+			for(int i=0;i<params.size();i++) {
+				query.setParameter(i, params.get(i));
+			}
+		}
+		return query.getSingleResult();
+
+	}
 
 	@Override
 	public Session getSession() {
