@@ -48,7 +48,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) order by  "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) order by  "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<OrgUser> findUsers(String query, PageRequest pageRequest);
 
 	/**
@@ -90,7 +90,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.CREATION_TIME+" desc")
+	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<OrgUser> findUsers(PageRequest pageRequest);
 
 

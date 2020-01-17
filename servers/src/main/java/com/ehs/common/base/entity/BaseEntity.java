@@ -64,11 +64,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public static final String CREATION_ORG = "creationOrg" ;
 	public static final String CREATION_TIME = "creationTime" ;
 	public static final String DATA_MODEL = "dataModel" ;
-	public static final String ATTRIBUTE1 = "attribute1" ;
-	public static final String ATTRIBUTE2 = "attribute2" ;
-	public static final String ATTRIBUTE3 = "attribute3" ;
-	public static final String ATTRIBUTE4 = "attribute4" ;
-	public static final String ATTRIBUTE5 = "attribute5" ;
+	public static final String BASE_SORT_NUM="baseSortNum";
 	public static final String COMPLETE_POINT = "completePoint" ;
 	
 	
@@ -78,7 +74,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	private Boolean reCompletePoint=true;
 
 
-
+	private Long baseSortNum;
 	
 	/**
 	 * 主键
@@ -141,34 +137,18 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	
 
 
-	/**
-	 * 扩展字段1
-	 */
-	private String attribute1;
 
-	/**
-	 * 扩展字段金2
-	 */
-	private String attribute2;
-
-	/**
-	 * 扩展字段3
-	 */
-	private String attribute3;
-	/**
-	 * 扩展字段4
-	 */
-	private String attribute4;
-	/**
-	 *  
-	 * 扩展字段5
-	 */
-	private String attribute5;
 
 	
 	
 	
 
+	public Long getBaseSortNum() {
+		return baseSortNum;
+	}
+	public void setBaseSortNum(Long baseSortNum) {
+		this.baseSortNum = baseSortNum;
+	}
 	public Boolean getReCompletePoint() {
 		return reCompletePoint;
 	}
@@ -240,36 +220,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public void setCreationTime(Timestamp creationTime) {
 		this.creationTime = creationTime;
 	}
-	public String getAttribute1() {
-		return attribute1;
-	}
-	public void setAttribute1(String attribute1) {
-		this.attribute1 = attribute1;
-	}
-	public String getAttribute2() {
-		return attribute2;
-	}
-	public void setAttribute2(String attribute2) {
-		this.attribute2 = attribute2;
-	}
-	public String getAttribute3() {
-		return attribute3;
-	}
-	public void setAttribute3(String attribute3) {
-		this.attribute3 = attribute3;
-	}
-	public String getAttribute4() {
-		return attribute4;
-	}
-	public void setAttribute4(String attribute4) {
-		this.attribute4 = attribute4;
-	}
-	public String getAttribute5() {
-		return attribute5;
-	}
-	public void setAttribute5(String attribute5) {
-		this.attribute5 = attribute5;
-	}
+
 	/**
 	 * 
 	* @Function: BaseEntity.java
@@ -330,10 +281,16 @@ public  abstract class BaseEntity implements java.io.Serializable{
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getUserKey())) {
 			this.setCreation(SysAccessUser.get().getUserKey());
 			this.setCreationName(SysAccessUser.get().getUsername());
+		}else {
+			this.setCreation("");
+			this.setCreationName("");
 		}
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getOrgKey())) {
 			this.setCreationOrg(SysAccessUser.get().getOrgKey());
 			this.setCreationOrgName(SysAccessUser.get().getOrgName());
+		}else {
+			this.setCreationOrg("");
+			this.setCreationOrgName("");
 		}
 	}
 	public String getOwner() {
