@@ -8,9 +8,7 @@
  */
 package com.ehs.eam.eamLedgerManager.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -82,14 +80,14 @@ public class EamScrapServiceImpl implements EamScrapService {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(scrapQueryBean.getPage() - 1, scrapQueryBean.getSize());
 		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), pageRequest);
-		List<EamScrap> resList=eamScraPage.getContent();
-		for (EamScrap ep : resList) {
-			FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(ep.getKey());
-			if(fpi!=null) {
-				ep.setStatus(fpi.getFlowCurrentStepName());
-			}
-		}
 		if (eamScraPage != null) {
+			List<EamScrap> resList=eamScraPage.getContent();
+			for (EamScrap ep : resList) {
+				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(ep.getKey());
+				if(fpi!=null) {
+					ep.setStatus(fpi.getFlowCurrentStepName());
+				}
+			}
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(resList);
 			pb.setTotalCount(eamScraPage.getTotalElements());

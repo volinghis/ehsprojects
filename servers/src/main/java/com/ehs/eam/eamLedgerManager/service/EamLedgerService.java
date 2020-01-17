@@ -160,4 +160,5 @@ public interface EamLedgerService {
 	* 2020年1月8日     qjj        v1.0.0            修改原因
 	*/
 	PageInfoBean findLeftEamLedgerForScrap(EamLedgerQueryBean querybean);
+
 }

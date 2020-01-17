@@ -83,6 +83,30 @@ public class EamLedgerController {
 		PageInfoBean pageBean = eamLedgerService.findEamLedgerList(querybean);
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
+	
+	
+	/**
+	 * 
+	* @Function:getEamLedgerListNotPage 
+	* @Description:获取所有设备台账为分页
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月17日 下午7:52:23 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月17日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/getListNotPage")
+	public String getEamLedgerListNotPage( HttpServletRequest request) {
+		List<EamLedger>  eamLedgers= (List<EamLedger>) baseCommonService.findAll(EamLedger.class);
+		return eamLedgers == null ? "[]" : JsonUtils.toJsonString(eamLedgers);
+	}
 
 	/**
 	 * 

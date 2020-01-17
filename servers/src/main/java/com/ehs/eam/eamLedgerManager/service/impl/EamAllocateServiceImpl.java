@@ -93,14 +93,14 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
 		Page<EamAllocate> eamAllocateage = EamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(), pageRequest);
-		List<EamAllocate> resList=eamAllocateage.getContent();
-		for (EamAllocate el : resList) {
-			FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
-			if(fpi!=null) {
-				el.setStatus(fpi.getFlowCurrentStepName());
-			}
-		}
 		if (eamAllocateage != null) {
+			List<EamAllocate> resList=eamAllocateage.getContent();
+			for (EamAllocate el : resList) {
+				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
+				if(fpi!=null) {
+					el.setStatus(fpi.getFlowCurrentStepName());
+				}
+			}
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(resList);
 			pb.setTotalCount(eamAllocateage.getTotalElements());
