@@ -21,14 +21,19 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
+import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
 import com.ehs.eam.eamLedgerManager.dao.EamAllocateDao;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
 import com.ehs.eam.eamLedgerManager.service.EamAllocateService;
 
@@ -57,6 +62,9 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	
 	@Resource
 	private FlowBaseService flowBaseService;
+	
+	@Resource
+	private FlowProcessInfoService flowProcessInfoService;
 
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamAllocateService#saveEamAllocate(com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean)
@@ -65,24 +73,15 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	@Override
 	public void saveEamAllocate(EamAllocateRequestBean reqBean) {
 		// TODO Auto-generated method stub
+		List<EamLedger> ledgers=reqBean.getEamLedgerDatas();
 		EamAllocate reqAllocate = reqBean.getAllocateForm();
 		reqAllocate.setAllocateNum(getAllocateNum());
+		if (!CollectionUtils.isEmpty(ledgers)) {
+			reqAllocate.setProfession(ledgers.get(0).getProfession());
+			reqAllocate.setInstallLocation(ledgers.get(0).getInstallLocation());
+		}
 		//开始流程
-		flowBaseService.startProcess(reqAllocate, reqBean.getFlowProcessInfo());
-//	    String allocateKey = "";
-//		if (EamAllocate != null) {
-//			allocateKey=EamAllocate.getKey();
-//		}
-//		
-//		//处理准备调拨的设备
-//		List<EamLedger> ledgers=reqBean.getAllocateDatas();
-//		if (!ledgers.isEmpty()&&ledgers!=null) {
-//			for (EamLedger el : ledgers) {
-//				el.setAllocateKey(AllocateKey);
-//				baseCommonService.saveOrUpdate(el);
-//			}
-//		}
-		
+     	flowBaseService.startProcess(reqAllocate, reqBean.getFlowProcessInfo());
 	}
 
 	/** 
@@ -92,11 +91,18 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	public PageInfoBean findEamAllocateList(EamAllocateQueryBean AllocateQueryBean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
-		Page<EamAllocate> EamAllocateage = EamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(), pageRequest);
-		if (EamAllocateage != null) {
+		Page<EamAllocate> eamAllocateage = EamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(), pageRequest);
+		List<EamAllocate> resList=eamAllocateage.getContent();
+		for (EamAllocate el : resList) {
+			FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
+			if(fpi!=null) {
+				el.setStatus(fpi.getFlowCurrentStepName());
+			}
+		}
+		if (eamAllocateage != null) {
 			PageInfoBean pb = new PageInfoBean();
-			pb.setDataList(EamAllocateage.getContent());
-			pb.setTotalCount(EamAllocateage.getTotalElements());
+			pb.setDataList(resList);
+			pb.setTotalCount(eamAllocateage.getTotalElements());
 			return pb;
 		}
 		return null;

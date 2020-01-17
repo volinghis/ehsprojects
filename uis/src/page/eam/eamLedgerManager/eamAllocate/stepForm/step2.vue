@@ -29,7 +29,7 @@
         <el-table-column prop="installLocation"
                          align="center"
                          label="调出位置"></el-table-column>
-        <el-table-column prop="allocateDept"
+        <el-table-column prop="targetDept"
                          align="center"
                          label="调入部门">
           <template slot-scope="scope">
@@ -122,34 +122,28 @@ export default {
         })
         return
       }
-      console.log(this.result)
       this.$emit('nextStep', this.result)
     },
     prevStep: function () {
       this.$emit('prevStep')
     },
-    handleCurrentChange (row, event, column) {
-      console.log(row, event, column, event.currentTarget)
-    },
     handleDetermine () { // 确定所选设备
       this.dialogTableVisible = false
-      this.selectRows.forEach(e => {
-        this.result.tableData.push(e)
-      })
+      this.result.tableData.push(this.selectRow)
     },
     handlerSelect (val) { // 获取弹窗内所选择的设备
-      this.selectRows = val
+      this.selectRow = val
     },
     handleDelete (index, row) {
       console.log(index)
-      this.tableData.splice(index, 1)
+      this.result.tableData.splice(index, 1)
     },
     handleEdit (index, row) {
     },
     handleSelectDev () { // 选择设备
       this.dialogTableVisible = true
     },
-    handleChange (index, row) {
+    handleChange (index, row) { // 获取部门
       const node = this.$refs.orgSelect.getCheckedNodes(true)
       console.log(node)
     }
@@ -157,12 +151,14 @@ export default {
   data () {
     return {
       dialogTableVisible: false,
-      selectRows: [],
+      selectRow: {},
       orgValue: '',
       result: {
         tableData: [],
         allocateForm: {
-          allocateDept: '',
+          profession: '',
+          installLocation: '',
+          targetDept: '',
           targetPosition: '',
           amount: 0,
           unit: ''
@@ -172,7 +168,7 @@ export default {
         targetPosition: [
           { required: true, message: '请输入调入位置', trigger: 'blur' }
         ],
-        allocateDept: [
+        targetDept: [
           { required: true, message: '请输入调入部门', trigger: 'blur' }
         ]
       }

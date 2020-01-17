@@ -47,4 +47,14 @@ public class FlowProcessInfoServiceImpl implements FlowProcessInfoService {
 		return flowProcessInfoDao.findInfos( new DataModel[] {DataModel.CREATE,DataModel.UPDATE},FlowStatus.END.name());
 	}
 
+
+	/** 
+	* @see com.ehs.common.flow.service.FlowProcessInfoService#findProcessInfoByEntityKey(java.lang.String)  
+	*/
+	@Override
+	public FlowProcessInfo findProcessInfoByEntityKey(String key) {
+		// TODO Auto-generated method stub
+		return flowProcessInfoDao.findProcessInfoByEntityKey(key);
+	}
+
 }

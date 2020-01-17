@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ehs.common.flow.bean.ApplysQueryBean;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.oper.bean.PageBody;
 import com.ehs.common.oper.bean.PageInfoBean;
 
 public interface FlowProcessInfoService {
@@ -12,4 +11,5 @@ public interface FlowProcessInfoService {
 	public PageInfoBean findProcessInfo(ApplysQueryBean applysQueryBean);
 	public List<FlowProcessInfo> findProcessInfoNotScore();
 
+	public FlowProcessInfo findProcessInfoByEntityKey(String key);
 }

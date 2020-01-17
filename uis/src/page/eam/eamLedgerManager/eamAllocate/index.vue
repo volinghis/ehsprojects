@@ -31,6 +31,7 @@
           <el-table :data="tableData"
                     style="width: 100%"
                     border
+                    @select="onChange"
                     size="medium">
             <el-table-column type="selection"
                              width="50"> </el-table-column>
@@ -44,22 +45,23 @@
                              label="调拨日期"></el-table-column>
             <el-table-column prop="applicant"
                              label="申请人"></el-table-column>
-            <el-table-column prop="sourceDept"
+            <el-table-column prop="profession"
                              label="调出部门"></el-table-column>
-            <el-table-column prop="sourcePosition"
+            <el-table-column prop="installLocation"
                              label="调出位置"></el-table-column>
-            <el-table-column prop="allocateDept"
+            <el-table-column prop="targetDept"
                              label="调入部门"></el-table-column>
             <el-table-column prop="targetPosition"
                              label="调入位置"></el-table-column>
             <el-table-column prop="allocateReason"
                              label="调拨原因"></el-table-column>
             <el-table-column prop="status"
+                             align="center"
                              label="申请状态">
               <template slot-scope="scope">
                 <div slot="reference">
-                  <el-tag size="medium"
-                          :type="scope.row.status === '进行中' ? 'primary' : 'success'">{{ scope.row.status}}</el-tag>
+                  <el-tag :size="GlobalCss.buttonSize"
+                          :type="scope.row.status === '已通过' ? 'primary' : 'success'">{{ scope.row.status}}</el-tag>
                 </div>
               </template></el-table-column>
           </el-table>

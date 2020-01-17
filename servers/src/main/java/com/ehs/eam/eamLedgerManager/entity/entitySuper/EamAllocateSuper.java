@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,15 +36,20 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
+	public static final String ALLOCATE_NUM = "allocateNum" ;
+	public static final String APPLICATION_NAME = "applicationName" ;
+	public static final String APPLICATION_TIME = "applicationTime" ;
+	public static final String ALLOCATE_DATE = "allocateDate" ;
+	public static final String APPLICANT = "applicant" ;
+	public static final String TARGET_DEPT = "targetDept" ;
+	public static final String ALLOCATE_REASON = "allocateReason" ;
+	public static final String STATUS = "status" ;
+	public static final String INSTALL_LOCATION = "installLocation" ;
+	public static final String PROFESSION = "profession" ;
+	public static final String TARGET_POSITION = "targetPosition" ;
+	public static final String AMOUNT = "amount" ;
+	public static final String UNIT = "unit" ;
 
-	public static final String ALLOCATE_NUM = "allocateNum";
-	public static final String APPLICATION_NAME = "applicationName";
-	public static final String APPLICATION_TIME = "applicationTime";
-	public static final String ALLOCATE_DATE = "allocateDate";
-	public static final String APPLICANT = "applicant";
-	public static final String ALLOCATE_DEPT = "allocateDept";
-	public static final String ALLOCATE_REASON = "allocateReason";
-	public static final String STATUS = "status";
 
 	/**
 	 * 调拨编号
@@ -72,7 +78,7 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	/**
 	 * 调入部门
 	 */
-	private String allocateDept;
+	private String targetDept;
 
 	/**
 	 * 调拨原因
@@ -83,17 +89,18 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	/**
 	 * 申请状态
 	 */
+	@Transient
 	private String status;
 
 	/**
 	 * 调出位置
 	 */
-	private String sourcePosition;
+	private String installLocation;
 	
 	/**
 	 * 调出部门
 	 */
-	private String sourceDept;
+	private String profession;
 	
 	/**
 	 * 调入位置
@@ -179,17 +186,17 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the allocateDept
+	 * @return the targetDept
 	 */
-	public String getAllocateDept() {
-		return allocateDept;
+	public String getTargetDept() {
+		return targetDept;
 	}
 
 	/**
-	 * @param allocateDept the allocateDept to set
+	 * @param targetDept the targetDept to set
 	 */
-	public void setAllocateDept(String allocateDept) {
-		this.allocateDept = allocateDept;
+	public void setTargetDept(String targetDept) {
+		this.targetDept = targetDept;
 	}
 
 	/**
@@ -221,31 +228,31 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the sourcePosition
+	 * @return the installLocation
 	 */
-	public String getSourcePosition() {
-		return sourcePosition;
+	public String getInstallLocation() {
+		return installLocation;
 	}
 
 	/**
-	 * @param sourcePosition the sourcePosition to set
+	 * @param installLocation the installLocation to set
 	 */
-	public void setSourcePosition(String sourcePosition) {
-		this.sourcePosition = sourcePosition;
+	public void setInstallLocation(String installLocation) {
+		this.installLocation = installLocation;
 	}
 
 	/**
-	 * @return the sourceDept
+	 * @return the profession
 	 */
-	public String getSourceDept() {
-		return sourceDept;
+	public String getProfession() {
+		return profession;
 	}
 
 	/**
-	 * @param sourceDept the sourceDept to set
+	 * @param profession the profession to set
 	 */
-	public void setSourceDept(String sourceDept) {
-		this.sourceDept = sourceDept;
+	public void setProfession(String profession) {
+		this.profession = profession;
 	}
 
 	/**

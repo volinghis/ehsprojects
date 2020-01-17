@@ -8,13 +8,10 @@
  */
 package com.ehs.eam.eamLedgerManager.service;
 
-import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.entity.impl.FlowSample;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
-import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司

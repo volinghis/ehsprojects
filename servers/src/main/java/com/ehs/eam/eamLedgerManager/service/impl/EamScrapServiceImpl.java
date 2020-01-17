@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.entity.impl.FlowSample;
 import com.ehs.common.flow.service.FlowBaseService;
+import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
@@ -57,6 +57,9 @@ public class EamScrapServiceImpl implements EamScrapService {
 	
 	@Resource
 	private FlowBaseService flowBaseService; 
+	
+	@Resource
+	private FlowProcessInfoService flowProcessInfoService;
 
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamScrapService#saveEamScrap(com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean)
@@ -95,7 +98,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), pageRequest);
 		List<EamScrap> resList=eamScraPage.getContent();
 		for (EamScrap ep : resList) {
-			FlowProcessInfo fpi=	eamScrapDao.findInfoByKey(ep.getKey());
+			FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(ep.getKey());
 			if(fpi!=null) {
 				ep.setStatus(fpi.getFlowCurrentStepName());
 			}
@@ -156,7 +159,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 		EamScrap eamScrap= baseCommonService.findByKey(EamScrap.class, key);
 		EamScrapFlowBean eFlowBean=new EamScrapFlowBean();
 		if (eamScrap!=null) {
-			FlowProcessInfo fpi=eamScrapDao.findInfoByKey(eamScrap.getKey());
+			FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(eamScrap.getKey());
 			if (fpi!=null) {
 				eFlowBean.setCurrentStep(fpi.getFlowCurrentStepName());
 				eFlowBean.setCurrentUser(eamScrap.getOwnerName());

@@ -90,7 +90,6 @@ public class EamAllocateController {
 	@RequestAuth(menuKeys = { "eamAllocate" })
 	@RequestMapping(value = "/addEamAllocate")
 	public String addEamAllocate(@RequestBody EamAllocateRequestBean reqBean) {
-		System.out.println("______________________________________"+JsonUtils.toJsonString(reqBean));
 		ResultBean resultBean = new ResultBean();
 		try {
 			eamAllocateService.saveEamAllocate(reqBean);

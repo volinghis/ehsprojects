@@ -14,15 +14,16 @@
     <div class="table-list">
       <el-table :data="tableData"
                 style="width: 100%"
-                :row-key="getRowKeys"
-                :reserve-selection="true"
                 ref="leftTable"
-                @selection-change="handleSelectionChange"
+                @current-change="handleSelectionChange"
                 border
                 :size="GlobalCss.controlSize">
-        <el-table-column type="selection"
-                         width="50"
-                         align="center"></el-table-column>
+          <el-table-column width="50"
+                           align="center">
+             <template slot-scope="scope">
+                <el-radio  v-model="tableRadio" :label="scope.row"><i></i></el-radio>
+            </template>
+          </el-table-column>
         <el-table-column prop="deviceNum"
                          label="设备编号"
                          align="center"></el-table-column>
@@ -64,9 +65,7 @@ export default {
         page: 1,
         query: ''
       },
-      getRowKeys (row) {
-        return row.key
-      },
+      tableRadio: {},
       form: {},
       tableData: [],
       totalCount: 0
@@ -113,7 +112,7 @@ export default {
       if (this.flag === 'scrap') {
         this.getLedgerListNotScrap()
       } else if (this.flag === 'allocate') {
-      // this.getLedgerListNotAllocate()
+        // this.getLedgerListNotAllocate()
         this.getLedgerListNotScrap()
       } else {
         this.getLeftChildList()
@@ -122,6 +121,7 @@ export default {
     handleEditClick: function () {
     },
     handleSelectionChange (val) {
+      console.log(val)
       this.$emit('handlerSelect', val)
     }
   }

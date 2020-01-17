@@ -1,5 +1,5 @@
 <template>
-  <el-card :bordered="true">
+  <div>
     <el-steps class="steps"
               :active="active"
                simple
@@ -28,7 +28,7 @@
              @keepAdd="keepAdd" />
 
     </div>
-  </el-card>
+  </div>
 </template>
 <script>
 import Step1 from './step1'
@@ -58,7 +58,6 @@ export default {
       if (this.active < 4) {
         if (this.active === 1) {
           this.reqBean.allocateForm = val
-          console.log(this.reqBean.allocateForm)
           this.active += 1
         } else if (this.active === 2) {
           this.reqBean.eamLedgerDatas = val.tableData
@@ -81,18 +80,18 @@ export default {
     handerSubmit (process) {
       this.reqBean.flowProcessInfo = process
       console.log(this.reqBean)
-      // this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
-      //   if (res.data.resultType === 'ok') {
-      //     this.active += 1
-      //   } else {
-      //     this.$message({
-      //       message: '提交失败',
-      //       type: 'warning'
-      //     })
-      //   }
-      // }).catch(error => {
-      //   this.$message({ message: error })
-      // })
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
+        if (res.data.resultType === 'ok') {
+          this.active += 1
+        } else {
+          this.$message({
+            message: '提交失败',
+            type: 'warning'
+          })
+        }
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     },
     keepAdd () { // 继续添加
       this.active = 1

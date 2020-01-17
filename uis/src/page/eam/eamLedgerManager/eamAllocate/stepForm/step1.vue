@@ -82,7 +82,6 @@ export default {
     const curUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.allocateForm.applicant = curUser.username
     this.allocateForm.allocateDept = curUser.orgName
-    console.log(curUser)
   },
   methods: {
     nextStep: function (allocateForm) {

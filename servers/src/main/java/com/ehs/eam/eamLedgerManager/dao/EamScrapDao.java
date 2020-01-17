@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 
 /**   
@@ -38,7 +37,4 @@ public interface EamScrapDao extends JpaRepository<EamScrap, String>{
 
 	@Query(" select el from EamScrap el where el."+EamScrap.SCRAP_NUM+" like %?1%  and el."+EamScrap.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamScrap> findEamScrapList(String query,Pageable pageable);
-	
-	@Query(" select u from FlowProcessInfo u where u."+FlowProcessInfo.BUSINESS_ENTITY_KEY+"=?1 and  u."+BaseEntity.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.OWNER_CREATION_TIME+" desc ")
-	public  FlowProcessInfo findInfoByKey(String appKey);
 }
