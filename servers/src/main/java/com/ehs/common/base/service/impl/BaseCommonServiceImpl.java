@@ -69,20 +69,38 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 			old = (T) findByKey(t.getClass(), t.getKey());
 		}
 
-		if (t.getReCompletePoint()) {
-			
-			
-			Class ss = t.getClass();
-			List<Field> fields=new ArrayList<Field>();
-			while(ss!=null&&!StringUtils.equalsIgnoreCase(ss.getClass().getName(), Object.class.getName())) {
-				Field[] fs=ss.getDeclaredFields();
-				if(fs!=null) {
-					for(Field f:fs) {
-						fields.add(f);
-					}
+
+
+		Class ss = t.getClass();
+		List<Field> fields=new ArrayList<Field>();
+		while(ss!=null&&!StringUtils.equalsIgnoreCase(ss.getClass().getName(), Object.class.getName())) {
+			Field[] fs=ss.getDeclaredFields();
+			if(fs!=null) {
+				for(Field f:fs) {
+					fields.add(f);
 				}
-				ss=ss.getSuperclass();
 			}
+			ss=ss.getSuperclass();
+		}
+	
+		try {
+	        for(int i=0;i<fields.size();i++){  
+	        	Field field=fields.get(i);
+	        	if(field.getType().equals(String.class)&&(!field.isAnnotationPresent(Transient.class))&&(!Modifier.isStatic(field.getModifiers()))&&(!Modifier.isFinal(field.getModifiers()))) {
+	        		field.setAccessible(true);
+	        		if(field.get(t)!=null&&StringUtils.isNotBlank(field.get(t).toString())) {
+	        			field.set(t, StringUtils.trimToEmpty(field.get(t).toString()));
+	        		}
+	        		
+	        		
+	        	}
+
+	        }  
+		}catch(Exception ex) {
+			throw new RuntimeException(ex);
+		}
+		if (t.getReCompletePoint()) {
+		
 			int fieldCount = 0;
 			int notNullCount = 0;
 			for (int i = 0; i < fields.size(); i++) {
@@ -104,7 +122,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 				t.setCompletePoint(Byte.valueOf(String.valueOf(notNullCount * 100 / fieldCount)));
 			}
 		}
-
+		
 		if (old == null) {
 			t.initCreate();
 			t.setId(null);
