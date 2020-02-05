@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ehs.common.auth.bean.RoleQueryBean;
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
+import com.ehs.common.auth.utils.SessionBean;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -437,5 +439,15 @@ public class OrgUserController {
 		String account=request.getParameter("account");
 		OrgUser orgUser=orgUserService.findOrgUserBySysUserKey(account);
 		return orgUser==null?"{}":JsonUtils.toJsonString(orgUser);
+	}
+	/**
+	 * 
+	 */
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/auth/orgUser/findUserByKey")
+	public String findUserByKey(HttpServletRequest request) {
+		String key=request.getParameter("key");
+		OrgUser ou=baseCommonService.findByKey(OrgUser.class, key);
+		return ou==null?"{}":JsonUtils.toJsonString(ou);
 	}
 }

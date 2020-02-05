@@ -8,7 +8,8 @@ export default {
     'props': Object
   },
   model: {
-    prop: 'propOrgValue'
+    prop: 'propOrgValue',
+    event: 'change'
   },
   mounted () {
     this.loadDatas()
@@ -47,7 +48,6 @@ export default {
   },
   data () {
     return {
-      orgValue: this.propOrgValue,
       defaultProps: Object.assign({ multiple: false, checkStrictly: true, emitPath: false }, this.props),
       options: []
     }

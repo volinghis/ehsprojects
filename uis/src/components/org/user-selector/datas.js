@@ -8,7 +8,8 @@ export default {
     'props': Object
   },
   model: {
-    prop: 'propOrgValue'
+    prop: 'propOrgValue',
+    event: 'change'
   },
   methods: {
     clearCheckedNodes () {
@@ -37,34 +38,29 @@ export default {
     }
   },
   mounted () {
+    if (this.propOrgValue) {
+      let that = this
+      that.$axios.get(that.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByKey?key=' + this.propOrgValue)
+        .then((res) => {
+          if (res.data.name) {
+            this.$refs['orgCasCader'].$el.querySelector('.el-input__inner').value = res.data.name
+          }
+        })
+    }
   },
   data () {
     let that = this
     return {
-      orgValue: this.propOrgValue,
-
       defaultProps: Object.assign({ multiple: false,
         checkStrictly: true,
         emitPath: false,
         lazy: true,
         lazyLoad (node, resolve) {
-          console.log(node)
           var parentKey = node.value ? node.value : ''
           that.$axios.get(that.GlobalVars.globalServiceServlet + '/auth/orgUser/getAllForTree?parentKey=' + parentKey)
             .then((res) => {
               resolve(res.data)
             })
-          // const { level } = node
-          // setTimeout(() => {
-          //   const nodes = Array.from({ length: level + 1 })
-          //     .map(item => ({
-          //       value: ++id,
-          //       label: `选项${id}`,
-          //       leaf: level >= 2
-          //     }))
-          //   // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-          //   resolve(nodes)
-          // }, 1000)
         } }, this.props),
       options: []
     }
