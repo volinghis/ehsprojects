@@ -7,7 +7,6 @@
               finish-status="success">
       <el-step title="申请信息" />
       <el-step title="选择设备" />
-      <el-step title="审批人" />
       <el-step title="进入审批流程" />
     </el-steps>
     <div class="content">
@@ -74,8 +73,18 @@ export default {
       }
     },
     finish: function (val) {
-      this.$router.push({ name: 'eamScrap' })
       window.close()
+      this.$router.push({ name: 'eamScrap' })
+    },
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/updateAfterFlow', v).then(res => {
+        console.log(res.data)
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
     },
     handerSubmit (process) {
       // 提交数据 准备开始流程

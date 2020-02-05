@@ -61,9 +61,20 @@
               <template slot-scope="scope">
                 <div slot="reference">
                   <el-tag :size="GlobalCss.buttonSize"
-                          :type="scope.row.status === '已通过' ? 'primary' : 'success'">{{ scope.row.status}}</el-tag>
+                          :type="scope.row.status === '已结束' ? 'danger' : 'success'">{{ scope.row.status}}</el-tag>
                 </div>
-              </template></el-table-column>
+              </template>
+           </el-table-column>
+            <el-table-column fixed="right" align="center" label="操作" width="180">
+              <template slot-scope="scope">
+                <el-button
+                  type="success"
+                  @click="handleViewClick(scope.row)"
+                  icon="fa fa-eye pull-left"
+                  :size="GlobalCss.buttonSize"
+                >查看</el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <div class="pagination"
                style="float:right;margin-top:12px;">

@@ -2,25 +2,26 @@
  * Copyright © 2019 西安东恒鑫源软件开发有限公司版权所有.
  * 
  * 功能描述：
- * @Package: com.ehs.eam.eamLedgerManager.entity 
+ * @Package: com.ehs.eam.eamLedger.entity 
  * @author: qjj   
- * @date: 2019年12月30日 下午3:52:13 
+ * @date: 2019年12月30日 下午3:25:55 
  */
 package com.ehs.eam.eamLedgerManager.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerFlowSuper;
+import com.ehs.common.base.config.DataConfig;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
-* @ClassName: EamLedgerHis.java
+* @ClassName: Ledger.java
 * @Description: 该类的功能描述
 *
 * @version: v1.0.0
 * @author: qjj
-* @date: 2019年12月30日 下午3:52:13 
+* @date: 2019年12月30日 下午3:25:55 
 *
 * Modification History:
 * Date         Author          Version            Description
@@ -28,10 +29,23 @@ import com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerFlowSuper;
 * 2019年12月30日     qjj           v1.0.0               修改原因
 */
 @Entity
-@Table(name = "EAM_LEDGER_HIS")
-public class EamLedgerHis extends EamLedgerFlowSuper{
+@Table(name = "EAM_LEDGER_LAST",uniqueConstraints = @UniqueConstraint(columnNames = DataConfig.TABLE_UNIQUE_KEY))
+public class EamLedgerLast extends com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerSuper {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 
+	/**
+	   *    关联设备更新表的key
+	 */
+	private String refKey;
+
+	public String getRefKey() {
+		return refKey;
+	}
+
+	public void setRefKey(String refKey) {
+		this.refKey = refKey;
+	}
+	
 }

@@ -69,6 +69,7 @@
                 <el-table-column prop="completePoint"
                                  label="资料完整度"
                                  align="center"
+                                 width="160"
                                  sortable>
                   <template slot-scope="scope">
                     <el-progress :percentage="scope.row.completePoint"
@@ -80,10 +81,10 @@
                                  align="center"
                                  width="150"
                                  :show-overflow-tooltip="true"></el-table-column>
-                <!-- <el-table-column prop="supplier"
-                                 label="供应商"
+                <el-table-column prop="profession"
+                                 label="专业"
                                  align="center"
-                                 width="120"></el-table-column> -->
+                                 width="120"></el-table-column>
                 <el-table-column prop="installLocation"
                                  label="安装位置"
                                  align="center"
@@ -119,7 +120,7 @@
                 <el-table-column prop="deviceStatus"
                                  label="设备状态"
                                  align="center"
-                                 width="100">
+                                >
                   <template slot-scope="scope">
                     <el-tag :type="scope.row.deviceStatus === '正常' ? 'success' : 'warning'"
                             disable-transitions>{{scope.row.deviceStatus}}</el-tag>

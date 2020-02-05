@@ -32,7 +32,7 @@
         <el-table-column prop="targetDept"
                          align="center"
                          label="调入部门">
-            <OrgSelect @change="handleChange" ref="orgSelect"></OrgSelect>
+            <OrgSelect v-model="result.allocateForm.targetDept" @change="handleChange" ref="orgSelect"></OrgSelect>
         </el-table-column>
         <el-table-column prop="targetPosition"
                          align="center"
@@ -141,7 +141,8 @@ export default {
       this.dialogTableVisible = true
     },
     handleChange (node) { // 获取部门
-      console.log(node)
+      this.result.allocateForm.targetDept = node
+      console.log(this.result.allocateForm.targetDept)
     }
   },
   data () {
@@ -156,7 +157,7 @@ export default {
           installLocation: '',
           targetDept: '',
           targetPosition: '',
-          amount: 0,
+          amount: 1,
           unit: ''
         }
       },

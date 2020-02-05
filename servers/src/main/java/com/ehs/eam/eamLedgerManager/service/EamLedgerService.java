@@ -48,7 +48,7 @@ public interface EamLedgerService {
 	*---------------------------------------------------------*
 	* 2019年12月30日     qjj        v1.0.0            修改原因
 	*/
-	PageInfoBean findEamLedgerList(EamLedgerQueryBean querybean);
+    public PageInfoBean findEamLedgerList(EamLedgerQueryBean querybean);
 
 	
 	public void saveEamLedger(EamRequestBean eamRequestBean);
@@ -92,24 +92,6 @@ public interface EamLedgerService {
 	List<EamLedger> getChildDevByKey(String deviceKey);
 
 	/**   
-	* @Function:findLeftEamLedgerList 
-	* @Description: 不属于当前设备的所有子设备
-	* @param querybean
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月7日 上午11:29:26 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月7日     qjj        v1.0.0            修改原因
-	*/
-	PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean);
-
-
-	/**   
 	* @Function:saveRelatedDevices 
 	* @Description: 该函数的功能描述
 	* @param deviceKey
@@ -143,22 +125,4 @@ public interface EamLedgerService {
 	* 2020年1月7日     qjj        v1.0.0            修改原因
 	*/
 	void removeRelatedEamLedgers(String devicekey, String keys);
-
-	/**   
-	* @Function:findLeftEamLedgerForScrap 
-	* @Description: 该函数的功能描述
-	* @param querybean
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月8日 下午2:31:12 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月8日     qjj        v1.0.0            修改原因
-	*/
-	PageInfoBean findLeftEamLedgerForScrap(EamLedgerQueryBean querybean);
-
 }

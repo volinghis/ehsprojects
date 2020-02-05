@@ -11,12 +11,11 @@ package com.ehs.eam.eamLedgerManager.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
 import com.ehs.eam.eamLedgerManager.dao.EamInspectorsDao;
@@ -32,6 +32,7 @@ import com.ehs.eam.eamLedgerManager.dao.EamLedgerDao;
 import com.ehs.eam.eamLedgerManager.dao.EamParametorsDao;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
 
@@ -87,7 +88,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	@Transactional
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
-		// TODO Auto-generated method stub
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
 		String newKeys = "";
 		String oldKeys = reqEamLedger.getRefDeviceKey();
@@ -100,7 +100,9 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		System.out.println("---------------------------->" + newKeys);
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {// 设备新建的时候初始化的值
 			reqEamLedger.setDeviceStatus("正常");
-			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll(reqEamLedger.getRunDate()));
+		    OrgUser ou=	baseCommonService.findByKey(OrgUser.class, reqEamLedger.getPerson());// 根据key获取员工姓名
+		    reqEamLedger.setPerson(ou.getName());
+			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll());
 		}
 		EamLedger eamLedger = baseCommonService.saveOrUpdate(reqEamLedger);
 		if (eamLedger != null) {// 设备台账保存成功后
@@ -123,6 +125,10 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			}
 
 		}
+		//  同步数据eamLedgerLast表中
+		EamLedgerLast eLast=new EamLedgerLast();
+		BeanUtils.copyProperties(eamLedger, eLast);
+		baseCommonService.saveOrUpdate(eLast);
 	}
 
 	/**
@@ -174,37 +180,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		return resEamLedgers;
 	}
 
-	/**
-	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#findLeftEamLedgerList(com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean)
-	 */
-	@Override
-	public PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean) {
-		// TODO Auto-generated method stub
-		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> allLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
-
-		List<EamLedger> resultList = new ArrayList<EamLedger>();
-		EamLedger curLedger = baseCommonService.findByKey(EamLedger.class, querybean.getDeviceKey());
-		List<EamLedger> currentLedgers = getCurrentList(curLedger);
-		if (currentLedgers == null || currentLedgers.isEmpty()) {
-			resultList = allLedgers.getContent().stream()
-					.filter(s -> (!StringUtils.equals(s.getKey(), querybean.getDeviceKey())))
-					.collect(Collectors.toList());
-		}
-		resultList = allLedgers.getContent().stream()
-				.filter(s -> currentLedgers.stream()
-						.allMatch(ss -> (!StringUtils.equals(s.getKey(), ss.getKey()))
-								&& (!StringUtils.equals(s.getKey(), querybean.getDeviceKey()))))
-				.collect(Collectors.toList());
-
-		if (resultList == null || resultList.isEmpty()) {
-			return null;
-		}
-		PageInfoBean pb = new PageInfoBean();
-		pb.setDataList(resultList);
-		pb.setTotalCount(allLedgers.getTotalElements());
-		return pb;
-	}
 
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#saveRelatedDevices(java.lang.String,
@@ -241,18 +216,5 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			eamLedger.setRefDeviceKey(StringUtils.join(arr1.toArray(), ","));
 			baseCommonService.saveOrUpdate(eamLedger);
 		}
-	}
-
-	/**
-	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#findLeftEamLedgerForScrap(com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean)
-	 */
-	@Override
-	public PageInfoBean findLeftEamLedgerForScrap(EamLedgerQueryBean querybean) {
-		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> allLedgers = eamLedgerDao.findEamLedgerListNotScrap(querybean.getQuery(), pageRequest);
-		PageInfoBean pb = new PageInfoBean();
-		pb.setDataList(allLedgers.getContent());
-		pb.setTotalCount(allLedgers.getTotalElements());
-		return pb;
 	}
 }

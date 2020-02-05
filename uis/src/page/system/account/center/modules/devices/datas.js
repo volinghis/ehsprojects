@@ -10,7 +10,7 @@ export default {
       }
     },
     inintTable () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getListNotPage').then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getListNotPage').then(res => {
         console.log(res.data)
         this.datas = res.data
       }).catch(error => {

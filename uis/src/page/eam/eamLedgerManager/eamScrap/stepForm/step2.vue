@@ -71,16 +71,16 @@ export default {
     },
     handleDetermine () {
       this.dialogTableVisible = false
-      this.tableData = this.selectRows
+      this.tableData.push(this.selectRow)
     },
     handlerSelect (val) {
-      this.selectRows = val
+      this.selectRow = val
     }
   },
   data () {
     return {
       dialogTableVisible: false,
-      selectRows: [],
+      selectRow: {},
       form: {
         deviceName: '',
         deviceNum: '',

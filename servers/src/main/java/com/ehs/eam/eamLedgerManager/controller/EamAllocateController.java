@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
+import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.service.EamAllocateService;
 
 /**
@@ -130,4 +132,40 @@ public class EamAllocateController {
 		return JsonUtils.toJsonString(resultBean.ok("删除成功"));
 	}
 	
+	/**
+	 * 
+	* @Function:getScrapFlowBean 
+	* @Description: 获取设备调拨流程
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月14日 下午8:06:34 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月14日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = {"eamAllocate"})
+	@RequestMapping(value = "/getAllocateFlowBean")
+	public String getAllocateFlowBean(@RequestParam String key) {
+	EamFlowBean eamFlowBean=	eamAllocateService.findAllocateFlowBean(key);
+		return eamFlowBean!=null?JsonUtils.toJsonString(eamFlowBean):"{}";
+	}
+	
+	
+	
+	@RequestAuth(menuKeys = {"eamAllocate"})
+	@RequestMapping(value="/updateAfterAllocateFlow")
+	public String updateAfterAllocateFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			eamAllocateService.updateRelatedAfterFlow(flowProcessInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
+	}
 }

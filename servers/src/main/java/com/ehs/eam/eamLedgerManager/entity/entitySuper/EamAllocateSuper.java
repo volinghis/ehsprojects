@@ -305,11 +305,11 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 
 	@Override
 	public String getEditPage() {
-		return "eamAllocateForm";
+		return "eamAllocateBaseForm";
 	}
 
 	@Override
 	public String getViewPage() {
-		return "eamAllocateForm";
+		return "eamAllocateBaseForm";
 	}
 }

@@ -59,7 +59,9 @@ export default {
     onChange: function (row) {
       this.selections = row
     },
-    handlePageChange: function () {
+    handlePageChange: function (page) {
+      this.queryParam.page = page
+      this.getScrapEamList()
     },
     // 新增操作
     handleScrap: function () {

@@ -30,7 +30,7 @@ import com.ehs.common.base.config.DataConfig;
 */
 @Entity
 @Table(name = "EAM_LEDGER",uniqueConstraints = @UniqueConstraint(columnNames = DataConfig.TABLE_UNIQUE_KEY))
-public class EamLedger extends com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerSuper {
+public class EamLedger extends com.ehs.eam.eamLedgerManager.entity.entitySuper.EamLedgerFlowSuper {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;

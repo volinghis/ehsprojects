@@ -8,8 +8,6 @@
  */
 package com.ehs.eam.eamLedgerManager.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.eam.eamLedgerManager.bean.EamScrapFlowBean;
+import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
-import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 import com.ehs.eam.eamLedgerManager.service.EamScrapService;
 
 /**
@@ -93,7 +91,6 @@ public class EamScrapController {
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/addEamScrap")
 	public String addEamScrap(@RequestBody EamScrapRequestBean reqBean) {
-		System.out.println("......................."+JsonUtils.toJsonString(reqBean));
 		ResultBean resultBean = new ResultBean();
 		try {
 			eamScrapService.saveEamScrap(reqBean);
@@ -152,7 +149,21 @@ public class EamScrapController {
 	@RequestAuth(menuKeys = {"eamScrap"})
 	@RequestMapping(value = "/getScrapFlowBean")
 	public String getScrapFlowBean(@RequestParam String key) {
-	EamScrapFlowBean eamScrapFlowBean=	eamScrapService.findScrapFlowBean(key);
+	EamFlowBean eamScrapFlowBean=	eamScrapService.findScrapFlowBean(key);
 		return eamScrapFlowBean!=null?JsonUtils.toJsonString(eamScrapFlowBean):"{}";
+	}
+	
+	
+	@RequestAuth(menuKeys = {"eamScrap"})
+	@RequestMapping(value="/updateAfterFlow")
+	public String updateAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			eamScrapService.updateRelatedAfterFlow(flowProcessInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
 	}
 }

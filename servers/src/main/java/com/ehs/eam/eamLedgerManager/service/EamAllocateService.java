@@ -8,9 +8,11 @@
  */
 package com.ehs.eam.eamLedgerManager.service;
 
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
+import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -76,6 +78,10 @@ public interface EamAllocateService {
 	* 2020年1月10日     qjj        v1.0.0            修改原因
 	*/
 	void deleteEamAllocates(String keys);
+
+ 	void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo);
+
+	EamFlowBean findAllocateFlowBean(String key);
 
 
 }

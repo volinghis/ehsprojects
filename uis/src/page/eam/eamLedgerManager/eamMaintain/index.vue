@@ -83,10 +83,10 @@
                                  align="center"
                                  width="120"
                                  :show-overflow-tooltip="true"></el-table-column>
-                <!-- <el-table-column prop="supplier"
-                                 label="供应商"
+                <el-table-column prop="profession"
+                                 label="专业"
                                  align="center"
-                                 width="120"></el-table-column> -->
+                                 width="120"></el-table-column>
                 <el-table-column prop="installLocation"
                                  label="安装位置"
                                  align="center"

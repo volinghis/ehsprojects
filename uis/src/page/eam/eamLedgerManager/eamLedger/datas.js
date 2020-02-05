@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     initTable () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getList', this.queryParam).then(res => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
         this.tableData = res.data.dataList
         this.total = res.data.totalCount
       }).catch(error => {

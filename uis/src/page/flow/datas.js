@@ -22,7 +22,8 @@ export default {
           .then(res => {
             // 成功了, 更新数据(成功)
             this.$message.success('提交成功')
-            window.close()
+            this.$refs.flowContent.handlerAfterFlow(this.processInfo)
+            // window.close()
           }).catch(function () {
             this.$message.error('提交异常')
           }).then(function () {

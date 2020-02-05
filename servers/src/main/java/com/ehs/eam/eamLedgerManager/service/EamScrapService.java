@@ -8,8 +8,9 @@
  */
 package com.ehs.eam.eamLedgerManager.service;
 
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.eam.eamLedgerManager.bean.EamScrapFlowBean;
+import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
 
@@ -94,5 +95,11 @@ public interface EamScrapService {
 	*---------------------------------------------------------*
 	* 2020年1月14日     qjj        v1.0.0            修改原因
 	*/
-    public EamScrapFlowBean findScrapFlowBean(String key);
+    public EamFlowBean findScrapFlowBean(String key);
+
+    /**
+            *  流程走完后数据的更新处理
+     * @param flowProcessInfo 
+     */
+	public void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo);
 }

@@ -66,6 +66,9 @@ export default {
   methods: {
     handleAvatarSuccess: function (res, file) {
     },
+    userSelectorChange (val) {
+      this.form.person = val
+    },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
     },
@@ -75,14 +78,15 @@ export default {
     getRelatedKeys (data) {
       this.relatedKyes = data
     },
-    submitForm: function (formName) {
-      this.$refs[formName].validate(valid => {
+    handerSubmit (process) {
+      this.$refs.form.validate(valid => {
         if (valid) {
           const reqBean = {
             eamLedger: this.form,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas
+            // flowProcessInfo: process
           }
           console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
@@ -91,8 +95,8 @@ export default {
                 message: res.data.message,
                 type: 'success'
               })
-              this.$refs[formName].resetFields() // 表单重置（暂不能重置全部项）
-              this.$router.push({ name: 'eamLedger' }) // 保存成功后页面跳转
+              this.$refs.form.resetFields() // 表单重置（暂不能重置全部项）
+              this.$router.push({ name: 'eamMaintain' }) // 保存成功后页面跳转
             }
           }).catch(error => {
             this.$message({ message: error })

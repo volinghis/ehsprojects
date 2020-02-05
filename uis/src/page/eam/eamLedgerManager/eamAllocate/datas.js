@@ -14,10 +14,12 @@ export default {
       form: {},
       selections: [],
       tableData: [],
-      totalCount: 0
+      totalCount: 0,
+      sessionUser: {}
     }
   },
   mounted: function () {
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.getAllocateEamList()
   },
   methods: {
@@ -53,6 +55,19 @@ export default {
       this.selections = row
     },
     handlePageChange: function () {
+    },
+    handleViewClick (row) { // 查看
+      const currentUser = this.sessionUser.userName
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateFlowBean', { params: { key: row.key } }).then(res => {
+        const entityProcessInfo = res.data
+        if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId })
+        } else {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId })
+        }
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     },
     // 新增操作
     handleAllocate: function () {

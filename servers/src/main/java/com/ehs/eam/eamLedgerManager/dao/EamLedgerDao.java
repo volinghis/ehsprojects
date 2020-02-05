@@ -8,8 +8,6 @@
  */
 package com.ehs.eam.eamLedgerManager.dao;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,22 +41,4 @@ public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
     public EamLedger findEamLedgerByKey(String key);
 	
-	/**
-	 * 
-	* @Function:findEamLedgerByScrapKey 
-	* @Description: 获取所未报废设备
-	* @param key 
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月8日 下午1:57:21 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月8日     qjj        v1.0.0            修改原因
-	 */
-	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1%  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and el."+EamLedger.SCRAP_KEY+" IS NULL order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<EamLedger> findEamLedgerListNotScrap(String query,Pageable pageable);
 }

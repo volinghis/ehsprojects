@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,7 +37,7 @@ import com.ehs.eam.eamLedgerManager.service.EamScrapService;
  * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
  * 
  * @ClassName: EamLedgerController.java
- * @Description: 该类的功能描述
+ * @Description: 设备更新列表
  *
  * @version: v1.0.0
  * @author: qjj
@@ -85,51 +83,7 @@ public class EamLedgerController {
 	}
 	
 	
-	/**
-	 * 
-	* @Function:getEamLedgerListNotPage 
-	* @Description:获取所有设备台账为分页
-	* @param request
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月17日 下午7:52:23 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月17日     qjj        v1.0.0            修改原因
-	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
-	@RequestMapping(value = "/getListNotPage")
-	public String getEamLedgerListNotPage( HttpServletRequest request) {
-		List<EamLedger>  eamLedgers= (List<EamLedger>) baseCommonService.findAll(EamLedger.class);
-		return eamLedgers == null ? "[]" : JsonUtils.toJsonString(eamLedgers);
-	}
-
-	/**
-	 * 
-	 * @Function:getLeftEamLedgerList
-	 * @Description: 不属于当前设备子设备的其他设备
-	 * @param querybean
-	 * @param request
-	 * @return
-	 * @throws：异常描述
-	 * @version: v1.0.0
-	 * @author: qjj
-	 * @date: 2020年1月7日 上午11:44:29
-	 *
-	 *  Modification History: Date Author Version Description
-	 *  ---------------------------------------------------------* 2020年1月7日
-	 *  qjj v1.0.0 修改原因
-	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
-	@RequestMapping(value = "/getLeftEamLedgerList")
-	public String getLeftEamLedgerList(@RequestBody EamLedgerQueryBean querybean, HttpServletRequest request) {
-		PageInfoBean pageBean = eamLedgerService.findLeftEamLedgerList(querybean);
-		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
-	}
+	
 
 	/**
 	 * 
@@ -150,7 +104,6 @@ public class EamLedgerController {
 	@RequestMapping(value = "/saveEamLedger")
 	public String saveEamLedger(HttpServletRequest request, @RequestBody EamRequestBean eamRequestBean) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("设备台账保存请求参数=============================" + JsonUtils.toJsonString(eamRequestBean));
 		eamLedgerService.saveEamLedger(eamRequestBean);
 //		List<EamAccountPrint> roleInfoList=	(List<EamAccountPrint>)baseCommonService.findAll(EamAccountPrint.class);
 //		if (roleInfoList!=null&&roleInfoList.size()>0) {
@@ -295,7 +248,6 @@ public class EamLedgerController {
 	@RequestMapping(value = "/deleteEamLedgerByKey")
 	public String deleteEamLedgerByKey(@RequestParam String key, HttpServletRequest request) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("=================================" + key);
 		try {
 			baseCommonService.deleteByKey(EamLedger.class, key);
 		} catch (Exception e) {
@@ -336,29 +288,6 @@ public class EamLedgerController {
 	}
 
 	
-	/**
-	 * 
-	* @Function:getLeftEamLedgerForScrap 
-	* @Description: 获取未报废的所有设备
-	* @param querybean
-	* @param request
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月8日 下午2:39:44 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月8日     qjj        v1.0.0            修改原因
-	 */
-	@RequestAuth(menuKeys = {"eamLedger"})
-	@RequestMapping(value = "/getLeftEamLedgerForScrap")
-	public String getLeftEamLedgerForScrap(@RequestBody EamLedgerQueryBean querybean, HttpServletRequest request) {
-		PageInfoBean pageBean = eamLedgerService.findLeftEamLedgerForScrap(querybean);
-		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
-	}
 	
 	@RequestAuth(menuKeys = {"eamLedger"})
 	@RequestMapping(value = "/getSuggestions")

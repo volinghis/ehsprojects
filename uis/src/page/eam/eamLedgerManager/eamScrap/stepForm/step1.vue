@@ -9,12 +9,12 @@
                :size="GlobalCss.buttonSize">
         <el-form-item label="申请人："
                       prop="applicant">
-          <el-input v-model="sessionUser.username"
+          <el-input v-model="scrapStepForm.applicant"
                     :readonly="true"></el-input>
         </el-form-item>
         <el-form-item label="申请部门："
                       prop="scrapDept">
-          <el-input v-model="sessionUser.orgName"
+          <el-input v-model="scrapStepForm.scrapDept"
                     :readonly="true"></el-input>
         </el-form-item>
         <el-form-item label="报废名称："
@@ -80,11 +80,15 @@ export default {
   },
   mounted () {
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    const curUser = this.sessionUser
+    this.scrapStepForm.applicant = curUser.username
+    this.scrapStepForm.scrapDept = curUser.orgName
   },
   methods: {
     nextStep: function (scrapStepForm) {
       this.$refs.scrapStepForm.validate((valid) => {
         if (valid) {
+          console.log(this.scrapStepForm)
           this.$emit('nextStep', this.scrapStepForm)
         } else {
           return false

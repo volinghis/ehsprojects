@@ -10,6 +10,7 @@ package com.ehs.eam.eamLedgerManager.bean;
 
 import java.util.List;
 
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
@@ -37,6 +38,8 @@ public class EamRequestBean {
 	private List<EamParameters> paramsList;
 
 	private List<EamInspectors> inspectorsList;
+	
+	private FlowProcessInfo flowProcessInfo;
 
 	/**
 	 * @return the eamLedger
@@ -92,6 +95,14 @@ public class EamRequestBean {
 	 */
 	public void setInspectorsList(List<EamInspectors> inspectorsList) {
 		this.inspectorsList = inspectorsList;
+	}
+
+	public FlowProcessInfo getFlowProcessInfo() {
+		return flowProcessInfo;
+	}
+
+	public void setFlowProcessInfo(FlowProcessInfo flowProcessInfo) {
+		this.flowProcessInfo = flowProcessInfo;
 	}
 
 }

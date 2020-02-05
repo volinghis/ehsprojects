@@ -77,6 +77,17 @@ export default {
       this.$router.push({ name: 'eamAllocate' })
       window.close()
     },
+    handlerAfterFlow (v) { // 流程结束数据处理
+      console.log(v)
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/updateAfterAllocateFlow', v).then(res => {
+        console.log(res.data)
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
+    },
     handerSubmit (process) {
       this.reqBean.flowProcessInfo = process
       console.log(this.reqBean)

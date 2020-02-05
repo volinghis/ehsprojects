@@ -20,7 +20,7 @@
                 @selection-change="handleSelectionChange"
                 border
                 :size="GlobalCss.controlSize">
-        <template v-if="flag==='allocate'">
+        <template v-if="flag!=='child'">
           <el-table-column width="50"
                            align="center">
             <template slot-scope="scope">
@@ -91,10 +91,10 @@ export default {
     this.$refs.leftTable.clearSelection()
   },
   methods: {
-    getLeftChildList () { // 部署当前设备的其他设备
+    getLeftChildList () { // 不属于当前设备子设备的其他设备
       let reqParam = this.queryParam
       reqParam['deviceKey'] = this.deviceKey ? this.deviceKey : ''
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getLeftEamLedgerList', reqParam).then(res => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLeftEamLedgerList', reqParam).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {
@@ -102,7 +102,7 @@ export default {
       })
     },
     getLedgerListNotScrap () { // 未报废的设备集合
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getLeftEamLedgerForScrap', this.queryParam).then(res => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {

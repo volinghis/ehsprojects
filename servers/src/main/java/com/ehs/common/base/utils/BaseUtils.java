@@ -116,14 +116,10 @@ public class BaseUtils {
 	*---------------------------------------------------------*
 	* 2020年1月9日     qjj        v1.0.0            修改原因
 	 */
-	public static String getNumberForAll(Date date) {
+	public static String getNumberForAll() {
 		DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String prefixStr=""; // 编号生成暂用（还得再拼接自定义的自增数字）
-		if (date!=null) {
-			prefixStr=sdf.format(date);
-		}else {
-			prefixStr=sdf.format(new Date());
-		}
+		prefixStr=sdf.format(new Date());
 		return prefixStr;
 	}
 	

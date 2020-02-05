@@ -138,7 +138,7 @@
               </el-form-item> -->
                <el-form-item label="负责人"
                             prop="person">
-                <UserSelector v-model="form.person" style="width:100%;"></UserSelector>
+                <UserSelector v-model="form.person" @change="userSelectorChange" style="width:100%;"></UserSelector>
               </el-form-item>
               <el-form-item label="出厂编号"
                             prop="leaveNum">
@@ -188,7 +188,7 @@
                    @click="$router.push({name:'eamLedger'})">返回</el-button>
         <el-button :size="GlobalCss.buttonSize"
                    type="primary"
-                   @click="submitForm('form')">提交</el-button>
+                   @click="handerSubmit()">提交</el-button>
       </el-form-item>
     </el-form>
   </div>

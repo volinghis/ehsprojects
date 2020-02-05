@@ -51,8 +51,10 @@ export default {
     handleQuery () {
       this.initTable()
     },
+    // 新增进入流程
     handleAdd () {
       this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'add' } })
+      // this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow' })
     },
     handleExport () {
       this.$message({

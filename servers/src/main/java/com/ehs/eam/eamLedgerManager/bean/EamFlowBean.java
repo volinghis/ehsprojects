@@ -22,7 +22,7 @@ package com.ehs.eam.eamLedgerManager.bean;
 *---------------------------------------------------------*
 * 2020年1月14日     qjj           v1.0.0               修改原因
 */
-public class EamScrapFlowBean {
+public class EamFlowBean {
 	
 	private String currentStep;
 	
