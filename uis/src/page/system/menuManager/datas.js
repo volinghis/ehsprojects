@@ -22,7 +22,7 @@ export default {
   methods: {
     initTree () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
-        this.treeData = res.data
+        this.treeData = res.data.filter(d => !d.business && d.key !== 'home')
         console.log(this.treeData)
       }).catch(error => {
         console.log(error)
