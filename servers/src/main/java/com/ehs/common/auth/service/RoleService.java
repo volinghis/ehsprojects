@@ -49,4 +49,6 @@ public interface RoleService {
 	* 2019年12月16日     qjj        v1.0.0            修改原因
 	 */
 	public List<SysRole> findRolesByMenuKey(String menuKey);
+
+	public List<SysRole> findAllRoles();
 }
