@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
+import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -35,6 +36,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 @Repository
 public interface EamInspectorsDao extends JpaRepository<EamInspectors, String>{
 
-	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DEVICE_KEY+" =?1 and ei."+EamInspectors.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<EamInspectors> findEamInspectorsByDeviceKey(String key);
 }

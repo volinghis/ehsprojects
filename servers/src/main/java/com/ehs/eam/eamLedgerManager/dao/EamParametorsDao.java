@@ -35,7 +35,7 @@ import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 @Repository
 public interface EamParametorsDao extends JpaRepository<EamParameters, String> {
 	
-	@Query(" select ep from EamParameters ep where ep."+EamParameters.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select ep from EamParameters ep where ep."+EamParameters.DEVICE_KEY+" =?1 and "+EamParameters.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<EamParameters> findEamParametersByDeviceKey(String key);
 
 }

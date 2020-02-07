@@ -80,9 +80,9 @@
                style="float:right;margin-top:12px;">
             <el-pagination background
                            layout="total, prev, pager, next"
-                           :current-page="1"
-                           :page-size="10"
-                           :total="100"
+                           :current-page="queryParam.page"
+                           :page-size="queryParam.size"
+                           :total="totalCount"
                            @current-change="handlePageChange"></el-pagination>
           </div>
         </template>

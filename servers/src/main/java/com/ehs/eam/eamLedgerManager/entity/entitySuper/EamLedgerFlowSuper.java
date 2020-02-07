@@ -52,6 +52,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String REPAIR_FREQUENCY = "repairFrequency";
 	public static final String BUYING_PRICE = "buyingPrice";
 	public static final String PERSON = "person";
+	public static final String PERSON_NAME = "personName";
 	public static final String FILE_ID = "fileId";
 	public static final String REPAIR_NUMBER = "repairNumber";
 	public static final String FAULTS_NUMBER = "faultsNumber";
@@ -137,6 +138,8 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 * 负责人
 	 */
 	private String person;
+	
+	private String personName;
 
 	/**
 	 * 设备图片
@@ -500,5 +503,12 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 		// TODO Auto-generated method stub
 		return "eamLedgerEdit";
 	}
-	
+
+	public String getPersonName() {
+		return personName;
+	}
+
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
 }

@@ -142,7 +142,6 @@ public class EamLedgerController {
 	@RequestMapping(value = "/deleteEamParams")
 	public String deleteEamParams(HttpServletRequest request, @RequestParam String key) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("=================================" + key);
 		try {
 			baseCommonService.deleteByKey(EamParameters.class, key);
 		} catch (Exception e) {
@@ -195,7 +194,6 @@ public class EamLedgerController {
 	@RequestMapping(value = "/deleteInspectors")
 	public String deleteInspectors(HttpServletRequest request, @RequestParam String key) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("=================================" + key);
 		try {
 			baseCommonService.deleteByKey(EamInspectors.class, key);
 		} catch (Exception e) {
@@ -277,7 +275,6 @@ public class EamLedgerController {
 	@RequestMapping(value = "/removeEamLedger")
 	public String removeEamLedger(@RequestParam String deviceKey, @RequestParam String keys) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("=================================" + deviceKey + "\n" + keys);
 		try {
 			eamLedgerService.removeRelatedEamLedgers(deviceKey, keys);
 		} catch (Exception e) {
@@ -300,5 +297,13 @@ public class EamLedgerController {
 			resList.add(innerMap);
 		}
 		return JsonUtils.toJsonString(resList);
+	}
+	
+	
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/getEamLedgerByKey")
+	public String getEamLedgerByKey(@RequestParam String key) {
+		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, key);
+		return eamLedger == null ? "{}" : JsonUtils.toJsonString(eamLedger);
 	}
 }

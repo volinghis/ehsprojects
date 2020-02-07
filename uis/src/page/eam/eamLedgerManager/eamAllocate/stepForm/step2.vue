@@ -32,7 +32,7 @@
         <el-table-column prop="targetDept"
                          align="center"
                          label="调入部门">
-            <OrgSelect v-model="result.allocateForm.targetDept" @change="handleChange" ref="orgSelect"></OrgSelect>
+            <OrgSelect v-model="result.allocateForm.targetDept"  ref="orgSelect"></OrgSelect>
         </el-table-column>
         <el-table-column prop="targetPosition"
                          align="center"
@@ -119,6 +119,7 @@ export default {
         })
         return
       }
+      console.log(this.result)
       this.$emit('nextStep', this.result)
     },
     prevStep: function () {
@@ -139,10 +140,6 @@ export default {
     },
     handleSelectDev () { // 选择设备
       this.dialogTableVisible = true
-    },
-    handleChange (node) { // 获取部门
-      this.result.allocateForm.targetDept = node
-      console.log(this.result.allocateForm.targetDept)
     }
   },
   data () {

@@ -115,7 +115,14 @@
                                  label="采购价格"
                                  align="center"
                                  width="100"></el-table-column>
-                <el-table-column prop="person"
+               <template >
+                 <el-table-column prop="person"
+                                 v-if="show"
+                                 label="负责人"
+                                 align="center"
+                                 width="100"></el-table-column>
+              </template>
+                <el-table-column prop="personName"
                                  label="负责人"
                                  align="center"
                                  width="100"></el-table-column>

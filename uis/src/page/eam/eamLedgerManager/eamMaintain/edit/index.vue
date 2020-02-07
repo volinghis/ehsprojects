@@ -131,14 +131,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <!-- <el-form-item label="设备编码"
-                            prop="deviceNum">
-                <el-input v-model="form.deviceNum"
-                          placeholder="不用填写，系统自动生成"></el-input>
-              </el-form-item> -->
                <el-form-item label="负责人"
                             prop="person">
-                <UserSelector v-model="form.person" @change="userSelectorChange" style="width:100%;"></UserSelector>
+                <UserSelector v-model="form.person" :propOrgValue="form.person"  style="width:100%;"></UserSelector>
               </el-form-item>
               <el-form-item label="出厂编号"
                             prop="leaveNum">
@@ -182,14 +177,14 @@
           </div>
         </el-col>
       </el-row>
-      <el-form-item style="text-align: center;">
+      <!-- <el-form-item style="text-align: center;">
         <el-button :size="GlobalCss.buttonSize"
                    type="warning"
                    @click="$router.push({name:'eamLedger'})">返回</el-button>
         <el-button :size="GlobalCss.buttonSize"
                    type="primary"
                    @click="handerSubmit()">提交</el-button>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
   </div>
 </template>

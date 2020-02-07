@@ -8,4 +8,5 @@ public interface EamLedgerLastService {
 	public PageInfoBean findEamLedgerLastList(EamLedgerQueryBean querybean);
 
 	public PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean);
+
 }

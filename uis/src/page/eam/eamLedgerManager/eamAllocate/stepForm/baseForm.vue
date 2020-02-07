@@ -13,7 +13,7 @@
       <keep-alive>
         <step1 v-if="active === 1"
                @nextStep="nextStep"
-               @handleCancel="handleCancel" />
+               @handleCancel="handleCancel" :appData=appData />
         <step2 v-if="active === 2"
                @nextStep="nextStep"
                @prevStep="prevStep" />
@@ -46,11 +46,18 @@ export default {
   data () {
     return {
       active: 1,
+      appData: {},
       reqBean: {
         allocateForm: {},
         eamLedgerDatas: [],
         flowProcessInfo: {}
       }
+    }
+  },
+  created: function () {
+    var processObj = JSON.parse(this.$route.params.processInfo)
+    if (processObj.flag === 'view') {
+      this.appData = processObj.data
     }
   },
   methods: {

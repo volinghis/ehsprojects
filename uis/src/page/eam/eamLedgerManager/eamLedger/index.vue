@@ -113,7 +113,7 @@
                                  label="采购价格"
                                  align="center"
                                  width="100"></el-table-column>
-                <el-table-column prop="person"
+                <el-table-column prop="personName"
                                  label="负责人"
                                  align="center"
                                  width="100"></el-table-column>

@@ -242,6 +242,9 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 					List<SequenceFlow> flows = ((UserTask) f).getOutgoingFlows();
 					for (SequenceFlow ff : flows) {
 						FlowElement fe = ff.getTargetFlowElement();
+						if("End".equals(fe.getName())) {
+							continue;
+						}
 						UserTask ut = (UserTask) fe;
 						String keys = ut.getAssignee().replaceAll("[${}]", "");
 						taskMap.put(keys, flowProcessInfo.getVars().get(FlowConstans.TASK_ASSIGNEE));

@@ -6,6 +6,7 @@ export default {
         page: 1,
         query: ''
       },
+      show: false,
       form: {},
       suggestions: [],
       activeName: 'first',
@@ -42,19 +43,17 @@ export default {
     },
     // 编辑
     handleEditClick: function (scope) {
-      this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'edit', data: scope } })
-    },
-    handleClick: function (tab, event) {
-    },
-    handleSizeChange: function () {
+      var that = this
+      this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow', data: scope }, function () {
+        that.initTable()
+      })
     },
     handleQuery () {
       this.initTable()
     },
     // 新增进入流程
     handleAdd () {
-      this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'add' } })
-      // this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow' })
+      this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow' })
     },
     handleExport () {
       this.$message({

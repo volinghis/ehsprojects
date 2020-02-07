@@ -26,7 +26,7 @@ export default {
     getAllocateEamList () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateEamList', this.queryParam).then(res => {
         this.tableData = res.data.dataList
-        this.total = res.data.totalCount
+        this.totalCount = res.data.totalCount
       }).catch(() => {
       })
     },
@@ -61,9 +61,9 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateFlowBean', { params: { key: row.key } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row })
         } else {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row })
         }
       }).catch(error => {
         this.$message({ message: error })
@@ -71,8 +71,10 @@ export default {
     },
     // 新增操作
     handleAllocate: function () {
-      // this.$router.push({ name: 'eamAllocateBaseForm' })
-      this.GlobalMethods.openFlowWin('eamAllocateBaseForm', { processDefineKey: 'EamAllocateFlow' })
+      var that = this
+      this.GlobalMethods.openFlowWin('eamAllocateBaseForm', { processDefineKey: 'EamAllocateFlow', flag: 'edit' }, function () {
+        that.getAllocateEamList()
+      })
     },
     handleDeleteFun (keys) {
       this.$confirm('是否继续?', '提示', {

@@ -11,14 +11,15 @@ export default {
     },
     inintTable () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getListNotPage').then(res => {
-        console.log(res.data)
         this.datas = res.data
       }).catch(error => {
         this.$message({ message: error })
       })
     },
     deviceClick (val) {
-      this.$router.push({ name: 'eamLedgerEdit', params: { flag: 'edit', data: val } })
+      this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow', flag: 'edit', data: val }, function () {
+        this.inintTable()
+      })
     }
 
   },

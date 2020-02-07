@@ -66,22 +66,28 @@ export default {
         allocateDept: ''
       },
       rules: {
-        // applicant: [
-        //   { required: true, message: '请选择申请人', trigger: 'blur' }
-        // ],
-        // applicationName: [
-        //   { required: true, message: '请输入调拨名称', trigger: 'blur' }
-        // ],
-        // allocateReason: [
-        //   { required: true, message: '请输入调拨原因', trigger: 'blur' }
-        // ]
+        applicationName: [
+          { required: true, message: '请输入调拨名称', trigger: 'blur' }
+        ],
+        allocateReason: [
+          { required: true, message: '请输入调拨原因', trigger: 'blur' }
+        ]
       }
     }
   },
+  props: {
+    appData: {
+      type: Object
+    }
+  },
   mounted () {
-    const curUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.allocateForm.applicant = curUser.username
-    this.allocateForm.allocateDept = curUser.orgName
+    if (this.appData) {
+      this.allocateForm = this.appData
+    } else {
+      const curUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+      this.allocateForm.applicant = curUser.username
+      this.allocateForm.allocateDept = curUser.orgName
+    }
   },
   methods: {
     nextStep: function (allocateForm) {

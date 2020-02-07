@@ -56,18 +56,13 @@ export default {
       }]
     }
   },
-  mounted: function () {
-    const deviceData = this.$route.params.data
-    if (this.$route.params.flag === 'edit') {
-      this.form = deviceData
-      this.deviceKey = deviceData.key
-    }
+  created: function () {
+    var processObj = JSON.parse(this.$route.params.processInfo)
+    this.form = processObj.data
+    this.deviceKey = processObj.data.key
   },
   methods: {
     handleAvatarSuccess: function (res, file) {
-    },
-    userSelectorChange (val) {
-      this.form.person = val
     },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
@@ -85,8 +80,8 @@ export default {
             eamLedger: this.form,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
-            inspectorsList: this.inspectorsDatas
-            // flowProcessInfo: process
+            inspectorsList: this.inspectorsDatas,
+            flowProcessInfo: process
           }
           console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
@@ -95,6 +90,8 @@ export default {
                 message: res.data.message,
                 type: 'success'
               })
+              // 流程结束回调
+              window.close()
               this.$refs.form.resetFields() // 表单重置（暂不能重置全部项）
               this.$router.push({ name: 'eamMaintain' }) // 保存成功后页面跳转
             }

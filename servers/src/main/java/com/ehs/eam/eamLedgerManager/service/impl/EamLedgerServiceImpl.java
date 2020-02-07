@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
+import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
@@ -65,6 +67,9 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Resource
 	private EamParametorsDao eamParametersDao;
 
+	@Resource
+	private FlowBaseService flowBaseService;
+	
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#findEamLedgerList(com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean)
 	 */
@@ -97,20 +102,23 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			newKeys = eamRequestBean.getDeviceKeys();
 		}
 		reqEamLedger.setRefDeviceKey(newKeys);
-		System.out.println("---------------------------->" + newKeys);
-		if (StringUtils.isBlank(reqEamLedger.getKey())) {// 设备新建的时候初始化的值
+		// 设备新建的时候初始化的值
+		if (StringUtils.isBlank(reqEamLedger.getKey())) {
 			reqEamLedger.setDeviceStatus("正常");
-		    OrgUser ou=	baseCommonService.findByKey(OrgUser.class, reqEamLedger.getPerson());// 根据key获取员工姓名
-		    reqEamLedger.setPerson(ou.getName());
+			OrgUser ou = baseCommonService.findByKey(OrgUser.class, reqEamLedger.getPerson());// 根据key获取员工姓名
+			reqEamLedger.setPersonName(ou.getName());
 			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll());
 		}
-		EamLedger eamLedger = baseCommonService.saveOrUpdate(reqEamLedger);
-		if (eamLedger != null) {// 设备台账保存成功后
+		// 开始流程
+		ProcessInstance pi = flowBaseService.startProcess(reqEamLedger, eamRequestBean.getFlowProcessInfo());
+		String entityKey = "";
+		if (pi != null) {
+			entityKey = pi.getBusinessKey();
 			List<EamParameters> parameters = eamRequestBean.getParamsList();
 			if (!CollectionUtils.isEmpty(parameters)) {
 
 				for (EamParameters ep : parameters) {
-					ep.setDeviceKey(eamLedger.getKey());
+					ep.setDeviceKey(entityKey);
 					baseCommonService.saveOrUpdate(ep);
 				}
 			}
@@ -119,14 +127,15 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			if (!CollectionUtils.isEmpty(inspectorsList)) {
 
 				for (EamInspectors ei : inspectorsList) {
-					ei.setDeviceKey(eamLedger.getKey());
+					ei.setDeviceKey(entityKey);
 					baseCommonService.saveOrUpdate(ei);
 				}
 			}
-
 		}
+		
 		//  同步数据eamLedgerLast表中
 		EamLedgerLast eLast=new EamLedgerLast();
+		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class,entityKey);
 		BeanUtils.copyProperties(eamLedger, eLast);
 		baseCommonService.saveOrUpdate(eLast);
 	}
@@ -135,9 +144,9 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#getEamParametersByKey(java.lang.String)
 	 */
 	@Override
-	public List<EamParameters> getEamParametersByKey(String code) {
+	public List<EamParameters> getEamParametersByKey(String key) {
 		// TODO Auto-generated method stub
-		return eamParametersDao.findEamParametersByDeviceKey(code);
+		return eamParametersDao.findEamParametersByDeviceKey(key);
 	}
 
 	/**

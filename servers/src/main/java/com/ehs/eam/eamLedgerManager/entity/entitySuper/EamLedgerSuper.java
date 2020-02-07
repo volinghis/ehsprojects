@@ -52,6 +52,7 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	public static final String REPAIR_FREQUENCY = "repairFrequency";
 	public static final String BUYING_PRICE = "buyingPrice";
 	public static final String PERSON = "person";
+	public static final String PERSON_NAME = "personName";
 	public static final String FILE_ID = "fileId";
 	public static final String REPAIR_NUMBER = "repairNumber";
 	public static final String FAULTS_NUMBER = "faultsNumber";
@@ -137,6 +138,8 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	 * 负责人
 	 */
 	private String person;
+	
+	private String personName;
 
 	/**
 	 * 设备图片
@@ -482,6 +485,13 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	public void setProfession(String profession) {
 		this.profession = profession;
 	}
-	
+
+	public String getPersonName() {
+		return personName;
+	}
+
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
 	
 }

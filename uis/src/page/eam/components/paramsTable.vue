@@ -92,16 +92,18 @@ export default {
     }
   },
   methods: {
-    getParamsDataByKey (res) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamParamsByKey', { params: { key: res } }).then(res => {
+    getParamsDataByKey (val) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamParamsByKey', { params: { key: val } }).then(res => {
         this.eam_params.data = res.data
       }).catch(error => {
         this.$message({ message: error })
       })
     },
     add () {
-      for (let i of this.eam_params.data) {
-        if (i.isSet) return this.$message.warning('请先保存当前编辑项')
+      for (var i of this.eam_params.data) {
+        if (i.isSet) {
+          return this.$message.warning('请先保存当前编辑项')
+        }
       }
       let j = {
         'paramName': '',
@@ -114,7 +116,7 @@ export default {
     },
     saveRow (row, index) { // 保存
       let data = JSON.parse(JSON.stringify(this.eam_params.sel))
-      for (let k in data) {
+      for (var k in data) {
         if (data[k] === '') { // 简单验证
           this.$message.warning('不能保存空值或补充完整')
           return
@@ -126,7 +128,7 @@ export default {
       row.isSet = false
     },
     editRow (row) { // 编辑
-      for (let i of this.eam_params.data) {
+      for (var i of this.eam_params.data) {
         if (i.isSet) return this.$message.warning('请先保存当前编辑')
       }
       this.eam_params.sel = row

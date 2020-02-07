@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
@@ -33,7 +36,7 @@ public class EamLedgerLastController {
 	@Resource
 	private BaseCommonService baseCommonService;
 	/**
-	 *     设备台账记录
+	 * 设备台账记录
 	 * @param querybean
 	 * @param request
 	 * @return
@@ -106,5 +109,5 @@ public class EamLedgerLastController {
 	    List<EamLedgerLast> resultList=	eamLedgers.stream().filter(s -> (StringUtils.isEmpty(s.getScrapKey()))).collect(Collectors.toList());
 		return resultList == null ? "[]" : JsonUtils.toJsonString(resultList);
 	}
-
+	
 }

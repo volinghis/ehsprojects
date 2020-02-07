@@ -24,7 +24,7 @@
                    :percentage="scope.row.completePoint"></el-progress>
       </template>
       </el-table-column>
-           <el-table-column prop="person"
+           <el-table-column prop="personName"
                         align="center"
                         label="责任人"
                           width="80"

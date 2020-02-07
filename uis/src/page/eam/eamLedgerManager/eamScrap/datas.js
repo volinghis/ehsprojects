@@ -65,7 +65,10 @@ export default {
     },
     // 新增操作
     handleScrap: function () {
-      this.GlobalMethods.openFlowWin('eamScrapBaseForm', { processDefineKey: 'EamScrapFlow' })
+      var that = this
+      this.GlobalMethods.openFlowWin('eamScrapBaseForm', { processDefineKey: 'EamScrapFlow' }, function () {
+        that.getScrapEamList()
+      })
     },
     handleDeleteFun (keys) {
       this.$confirm('是否继续?', '提示', {
