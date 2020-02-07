@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.bean.RoleQueryBean;
-import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.dao.LoginDao;
 import com.ehs.common.auth.entity.SysRole;
 import com.ehs.common.auth.interfaces.RequestAuth;
@@ -97,7 +96,7 @@ public class RoleController {
 	@RequestMapping(value = "/auth/role/saveRoleInfo")
 	public String saveRoleInfo(@RequestBody SysRole sysRole,HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
-		List<SysRole> roleInfoList=	(List<SysRole>)baseCommonService.findAll(SysRole.class);
+		List<SysRole> roleInfoList=	roleService.findAllRoles();
 		if (roleInfoList!=null&&roleInfoList.size()>0) {
 			long c=roleInfoList.stream().filter(s->StringUtils.equals(s.getDataCode(),sysRole.getDataCode())&&!StringUtils.equals(s.getKey(), sysRole.getKey())).count();
 			if(c>0) {

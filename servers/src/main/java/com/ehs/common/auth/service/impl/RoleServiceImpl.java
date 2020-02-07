@@ -85,4 +85,9 @@ public class RoleServiceImpl implements RoleService {
 		return roles;
 	}
 
+	@Override
+	public List<SysRole> findAllRoles() {
+		return rolesDao.findAllRoles();
+	}
+
 }
