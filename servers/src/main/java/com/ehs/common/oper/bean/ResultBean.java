@@ -61,11 +61,11 @@ public  class ResultBean {
 	 * 
 	 * @return
 	 */
-	private String getEntityKey() {
+	public String getEntityKey() {
 		return entityKey;
 	}
 	
-	private void setEntityKey(String entityKey) {
+	public void setEntityKey(String entityKey) {
 		this.entityKey = entityKey;
 	}
 
