@@ -5,6 +5,7 @@
       <el-form :model="allocateForm"
                ref="allocateForm"
                :rules="rules"
+               :disabled="disable"
                label-width="100px"
                :size="GlobalCss.buttonSize">
         <el-form-item label="申请人："
@@ -44,7 +45,7 @@
       <el-button @click="cancel"
                  type="warning"
                  :size="GlobalCss.buttonSize"
-                 style="margin:10px;">撤销</el-button>
+                 style="margin:10px;">返回</el-button>
       <el-button type="primary"
                  :size="GlobalCss.buttonSize"
                  @click="nextStep(allocateForm)"
@@ -58,6 +59,7 @@ export default {
   data () {
     return {
       value: '1',
+      disable: false,
       allocateForm: {
         applicant: '',
         allocateReason: '',
@@ -76,13 +78,14 @@ export default {
     }
   },
   props: {
-    appData: {
-      type: Object
+    businessKey: {
+      type: String
     }
   },
   mounted () {
-    if (this.appData) {
-      this.allocateForm = this.appData
+    if (this.businessKey) {
+      this.disable = true // 表单数据只读
+      this.getAllocateByKey(this.businessKey)
     } else {
       const curUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
       this.allocateForm.applicant = curUser.username
@@ -97,6 +100,14 @@ export default {
         } else {
           return false
         }
+      })
+    },
+    getAllocateByKey (key) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateByKey', { params: { key: key } }).then(res => {
+        var resData = res.data
+        this.allocateForm = resData
+      }).catch(error => {
+        this.$message({ message: error })
       })
     },
     cancel: function () {

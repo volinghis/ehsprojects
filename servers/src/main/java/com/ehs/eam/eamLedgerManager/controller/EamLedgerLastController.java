@@ -12,15 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;

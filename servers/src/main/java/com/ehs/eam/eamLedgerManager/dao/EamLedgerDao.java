@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -40,5 +41,4 @@ public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 	
 	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
     public EamLedger findEamLedgerByKey(String key);
-	
 }

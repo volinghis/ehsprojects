@@ -125,4 +125,7 @@ public interface EamLedgerService {
 	* 2020年1月7日     qjj        v1.0.0            修改原因
 	*/
 	void removeRelatedEamLedgers(String devicekey, String keys);
+
+
+	public PageInfoBean findEamLedgersNotInFlow(EamLedgerQueryBean querybean);
 }

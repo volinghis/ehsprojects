@@ -13,10 +13,10 @@
       <keep-alive>
         <step1 v-if="active === 1"
                @nextStep="nextStep"
-               @handleCancel="handleCancel" :appData=appData />
+               @handleCancel="handleCancel" :businessKey=businessKey />
         <step2 v-if="active === 2"
                @nextStep="nextStep"
-               @prevStep="prevStep" />
+               @prevStep="prevStep" :businessKey=businessKey />
       </keep-alive>
       <step3 v-if="active === 3"
              @nextStep="nextStep"
@@ -47,6 +47,7 @@ export default {
     return {
       active: 1,
       appData: {},
+      businessKey: '',
       reqBean: {
         allocateForm: {},
         eamLedgerDatas: [],
@@ -56,8 +57,12 @@ export default {
   },
   created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
-    if (processObj.flag === 'view') {
-      this.appData = processObj.data
+    if (JSON.stringify(processObj) !== '{}') {
+      if (JSON.stringify(processObj.data) !== undefined) {
+        this.businessKey = processObj.data.key
+      } else {
+        this.businessKey = processObj.businessKey
+      }
     }
   },
   methods: {
@@ -85,9 +90,7 @@ export default {
       window.close()
     },
     handlerAfterFlow (v) { // 流程结束数据处理
-      console.log(v)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/updateAfterAllocateFlow', v).then(res => {
-        console.log(res.data)
         if (res.data.resultType === 'ok') {
           window.close()
         }
@@ -97,7 +100,6 @@ export default {
     },
     handerSubmit (process) {
       this.reqBean.flowProcessInfo = process
-      console.log(this.reqBean)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {
           this.active += 1

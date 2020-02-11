@@ -43,9 +43,9 @@ export default {
     },
     // 编辑
     handleEditClick: function (scope) {
-      var that = this
+      var _this = this
       this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow', data: scope }, function () {
-        that.initTable()
+        _this.initTable()
       })
     },
     handleQuery () {
@@ -53,7 +53,10 @@ export default {
     },
     // 新增进入流程
     handleAdd () {
-      this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow' })
+      var _this = this
+      this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow' }, function () {
+        _this.initTable()
+      })
     },
     handleExport () {
       this.$message({

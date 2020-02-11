@@ -45,7 +45,10 @@
                class="clearfix">
             <label>设备结构树</label>
           </div>
-          <el-tree :data="data"
+          <el-tree :data="treeData"
+                   node-key="id"
+                    ref="tree"
+                   :default-expanded-keys="defaultExpandKeys"
                    :props="defaultProps"
                    @node-click="handleNodeClick">
             <span class="custom-tree-node"
@@ -146,13 +149,7 @@
                   </el-form-item>
                   <el-form-item label="上传资料:"
                                 :label-width="formLabelWidth">
-                    <el-upload class="upload-demo"
-                               action="https://jsonplaceholder.typicode.com/posts/">
-                      <el-button size="small"
-                                 type="primary">点击上传</el-button>
-                      <div slot="tip"
-                           class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
+                    <my-upload></my-upload>
                   </el-form-item>
                 </el-form>
                 <div slot="footer"
@@ -170,158 +167,9 @@
   </div>
 </template>
 <script>
-import word from '../../../assets/word.png'
-import excle from '../../../assets/excle.png'
-import pdf from '../../../assets/pdf.png'
-import txt from '../../../assets/txt.png'
-import PPT from '../../../assets/PPT.png'
-export default {
-  data () {
-    return {
-      queryParam: {},
-      form: {},
-      dialogFormVisible: false,
-      formLabelWidth: '100px',
-      mainHeight: 0,
-      tableData: [
-        {
-          deviceImg: word,
-          fileName: '2019100001',
-          refDevice: '锅炉',
-          category: '说明书',
-          person: '王小虎',
-          uploadTime: '2019-05-02'
-        },
-        {
-          deviceImg: excle,
-          fileName: '2019100001',
-          refDevice: '锅炉',
-          category: '说明书',
-          person: '王小虎',
-          uploadTime: '2019-05-02'
-        },
-        {
-          deviceImg: pdf,
-          fileName: '2019100001',
-          refDevice: '锅炉',
-          category: '说明书',
-          person: '王小虎',
-          uploadTime: '2019-05-02'
-        },
-        {
-          deviceImg: PPT,
-          fileName: '2019100001',
-          refDevice: '锅炉',
-          category: '说明书',
-          person: '王小虎',
-          uploadTime: '2019-05-02'
-        },
-        {
-          deviceImg: txt,
-          fileName: '2019100001',
-          refDevice: '锅炉',
-          category: '说明书',
-          person: '王小虎',
-          uploadTime: '2019-05-02'
-        }
-      ],
-      data: [{
-        label: '西安东恒发电厂',
-        children: [{
-          label: '电气专业',
-          className: 'first-level',
-          children: [{
-            label: '一号机组',
-            className: 'second-level'
-          }]
-        }, {
-          label: '汽机专业',
-          className: 'first-level',
-          children: [{
-            label: '一号机组',
-            className: 'second-level',
-            children: [{
-              label: '三级 2-1-1',
-              className: 'third-level'
-            }]
-          }, {
-            label: '二号机组',
-            className: 'second-level',
-            children: [{
-              label: '三级 2-2-1',
-              className: 'third-level'
-            }]
-          }]
-        }, {
-          label: '脱硫专业',
-          className: 'first-level',
-          children: [{
-            label: '一号机组',
-            className: 'second-level',
-            children: [{
-              label: '三级 3-1-1',
-              className: 'third-level'
-            }]
-          }, {
-            label: '二号机组',
-            className: 'second-level',
-            children: [{
-              label: '三级 3-2-1',
-              className: 'third-level'
-            }]
-          }]
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
-    }
-  },
-  mounted: function () {
-    var h = document.querySelector('.searchCol').offsetHeight
-    this.mainHeight = this.$store.state.contentHeight - h - 8
-  },
-  methods: {
-    handleViewClick: function (scope) {
-      // 预览
-    },
-    handleDownLoadClick: function (scope) {
-      alert('准备下载当前资料')
-    },
-    handlePageChange: function () {
-    },
-    handleNodeClick: function (data) {
-    }
-  }
-}
+import datas from './datas'
+export default datas
 </script>
 <style lang="scss" scoped>
-.operate {
-  margin-bottom: 20px;
-}
-/deep/.el-card__header {
-  border-bottom: 1px solid #409eff;
-}
-.searchCol {
-  margin-bottom: 5px;
-}
-@mixin setColor($color) {
-  width: 10px;
-  height: 10px;
-  background-color: $color;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  display: inline-block;
-}
-.first-level {
-  @include setColor(#000080);
-}
-.second-level {
-  @include setColor(#9e23ea);
-}
-.third-level {
-  @include setColor(#1cd4d4);
-}
+@import "./styles.scss";
 </style>

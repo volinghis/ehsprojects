@@ -55,7 +55,7 @@ import com.ehs.eam.eamLedgerManager.service.EamAllocateService;
 public class EamAllocateServiceImpl implements EamAllocateService {
 
 	@Resource
-	private EamAllocateDao EamAllocateDao;
+	private EamAllocateDao eamAllocateDao;
 
 	@Resource
 	private BaseCommonService baseCommonService;
@@ -108,7 +108,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	public PageInfoBean findEamAllocateList(EamAllocateQueryBean AllocateQueryBean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
-		Page<EamAllocate> eamAllocateage = EamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(),
+		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(),
 				pageRequest);
 		if (eamAllocateage != null) {
 			List<EamAllocate> resList = eamAllocateage.getContent();
@@ -117,6 +117,8 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 				if (fpi != null) {
 					el.setStatus(fpi.getFlowCurrentStepName());
 				}
+				OrganizationInfo org=baseCommonService.findByKey(OrganizationInfo.class, el.getTargetDept());
+				el.setTargetDept(org.getName());
 			}
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(resList);
@@ -149,7 +151,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		if (ea != null) {
 			ea.setAllocateDate(new Timestamp(System.currentTimeMillis()));
 			//设备更新表数据更新
-			EamLedger el = EamAllocateDao.findEamByAllocateKey(flowProcessInfo.getBusinessEntityKey());
+			EamLedger el = eamAllocateDao.findEamByAllocateKey(flowProcessInfo.getBusinessEntityKey());
 			el.setDeviceStatus("已调拨");
 			el.setInstallLocation(ea.getTargetPosition());
 			el.setProfession(ea.getTargetDept());
@@ -176,5 +178,10 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 			}
 		}
 		return eFlowBean;
+	}
+
+	@Override
+	public EamLedger EamLedgerByAllocateKey(String key) {
+		return eamAllocateDao.findEamByAllocateKey(key);
 	}
 }

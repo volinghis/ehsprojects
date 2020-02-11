@@ -24,6 +24,8 @@ import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
+import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 import com.ehs.eam.eamLedgerManager.service.EamScrapService;
 
 /**
@@ -49,22 +51,21 @@ public class EamScrapController {
 
 	@Resource
 	private BaseCommonService baseCommonService;
-	
+
 	/**
 	 * 
-	* @Function:getEamScrapList 
-	* @Description: 获取设备报废申请记录
-	* @param scrapQueryBean
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月10日 下午3:15:42 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月10日     qjj        v1.0.0            修改原因
+	 * @Function:getEamScrapList
+	 * @Description: 获取设备报废申请记录
+	 * @param scrapQueryBean
+	 * @return
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年1月10日 下午3:15:42
+	 *
+	 *        Modification History: Date Author Version Description
+	 *        ---------------------------------------------------------* 2020年1月10日
+	 *        qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/getScrapEamList")
@@ -100,23 +101,21 @@ public class EamScrapController {
 		}
 		return JsonUtils.toJsonString(resultBean.ok("保存成功"));
 	}
-	
-	
+
 	/**
 	 * 
-	* @Function:deleteEamScrap 
-	* @Description: 删除设备报废记录
-	* @param key
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月10日 下午3:17:50 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月10日     qjj        v1.0.0            修改原因
+	 * @Function:deleteEamScrap
+	 * @Description: 删除设备报废记录
+	 * @param key
+	 * @return
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年1月10日 下午3:17:50
+	 *
+	 *        Modification History: Date Author Version Description
+	 *        ---------------------------------------------------------* 2020年1月10日
+	 *        qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/deleteEamScrap")
@@ -130,32 +129,37 @@ public class EamScrapController {
 		}
 		return JsonUtils.toJsonString(resultBean.ok("删除成功"));
 	}
-	
+
 	/**
 	 * 
-	* @Function:getScrapFlowBean 
-	* @Description: 获取设备报废流程
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月14日 下午8:06:34 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月14日     qjj        v1.0.0            修改原因
+	 * @Function:getScrapFlowBean
+	 * @Description: 获取设备报废流程
+	 * @return
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年1月14日 下午8:06:34
+	 *
+	 *        Modification History: Date Author Version Description
+	 *        ---------------------------------------------------------* 2020年1月14日
+	 *        qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = {"eamScrap"})
+	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/getScrapFlowBean")
 	public String getScrapFlowBean(@RequestParam String key) {
-	EamFlowBean eamScrapFlowBean=	eamScrapService.findScrapFlowBean(key);
-		return eamScrapFlowBean!=null?JsonUtils.toJsonString(eamScrapFlowBean):"{}";
+		EamFlowBean eamScrapFlowBean = eamScrapService.findScrapFlowBean(key);
+		return eamScrapFlowBean != null ? JsonUtils.toJsonString(eamScrapFlowBean) : "{}";
 	}
-	
-	
-	@RequestAuth(menuKeys = {"eamScrap"})
-	@RequestMapping(value="/updateAfterFlow")
+
+	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestMapping(value = "/getEamLedgerByScrapKey")
+	public String getEamLedgerByScrapKey(@RequestParam String key) {
+		EamLedger eamLedger = eamScrapService.findEamLedgerByScrapKey(key);
+		return eamLedger != null ? JsonUtils.toJsonString(eamLedger) : "{}";
+	}
+
+	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestMapping(value = "/updateAfterFlow")
 	public String updateAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
 		ResultBean resultBean = new ResultBean();
 		try {
@@ -165,5 +169,12 @@ public class EamScrapController {
 			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));
 		}
 		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
+	}
+
+	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestMapping(value = "/getScrapByKey")
+	public String getScrapByKey(@RequestParam String key) {
+		EamScrap eamScrap = baseCommonService.findByKey(EamScrap.class, key);
+		return eamScrap != null ? JsonUtils.toJsonString(eamScrap) : "{}";
 	}
 }

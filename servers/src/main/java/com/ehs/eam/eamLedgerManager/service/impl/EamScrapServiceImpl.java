@@ -166,4 +166,9 @@ public class EamScrapServiceImpl implements EamScrapService {
 		ell.setDeviceStatus(status);
 		baseCommonService.saveOrUpdate(ell);
 	}
+
+	@Override
+	public EamLedger findEamLedgerByScrapKey(String key) {
+		return eamScrapDao.findEamByScrapKey(key);
+	}
 }

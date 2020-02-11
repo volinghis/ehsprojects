@@ -11,6 +11,8 @@ package com.ehs.eam.eamLedgerManager.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -48,9 +50,9 @@ import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
  * @author: qjj
  * @date: 2019年12月30日 下午4:06:57
  *
- * Modification History: Date Author Version Description
- * ---------------------------------------------------------* 2019年12月30日
- * qjj v1.0.0 修改原因
+ *        Modification History: Date Author Version Description
+ *        ---------------------------------------------------------* 2019年12月30日
+ *        qjj v1.0.0 修改原因
  */
 @Service
 public class EamLedgerServiceImpl implements EamLedgerService {
@@ -69,7 +71,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 
 	@Resource
 	private FlowBaseService flowBaseService;
-	
+
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#findEamLedgerList(com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean)
 	 */
@@ -132,10 +134,10 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 				}
 			}
 		}
-		
-		//  同步数据eamLedgerLast表中
-		EamLedgerLast eLast=new EamLedgerLast();
-		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class,entityKey);
+
+		// 同步数据eamLedgerLast表中
+		EamLedgerLast eLast = new EamLedgerLast();
+		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
 		BeanUtils.copyProperties(eamLedger, eLast);
 		baseCommonService.saveOrUpdate(eLast);
 	}
@@ -189,7 +191,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		return resEamLedgers;
 	}
 
-
 	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#saveRelatedDevices(java.lang.String,
 	 *      java.lang.String)
@@ -225,5 +226,20 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			eamLedger.setRefDeviceKey(StringUtils.join(arr1.toArray(), ","));
 			baseCommonService.saveOrUpdate(eamLedger);
 		}
+	}
+
+	@Override
+	public PageInfoBean findEamLedgersNotInFlow(EamLedgerQueryBean querybean) {
+		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
+		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		if (eamLedgers != null) {
+			PageInfoBean pb = new PageInfoBean();
+			List<EamLedger> resultList=new ArrayList<EamLedger>();
+			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(),"已报废"))).collect(Collectors.toList());
+			pb.setDataList(resultList);
+			pb.setTotalCount(eamLedgers.getTotalElements());
+			return pb;
+		}
+		return null;
 	}
 }

@@ -13,11 +13,11 @@
       <keep-alive>
         <step1 v-if="active === 1"
                @nextStep="nextStep"
-               @handleCancel="handleCancel" />
+               @handleCancel="handleCancel" :businessKey=businessKey />
       </keep-alive>
         <step2 v-if="active === 2"
                @nextStep="nextStep"
-               @prevStep="prevStep" />
+               @prevStep="prevStep" :businessKey=businessKey />
       <step3 v-if="active === 3"
              @nextStep="nextStep"
              @prevStep="prevStep" />
@@ -46,10 +46,21 @@ export default {
   data () {
     return {
       active: 1,
+      businessKey: '',
       reqBean: {
         eamScrap: {},
         scrapDatas: [],
         flowProcessInfo: {}
+      }
+    }
+  },
+  created: function () {
+    var processObj = JSON.parse(this.$route.params.processInfo)
+    if (JSON.stringify(processObj) !== '{}') {
+      if (JSON.stringify(processObj.data) !== undefined) {
+        this.businessKey = processObj.data.key
+      } else {
+        this.businessKey = processObj.businessKey
       }
     }
   },

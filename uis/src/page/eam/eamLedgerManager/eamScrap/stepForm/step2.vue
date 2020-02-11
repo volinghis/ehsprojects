@@ -19,7 +19,7 @@
                          label="规格型号"> </el-table-column>
         <el-table-column prop="installLocation"
                          label="安装位置"> </el-table-column>
-        <el-table-column prop="person"
+        <el-table-column prop="personName"
                          label="负责人"> </el-table-column>
       </el-table>
     </template>
@@ -55,6 +55,32 @@ export default {
   components: {
     EamList
   },
+  data () {
+    return {
+      dialogTableVisible: false,
+      isDisable: false,
+      selectRow: {},
+      form: {
+        deviceName: '',
+        deviceNum: '',
+        installLocation: '',
+        person: '',
+        deviceModel: ''
+      },
+      tableData: []
+    }
+  },
+  props: {
+    businessKey: {
+      type: String
+    }
+  },
+  created () {
+    if (this.businessKey) {
+      this.isDisable = true
+      this.getRefDevice(this.businessKey)
+    }
+  },
   methods: {
     nextStep: function () {
       if (!this.tableData.length > 0) {
@@ -69,26 +95,20 @@ export default {
     prevStep: function () {
       this.$emit('prevStep')
     },
+    getRefDevice (key) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/getEamLedgerByScrapKey', { params: { key: key } }).then(res => {
+        var resData = res.data
+        this.tableData.push(resData)
+      }).catch(error => {
+        this.$message({ message: error })
+      })
+    },
     handleDetermine () {
       this.dialogTableVisible = false
       this.tableData.push(this.selectRow)
     },
     handlerSelect (val) {
       this.selectRow = val
-    }
-  },
-  data () {
-    return {
-      dialogTableVisible: false,
-      selectRow: {},
-      form: {
-        deviceName: '',
-        deviceNum: '',
-        installLocation: '',
-        person: '',
-        deviceModel: ''
-      },
-      tableData: []
     }
   }
 }

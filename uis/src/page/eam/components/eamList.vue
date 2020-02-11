@@ -102,7 +102,7 @@ export default {
       })
     },
     getLedgerListNotScrap () { // 未报废的设备集合
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamLedgersNotInFlow', this.queryParam).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(error => {

@@ -4,6 +4,7 @@
     <div style="width:500px; margin: 40px auto 0;">
       <el-form :model="scrapStepForm"
                ref="scrapStepForm"
+               :disabled="disable"
                :rules="rules"
                label-width="100px"
                :size="GlobalCss.buttonSize">
@@ -59,6 +60,7 @@ export default {
   data () {
     return {
       value: '1',
+      disable: false,
       sessionUser: {},
       scrapStepForm: {
         applicant: '',
@@ -78,21 +80,38 @@ export default {
       date: new Date()
     }
   },
+  props: {
+    businessKey: {
+      type: String
+    }
+  },
   mounted () {
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    const curUser = this.sessionUser
-    this.scrapStepForm.applicant = curUser.username
-    this.scrapStepForm.scrapDept = curUser.orgName
+    if (this.businessKey) {
+      this.disable = true // 表单数据只读
+      this.getScrapByKey(this.businessKey)
+    } else {
+      this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+      const curUser = this.sessionUser
+      this.scrapStepForm.applicant = curUser.username
+      this.scrapStepForm.scrapDept = curUser.orgName
+    }
   },
   methods: {
     nextStep: function (scrapStepForm) {
       this.$refs.scrapStepForm.validate((valid) => {
         if (valid) {
-          console.log(this.scrapStepForm)
           this.$emit('nextStep', this.scrapStepForm)
         } else {
           return false
         }
+      })
+    },
+    getScrapByKey (key) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/getScrapByKey', { params: { key: key } }).then(res => {
+        var resData = res.data
+        this.scrapStepForm = resData
+      }).catch(error => {
+        this.$message({ message: error })
       })
     },
     cancel: function () {

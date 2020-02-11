@@ -80,7 +80,6 @@ export default {
     // 移除
     handleDeleteClick () {
       const checked = this.checkedDatas
-      console.log(checked)
       if (!checked.length > 0) {
         this.$message({
           message: '请选择要移除的子设备',

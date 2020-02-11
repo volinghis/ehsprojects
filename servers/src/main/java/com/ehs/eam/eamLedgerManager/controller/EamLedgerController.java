@@ -306,4 +306,12 @@ public class EamLedgerController {
 		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, key);
 		return eamLedger == null ? "{}" : JsonUtils.toJsonString(eamLedger);
 	}
+	
+	
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/getEamLedgersNotInFlow")
+	public String getEamLedgersNotInFlow(@RequestBody EamLedgerQueryBean querybean) {
+		PageInfoBean pageBean = eamLedgerService.findEamLedgersNotInFlow(querybean);
+		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
+	}
 }

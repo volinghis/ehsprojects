@@ -36,9 +36,9 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/getScrapFlowBean', { params: { key: row.key } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, data: row })
         } else {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, data: row })
         }
       }).catch(error => {
         this.$message({ message: error })

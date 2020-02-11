@@ -36,7 +36,7 @@
 			<menu dataCode="eamLedger" key="eamLedger" name="设备台账" url="/eam/eamLedgerManager/eamLedger/index" parentKey="eamLedgerManager" icon="fa-gears" sort="21">
 				<menu dataCode="eamLedgerDetail" key="eamLedgerDetail" name="设备台账详情" url="/eam/eamLedgerManager/eamLedger/details/index" business="true" sort="211"></menu>
 			</menu>
-			<menu dataCode="eamMaintain" key="eamMaintain" name="设备维护" url="/eam/eamLedgerManager/eamMaintain/index" parentKey="eamLedgerManager" icon="fa-gears" sort="22">
+			<menu dataCode="eamMaintain" key="eamMaintain" name="设备更新" url="/eam/eamLedgerManager/eamMaintain/index" parentKey="eamLedgerManager" icon="fa-gears" sort="22">
 			    <menu dataCode="eamLedgerEdit" key="eamLedgerEdit" name="设备台账编辑" url="/eam/eamLedgerManager/eamMaintain/edit/index" business="true" sort="221"></menu>
 			</menu>
 			<menu dataCode="eamScrap" key="eamScrap" name="设备报废" url="/eam/eamLedgerManager/eamScrap/index" parentKey="eamLedgerManager" icon="fa-gears" sort="23">

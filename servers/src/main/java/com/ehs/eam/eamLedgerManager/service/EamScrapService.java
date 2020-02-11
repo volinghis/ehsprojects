@@ -13,6 +13,7 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
+import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -102,4 +103,6 @@ public interface EamScrapService {
      * @param flowProcessInfo 
      */
 	public void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo);
+
+	EamLedger findEamLedgerByScrapKey(String key);
 }

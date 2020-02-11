@@ -61,7 +61,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateFlowBean', { params: { key: row.key } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', data: row })
         } else {
           this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row })
         }

@@ -154,7 +154,7 @@ export default {
       this.nameLab = node.data.label
     },
     add () {
-      for (let i of this.eam_Inspectors.data) {
+      for (var i of this.eam_Inspectors.data) {
         if (i.isSet) return this.$message.warning('请先保存当前编辑项')
       }
       let j = {
@@ -170,14 +170,14 @@ export default {
     },
     saveRow (row, index) { // 保存
       let data = JSON.parse(JSON.stringify(this.eam_Inspectors.sel))
-      for (let k in data) {
+      for (var k in data) {
         row[k] = data[k] // 将sel里面的value赋值给这一行
       }
       this.$emit('getInspectors', data)
       row.isSet = false
     },
     editRow (row) { // 编辑
-      for (let i of this.eam_Inspectors.data) {
+      for (var i of this.eam_Inspectors.data) {
         if (i.isSet) return this.$message.warning('请先保存当前编辑')
       }
       this.eam_Inspectors.sel = row

@@ -56,10 +56,13 @@ export default {
       }]
     }
   },
-  created: function () {
+  mounted: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
-    this.form = processObj.data
-    this.deviceKey = processObj.data.key
+    var resData = processObj.data
+    if (JSON.stringify(resData) !== '{}') {
+      this.form = resData
+      this.deviceKey = resData.key
+    }
   },
   methods: {
     handleAvatarSuccess: function (res, file) {
@@ -83,7 +86,6 @@ export default {
             inspectorsList: this.inspectorsDatas,
             flowProcessInfo: process
           }
-          console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

@@ -22,11 +22,9 @@ export default {
   methods: {
     initTree () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas').then(res => {
-        console.log(res.data)
         var resDatas = res.data.filter((data) => {
           return !data.business
         })
-        console.log(resDatas)
         this.treeData = resDatas
       }).catch(error => {
         this.$message({ message: error })
