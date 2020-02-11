@@ -3,6 +3,7 @@ import editPart from '../editPart/index.vue'
 export default {
   data () {
     return {
+      flag: false,
       tPrice: 0,
       partDatas: [],
       tableData: [],
@@ -26,9 +27,23 @@ export default {
   props: {
     parts: Array,
     partsTable: Array,
-    totalCounts: Number
+    totalCounts: Number,
+    objPart: Object,
+    showFlag: String
   },
   watch: {
+    showFlag: function (val) {
+      if (val === 'view') {
+        this.flag = false
+      } else {
+        this.flag = true
+      }
+    },
+    objPart: {
+      handler: function (val) {
+        this.tableData.push(val)
+      }
+    },
     totalCounts: function (val) {
       this.totalCount = val
     },
@@ -41,22 +56,27 @@ export default {
       }
     },
     parts: {
-      handler (newName) {
-        this.select.push.apply(this.select, newName)
+      handler (val) {
+        var newVal = []
+        val.forEach(e => {
+          e.key = ''
+          newVal.push(e)
+        })
+        this.select.push.apply(this.select, newVal)
         this.unique(this.select)
         this.tableData = this.select
-        this.partDatas = newName
+        this.partDatas = newVal
       }
     },
     deep: true
   },
   mounted: function () {
-    var hdiv = document.querySelector('.divHeight').offsetHeight
-    var hsubmiit = document.querySelector('.submitHeight').offsetHeight
-    var hsearch = document.querySelector('.searchHeight').offsetHeight
-    var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    var hpage = document.querySelector('.pageHeight').offsetHeight
-    this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
+    // var hdiv = document.querySelector('.divHeight').offsetHeight
+    // var hsubmiit = document.querySelector('.submitHeight').offsetHeight
+    // var hsearch = document.querySelector('.searchHeight').offsetHeight
+    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
+    // var hpage = document.querySelector('.pageHeight').offsetHeight
+    // this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
   },
   methods: {
     unique: function (arr) {
@@ -81,11 +101,11 @@ export default {
           this.tableData.forEach((e, index) => {
             if (e.key === this.$refs.partData.form.key) {
               this.tableData.splice(index, 1)
-              // this.$refs.partData.form.totalPrice = this.$refs.partData.form.amount * this.$refs.partData.form.price
-              var d = new Date(this.$refs.partData.form.leaveFactoryDate)
-              var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
-              this.$refs.partData.form.leaveFactoryDate = datetime
-              console.log(this.$refs.partData.form)
+              if (this.$refs.partData.form.leaveFactoryDate !== '') {
+                var d = new Date(this.$refs.partData.form.leaveFactoryDate)
+                var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
+                this.$refs.partData.form.leaveFactoryDate = datetime
+              }
               this.tableData.push(this.$refs.partData.form)
               // this.tableParams = this.tableData
               this.$emit('tableParams', this.tableData)

@@ -73,10 +73,27 @@
         <el-table-column prop="founder"
                          label="入库人"
                          align="center"></el-table-column>
+                         <el-table-column prop="status"
+                           label="任务状态"
+                           align="center">
+            <template slot-scope="scope">
+              <div slot="reference">
+                <el-tag size="mini"
+                        v-if="(scope.row.status === '负责人审核')"
+                        type="primary">{{ scope.row.status}}</el-tag>
+                <el-tag size="mini"
+                        v-else-if="(scope.row.status  === '已结束')"
+                        type="success">{{ scope.row.status}}</el-tag>
+                <el-tag size="mini"
+                        v-else-if="(scope.row.status  === '已驳回')"
+                        type="danger">{{ scope.row.status}}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
         <!-- <el-table-column prop="remark"
                          label="备注"
                          align="center"></el-table-column> -->
-        <el-table-column fixed="right"
+        <!-- <el-table-column fixed="right"
                          label="操作"
                          width="150"
                          align="center">
@@ -88,7 +105,7 @@
                        type="danger"
                        :size="GlobalCss.controlSize">删除</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <div style="text-align:right;">
         <el-pagination class="pageHeight"

@@ -1,5 +1,7 @@
 package com.ehs.eam.eamPartLibraryManager.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +21,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 
 	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<PartsExtends> getExtendsByKey(String key, PageRequest pageRequest);
+	
+	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public List<PartsExtends> getAllByWareHouseKey(String wareHouseKey);
 }

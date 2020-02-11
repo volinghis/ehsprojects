@@ -1,11 +1,26 @@
 export default {
   methods: {
     handleAdd: function () {
-      this.$router.push({ name: 'enterWarehouseEdit', params: { flag: 'add', replace: true } })
+      // this.$router.push({ name: 'enterWarehouseEdit', params: { flag: 'add', replace: true } })
+      this.GlobalMethods.openFlowWin('enterWarehouseEdit', { processDefineKey: 'EamEnterWareHouseFlow', flag: 'add', replace: true }, function () {
+        this.getTableData()
+      })
     },
-    handleClick: function (row) {
-      console.log(row)
-      this.$router.push({ name: 'enterWarehouseEdit', params: { data: row, flag: 'view', replace: true } })
+    // handleClick: function (row) {
+    //   this.$router.push({ name: 'enterWarehouseEdit', params: { data: row, flag: 'view', replace: true } })
+    // },
+    handleClick (row) { // 查看
+      const currentUser = this.sessionUser.userName
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseFlowBean', { params: { key: row.key } }).then(res => {
+        const entityProcessInfo = res.data
+        if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', data: row, replace: true })
+        } else {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row, replace: true })
+        }
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     },
     handleDelete: function (row) {
       confirm('确定删除此数据吗？')
@@ -43,7 +58,6 @@ export default {
       }
     },
     handleSelect: function (item) {
-      console.log(item)
     },
     getTableData: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getAll', this.form).then(res => {
@@ -66,6 +80,7 @@ export default {
     this.restaurants = this.loadAll()
     this.loadAll()
     this.getTableData()
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {

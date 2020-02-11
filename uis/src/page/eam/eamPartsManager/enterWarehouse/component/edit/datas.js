@@ -7,6 +7,9 @@ export default {
   },
   data () {
     return {
+      obj: {},
+      show: false,
+      showFlag: '',
       parts: [],
       pDatas: [],
       partsTable: [],
@@ -45,58 +48,73 @@ export default {
   mounted () {
     const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.form.founder = user.username
-    if (this.$route.params.data != null) {
-      this.form = this.$route.params.data
-    }
-    this.parts = this.$route.params.pData
-    this.flag = this.$route.params.flag
-    // console.log(this.flag)
-    if (this.flag === 'add') {
-      // console.log(this.$refs.table._data)
-      // console.log(this.$refs.table.tableData.length)
-      if (this.$refs.table.tableData.length > 1) {
-        // console.log('hhhhhhh')
-        this.$refs.table.tableData = []
+    var processObj = JSON.parse(this.$route.params.processInfo)
+    if (processObj.data != null) {
+      if (processObj.flag === 'view') {
+        this.form = processObj.data
+      }
+    } else {
+      if (processObj.businessKey !== undefined) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
+          this.form = res.data
+          this.getPartsAccounts()
+        })
       }
     }
-    if (this.flag === 'edit') {
+    // this.parts = this.$route.params.pData
+    this.flag = processObj.flag
+    if (this.flag === 'add') {
+      if (this.$refs.table.tableData.length > 1) {
+        this.$refs.table.tableData = []
+      }
+      this.show = true
+      this.showFlag = 'add'
+    } else {
+      this.show = false
+      this.showFlag = 'view'
       this.getPartsAccounts()
     }
   },
   methods: {
     handleClose: function (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => { })
+      this.$confirm('确认关闭？').then(_ => {
+        done()
+      }).catch(_ => { })
     },
     getPartsAccounts: function () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getExtendsByKey', { params: { key: this.form.key } }).then(res => {
         if (res.data.totalCount > 0) {
-          // this.parts = res.data.dataList
           this.partsTable = res.data.dataList
           this.totalCount = res.data.totalCount
         }
       })
     },
-    submitForm: function () {
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/updateAfterFlow', v).then(res => {
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
+    },
+    handerSubmit: function (processInfo) {
       this.$refs.form.validate(valid => {
         if (valid) {
-          // console.log(this.parts)
           const requestParam = {
             enterWareHouse: this.form,
             // partsAccounts: this.parts
-            partsExtends: this.tableDatas
+            partsExtends: this.tableDatas,
+            flowProcessInfo: processInfo
           }
-          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/saveEnterWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
                 message: res.data.message,
                 type: 'success'
               })
-              this.$router.push({ name: 'enterWarehouse', replace: true })
+              // this.$router.push({ name: 'enterWarehouse', replace: true })
+              window.close()
             } else {
               this.$message.error(res.data.message)
             }
@@ -113,6 +131,32 @@ export default {
     resetSelect: function () {
       this.dialogVisible = false
       this.parts = []
+    },
+    handlerAdd: function () {
+      var str = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0
+        var v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+      })
+      let partObj = {
+        key: str,
+        deviceName: '',
+        deviceCode: '',
+        norm: '',
+        materialCode: '',
+        materialType: '',
+        manufacturer: '',
+        leaveFactoryCode: '',
+        leaveFactoryDate: '',
+        warningValue: '',
+        founder: '',
+        supplier: '',
+        price: 0,
+        amount: 0,
+        unit: '',
+        totalPrice: 0
+      }
+      this.obj = partObj
     },
     overSelect: function () {
       this.dialogVisible = false

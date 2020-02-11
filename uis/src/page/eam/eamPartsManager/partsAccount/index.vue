@@ -68,17 +68,17 @@
         <el-table-column
                          prop="deviceCode"
                          label="备件编号"
-                         width="200"
+                         width="120"
                          align="center">
         </el-table-column>
         <el-table-column prop="deviceName"
                          label="备件名称"
-                         width="200"
+                         width="120"
                          align="center">
         </el-table-column>
         <el-table-column prop="completePoint"
                          label="资料完整度"
-                         width="200"
+                         width="160"
                          sortable
                          align="center">
           <template slot-scope="scope">
@@ -87,19 +87,29 @@
                          align="center"></el-progress>
           </template>
         </el-table-column>
+        <el-table-column prop="warehouseCode"
+                         label="入库编码"
+                         width="100"
+                         align="center">
+        </el-table-column>
+        <el-table-column prop="warehouseName"
+                         label="所在仓库"
+                         width="100"
+                         align="center">
+        </el-table-column>
         <el-table-column prop="norm"
                          label="规格型号"
-                         width="200"
+                         width="120"
                          align="center">
         </el-table-column>
         <el-table-column prop="materialCode"
                          label="物资编码"
-                         width="130"
+                         width="120"
                          align="center">
         </el-table-column>
         <el-table-column prop="materialType"
                          label="物资类别"
-                         width="150"
+                         width="120"
                          align="center">
         </el-table-column>
         <!-- <el-table-column prop="manufacturer"

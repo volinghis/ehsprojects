@@ -1,20 +1,25 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.common.flow.service.FlowBaseService;
+import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.dao.EnterWareHouseDao;
@@ -28,6 +33,7 @@ import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 
 @Service
 public class EnterWareHouseServiceImpl implements EnterWareHouseService {
+	private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseServiceImpl.class);
 	
 	@Resource
 	private EnterWareHouseDao ewhDao;
@@ -44,81 +50,88 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	@Resource
 	private PartsAccountService accountService;
 
+	@Resource
+	private FlowBaseService flowBaseService; 
+	
+	@Resource
+	private FlowProcessInfoService flowProcessInfoService;
+
 	@Override
 	public PageInfoBean findAll(QueryBean queryBean) {
-		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		Page<EnterWareHouse> parts = ewhDao.findAll(pageRequest);
-		if (parts!=null) {
+		Page<EnterWareHouse> enterWareHouses = ewhDao.findAll(pageRequest);
+		if (enterWareHouses!=null) {
+			List<EnterWareHouse> enterWareHouseList  = enterWareHouses.getContent();
+			for (EnterWareHouse ew : enterWareHouseList) {
+				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(ew.getKey());
+				if(fpi!=null) {
+					ew.setStatus(fpi.getFlowCurrentStepName());
+				}
+			}
 			PageInfoBean pb=new PageInfoBean();
-			pb.setDataList(parts.getContent());
-			pb.setTotalCount(parts.getTotalElements());
+			pb.setDataList(enterWareHouseList);
+			pb.setTotalCount(enterWareHouses.getTotalElements());
 			return pb;
 		}
 		return null;
 	}
-
+	
 	@Override
 	@Transactional
 	public void saveEnterWareHouse(EnterWareHouserBean wareHouserBean) {
-		// TODO Auto-generated method stub
-		if (wareHouserBean.getEnterWareHouse() != null) {
-			EnterWareHouse eHouse = baseCommonService.saveOrUpdate(wareHouserBean.getEnterWareHouse());
-			List<PartsExtends> partsExtends =wareHouserBean.getPartsExtends();
-			if (!CollectionUtils.isEmpty(partsExtends)) {
-				for (PartsExtends partsExtend : partsExtends) {
-					List<PartsExtends> partsExtendsAll = (List<PartsExtends>) baseCommonService.findAll(PartsExtends.class)
-							.stream().filter(s->StringUtils.equals(((BaseEntity) s).getKey(), partsExtend.getKey())).collect(Collectors.toList());
-					if(!CollectionUtils.isEmpty(partsExtendsAll)) {
-						for (PartsExtends peAll : partsExtendsAll) {
-							//修改
-							System.out.println("======进行修改=======");
-							PartsExtends ppExtends = baseCommonService.findByKey(PartsExtends.class, peAll.getKey());
-							System.out.println("amount========="+ppExtends.getAmount());
-							Integer newAmount = ppExtends.getAmount();
-							ppExtends.setAmount(partsExtend.getAmount());
-							ppExtends.setTotalPrice(partsExtend.getTotalPrice());
-							System.out.println("======更新完成，备件扩展表========");
-							List<PartsAccount> pAccount = partsAccountDao.findByDeviceCode(peAll.getDeviceCode());
-							if(!CollectionUtils.isEmpty(pAccount)){
-								for (PartsAccount partsAccount : pAccount) {
-									PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
-									if(pa.getPrice().compareTo(peAll.getPrice()) == 0) {
-										pa.setAmount(new Integer(pa.getAmount().intValue() + peAll.getAmount().intValue() - newAmount.intValue()));
-										System.out.println("总数量为========="+pa.getAmount());
-									}else {
-										System.out.println("编码相同，价格不同的时候");
-										savePartAccount(eHouse, partsExtend);
-									}
-								}
-							}
-						}
-					}else {
-						System.out.println("=====准备新增=====");
-						PartsExtends pExtends = savePartsExtends(partsExtend,eHouse);
-						List<PartsAccount> pAccount = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
-						if(!CollectionUtils.isEmpty(pAccount)){
-							for (PartsAccount partsAccount : pAccount) {
-								PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
-								if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
-									pa.setAmount(pa.getAmount() + pExtends.getAmount());
-									System.out.println("总数量为========="+pa.getAmount());
-								}else {
-									System.out.println("编码相同，价格不同的时候");
-									savePartAccount(eHouse, partsExtend);
-								}
-							}
-						}
-						else {
-							System.out.println("编码不同价格也不相同");
-							savePartAccount(eHouse, partsExtend);
-						}
-					}
+		logger.info("============准备开始入库流程==========");
+		if(wareHouserBean.getEnterWareHouse() != null) {
+			ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getEnterWareHouse(), wareHouserBean.getFlowProcessInfo());
+			if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
+				logger.info("备件信息不为空");
+				for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
+					partsExtends.setWareHouseKey(pi.getBusinessKey());
+					logger.info("准备保存备件信息");
+					baseCommonService.saveOrUpdate(partsExtends);
+					logger.info("保存完成");
 				}
 			}
 		}
 	}
 	
+	@Override
+	@Transactional
+	public void updatePartsAccount(FlowProcessInfo flowProcessInfo) {
+		logger.info("========流程结束开始回调=======");
+		String status="已完成";
+		EnterWareHouse ewh = baseCommonService.findByKey(EnterWareHouse.class, flowProcessInfo.getBusinessEntityKey());
+		if(ewh != null) {
+			logger.info("修改流程状态为‘已完成’");
+			ewh.setStatus(status);
+			baseCommonService.saveOrUpdate(ewh);
+		}
+		logger.info("==========开始更新备件台账数据=============");
+		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey());
+		if(!CollectionUtils.isEmpty(partsExtends)) {
+			for (PartsExtends pExtends : partsExtends) {
+				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
+				if(!CollectionUtils.isEmpty(pAccounts)){
+					for (PartsAccount partsAccount : pAccounts) {
+						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
+						if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
+							//相同编号下相同价格
+							logger.info("编码相同，价格相同的时候");
+							pa.setAmount(new Integer(pa.getAmount().intValue() + pExtends.getAmount().intValue()));
+							logger.info("总数量为========="+pa.getAmount());
+							baseCommonService.saveOrUpdate(pa);
+						}else {
+							logger.info("编码相同，价格不同的时候");
+							savePartAccount(ewh, pExtends);
+						}
+					}
+				}else {
+					logger.info("=====台账为空，第一次保存台账数据======");
+					savePartAccount(ewh, pExtends);
+				}
+			}
+		}
+	}
+
 	public void savePartAccount(EnterWareHouse eHouse, PartsExtends pExtends) {
 		try {
 			PartsAccount account = new PartsAccount();
@@ -144,31 +157,41 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 			account.setTotalPrice(pExtends.getTotalPrice());
 			baseCommonService.saveOrUpdate(account);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public PartsExtends savePartsExtends(PartsExtends partsExtend,EnterWareHouse eHouse) {
-		try {
-			PartsExtends pe = new PartsExtends();
-			pe.setWareHouseKey(eHouse.getKey());
-			pe.setDeviceCode(partsExtend.getDeviceCode());
-			pe.setDeviceName(partsExtend.getDeviceName());
-			pe.setNorm(partsExtend.getNorm());
-			pe.setLeaveFactoryCode(partsExtend.getLeaveFactoryCode());
-			pe.setLeaveFactoryDate(partsExtend.getLeaveFactoryDate());
-			pe.setSupplier(partsExtend.getSupplier());
-			pe.setAmount(partsExtend.getAmount());
-			pe.setPrice(partsExtend.getPrice());
-			pe.setUnit(partsExtend.getUnit());
-			pe.setTotalPrice(partsExtend.getTotalPrice());
-			PartsExtends pExtends = baseCommonService.saveOrUpdate(pe);
-			return pExtends;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@Override
+	public EnterWareHouseFlowBean getEnterWareHouseFlowBean(String key) {
+		EnterWareHouse ewh = baseCommonService.findByKey(EnterWareHouse.class, key);
+		EnterWareHouseFlowBean ewhFlowBean = new EnterWareHouseFlowBean();
+		if (ewhFlowBean != null) {
+			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(ewh.getKey());
+			if (fpi != null) {
+				ewhFlowBean.setCurrentStep(fpi.getFlowCurrentStepName());
+				ewhFlowBean.setCurrentUser(ewh.getOwnerName());
+				ewhFlowBean.setEditPage(fpi.getFlowEditPage());
+				ewhFlowBean.setViewPage(fpi.getFlowViewPage());
+				ewhFlowBean.setInstanceId(fpi.getFlowProcessInstanceId());
+				ewhFlowBean.setStartActivityId(fpi.getFlowStartActivityId());
+				String currentStep=fpi.getFlowCurrentStep();
+				if(StringUtils.equals(currentStep, fpi.getFlowStartActivityId())) {
+					ewhFlowBean.setProcessPage(fpi.getFlowEditPage());
+				}else {
+					ewhFlowBean.setProcessPage(fpi.getFlowViewPage());
+				}
+			}
+		}
+		return ewhFlowBean;
+	}
+
+	@Override
+	public EnterWareHouse getEnterWareHouseByKey(String key) {
+		EnterWareHouse  enterWareHouse=baseCommonService.findByKey(EnterWareHouse.class, key);
+		if (enterWareHouse != null) {
+			return enterWareHouse;
 		}
 		return null;
 	}
+		
 }

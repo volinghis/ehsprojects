@@ -59,28 +59,27 @@
           </el-form-item>
         </el-row>
       </div>
-      <el-button type="primary"
-                 icon="el-icon-plus"
-                 class="buttonHeight"
-                 :size="GlobalCss.buttonSize"
-                 @click="dialogVisible = true">添加备件</el-button>
+      <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="dialogVisible = true" v-show="show">选择备件</el-button>
+      <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerAdd" v-show="show">添加备件</el-button>
       <!--备件表格-->
       <div class="tableHeight"
            :style="{height:tableHeight}">
         <table-part ref="table"
-                    :partsTable="partsTable"
                     :parts="parts"
+                    :objPart="obj"
+                    :showFlag="showFlag"
+                    :partsTable="partsTable"
                     @tableParams="tableParams"
                     :totalCounts="totalCount"></table-part>
       </div>
-      <div style="text-align: center; padding:10px"
+      <!-- <div style="text-align: center; padding:10px"
            class="submitHeight">
         <el-button type="primary"
                    @click="submitForm"
                    :size="GlobalCss.buttonSize">提&nbsp;&nbsp;交</el-button>
         <el-button @click="resetForm"
                    :size="GlobalCss.buttonSize">重&nbsp;&nbsp;置</el-button>
-      </div>
+      </div> -->
     </el-form>
     <el-dialog title="添加备件"
                :visible.sync="dialogVisible"

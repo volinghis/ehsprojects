@@ -2,6 +2,7 @@ package com.ehs.eam.eamPartLibraryManager.bean;
 
 import java.util.List;
 
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 
@@ -27,6 +28,11 @@ public class EnterWareHouserBean {
 	private EnterWareHouse enterWareHouse;
 	
 	/**
+	 * 流程实体
+	 */
+	private FlowProcessInfo flowProcessInfo;
+	
+	/**
 	 * 备件扩展表
 	 */
 	private List<PartsExtends> partsExtends;
@@ -46,13 +52,13 @@ public class EnterWareHouserBean {
 	public void setPartsExtends(List<PartsExtends> partsExtends) {
 		this.partsExtends = partsExtends;
 	}
-	
-//	public List<PartsAccount> getPartsAccounts() {
-//		return partsAccounts;
-//	}
-//
-//	public void setPartsAccounts(List<PartsAccount> partsAccounts) {
-//		this.partsAccounts = partsAccounts;
-//	}
+
+	public FlowProcessInfo getFlowProcessInfo() {
+		return flowProcessInfo;
+	}
+
+	public void setFlowProcessInfo(FlowProcessInfo flowProcessInfo) {
+		this.flowProcessInfo = flowProcessInfo;
+	}
 	
 }

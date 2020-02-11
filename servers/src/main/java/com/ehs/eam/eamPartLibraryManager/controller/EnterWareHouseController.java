@@ -3,16 +3,22 @@ package com.ehs.eam.eamPartLibraryManager.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
+import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 import com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService;
 
 /**   
@@ -33,12 +39,15 @@ import com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService;
 @RequestMapping(value = "/eam/eamEnterWareHouse")
 public class EnterWareHouseController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseController.class);
+	
 	@Resource
 	private EnterWareHouseService ewhService;
-
+	
 	@RequestAuth(menuKeys = {"enterWarehouse"})
 	@RequestMapping(value = "/getAll")
 	public String getAll(@RequestBody(required = false) QueryBean queryBean, HttpServletRequest request) {
+		logger.info("查询所有入库");
 		PageInfoBean pb = ewhService.findAll(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
@@ -46,15 +55,45 @@ public class EnterWareHouseController {
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/saveEnterWareHouse")
 	public String saveWareEnterHouse(@RequestBody EnterWareHouserBean wareHouserBean, HttpServletRequest request) {
+		logger.info("开始入库流程");
 		ResultBean resultBean=new ResultBean();
 		try {
 			ewhService.saveEnterWareHouse(wareHouserBean);
 			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件入库成功 ！"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件入库失败！"));
 	}
+	
+	
+	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestMapping(value = "/updateAfterFlow")
+	public String updatePartAccount(@RequestBody FlowProcessInfo flowProcessInfo) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			ewhService.updatePartsAccount(flowProcessInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
+		
+	}
+	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestMapping(value = "/getEnterWareHouseFlowBean")
+	public String getEnterWareHouseFlowBean(@RequestParam String key) {
+		EnterWareHouseFlowBean ewhFlowBean=	ewhService.getEnterWareHouseFlowBean(key);
+		return ewhFlowBean!=null?JsonUtils.toJsonString(ewhFlowBean):"{}";
+	}
+	
+	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestMapping(value = "/getEnterWareHouseByKey")
+	public String getEnterWareHouseByKey(@RequestParam String key) {
+		EnterWareHouse ewh=	ewhService.getEnterWareHouseByKey(key);
+		return ewh!=null?JsonUtils.toJsonString(ewh):"{}";
+	}
+	
+	
 	
 }

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import com.ehs.common.base.entity.BaseEntity;
+import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**   
@@ -23,10 +23,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 * 2020年1月9日     zhaol           v1.0.0               修改原因
 */
 @MappedSuperclass
-public abstract class EnterWareHouse extends BaseEntity {
+public abstract class EnterWareHouse extends FlowBaseEntity {
 
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
+	
+	public static final String WAREHOUSE_CODE = "warehouseCode";
+	public static final String WAREHOUSE_NAME = "warehouseName";
+	public static final String INBOUND_TYPE = "inboundType";
+	public static final String INBOUND_DATE = "inboundDate";
+	public static final String STATUS = "status";
+	public static final String FOUNDER = "founder";
+	public static final String REMARK = "remark";
 	
 	/**
 	 * 入库编码
@@ -48,6 +56,11 @@ public abstract class EnterWareHouse extends BaseEntity {
 	 */
 	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	private Timestamp inboundDate;
+	
+	/**
+	 *申请状态
+	 */
+	private String status;
 	
 	/**
 	 * 创建人
@@ -106,6 +119,29 @@ public abstract class EnterWareHouse extends BaseEntity {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String getFlow() {
+		return "EamEnterWareHouseFlow";
+	}
+
+	@Override
+	public String getEditPage() {
+		return "enterWarehouseEdit";
+	}
+
+	@Override
+	public String getViewPage() {
+		return "enterWarehouseEdit";
 	}
 	
 }

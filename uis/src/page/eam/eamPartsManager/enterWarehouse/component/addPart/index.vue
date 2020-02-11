@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     getAllParts: function () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsBaseInfo/getPartsBaseInfos', this.form).then(res => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getPartsAccountAll', this.form).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       })

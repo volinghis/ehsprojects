@@ -55,12 +55,12 @@
         </el-table-column> -->
           <el-table-column prop="startDate"
                            label="开始时间"
-                           width="240"
+                           width="120"
                            :show-overflow-tooltip="true"
                            align="center"> </el-table-column>
           <el-table-column prop="overDate"
                            label="结束时间"
-                           width="240"
+                           width="120"
                            align="center"> </el-table-column>
           <el-table-column prop="responsibleDept"
                            label="责任部门"
