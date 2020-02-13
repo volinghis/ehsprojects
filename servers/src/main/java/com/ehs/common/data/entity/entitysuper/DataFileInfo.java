@@ -8,59 +8,56 @@
  */
 package com.ehs.common.data.entity.entitysuper;
 
-import java.util.List;
-
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-
 import com.ehs.common.base.entity.BaseEntity;
 
-/**   
-* Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
-* @ClassName: FileInfo.java
-* @Description: 该类的功能描述
-*
-* @version: v1.0.0
-* @author: chentm
-* @date: 2019年6月26日 下午4:22:40 
-*
-* Modification History:
-* Date         Author          Version            Description
-*---------------------------------------------------------*
-* 2019年6月26日      chentm          v1.0.0               修改原因
-*/
+/**
+ * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
+ * 
+ * @ClassName: FileInfo.java
+ * @Description: 该类的功能描述
+ *
+ * @version: v1.0.0
+ * @author: chentm
+ * @date: 2019年6月26日 下午4:22:40
+ *
+ *        Modification History: Date Author Version Description
+ *        ---------------------------------------------------------* 2019年6月26日
+ *        chentm v1.0.0 修改原因
+ */
 @MappedSuperclass
-public abstract class DataFileInfo extends BaseEntity{
+public abstract class DataFileInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	public static final String NAME="name";
-	public static final String TYPE="type";
-	public static final String SIZE="size";
-	public static final String ENTITY_KEY="entityKey";
-	public static final String FILE_ID="fileId";
-	
+	public static final String NAME = "name";
+	public static final String TYPE = "type";
+	public static final String SIZE = "size";
+	public static final String ENTITY_KEY = "entityKey";
+	public static final String FILE_ID = "fileId";
+	public static final String CATEGORIES = "categories";
+
 	private String name;
-	
+
 	private String type;
-	
+
 	private String fileSize;
-	
-	
+
 	private String entityKey;
-	
+
 	private String fileId;
-	
-	
-	
-	
-	
-	
 
+	/**
+	   * 文件类别（检修标准，操作手册，说明书）
+	 */
+	private String categories;
 
+	public String getCategories() {
+		return categories;
+	}
 
-
-
+	public void setCategories(String categories) {
+		this.categories = categories;
+	}
 
 	/**
 	 * @return the name
@@ -69,34 +66,12 @@ public abstract class DataFileInfo extends BaseEntity{
 		return name;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return the type
@@ -105,46 +80,12 @@ public abstract class DataFileInfo extends BaseEntity{
 		return type;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * @return the fileSize
@@ -153,17 +94,6 @@ public abstract class DataFileInfo extends BaseEntity{
 		return fileSize;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @param fileSize the fileSize to set
 	 */
@@ -171,18 +101,13 @@ public abstract class DataFileInfo extends BaseEntity{
 		this.fileSize = fileSize;
 	}
 
-
-
 	public String getEntityKey() {
 		return entityKey;
 	}
 
-
-
 	public void setEntityKey(String entityKey) {
 		this.entityKey = entityKey;
 	}
-
 
 	/**
 	 * @return the fileId
@@ -191,17 +116,6 @@ public abstract class DataFileInfo extends BaseEntity{
 		return fileId;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @param fileId the fileId to set
 	 */
@@ -209,15 +123,4 @@ public abstract class DataFileInfo extends BaseEntity{
 		this.fileId = fileId;
 	}
 
-
-
-
-
-
-
-
-
-
-
-	
 }

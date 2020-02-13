@@ -29,7 +29,6 @@ import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
-import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 import com.ehs.eam.eamLedgerManager.service.EamAllocateService;
 
 /**

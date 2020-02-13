@@ -11,10 +11,10 @@
             <span>设备图片</span>
             <el-upload class="upload-demo"
                        drag
+                       :limit="1"
                        :on-success="handleAvatarSuccess"
-                       :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
-                       multiple>
-              <el-image v-if="imgUrl" :src="imgUrl" fit="contain"></el-image>
+                       :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey">
+              <el-image v-if="imgUrl" :src="imgUrl" fit="fill"></el-image>
               <div v-else class="uploadContent" >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
@@ -30,7 +30,7 @@
           <!--检修质量标准-->
           <div class="item-block">
             <span>检修质量标准</span>
-            <file-upload></file-upload>
+            <file-upload :propUploadValue="form.fileId" :paramData="{'categories':'maintenancesStandard'}" @change="uploadChange"></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
@@ -133,12 +133,12 @@
           </div>
           <div class="item-block right">
             <span>定期工作标准</span>
-            <el-input type="textarea"
+            <el-input type="remarks"
                       :rows="5"
                       maxlength="300"
                       show-word-limit
                       placeholder="请输入定期工作标准"
-                      v-model="form.textarea">
+                      v-model="form.remarks">
             </el-input>
           </div>
           <!--子设备-->

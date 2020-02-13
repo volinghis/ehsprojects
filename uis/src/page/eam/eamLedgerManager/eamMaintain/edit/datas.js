@@ -30,7 +30,9 @@ export default {
         completePoint: 0,
         person: '',
         personName: '',
-        fileId: ''
+        fileId: '',
+        remarks: '',
+        deviceImg: ''
       },
       rules: {
         deviceName: [
@@ -59,7 +61,7 @@ export default {
     var processObj = JSON.parse(this.$route.params.processInfo)
     var resData = processObj.data
     if (resData !== undefined) {
-      this.getDevicePicture(resData.fileId)
+      this.getDevicePicture(resData.deviceImg)
       this.form = resData
       this.deviceKey = resData.key
     }
@@ -67,7 +69,7 @@ export default {
   methods: {
     handleAvatarSuccess  (res, file) {
       this.imgUrl = URL.createObjectURL(file.raw)
-      this.form.fileId = res.entityKey
+      this.form.deviceImg = res.entityKey
     },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
@@ -78,11 +80,10 @@ export default {
     getRelatedKeys (data) {
       this.relatedKyes = data
     },
-    getDevicePicture (fileId) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then(res => {
+    getDevicePicture (deviceImg) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + deviceImg, { responseType: 'blob' }).then(res => {
         var resData = res.data
         this.imgUrl = URL.createObjectURL(resData)
-        console.log(resData)
       }).catch(error => {
         this.$message({ message: error })
       })
@@ -90,6 +91,9 @@ export default {
     userSelectChange () {
       var node = this.$refs.userSelect.getCheckedNodes()
       this.form.personName = node[0].label // 用户名称
+    },
+    uploadChange (v) {
+      console.log(v)
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {

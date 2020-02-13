@@ -54,9 +54,11 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	public static final String PERSON = "person";
 	public static final String PERSON_NAME = "personName";
 	public static final String FILE_ID = "fileId";
+	public static final String DEVICE_IMG = "deviceImg";
 	public static final String REPAIR_NUMBER = "repairNumber";
 	public static final String FAULTS_NUMBER = "faultsNumber";
 	public static final String REMARKS = "remarks";
+	public static final String LEAVE_NUM = "leaveNum";
 
 	public static final String REF_DEVICE_KEY = "refDeviceKey";
 	public static final String SCRAP_KEY = "scrapKey";
@@ -142,10 +144,16 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	private String personName;
 
 	/**
+	 * 设备关联文件
+	 */
+	@Column(length = 4000)
+	private String fileId;
+	
+	/**
 	 * 设备图片
 	 */
-	private String fileId;
-
+	private String deviceImg;
+	
 	/**
 	 * 检修数量
 	 */
@@ -161,6 +169,8 @@ public abstract class EamLedgerSuper extends BaseEntity {
 	 */
 	@Column(length = 3000)
 	private String remarks;
+	
+	private String leaveNum;
 
 	/**
 	 * 关联子设备Key
@@ -492,6 +502,21 @@ public abstract class EamLedgerSuper extends BaseEntity {
 
 	public void setPersonName(String personName) {
 		this.personName = personName;
+	}
+
+	public String getDeviceImg() {
+		return deviceImg;
+	}
+
+	public void setDeviceImg(String deviceImg) {
+		this.deviceImg = deviceImg;
+	}
+	public String getLeaveNum() {
+		return leaveNum;
+	}
+
+	public void setLeaveNum(String leaveNum) {
+		this.leaveNum = leaveNum;
 	}
 	
 }

@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -134,7 +135,11 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		}
 
 		// 同步数据eamLedgerLast表中
-		EamLedgerLast eLast = new EamLedgerLast();
+		EamLedgerLast eLast = null;
+		String key=eamRequestBean.getEamLedger().getKey();
+		if(StringUtils.isNotBlank(key)) {
+			eLast=baseCommonService.findByKey(EamLedgerLast.class, key);
+		}
 		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
 		BeanUtils.copyProperties(eamLedger, eLast);
 		baseCommonService.saveOrUpdate(eLast);
