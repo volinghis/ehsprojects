@@ -14,6 +14,15 @@
 		</org>
 	</orgs> 
 	
+	<dataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">
+		<dataDictionary  dataCode="edmEquipmentInfo" key="edmEquipmentInfo" text="设备资料分类" parentKey="dataDict" systemCode="dataDict" sort="1">
+				<dataDictionary dataCode="synopsis" key="synopsis" text="说明书" sort="11" parentKey="edmEquipmentInfo"  systemCode="dataDict" />
+				<dataDictionary dataCode="maintenancesStandard" key="maintenancesStandard" text="检修标准" sort="12" parentKey="edmEquipmentInfo"  systemCode="dataDict"/>
+				<dataDictionary dataCode="operationManual" key="operationManual" text="操作手册" sort="13" parentKey="edmEquipmentInfo"  systemCode="dataDict"/>
+				<dataDictionary dataCode="maintenanceExp" key="maintenanceExp" text="维修经验" sort="14" parentKey="edmEquipmentInfo"  systemCode="dataDict"/>
+	  	</dataDictionary>
+  	</dataDictionarys>
+	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
 		<!-- 首页 -->
 		<menu dataCode="home" key="home" name="首页" url="/system/account/center/index" icon="fa-home"  sort="1"></menu>

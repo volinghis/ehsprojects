@@ -4,6 +4,7 @@
   class="upload-panel"
   :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
   :multiple="multiple"
+  :data="paramData"
   :disabled="disabled"
   :on-success="uploadSuccess"
   :on-remove="uploadRemove"

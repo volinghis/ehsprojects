@@ -75,8 +75,9 @@ public class DataFileInfoController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping("/data/file/fileUpload")
 	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile file) {
+	public String upload(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		ResultBean rb=new ResultBean();
+		String paramData=req.getParameter("categories");
 		if (file.isEmpty()) {
 			return JsonUtils.toJsonString(rb.error("上传失败！"));
 
@@ -91,6 +92,9 @@ public class DataFileInfoController {
 			dfi.setFileSize(BaseUtils.formatFileSize(file.getSize()));
 			dfi.setName(file.getOriginalFilename());
 			dfi.setType(StringUtils.substringAfterLast(file.getOriginalFilename(), "."));
+			if(StringUtils.isNotBlank(paramData)) { //文件类别（说明书，检修标准，操作手册）
+				dfi.setCategories(paramData);
+			}
 			baseCommonService.saveOrUpdate(dfi);
 			
 			System.out.println(JsonUtils.toJsonString(dfi));

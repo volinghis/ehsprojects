@@ -3,7 +3,8 @@ export default {
     'disabled': { type: Boolean, default: false },
     'multiple': { type: Boolean, default: true },
     'propUploadValue': String,
-    'message': { type: String, default: '' }
+    'message': { type: String, default: '' },
+    'paramData': Object
   },
   model: {
     prop: 'propUploadValue',
