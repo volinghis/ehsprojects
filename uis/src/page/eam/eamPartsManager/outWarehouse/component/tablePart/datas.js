@@ -7,7 +7,7 @@ export default {
       partDatas: [],
       tableData: [],
       select: [],
-      flagMark: '',
+      flagMark: false,
       // tableParams: [],
       partsFormEdit: {},
       totalCount: 0,
@@ -35,8 +35,11 @@ export default {
       this.totalCount = val
     },
     flag: function (val) {
-      console.log('tablePart====' + val)
-      this.flagMark = val
+      if (val === 'view') {
+        this.flagMark = false
+      } else {
+        this.flagMark = true
+      }
     },
     partsTable: {
       handler (val) {
@@ -48,10 +51,15 @@ export default {
     },
     parts: {
       handler (newName) {
-        this.select.push.apply(this.select, newName)
+        var newVal = []
+        newName.forEach(e => {
+          e.key = ''
+          newVal.push(e)
+        })
+        this.select.push.apply(this.select, newVal)
         this.unique(this.select)
         this.tableData = this.select
-        this.partDatas = newName
+        this.partDatas = newVal
       }
     },
     deep: true

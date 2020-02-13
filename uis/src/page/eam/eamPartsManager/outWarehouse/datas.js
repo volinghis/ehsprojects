@@ -1,10 +1,23 @@
 export default {
   methods: {
     handleAdd: function () {
-      this.$router.push({ name: 'outWarehouseEdit', params: { flag: 'add', replace: true } })
+      // this.$router.push({ name: 'outWarehouseEdit', params: { flag: 'add', replace: true } })
+      this.GlobalMethods.openFlowWin('outWarehouseEdit', { processDefineKey: 'EamOutWareHouseFlow', flag: 'add', replace: true }, function () {
+        this.getTableData()
+      })
     },
     handleClick: function (row) {
-      this.$router.push({ name: 'outWarehouseEdit' })
+      const currentUser = this.sessionUser.userName
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseFlowBean', { params: { key: row.key } }).then(res => {
+        const entityProcessInfo = res.data
+        if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', data: row, replace: true })
+        } else {
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row, replace: true })
+        }
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     },
     handleEdit: function (row) {
       this.$router.push({ name: 'outWarehouseEdit', params: { data: row, flag: 'edit', replace: true } })
@@ -59,6 +72,7 @@ export default {
     this.restaurants = this.loadAll()
     this.loadAll()
     this.getTableData()
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {
