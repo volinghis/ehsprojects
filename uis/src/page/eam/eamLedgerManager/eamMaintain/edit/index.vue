@@ -12,64 +12,35 @@
             <el-upload class="upload-demo"
                        drag
                        :on-success="handleAvatarSuccess"
-                       action="https://jsonplaceholder.typicode.com/posts/"
+                       :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                        multiple>
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">
-                将图片拖到此处，或<em>点击上传</em>
+              <el-image v-if="imgUrl" :src="imgUrl" fit="contain"></el-image>
+              <div v-else class="uploadContent" >
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">
+                  将图片拖到此处，或<em>点击上传</em>
+                </div>
               </div>
               <div class="el-upload__tip"
                    slot="tip">
-                只能上传jpg/png文件，且不超过500
+                只能上传jpg/png文件，且不超过500kb
               </div>
             </el-upload>
           </div>
           <!--检修质量标准-->
           <div class="item-block">
             <span>检修质量标准</span>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed">
-              <el-button size="mini"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
             <span>设备说明书</span>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button size="mini"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload></file-upload>
           </div>
           <!--设备操作手册-->
           <div class="item-block">
             <span>设备操作手册</span>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.buttonSize"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload></file-upload>
           </div>
 
           <div class="item-block">
@@ -133,7 +104,7 @@
             <el-col :span="8">
                <el-form-item label="负责人"
                             prop="person">
-                <UserSelector v-model="form.person" :propOrgValue="form.person"  style="width:100%;"></UserSelector>
+                <UserSelector v-model="form.person" :propOrgValue="form.person" @change="userSelectChange" ref="userSelect"  style="width:100%;"></UserSelector>
               </el-form-item>
               <el-form-item label="出厂编号"
                             prop="leaveNum">

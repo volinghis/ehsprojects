@@ -149,7 +149,7 @@
                   </el-form-item>
                   <el-form-item label="上传资料:"
                                 :label-width="formLabelWidth">
-                    <my-upload></my-upload>
+                    <file-upload v-model="fileDatas"></file-upload>
                   </el-form-item>
                 </el-form>
                 <div slot="footer"

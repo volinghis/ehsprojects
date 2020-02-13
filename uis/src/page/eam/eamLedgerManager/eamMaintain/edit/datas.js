@@ -2,13 +2,15 @@ import ParamsTable from '../../../components/paramsTable'
 import PastInspectors from '../../../components/pastInspectors'
 import ChildEamTable from '../../../components/childEamTable'
 import UserSelector from '@components/org/user-selector/index'
+import FileUpload from '@components/upload/index'
 export default {
   name: 'eamAccountPrintEdit',
   components: {
     ParamsTable,
     PastInspectors,
     ChildEamTable,
-    UserSelector
+    UserSelector,
+    FileUpload
   },
   data () {
     return {
@@ -16,6 +18,7 @@ export default {
       inspectorsDatas: [],
       relatedKyes: '',
       deviceKey: '',
+      imgUrl: '',
       form: {
         deviceName: '',
         deviceNum: '',
@@ -25,7 +28,9 @@ export default {
         installLocation: '',
         textarea: '',
         completePoint: 0,
-        person: ''
+        person: '',
+        personName: '',
+        fileId: ''
       },
       rules: {
         deviceName: [
@@ -47,25 +52,22 @@ export default {
           { required: true, message: '请输入设备位置', trigger: 'blur' }
         ]
       },
-      fileList: [{
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }, {
-        name: 'foo.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }]
+      fileList: []
     }
   },
-  mounted: function () {
+  created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     var resData = processObj.data
-    if (JSON.stringify(resData) !== '{}') {
+    if (resData !== undefined) {
+      this.getDevicePicture(resData.fileId)
       this.form = resData
       this.deviceKey = resData.key
     }
   },
   methods: {
-    handleAvatarSuccess: function (res, file) {
+    handleAvatarSuccess  (res, file) {
+      this.imgUrl = URL.createObjectURL(file.raw)
+      this.form.fileId = res.entityKey
     },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
@@ -75,6 +77,19 @@ export default {
     },
     getRelatedKeys (data) {
       this.relatedKyes = data
+    },
+    getDevicePicture (fileId) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then(res => {
+        var resData = res.data
+        this.imgUrl = URL.createObjectURL(resData)
+        console.log(resData)
+      }).catch(error => {
+        this.$message({ message: error })
+      })
+    },
+    userSelectChange () {
+      var node = this.$refs.userSelect.getCheckedNodes()
+      this.form.personName = node[0].label // 用户名称
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {
@@ -86,15 +101,15 @@ export default {
             inspectorsList: this.inspectorsDatas,
             flowProcessInfo: process
           }
+          console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
                 message: res.data.message,
                 type: 'success'
               })
-              // 流程结束回调
+              // 流程开始后回调
               window.close()
-              this.$refs.form.resetFields() // 表单重置（暂不能重置全部项）
               this.$router.push({ name: 'eamMaintain' }) // 保存成功后页面跳转
             }
           }).catch(error => {
@@ -106,13 +121,6 @@ export default {
       })
     },
     handleRemove (file, fileList) {
-    },
-    handleExceed: function (files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      )
     },
     beforeRemove: function (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)

@@ -163,15 +163,6 @@ public class EamAllocateController {
 		EamLedger eamLedger = eamAllocateService.EamLedgerByAllocateKey(key);
 		resMap.put("allocate", eamAllocate);
 		resMap.put("table", eamLedger);
-//		resMap.put("deviceNum",eamLedger.getDeviceNum());
-//		resMap.put("deviceName",eamLedger.getDeviceName());
-//		resMap.put("deviceModel",eamLedger.getDeviceModel());
-//		resMap.put("profession",eamAllocate.getProfession());
-//		resMap.put("installLocation", eamAllocate.getInstallLocation());
-//		resMap.put("targetDept", eamAllocate.getTargetDept());
-//		resMap.put("targetPosition", eamAllocate.getTargetPosition());
-//		resMap.put("amount", eamAllocate.getAmount());
-//		resMap.put("unit", eamAllocate.getUnit());
 		return JsonUtils.toJsonString(resMap);
 	}
 

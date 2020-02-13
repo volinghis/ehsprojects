@@ -15,7 +15,7 @@ export default {
       tableId: ''
     }
   },
-  mounted: function () {
+  created: function () {
     this.initTable()
     this.loadSuggestions()
   },

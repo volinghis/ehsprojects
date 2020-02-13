@@ -107,8 +107,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		// 设备新建的时候初始化的值
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
 			reqEamLedger.setDeviceStatus("正常");
-			OrgUser ou = baseCommonService.findByKey(OrgUser.class, reqEamLedger.getPerson());// 根据key获取员工姓名
-			reqEamLedger.setPersonName(ou.getName());
 			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll());
 		}
 		// 开始流程

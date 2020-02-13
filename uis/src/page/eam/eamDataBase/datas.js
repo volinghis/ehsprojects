@@ -3,10 +3,10 @@
 // import pdf from '../../../assets/pdf.png'
 // import txt from '../../../assets/txt.png'
 // import PPT from '../../../assets/PPT.png'
-import MyUpload from '@components/upload/index'
+import FileUpload from '@components/upload/index'
 export default {
   components: {
-    MyUpload
+    FileUpload
   },
   data () {
     return {
