@@ -5,15 +5,36 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import com.ehs.common.base.entity.BaseEntity;
+import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: OutWareHouse.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: Administrator
+* @date: 2020年2月11日 下午9:11:28 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年2月11日     Administrator           v1.0.0               修改原因
+*/
 @MappedSuperclass
-public abstract class OutWareHouse extends BaseEntity {
+public abstract class OutWareHouse extends FlowBaseEntity {
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 	
+	public static final String OUT_WAREHOUSE_CODE = "outWarehouseCode";
+	public static final String OUT_WAREHOUSE_NAME = "outWarehouseName";
+	public static final String OUTBOUND_TYPE = "outBoundType";
+	public static final String OUTBOUND_DATE = "outBoundDate";
+	public static final String RECEIV_EMP = "receivEmp";
+	public static final String RECEIV_DEPART = "receivDepart";
+	public static final String STATUS = "status";
+	public static final String FOUNDER = "founder";
 
 	/**
 	 * 出库编码
@@ -47,10 +68,18 @@ public abstract class OutWareHouse extends BaseEntity {
 	private String receivDepart;
 	
 	/**
+	 *申请状态
+	 */
+	private String status;
+	
+	/**
 	 * 创建人
 	 */
 	private String founder;
 	
+	/**
+	 * 备注
+	 */
 	@Column(length = 3000)
 	private String remark;
 
@@ -109,6 +138,14 @@ public abstract class OutWareHouse extends BaseEntity {
 	public void setFounder(String founder) {
 		this.founder = founder;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getRemark() {
 		return remark;
@@ -116,6 +153,21 @@ public abstract class OutWareHouse extends BaseEntity {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	@Override
+	public String getFlow() {
+		return "EamOutWareHouseFlow";
+	}
+
+	@Override
+	public String getEditPage() {
+		return "outWarehouseEdit";
+	}
+
+	@Override
+	public String getViewPage() {
+		return "outWarehouseEdit";
 	}
 	
 }

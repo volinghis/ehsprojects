@@ -27,7 +27,7 @@ public class PartsExtendsController {
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getExtendsByKey")
 	public String getExtendsByKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getEamPartLibrary方法=============");
+		logger.info("===========进入getExtendsByKey方法=============");
 		String key=request.getParameter("key");
 		PageInfoBean pb = partsExtendsService.getExtendsByKey(queryBean,key);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));

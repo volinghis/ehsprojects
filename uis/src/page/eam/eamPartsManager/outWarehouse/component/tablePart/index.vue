@@ -52,14 +52,14 @@
       <el-table-column fixed="right"
                        label="操作"
                        width="160"
-                       align="center">
+                       align="center" v-if="flagMark">
         <template slot-scope="scope">
           <el-button @click="handleEdit(scope.row)"
                      :size="GlobalCss.buttonSize"
                      type="primary">编辑</el-button>
-          <!-- <el-button @click="handleDel(scope.$index,tableData)"
+          <el-button @click="handleDel(scope.$index,tableData)"
                      :size="GlobalCss.buttonSize"
-                     type="danger">删除</el-button> -->
+                     type="danger">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,11 +71,7 @@
                    layout="total, prev, pager, next"
                    :total="totalCount">
     </el-pagination>
-    <el-drawer title="备件编辑"
-               :visible.sync="drawer"
-               :direction="direction"
-               destroy-on-close
-               :before-close="handleClose">
+    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :before-close="handleClose" size="65%" >
       <el-divider></el-divider>
       <editPart ref="partData"
                 :flagMark="flagMark"

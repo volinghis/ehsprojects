@@ -11,10 +11,12 @@ export default {
   },
   data () {
     return {
+      show: false,
       tableHeight: ' ',
       pDatas: [],
       parts: [],
       flag: '',
+      showFlag: '',
       tableData: [],
       partsTable: [],
       totalCount: 0,
@@ -22,22 +24,22 @@ export default {
       form: {
         outWarehouseName: '',
         outWarehouseCode: '',
+        outBoundDate: '',
         outBoundType: '',
         receivDepart: '',
         receivEmp: '',
-        outBoundDate: '',
         creatDate: '',
         remark: ''
       },
       rules: {
+        outWarehouseCode: [
+          { required: true, message: '请输入仓库编码', trigger: 'blur' }
+        ],
         outWarehouseName: [
           { required: true, message: '请输入仓库名称', trigger: 'blur' }
         ],
         outBoundType: [
-          { required: true, message: '请选择出库类型', trigger: 'blur' }
-        ],
-        supplier: [
-          { required: true, message: '请输入设备型号', trigger: 'blur' }
+          { required: true, message: '请输入出库类型', trigger: 'blur' }
         ],
         receivDepart: [
           { required: true, message: '请选择部门', trigger: 'blur' }
@@ -49,27 +51,36 @@ export default {
     }
   },
   mounted () {
-    // this.getPartsAccounts()
-    const d = new Date()
-    var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
-    this.form.creatDate = datetime
-    const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.form.founder = user.username
-    if (this.$route.params.data != null) {
-      this.form = this.$route.params.data
-    }
-    this.parts = this.$route.params.pData
-    this.flag = this.$route.params.flag
-    console.log(this.flag)
-    if (this.flag === 'add') {
-      // console.log(this.$refs.table._data)
-      // console.log(this.$refs.table.tableData.length)
-      if (this.$refs.table.tableData.length > 1) {
-        // console.log('hhhhhhh')
-        this.$refs.table.tableData = []
+    var processObj = JSON.parse(this.$route.params.processInfo)
+    this.flag = processObj.flag
+    if (processObj.data !== undefined) {
+      if (this.flag === 'view') {
+        this.form = processObj.data
+        console.log(this.form)
+      }
+    } else {
+      if (processObj.businessKey !== undefined) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
+          this.form = res.data
+          this.getPartsAccounts()
+        })
       }
     }
-    if (this.flag === 'edit') {
+
+    if (this.flag === 'add') {
+      const d = new Date()
+      var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
+      this.form.creatDate = datetime
+      const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+      this.form.founder = user.username
+      if (this.$refs.table.tableData.length > 1) {
+        this.$refs.table.tableData = []
+      }
+      this.show = true
+      this.showFlag = 'add'
+    } else {
+      this.show = false
+      this.showFlag = 'view'
       this.getPartsAccounts()
     }
   },
@@ -93,13 +104,22 @@ export default {
         })
         .catch(_ => {})
     },
-    handerSubmit: function () {
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/updateAfterFlow', v).then(res => {
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
+    },
+    handerSubmit: function (processInfo) {
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log(valid)
           const requestParam = {
             outWareHouse: this.form,
-            partsExtends: this.tableDatas
+            partsExtends: this.tableDatas,
+            flowProcessInfo: processInfo
           }
           console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
@@ -108,7 +128,8 @@ export default {
                 message: res.data.message,
                 type: 'success'
               })
-              this.$router.push({ name: 'outWarehouse', replace: true })
+              // this.$router.push({ name: 'outWarehouse', replace: true })
+              window.close()
             } else {
               this.$message.error(res.data.message)
             }

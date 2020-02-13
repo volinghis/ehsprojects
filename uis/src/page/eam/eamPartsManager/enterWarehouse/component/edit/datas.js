@@ -20,7 +20,6 @@ export default {
       form: {
         warehouseName: '',
         warehouseCode: '',
-        supplier: '',
         inboundType: '',
         inboundDate: '',
         founder: '',
@@ -28,16 +27,13 @@ export default {
       },
       rules: {
         warehouseCode: [
-          { required: true, message: '请输入设备名称', trigger: 'blur' }
+          { required: true, message: '请输入入库编号', trigger: 'blur' }
         ],
         warehouseName: [
-          { required: true, message: '请输入设备名称', trigger: 'blur' }
+          { required: true, message: '请输入入库名称', trigger: 'blur' }
         ],
         inboundType: [
           { required: true, message: '请选择入库类型', trigger: 'blur' }
-        ],
-        supplier: [
-          { required: true, message: '请输入供应商', trigger: 'blur' }
         ],
         principal: [
           { required: true, message: '请输入入库人', trigger: 'blur' }
