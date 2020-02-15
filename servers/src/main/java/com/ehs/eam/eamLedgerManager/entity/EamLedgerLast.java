@@ -35,17 +35,4 @@ public class EamLedgerLast extends com.ehs.eam.eamLedgerManager.entity.entitySup
 	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 
-	/**
-	   *    关联设备更新表的key
-	 */
-	private String refKey;
-
-	public String getRefKey() {
-		return refKey;
-	}
-
-	public void setRefKey(String refKey) {
-		this.refKey = refKey;
-	}
-	
 }

@@ -24,22 +24,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
 import com.ehs.eam.eamLedgerManager.dao.EamInspectorsDao;
 import com.ehs.eam.eamLedgerManager.dao.EamLedgerDao;
+import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
 import com.ehs.eam.eamLedgerManager.dao.EamParametorsDao;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
+
+import net.sf.ehcache.util.FindBugsSuppressWarnings;
 
 /**
  * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -51,9 +54,9 @@ import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
  * @author: qjj
  * @date: 2019年12月30日 下午4:06:57
  *
- *        Modification History: Date Author Version Description
- *        ---------------------------------------------------------* 2019年12月30日
- *        qjj v1.0.0 修改原因
+ * Modification History: Date Author Version Description
+ * ---------------------------------------------------------* 2019年12月30日
+ * qjj v1.0.0 修改原因
  */
 @Service
 public class EamLedgerServiceImpl implements EamLedgerService {
@@ -63,6 +66,9 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 
 	@Resource
 	private EamLedgerDao eamLedgerDao;
+	
+	@Resource
+	private EamLedgerLastDao eamLedgerLastDao;
 
 	@Resource
 	private EamInspectorsDao eamInspectorsDao;
@@ -106,9 +112,10 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		}
 		reqEamLedger.setRefDeviceKey(newKeys);
 		// 设备新建的时候初始化的值
+		String deviceNum=BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
 			reqEamLedger.setDeviceStatus("正常");
-			reqEamLedger.setDeviceNum(BaseUtils.getNumberForAll());
+			reqEamLedger.setDeviceNum(deviceNum);
 		}
 		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqEamLedger, eamRequestBean.getFlowProcessInfo());
@@ -132,17 +139,22 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 					baseCommonService.saveOrUpdate(ei);
 				}
 			}
+			
+			// 同步数据eamLedgerLast表中
+			EamLedgerLast eLast=eamRequestBean.getEamLedgerLast();
+			if(StringUtils.isNotBlank(eLast.getKey())) {
+			    EamLedgerLast eLastOld=	eamLedgerLastDao.findEamLedgerLastByRefKey(entityKey, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+				BeanUtils.copyProperties(eLast,eLastOld,BaseEntity.ID,BaseEntity.KEY,EamLedgerLast.REF_KEY);
+			    baseCommonService.saveOrUpdate(eLastOld);
+			} else {
+				eLast.setDeviceStatus("正常");
+				eLast.setDeviceNum(deviceNum);
+				eLast.setRefKey(entityKey);
+				baseCommonService.saveOrUpdate(eLast);
+			}
+			
 		}
 
-		// 同步数据eamLedgerLast表中
-		EamLedgerLast eLast = null;
-		String key=eamRequestBean.getEamLedger().getKey();
-		if(StringUtils.isNotBlank(key)) {
-			eLast=baseCommonService.findByKey(EamLedgerLast.class, key);
-		}
-		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
-		BeanUtils.copyProperties(eamLedger, eLast);
-		baseCommonService.saveOrUpdate(eLast);
 	}
 
 	/**

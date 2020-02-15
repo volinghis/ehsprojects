@@ -10,6 +10,7 @@ export default {
         page: 1,
         query: ''
       },
+      imgUrl: '',
       form: {},
       suggestions: [],
       activeName: 'first',
@@ -25,7 +26,8 @@ export default {
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
-        this.tableData = res.data.dataList
+        // this.tableData = res.data.dataList
+        this.getDevicePicture(res.data.dataList)
         this.total = res.data.totalCount
       }).catch(error => {
         this.$message({ message: error })
@@ -40,9 +42,20 @@ export default {
         return '#67c23a'
       }
     },
+    getDevicePicture (resArr) {
+      for (let i = 0; i < resArr.length; i++) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
+          resArr[i].imgUrl = URL.createObjectURL(res.data)
+          this.tableData.push(resArr[i])
+          console.log(this.tableData)
+        }).catch(error => {
+          this.$message({ message: error })
+        })
+      }
+    },
     handldbClick: function (row) {
       // 详情查看
-      this.$router.push({ name: 'eamLedgerDetail', params: { flag: 'view', data: row } })
+      this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })
     },
     handleClick: function (tab, event) {
     },

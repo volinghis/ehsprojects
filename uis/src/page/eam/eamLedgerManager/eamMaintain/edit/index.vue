@@ -30,17 +30,17 @@
           <!--检修质量标准-->
           <div class="item-block">
             <span>检修质量标准</span>
-            <file-upload :propUploadValue="form.fileId" :paramData="{'categories':'maintenancesStandard'}" @change="uploadChange"></file-upload>
+            <file-upload  :propUploadValue="form.maintenancesStandard" :paramData="{'categories':'maintenancesStandard'}" @change="standardChange"></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
             <span>设备说明书</span>
-            <file-upload></file-upload>
+            <file-upload  :propUploadValue="form.synopsis" :paramData="{'categories':'synopsis'}" @change="synopsisChange"></file-upload>
           </div>
           <!--设备操作手册-->
           <div class="item-block">
             <span>设备操作手册</span>
-            <file-upload></file-upload>
+            <file-upload  :propUploadValue="form.operationManual" :paramData="{'categories':'operationManual'}" @change="operationManualChange"></file-upload>
           </div>
 
           <div class="item-block">
@@ -133,7 +133,7 @@
           </div>
           <div class="item-block right">
             <span>定期工作标准</span>
-            <el-input type="remarks"
+            <el-input type="textarea"
                       :rows="5"
                       maxlength="300"
                       show-word-limit

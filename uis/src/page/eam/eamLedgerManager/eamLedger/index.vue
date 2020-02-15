@@ -50,8 +50,8 @@
                   <template slot-scope="scope">
                     <el-image class="table-td-deviceImg"
                               style="width: 30px; height: 30px"
-                              :src="scope.row.deviceImg"
-                              :preview-src-list="[scope.row.deviceImg]"></el-image>
+                              :src="scope.row.imgUrl"
+                              :preview-src-list="[scope.row.imgUrl]"></el-image>
                   </template>
                 </el-table-column>
                 <el-table-column prop="deviceNum"

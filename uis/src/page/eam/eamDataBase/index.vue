@@ -11,14 +11,12 @@
                          size="small"
                          style="width:100%;"
                          placeholder="请选择">
-                <el-option value="0"
-                           label="说明书"></el-option>
-                <el-option value="1"
-                           label="质保卡"></el-option>
-                <el-option value="2"
-                           label="操作手册"></el-option>
-                <el-option value="3"
-                           label="维修经验"></el-option>
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="文件名称:">
@@ -149,7 +147,7 @@
                   </el-form-item>
                   <el-form-item label="上传资料:"
                                 :label-width="formLabelWidth">
-                    <file-upload v-model="fileDatas"></file-upload>
+                    <file-upload></file-upload>
                   </el-form-item>
                 </el-form>
                 <div slot="footer"

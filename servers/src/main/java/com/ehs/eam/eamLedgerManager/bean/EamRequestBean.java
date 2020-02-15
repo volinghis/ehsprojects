@@ -13,6 +13,7 @@ import java.util.List;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 
 /**
@@ -32,6 +33,8 @@ import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 public class EamRequestBean {
 
 	private EamLedger eamLedger;
+	
+	private EamLedgerLast eamLedgerLast;
 
 	private String deviceKeys;
 
@@ -103,6 +106,14 @@ public class EamRequestBean {
 
 	public void setFlowProcessInfo(FlowProcessInfo flowProcessInfo) {
 		this.flowProcessInfo = flowProcessInfo;
+	}
+
+	public EamLedgerLast getEamLedgerLast() {
+		return eamLedgerLast;
+	}
+
+	public void setEamLedgerLast(EamLedgerLast eamLedgerLast) {
+		this.eamLedgerLast = eamLedgerLast;
 	}
 
 }

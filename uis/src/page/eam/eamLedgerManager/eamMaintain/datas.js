@@ -22,7 +22,9 @@ export default {
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getList', this.queryParam).then(res => {
-        this.tableData = res.data.dataList
+        // this.tableData = res.data.dataList
+        this.tableData = []
+        this.getDevicePicture(res.data.dataList)
         this.total = res.data.totalCount
       }).catch(error => {
         this.$message({ message: error })
@@ -37,16 +39,23 @@ export default {
         return '#67c23a'
       }
     },
-    handldbClick: function (row) {
-      // 详情查看
-      this.$router.push({ name: 'eamLedgerDetail', params: { flag: 'view', data: row } })
-    },
     // 编辑
     handleEditClick: function (scope) {
       var _this = this
       this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow', data: scope }, function () {
         _this.initTable()
       })
+    },
+    getDevicePicture (resArr) {
+      for (let i = 0; i < resArr.length; i++) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
+          resArr[i].imgUrl = URL.createObjectURL(res.data)
+          this.tableData.push(resArr[i])
+          console.log(this.tableData)
+        }).catch(error => {
+          this.$message({ message: error })
+        })
+      }
     },
     handleQuery () {
       this.initTable()

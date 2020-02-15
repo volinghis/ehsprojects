@@ -18,6 +18,7 @@ export default {
       mainHeight: 0,
       tableData: [],
       treeData: [],
+      options: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -26,6 +27,7 @@ export default {
   },
   mounted: function () {
     this.initTreeData()
+    this.getFileCategories()
     var h = document.querySelector('.searchCol').offsetHeight
     this.mainHeight = this.$store.state.contentHeight - h - 8
   },
@@ -44,6 +46,11 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getAllForTree').then(res => {
         this.treeData = res.data
         this.defaultExpandKeys = [this.treeData[0].id]
+      })
+    },
+    getFileCategories () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/dict/getFileCategories').then(res => {
+        this.options = res.data
       })
     }
   }

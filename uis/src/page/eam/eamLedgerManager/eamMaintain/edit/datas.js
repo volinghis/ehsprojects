@@ -32,7 +32,10 @@ export default {
         personName: '',
         fileId: '',
         remarks: '',
-        deviceImg: ''
+        deviceImg: '',
+        operationManual: '',
+        maintenancesStandard: '',
+        synopsis: ''
       },
       rules: {
         deviceName: [
@@ -53,17 +56,16 @@ export default {
         installLocation: [
           { required: true, message: '请输入设备位置', trigger: 'blur' }
         ]
-      },
-      fileList: []
+      }
     }
   },
-  created: function () {
+  mounted: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     var resData = processObj.data
     if (resData !== undefined) {
+      this.deviceKey = resData.key
       this.getDevicePicture(resData.deviceImg)
       this.form = resData
-      this.deviceKey = resData.key
     }
   },
   methods: {
@@ -92,13 +94,20 @@ export default {
       var node = this.$refs.userSelect.getCheckedNodes()
       this.form.personName = node[0].label // 用户名称
     },
-    uploadChange (v) {
-      console.log(v)
+    standardChange (v) {
+      this.form.maintenancesStandard = v
+    },
+    operationManualChange (v) {
+      this.form.operationManual = v
+    },
+    synopsisChange (v) {
+      this.form.synopsis = v
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {
         if (valid) {
           const reqBean = {
+            eamLedgerLast: this.form,
             eamLedger: this.form,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,

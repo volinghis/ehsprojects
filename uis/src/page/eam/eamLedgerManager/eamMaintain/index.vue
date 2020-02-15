@@ -39,7 +39,6 @@
               <el-table :data="tableData"
                         style="width: 100%"
                         border
-                        @row-dblclick="handldbClick"
                         :size="GlobalCss.buttonSize">
                 <el-table-column type="index"
                                  align="center"
@@ -52,8 +51,8 @@
                   <template slot-scope="scope">
                     <el-image class="table-td-deviceImg"
                               style="width: 30px; height: 30px"
-                              :src="scope.row.deviceImg"
-                              :preview-src-list="[scope.row.deviceImg]"></el-image>
+                              :src="scope.row.imgUrl"
+                              :preview-src-list="[scope.row.imgUr]"></el-image>
                   </template>
                 </el-table-column>
                 <el-table-column prop="deviceNum"

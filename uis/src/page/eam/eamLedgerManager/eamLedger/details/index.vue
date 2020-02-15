@@ -1,8 +1,6 @@
 <template>
   <div style="padding:0px 20px;">
     <el-form ref="form"
-             :model="form"
-             :rules="rules"
              label-position="top"
              label-width="80px">
       <el-row :gutter="20">
@@ -10,59 +8,22 @@
           <div class="item-block">
             <div class="item-title">设备图片</div>
             <el-image style="width: 150px; height: 150px"
-                      :src="eamInfos.deviceImg"
-                      fit="fill"></el-image>
+                      :src="imgUrl" fit="fill"></el-image>
           </div>
           <!--检修质量标准-->
           <div class="item-block">
             <div class="item-title">检修质量标准</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-preview="handlePreview"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.buttonSize"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+           <file-upload  :propUploadValue="eamInfos.maintenancesStandard"></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
             <div class="item-title">设备说明书</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-preview="handlePreview"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.buttonSize"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload  :propUploadValue="eamInfos.synopsis"></file-upload>
           </div>
           <!--设备操作手册-->
           <div class="item-block">
             <div class="item-title">设备操作手册</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-preview="handlePreview"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.buttonSize"
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload  :propUploadValue="eamInfos.operationManual"></file-upload>
           </div>
 
           <div class="item-block">
@@ -71,11 +32,11 @@
               <el-card>
                 <el-col :span="12">
                   <el-progress type="circle"
-                               :percentage="eamInfos.complete"
+                               :percentage="eamInfos.completePoint"
                                :stroke-width="10"></el-progress>
                 </el-col>
                 <el-col :span="12">
-                  <p> 当前设备资料的完整度为{{eamInfos.complete}}%，请尽快完善资料</p>
+                  <p> 当前设备资料的完整度为{{eamInfos.completePoint}}%，请尽快完善资料</p>
                 </el-col>
               </el-card>
             </el-row>
@@ -127,7 +88,7 @@
                       maxlength="300"
                       show-word-limit
                       placeholder="请输入定期工作标准"
-                      v-model="form.textarea">
+                      v-model="eamInfos.remarks">
             </el-input>
           </div>
           <!--历任点检员-->
