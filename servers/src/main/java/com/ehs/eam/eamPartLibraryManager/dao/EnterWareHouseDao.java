@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
-import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司

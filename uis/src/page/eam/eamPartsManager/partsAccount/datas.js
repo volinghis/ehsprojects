@@ -52,12 +52,13 @@ export default {
     //   })
     // },
     handleView: function (row) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsParams/getAllPartsParamByKey', { params: { key: row.key } }).then(res => {
-        if (res.data.length > 0) {
-          this.paramsDatas = res.data
-          this.$router.push({ name: 'partsAccountDetails', params: { data: row, pData: this.paramsDatas, flag: 'view', replace: true } })
-        }
-      })
+      this.$router.push({ name: 'partsAccountDetails', params: { data: row, flag: 'view', replace: true } })
+      // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsParams/getAllPartsParamByKey', { params: { key: row.key } }).then(res => {
+      //   if (res.data.length > 0) {
+      //     this.paramsDatas = res.data
+      //     this.$router.push({ name: 'partsAccountDetails', params: { data: row, pData: this.paramsDatas, flag: 'view', replace: true } })
+      //   }
+      // })
     },
     handleEdit: function (row) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsParams/getAllPartsParamByKey', { params: { key: row.key } }).then(res => {
@@ -95,6 +96,7 @@ export default {
     },
     getTableData: function () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getPartsAccountAll', this.form).then(res => {
+        console.log(res.data.dataList[0])
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       })

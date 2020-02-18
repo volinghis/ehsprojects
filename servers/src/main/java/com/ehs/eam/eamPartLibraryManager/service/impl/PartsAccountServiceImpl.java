@@ -104,7 +104,6 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	 */
 	@Override
 	public PageInfoBean findPartsAccountAll(QueryBean queryBean) {
-		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
 		Page<PartsAccount> parts = partsAccountDao.findPartsAccountAll(pageRequest);
 		if (parts!=null) {
@@ -119,7 +118,6 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	@Override
 	@Transactional
 	public void deletePartsByKey(String key) {
-		// TODO Auto-generated method stub
 		try {
 			baseCommonService.deleteByKey(PartsAccount.class, key);
 			List<PartsParam> params =partsParamsService.getAllPartsParamByKey(key);
@@ -129,7 +127,6 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

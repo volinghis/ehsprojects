@@ -12,7 +12,7 @@
   :on-preview="onPreview"
   :limit="20"
   :file-list="files">
-  <el-button :size="GlobalCss.buttonSize" type="primary">点击上传</el-button>
+  <el-button :size="GlobalCss.buttonSize" type="primary" :disabled="disabled">点击上传</el-button>
   <div slot="tip" class="el-upload__tip">{{message}}</div>
 </el-upload>
 </template>

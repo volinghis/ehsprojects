@@ -7,4 +7,8 @@ public interface PartsExtendsService {
 
 	public PageInfoBean getExtendsByKey(QueryBean queryBean,String key);
 
+	public PageInfoBean getAllEnterWareHouseParts(QueryBean queryBean);
+
+	public PageInfoBean getAllOutWareHouseParts(QueryBean queryBean);
+
 }

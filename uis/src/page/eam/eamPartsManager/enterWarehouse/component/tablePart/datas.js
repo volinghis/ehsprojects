@@ -3,12 +3,12 @@ import editPart from '../editPart/index.vue'
 export default {
   data () {
     return {
+      editPartFlag: '',
       flag: false,
       tPrice: 0,
       partDatas: [],
       tableData: [],
       select: [],
-      // tableParams: [],
       partsFormEdit: {},
       totalCount: 0,
       tableHeight: ' ',
@@ -89,6 +89,14 @@ export default {
       this.drawer = true
       this.$nextTick(() => {
         this.partsFormEdit = row
+        this.editPartFlag = 'edit'
+      })
+    },
+    handleClick: function (row) {
+      this.drawer = true
+      this.$nextTick(() => {
+        this.partsFormEdit = row
+        this.editPartFlag = 'view'
       })
     },
     handleDel: function (index, rows) {
@@ -116,12 +124,10 @@ export default {
       })
     },
     handleClose: function (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          this.drawer = false
-          this.partsFormEdit = {}
-        })
-        .catch(_ => { })
+      this.$confirm('确认关闭？').then(_ => {
+        this.drawer = false
+        this.partsFormEdit = {}
+      }).catch(_ => { })
     },
     getSummaries: function (param) {
       const { columns, data } = param

@@ -1,15 +1,18 @@
-// import ParamsTable from '../../../../components/paramsTable.vue'
 import ParamsTable from '../paramsTable/index.vue'
 import ModifyRecord from '../modifyRecord/index.vue'
+import FileUpload from '@components/upload/index'
 export default {
   components: {
     paramsTable: ParamsTable,
-    modifyRecord: ModifyRecord
+    modifyRecord: ModifyRecord,
+    FileUpload
   },
   data () {
     return {
       eamItem: {},
+      imageUrl: '',
       flag: '',
+      partFlag: false,
       paramsData: [],
       customColors: [
         { color: '#f56c6c', percentage: 20 },
@@ -18,24 +21,16 @@ export default {
         { color: '#1989fa', percentage: 80 },
         { color: '#6f7ad3', percentage: 100 }
       ],
-      fileList: [
-        {
-          name: 'food.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        },
-        {
-          name: 'food2.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }
-      ]
+      fileList: []
     }
   },
   mounted: function () {
     this.eamItem = this.$route.params.data
-    this.paramsData = this.$route.params.pData
     this.flag = this.$route.params.flag
+    if (this.flag) {
+      this.partFlag = true
+    }
+    this.getDevicePicture(this.eamItem.partsImg)
   },
   methods: {
     handlePrint: function () {
@@ -43,12 +38,13 @@ export default {
     handleBack: function () {
       this.$router.go(-1)
     },
-    handleExceed: function (files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      )
+    getDevicePicture: function (partsImg) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
+        var resData = res.data
+        this.imageUrl = URL.createObjectURL(resData)
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     }
   }
 }

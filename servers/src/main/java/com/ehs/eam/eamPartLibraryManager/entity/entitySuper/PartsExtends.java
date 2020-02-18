@@ -9,13 +9,34 @@ import javax.persistence.MappedSuperclass;
 import com.ehs.common.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: PartsExtends.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年2月16日 下午2:22:12 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年2月16日     zhaol          v1.0.0               修改原因
+*/
 @MappedSuperclass
 public abstract class PartsExtends extends BaseEntity{
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 	
+	public static final String MAINTENANCES_STANDARD="maintenancesStandard";
+	public static final String SYNOPSIS="synopsis";
+	public static final String OPERATION_MANUAL="operationManual";
+	public static final String PARTS_IMG="partsImg";
 	public static final String WAREHOUSE_KEY="wareHouseKey";
+	public static final String WAREHOUSE_CODE="wareHouseCode";
+	public static final String WAREHOUSE_NAME="wareHouseName";
+	public static final String REVIEWER="reviewer";
+	public static final String STATUS="status";
 	public static final String SUPPLIER="supplier";
 	public static final String LEAVE_FACTORY_CODE="leaveFactoryCode";
 	public static final String LEAVE_FACTORY_DATE="leaveFactoryDate";
@@ -38,6 +59,60 @@ public abstract class PartsExtends extends BaseEntity{
 	 * 仓库跟备件扩展信息表关联key
 	 */
 	private String wareHouseKey;
+	
+	/**
+	 * 入库编码
+	 */
+	private String wareHouseCode;
+	
+	/**
+	 * 入库名称
+	 */
+	private String wareHouseName;
+	
+	/**
+	 * 入库日期
+	 */
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	private Timestamp inboundDate;
+	
+	/**
+	 * 入库类型
+	 */
+	private String inboundType;
+	
+	/**
+	 * 审核人
+	 */
+	private String reviewer;
+	
+	/**
+	 * 审核状态
+	 */
+	private String status;
+	
+	/**
+	 * 检修质量标准
+	 */
+	@Column(length = 1000)
+	private String maintenancesStandard;
+	
+	/**
+	 * 说明书
+	 */
+	@Column(length = 1000)
+	private String synopsis;
+	
+	/**
+	 * 操作手册
+	 */
+	@Column(length = 1000)
+	private String operationManual;
+	
+	/**
+	 * 备件图片关联id
+	 */
+	private String partsImg;
 	
 	/**
 	 * 供应商
@@ -117,14 +192,41 @@ public abstract class PartsExtends extends BaseEntity{
 	/**
 	 * 备注
 	 */
-	@Column(length = 3000)
+	@Column(length = 2000)
 	private String remark;
 	
-	/**
-	 * 排序
-	 */
-	private Integer sort;
-	
+	public String getMaintenancesStandard() {
+		return maintenancesStandard;
+	}
+
+	public void setMaintenancesStandard(String maintenancesStandard) {
+		this.maintenancesStandard = maintenancesStandard;
+	}
+
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
+
+	public String getOperationManual() {
+		return operationManual;
+	}
+
+	public void setOperationManual(String operationManual) {
+		this.operationManual = operationManual;
+	}
+
+	public String getPartsImg() {
+		return partsImg;
+	}
+
+	public void setPartsImg(String partsImg) {
+		this.partsImg = partsImg;
+	}
+
 	public String getWareHouseKey() {
 		return wareHouseKey;
 	}
@@ -261,12 +363,50 @@ public abstract class PartsExtends extends BaseEntity{
 		this.remark = remark;
 	}
 
-	public Integer getSort() {
-		return sort;
+	public String getWareHouseCode() {
+		return wareHouseCode;
 	}
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
+	public void setWareHouseCode(String wareHouseCode) {
+		this.wareHouseCode = wareHouseCode;
 	}
-	
+
+	public String getWareHouseName() {
+		return wareHouseName;
+	}
+
+	public void setWareHouseName(String wareHouseName) {
+		this.wareHouseName = wareHouseName;
+	}
+
+	public String getReviewer() {
+		return reviewer;
+	}
+
+	public void setReviewer(String reviewer) {
+		this.reviewer = reviewer;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getInboundType() {
+		return inboundType;
+	}
+
+	public void setInboundType(String inboundType) {
+		this.inboundType = inboundType;
+	}
+
+	public Timestamp getInboundDate() {
+		return inboundDate;
+	}
+
+	public void setInboundDate(Timestamp inboundDate) {
+		this.inboundDate = inboundDate;
+	}
 }

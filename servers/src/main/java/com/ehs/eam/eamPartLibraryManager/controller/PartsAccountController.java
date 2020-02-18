@@ -1,14 +1,11 @@
 package com.ehs.eam.eamPartLibraryManager.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,9 +14,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
-import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 
 /**   
@@ -157,7 +152,6 @@ public class PartsAccountController {
 			partsAccountService.deletePartsByKey(key);
 			return JsonUtils.toJsonString(resultBean.ok("删除备件成功！"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonUtils.toJsonString(resultBean.error("删除备件失败！"));

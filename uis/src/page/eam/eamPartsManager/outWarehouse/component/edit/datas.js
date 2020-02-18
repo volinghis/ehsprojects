@@ -1,17 +1,18 @@
-import addPart from '../addPart/index.vue'
-import tablePart from '../tablePart/index.vue'
-import orgSelect from '@/components/org/org-selector/index.vue'
-import userSelect from '@/components/org/user-selector/index.vue'
+import AddPart from '../addPart/index.vue'
+import TablePart from '../tablePart/index.vue'
+import OrgSelector from '@/components/org/org-selector/index.vue'
+import UserSelector from '@/components/org/user-selector/index.vue'
 export default {
   components: {
-    tablePart,
-    addPart,
-    orgSelect,
-    userSelect
+    AddPart,
+    TablePart,
+    OrgSelector,
+    UserSelector
   },
   data () {
     return {
       show: false,
+      showButton: false,
       tableHeight: ' ',
       pDatas: [],
       parts: [],
@@ -26,9 +27,8 @@ export default {
         outWarehouseCode: '',
         outBoundDate: '',
         outBoundType: '',
-        receivDepart: '',
-        receivEmp: '',
-        creatDate: '',
+        receiveEmpCode: '',
+        receiveDepartCode: '',
         remark: ''
       },
       rules: {
@@ -41,31 +41,18 @@ export default {
         outBoundType: [
           { required: true, message: '请输入出库类型', trigger: 'blur' }
         ],
-        receivDepart: [
+        receiveDepartCode: [
           { required: true, message: '请选择部门', trigger: 'blur' }
         ],
-        receivEmp: [
+        receiveEmpCode: [
           { required: true, message: '请选择领用人', trigger: 'blur' }
         ]
       }
     }
   },
-  mounted () {
+  created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     this.flag = processObj.flag
-    if (processObj.data !== undefined) {
-      if (this.flag === 'view') {
-        this.form = processObj.data
-        console.log(this.form)
-      }
-    } else {
-      if (processObj.businessKey !== undefined) {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
-          this.form = res.data
-          this.getPartsAccounts()
-        })
-      }
-    }
 
     if (this.flag === 'add') {
       const d = new Date()
@@ -73,22 +60,34 @@ export default {
       this.form.creatDate = datetime
       const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
       this.form.founder = user.username
-      if (this.$refs.table.tableData.length > 1) {
-        this.$refs.table.tableData = []
+      this.show = false
+      this.showButton = true
+      this.showFlag = 'add'
+    } else if (this.flag === 'view') {
+      if (processObj.key) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+          this.form = res.data
+          this.showFlag = 'view'
+          this.getPartsAccounts()
+        })
       }
       this.show = true
-      this.showFlag = 'add'
-    } else {
-      this.show = false
+      this.showButton = false
       this.showFlag = 'view'
-      this.getPartsAccounts()
+    } else {
+      if (processObj.businessKey !== undefined) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
+          this.form = res.data
+          this.showFlag = 'view'
+          this.getPartsAccounts()
+        })
+      }
     }
   },
   methods: {
     getPartsAccounts: function () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getExtendsByKey', { params: { key: this.form.key } }).then(res => {
         if (res.data.totalCount > 0) {
-          // this.parts = res.data.dataList
           this.partsTable = res.data.dataList
           this.totalCount = res.data.totalCount
         }
@@ -121,7 +120,7 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          console.log(requestParam)
+          // console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
@@ -142,13 +141,6 @@ export default {
     },
     resetForm: function () {
       this.$refs.form.resetFields()
-    },
-    handleExceed: function (files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      )
     },
     overSelect: function () {
       this.dialogVisible = false

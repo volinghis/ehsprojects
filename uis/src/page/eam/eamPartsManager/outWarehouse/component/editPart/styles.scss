@@ -8,8 +8,11 @@
   border: 1px;
 }
 .item-block {
-  .upload-demo {
-    margin: 7px 0px;
+  .item-title {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: 14px;
+    font-weight: 700;
   }
 }
 .avatar-uploader .el-upload {
@@ -22,13 +25,17 @@
 .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
+/deep/.el-upload-dragger{
+  width: 295px;
+  height: 0px;
+}
 .avatar {
   width: 178px;
   height: 178px;
   display: block;
 }
 /deep/.el-divider--horizontal{
-  margin: 12px 0;
+  margin: 2px 0 10px 0;
 }
 .el-upload__tip{
   color: #808695;

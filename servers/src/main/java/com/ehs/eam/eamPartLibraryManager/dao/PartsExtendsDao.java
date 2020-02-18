@@ -24,4 +24,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 	
 	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsExtends> getAllByWareHouseKey(String wareHouseKey);
+
+	@Query(" select p from PartsExtends p where p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public Page<PartsExtends> getAll(PageRequest pageRequest);
 }

@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -136,11 +135,14 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 		try {
 			PartsAccount account = new PartsAccount();
 			//仓库信息存入备件台账表
-			account.setWarehouseCode(eHouse.getWarehouseCode());
-			account.setWarehouseName(eHouse.getWarehouseName());
+			account.setWareHouseCode(eHouse.getWarehouseCode());
+			account.setWareHouseName(eHouse.getWarehouseName());
 			account.setInboundType(eHouse.getInboundType());
 			account.setInboundDate(eHouse.getInboundDate());
 			//备件扩展表存入备件台账
+			account.setMaintenancesStandard(pExtends.getMaintenancesStandard());
+			account.setSynopsis(pExtends.getSynopsis());
+			account.setOperationManual(pExtends.getOperationManual());
 			account.setDeviceCode(pExtends.getDeviceCode());
 			account.setDeviceName(pExtends.getDeviceName());
 			account.setNorm(pExtends.getNorm());

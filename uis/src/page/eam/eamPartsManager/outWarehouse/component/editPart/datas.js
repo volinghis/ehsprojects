@@ -1,12 +1,17 @@
-import partEdit from '../../../partsBaseInfo/component/edit/index.vue'
+import FileUpload from '@components/upload/index'
 export default {
   components: {
-    partEdit
+    FileUpload
   },
   props: {
-    partsForm: Object
+    partsForm: Object,
+    flag: String
   },
   watch: {
+    flag: function (val) {
+      console.log('flagMark')
+      console.log(val)
+    },
     amountNew: function (val) {
       if (this.priceNew !== undefined) {
         this.totalPriceNew = this.priceNew * val
@@ -21,17 +26,16 @@ export default {
       this.form.totalPrice = val
     },
     factoryDateBlur: function (val) {
-      console.log(val)
       this.form.leaveFactoryDate = val
     },
     partsForm: {
       handler (val) {
-        // this.form = val
-        this.form = JSON.parse(JSON.stringify(val))
-        // this.partsForm = val
-        // this.$nextTick(() => {
-        //   this.form = val
-        // })
+        this.form = val
+        this.partFlag = false
+        if (this.form.partsImg) {
+          this.getDevicePicture(this.form.partsImg)
+          this.key += 1
+        }
       }
     }
   },
@@ -39,13 +43,7 @@ export default {
     JSON.parse(JSON.stringify(this.partsForm))
     this.form = this.partsForm
     const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    console.log(user.username)
     this.form.founder = user.username
-    if (this.form) {
-      this.flag = 'edit'
-    } else {
-      this.flag = 'add'
-    }
   },
   methods: {
     amountBlur: function (e) {
@@ -57,47 +55,29 @@ export default {
     factoryDateBlur: function (e) {
       this.partsForm.leaveFactoryDate = e.displayValue
     },
-    handleAvatarSuccess: function (res, file) {
-      // console.log(file)
-      this.imageUrl = URL.createObjectURL(file.raw)
-    },
-    handleRemove: function (file, fileList) {
-      // console.log(file, fileList)
-    },
-    handlePreview: function (file) {
-      // console.log(file)
-    },
-    handleExceed: function (files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      )
-    },
-    beforeRemove: function (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
-    },
-    beforeAvatarUpload: function (file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
+    getDevicePicture: function (partsImg) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
+        var resData = res.data
+        this.imageUrl = URL.createObjectURL(resData)
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     }
   },
   data () {
     return {
-      flag: '',
+      key: 0,
+      partFlag: true,
       paramsData: [],
       priceNew: 0,
       amountNew: 0,
       totalPriceNew: 0,
       imageUrl: '',
       form: {
+        partsImg: '',
+        maintenancesStandard: '',
+        synopsis: '',
+        operationManual: '',
         deviceName: '',
         deviceCode: '',
         norm: '',
@@ -162,18 +142,7 @@ export default {
           { required: true, message: '请输入预警值', trigger: 'blur' }
         ]
       },
-      fileList: [
-        // {
-        //   name: 'food.jpeg',
-        //   url:
-        //     'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        // },
-        // {
-        //   name: 'food2.jpeg',
-        //   url:
-        //     'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        // }
-      ]
+      fileList: []
     }
   }
 }

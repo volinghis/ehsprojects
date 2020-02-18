@@ -73,6 +73,7 @@
 				<menu dataCode="partsBaseInfoDetails" key="partsBaseInfoDetails" name="备件台账详情" url="/eam/eamPartsManager/partsBaseInfo/component/details/index" business="true" sort="352"></menu>
 			</menu>
 			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsAccount/index"  sort="31">
+				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="备件台账详情页面 " url="/eam/eamPartsManager/partsAccount/component/details/index" business="true" sort="311"></menu>
 			</menu>
 			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartsManager/enterWarehouse/index" parentKey="eamPartsManager" sort="32">
 				<menu dataCode="enterWarehouseEdit" key="enterWarehouseEdit" name="入库编辑" url="/eam/eamPartsManager/enterWarehouse/component/edit/index" business="true" sort="321"></menu>

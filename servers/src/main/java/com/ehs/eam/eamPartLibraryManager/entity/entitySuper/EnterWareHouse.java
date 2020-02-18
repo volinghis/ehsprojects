@@ -1,7 +1,6 @@
 package com.ehs.eam.eamPartLibraryManager.entity.entitySuper;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
@@ -25,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @MappedSuperclass
 public abstract class EnterWareHouse extends FlowBaseEntity {
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 	
 	public static final String WAREHOUSE_CODE = "warehouseCode";

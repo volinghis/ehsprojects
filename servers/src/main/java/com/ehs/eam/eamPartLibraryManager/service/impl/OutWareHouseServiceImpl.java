@@ -21,18 +21,33 @@ import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.organization.entity.OrgUser;
+import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.dao.OutWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
-import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: OutWareHouseServiceImpl.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年2月18日 下午9:13:42 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年2月18日     zhaol          v1.0.0               修改原因
+*/
 @Service
 public class OutWareHouseServiceImpl implements OutWareHouseService {
 	
@@ -81,6 +96,10 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean) {
 		logger.info("=======准备开始出库流程========");
 		if (wareHouserBean.getOutWareHouse() != null) {
+			OrgUser user = baseCommonService.findByKey(OrgUser.class, wareHouserBean.getOutWareHouse().getReceiveEmpCode());
+			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
+			wareHouserBean.getOutWareHouse().setReceiveDepart(org.getName());
+			wareHouserBean.getOutWareHouse().setReceiveEmp(user.getName());
 			ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
 			if (!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 				for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
@@ -127,8 +146,8 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		try {
 			PartsAccount account = new PartsAccount();
 			//仓库信息存入备件台账表
-			account.setWarehouseCode(eHouse.getOutWarehouseCode());
-			account.setWarehouseName(eHouse.getOutWarehouseName());
+			account.setWareHouseCode(eHouse.getOutWarehouseCode());
+			account.setWareHouseName(eHouse.getOutWarehouseName());
 			account.setInboundType(eHouse.getOutBoundType());
 			account.setInboundDate(eHouse.getOutBoundDate());
 			//备件扩展表存入备件台账
@@ -196,6 +215,5 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		}
 		return null;
 	}
-
 
 }

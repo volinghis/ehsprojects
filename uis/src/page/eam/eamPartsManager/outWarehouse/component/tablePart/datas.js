@@ -1,5 +1,4 @@
 import editPart from '../editPart/index.vue'
-// const select = []
 export default {
   data () {
     return {
@@ -7,8 +6,8 @@ export default {
       partDatas: [],
       tableData: [],
       select: [],
-      flagMark: false,
-      // tableParams: [],
+      flagBotton: false,
+      flagMark: '',
       partsFormEdit: {},
       totalCount: 0,
       tableHeight: ' ',
@@ -35,10 +34,14 @@ export default {
       this.totalCount = val
     },
     flag: function (val) {
+      console.log('val==============' + val)
       if (val === 'view') {
-        this.flagMark = false
+        this.flagMark = 'view'
+        this.flagBotton = false
       } else {
-        this.flagMark = true
+        console.log('编辑')
+        this.flagMark = 'edit'
+        this.flagBotton = true
       }
     },
     partsTable: {
@@ -64,14 +67,6 @@ export default {
     },
     deep: true
   },
-  mounted: function () {
-    // var hdiv = document.querySelector('.divHeight').offsetHeight
-    // var hsubmiit = document.querySelector('.submitHeight').offsetHeight
-    // var hsearch = document.querySelector('.searchHeight').offsetHeight
-    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    // var hpage = document.querySelector('.pageHeight').offsetHeight
-    // this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
-  },
   methods: {
     unique: function (arr) {
       return arr.filter(function (item, index, arr) {
@@ -83,6 +78,13 @@ export default {
       this.drawer = true
       this.$nextTick(() => {
         this.partsFormEdit = row
+      })
+    },
+    handleClick: function (row) {
+      this.drawer = true
+      this.$nextTick(() => {
+        this.partsFormEdit = row
+        this.editPartFlag = 'view'
       })
     },
     handleDel: function (index, rows) {
@@ -101,7 +103,6 @@ export default {
               this.$refs.partData.form.leaveFactoryDate = datetime
               console.log(this.$refs.partData.form)
               this.tableData.push(this.$refs.partData.form)
-              // this.tableParams = this.tableData
               this.$emit('tableParams', this.tableData)
               return this.tableData
             }

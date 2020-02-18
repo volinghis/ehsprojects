@@ -4,57 +4,22 @@
         <el-col :span="6">
           <div class="item-block">
             <div class="item-title">设备图片</div>
-            <el-image style="width: 170px; height: 170px"
-                      :src="eamItem.deviceImg"
-                      fit="fill"></el-image>
+            <img style="width: 170px; height: 170px" v-if="imageUrl" :src="imageUrl" class="avatar">
           </div>
           <!--检修质量标准-->
           <div class="item-block">
             <div class="item-title">检修质量标准</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.controlSize"
-                         plain
-                         disabled
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload :propUploadValue="eamItem.maintenancesStandard" v-if="partFlag" :disabled="true"></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
             <div class="item-title">设备说明书</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.controlSize"
-                         plain
-                         disabled
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload :propUploadValue="eamItem.synopsis" v-if="partFlag" :disabled="true"></file-upload>
           </div>
           <!--设备操作手册-->
           <div class="item-block">
             <div class="item-title">设备操作手册</div>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
-              <el-button :size="GlobalCss.controlSize"
-                         plain
-                         disabled
-                         type="primary"
-                         icon="el-icon-upload">上传文件</el-button>
-            </el-upload>
+            <file-upload :propUploadValue="eamItem.operationManual" v-if="partFlag" :disabled="true"></file-upload>
           </div>
         </el-col>
         <el-col :span="18">
@@ -91,7 +56,7 @@
                   <span class="info-title">预警值</span>:&nbsp;<span class="info-content">{{ eamItem.warningValue }}</span>
                 </el-col>
                 <el-col :span="8">
-                  <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamItem.founder }}</span>
+                  <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamItem.creationName }}</span>
                 </el-col>
                 <el-col :span="8">
                   <span class="info-title">创建时间</span>:&nbsp;<span class="info-content">{{ eamItem.creationTime }}</span>
@@ -100,11 +65,11 @@
             </div>
           </div>
           <!--设备参数-->
-          <div class="item-block right">
+          <!-- <div class="item-block right">
             <div class="item-title">备件主要参数</div>
             <el-divider></el-divider>
             <params-table :paramsData="paramsData" :flag="flag"></params-table>
-          </div>
+          </div> -->
           <!--备件修改信息-->
           <div class="item-block right">
             <div class="item-title">备件修改信息记录</div>
@@ -118,12 +83,12 @@
                 <el-col :span="12">
                   <el-progress type="circle"
                                :color="customColors"
-                               :percentage="eamItem.complete"
+                               :percentage="eamItem.completePoint"
                                :stroke-width="7">
                   </el-progress>
                 </el-col>
                 <el-col :span="12">
-                  <span>当前设备资料的完整度为{{eamItem.complete}}%，请尽快完善资料</span>
+                  <span>当前设备资料的完整度为{{eamItem.completePoint}}%，请尽快完善资料</span>
                 </el-col>
               </el-card>
             </el-row>

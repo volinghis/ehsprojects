@@ -31,8 +31,10 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	public static final String OUT_WAREHOUSE_NAME = "outWarehouseName";
 	public static final String OUTBOUND_TYPE = "outBoundType";
 	public static final String OUTBOUND_DATE = "outBoundDate";
-	public static final String RECEIV_EMP = "receivEmp";
-	public static final String RECEIV_DEPART = "receivDepart";
+	public static final String RECEIVE_EMP_CODE = "receiveEmpCode";
+	public static final String RECEIVE_EMP = "receiveEmp";
+	public static final String RECEIVE_DEPART_CODE = "receiveDepartCode";
+	public static final String RECEIVE_DEPART = "receiveDepart";
 	public static final String STATUS = "status";
 	public static final String FOUNDER = "founder";
 
@@ -58,14 +60,24 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	private Timestamp outBoundDate;
 	
 	/**
+	 * 领用人编码
+	 */
+	private String receiveEmpCode;
+	
+	/**
 	 * 领用人
 	 */
-	private String receivEmp;
+	private String receiveEmp;
+	
+	/**
+	 * 部门编码
+	 */
+	private String receiveDepartCode;
 	
 	/**
 	 * 领用部门
 	 */
-	private String receivDepart;
+	private String receiveDepart;
 	
 	/**
 	 *申请状态
@@ -82,7 +94,7 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	 */
 	@Column(length = 3000)
 	private String remark;
-
+	
 	public String getOutWarehouseCode() {
 		return outWarehouseCode;
 	}
@@ -115,36 +127,52 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 		this.outBoundDate = outBoundDate;
 	}
 
-	public String getReceivEmp() {
-		return receivEmp;
+	public String getReceiveEmpCode() {
+		return receiveEmpCode;
 	}
 
-	public void setReceivEmp(String receivEmp) {
-		this.receivEmp = receivEmp;
+	public void setReceiveEmpCode(String receiveEmpCode) {
+		this.receiveEmpCode = receiveEmpCode;
 	}
 
-	public String getReceivDepart() {
-		return receivDepart;
+	public String getReceiveEmp() {
+		return receiveEmp;
 	}
 
-	public void setReceivDepart(String receivDepart) {
-		this.receivDepart = receivDepart;
-	}
-	
-	public String getFounder() {
-		return founder;
+	public void setReceiveEmp(String receiveEmp) {
+		this.receiveEmp = receiveEmp;
 	}
 
-	public void setFounder(String founder) {
-		this.founder = founder;
+	public String getReceiveDepartCode() {
+		return receiveDepartCode;
 	}
-	
+
+	public void setReceiveDepartCode(String receiveDepartCode) {
+		this.receiveDepartCode = receiveDepartCode;
+	}
+
+	public String getReceiveDepart() {
+		return receiveDepart;
+	}
+
+	public void setReceiveDepart(String receiveDepart) {
+		this.receiveDepart = receiveDepart;
+	}
+
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getFounder() {
+		return founder;
+	}
+
+	public void setFounder(String founder) {
+		this.founder = founder;
 	}
 
 	public String getRemark() {
@@ -154,7 +182,7 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
 	@Override
 	public String getFlow() {
 		return "EamOutWareHouseFlow";

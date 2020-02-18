@@ -100,7 +100,6 @@ function toDoPage (from, to, next) {
         next({ replace: true })
       } else {
         if (to.path.startsWith('/flow')) {
-          console.log(1)
           next({ path: to.path, replace: true })
         } else {
           next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })

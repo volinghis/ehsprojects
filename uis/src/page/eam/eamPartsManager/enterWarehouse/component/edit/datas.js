@@ -8,6 +8,7 @@ export default {
   data () {
     return {
       obj: {},
+      showButton: false,
       show: false,
       showFlag: '',
       parts: [],
@@ -42,12 +43,26 @@ export default {
     }
   },
   mounted () {
-    const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.form.founder = user.username
     var processObj = JSON.parse(this.$route.params.processInfo)
-    if (processObj.data != null) {
-      if (processObj.flag === 'view') {
-        this.form = processObj.data
+    this.flag = processObj.flag
+
+    if (this.flag === 'add') {
+      const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+      this.form.founder = user.username
+      this.show = false
+      this.showButton = true
+      this.showFlag = 'add'
+    } else if (this.flag === 'view') {
+      if (processObj.key != null) {
+        if (processObj.flag === 'view') {
+          this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+            this.form = res.data
+            this.getPartsAccounts()
+          })
+        }
+        this.show = true
+        this.showButton = false
+        this.showFlag = 'view'
       }
     } else {
       if (processObj.businessKey !== undefined) {
@@ -57,19 +72,36 @@ export default {
         })
       }
     }
-    // this.parts = this.$route.params.pData
-    this.flag = processObj.flag
-    if (this.flag === 'add') {
-      if (this.$refs.table.tableData.length > 1) {
-        this.$refs.table.tableData = []
-      }
-      this.show = true
-      this.showFlag = 'add'
-    } else {
-      this.show = false
-      this.showFlag = 'view'
-      this.getPartsAccounts()
-    }
+
+    // if (processObj.key != null) {
+    //   if (processObj.flag === 'view') {
+    //     this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+    //       this.form = res.data
+    //       this.getPartsAccounts()
+    //     })
+    //   }
+    // } else {
+    //   if (processObj.businessKey !== undefined) {
+    //     this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
+    //       this.form = res.data
+    //       this.getPartsAccounts()
+    //     })
+    //   }
+    // }
+
+    // if (this.flag === 'add') {
+    //   const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    //   this.form.founder = user.username
+    //   if (this.$refs.table.tableData.length > 1) {
+    //     this.$refs.table.tableData = []
+    //   }
+    //   this.show = true
+    //   this.showFlag = 'add'
+    // } else {
+    //   this.show = false
+    //   this.showFlag = 'view'
+    //   this.getPartsAccounts()
+    // }
   },
   methods: {
     handleClose: function (done) {
@@ -144,7 +176,7 @@ export default {
         manufacturer: '',
         leaveFactoryCode: '',
         leaveFactoryDate: '',
-        warningValue: '',
+        warningValue: 0,
         founder: '',
         supplier: '',
         price: 0,

@@ -4,8 +4,8 @@
     @change="change" @blur="blur" @focus="focus" @visible-change="visibleChange" @remove-tag="removeTag"
     :props="defaultProps">
     <template slot-scope="{ node, data }">
-      <span class="el-cascader-data-ehs-icon el-cascader-ehs-data-org" v-if="data.org"><i
-          class="fa fa-home"></i></span><span v-else class="el-cascader-data-ehs-icon"><i class="fa fa-user"></i></span>
+      <span class="el-cascader-data-ehs-icon el-cascader-ehs-data-org" v-if="data.org"><i class="fa fa-home"></i></span>
+      <span v-else class="el-cascader-data-ehs-icon"><i class="fa fa-user"></i></span>
       <span class="el-cascader-ehs-data-label">{{ data.label }}</span>
     </template>
   </el-cascader>

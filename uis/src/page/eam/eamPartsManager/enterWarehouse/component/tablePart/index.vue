@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" resizable  highlight-current-row border :max-height="tableHeight"
+    <el-table :data="tableData" resizable  highlight-current-row border :max-height="tableHeight" @row-dblclick="handleClick"
       :size="GlobalCss.buttonSize" :summary-method="getSummaries" show-summary style="width: 100%;">
       <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
       <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
@@ -22,12 +22,12 @@
     <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :before-close="handleClose" size="65%" >
+    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :before-close="handleClose" size="60%" >
       <el-divider></el-divider>
-      <editPart ref="partData" :partsForm="partsFormEdit"></editPart>
+      <editPart ref="partData" :partsForm="partsFormEdit" :flag="editPartFlag"></editPart>
       <div style="text-align:center;">
-        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm">保 存</el-button>
-        <el-button :size="GlobalCss.buttonSize" @click="handleClose">取 消</el-button>
+        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm" v-show="flag">保 存</el-button>
+        <el-button :size="GlobalCss.buttonSize" @click="handleClose" v-show="flag">取 消</el-button>
       </div>
     </el-drawer>
   </div>
