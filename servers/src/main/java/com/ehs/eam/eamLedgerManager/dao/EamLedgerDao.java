@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
-import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司

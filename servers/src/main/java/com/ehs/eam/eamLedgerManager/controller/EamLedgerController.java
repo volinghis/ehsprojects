@@ -8,10 +8,7 @@
  */
 package com.ehs.eam.eamLedgerManager.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -284,21 +281,6 @@ public class EamLedgerController {
 		return JsonUtils.toJsonString(resultBean.ok("移除成功"));
 	}
 
-	
-	
-	@RequestAuth(menuKeys = {"eamLedger"})
-	@RequestMapping(value = "/getSuggestions")
-	public String getSuggestions() {
-		List<EamLedger> eamLedgers=	(List<EamLedger>) baseCommonService.findAll(EamLedger.class);
-		List<Object> resList=new  ArrayList<Object>();
-		for (EamLedger el : eamLedgers) {
-			Map<String, String> innerMap=new HashMap<String, String>();
-			innerMap.put("value", el.getDeviceName());
-			resList.add(innerMap);
-		}
-		return JsonUtils.toJsonString(resList);
-	}
-	
 	
 	@RequestAuth(menuKeys = { "eamLedger" })
 	@RequestMapping(value = "/getEamLedgerByKey")

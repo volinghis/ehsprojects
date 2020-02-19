@@ -7,17 +7,7 @@
                   justify="space-between">
             <el-col :span="8">
               <div class="table-search-wrapper">
-                <el-autocomplete v-model="queryParam.query"
-                                 :fetch-suggestions="querySearch"
-                                 @select="handleSelect"
-                                 size="small"
-                                 style="margin-bottom:10px;width:100%;"
-                                 placeholder="可查询设备名称设备编号">
-                  <el-button slot="append"
-                             type="primary"
-                             @click="handleQuery"
-                             icon="el-icon-search">搜索</el-button>
-                </el-autocomplete>
+                 <AutoComplete @handleSelect="handleSelect" @handleQuery="handleQuery"></AutoComplete>
               </div>
             </el-col>
             <el-col :span="8">

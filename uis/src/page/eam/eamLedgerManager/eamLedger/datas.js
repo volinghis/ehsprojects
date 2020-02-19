@@ -1,7 +1,9 @@
 import RepairRecord from '../../components/repairRecord'
+import AutoComplete from '../../components/autocomplete.vue'
 export default {
   components: {
-    RepairRecord
+    RepairRecord,
+    AutoComplete
   },
   data () {
     return {
@@ -12,7 +14,6 @@ export default {
       },
       imgUrl: '',
       form: {},
-      suggestions: [],
       activeName: 'first',
       total: 0,
       tableData: [],
@@ -21,12 +22,12 @@ export default {
   },
   mounted: function () {
     this.initTable()
-    this.loadSuggestions()
   },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
         // this.tableData = res.data.dataList
+        this.tableData = []
         this.getDevicePicture(res.data.dataList)
         this.total = res.data.totalCount
       }).catch(error => {
@@ -47,7 +48,6 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
           resArr[i].imgUrl = URL.createObjectURL(res.data)
           this.tableData.push(resArr[i])
-          console.log(this.tableData)
         }).catch(error => {
           this.$message({ message: error })
         })
@@ -74,29 +74,8 @@ export default {
         type: 'warning'
       })
     },
-    querySearch (queryString, cb) {
-      var suggestions = this.suggestions
-      var results = queryString ? suggestions.filter(this.createStateFilter(queryString)) : suggestions
-      // 调用 callback 返回建议列表的数据
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 1000 * Math.random())
-    },
-    createStateFilter (queryString) {
-      return (suggestion) => {
-        return (suggestion.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
-      }
-    },
     handleSelect (item) {
       this.queryParam.query = item.value
-    },
-    loadSuggestions () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
-        this.suggestions = res.data
-      }).catch(error => {
-        this.$message({ message: error })
-      })
     },
     changePage (val) { // 页码跳转
       this.queryParam.page = val

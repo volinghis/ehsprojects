@@ -175,8 +175,9 @@ public class DataFileInfoController {
 	*---------------------------------------------------------*
 	* 2019年9月5日     qjj        v1.0.0            修改原因
 	 */
-	@RequestMapping("/action/viewFile")
-	public void viewByPDF(String fileId,HttpServletResponse response) {
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping("/data/file/viewFile")
+	public void viewByPDF(@RequestParam("fileId") String fileId,HttpServletResponse response) {
 	  	  GridFSFile gridFSFile = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(fileId)));
 	  	  if(gridFSFile==null) {
 	  		  return ;

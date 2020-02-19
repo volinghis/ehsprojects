@@ -2,162 +2,107 @@
   <div>
     <el-row>
       <el-col class="searchCol">
-        <el-card>
-          <el-form label-position="right"
-                   :inline="true"
-                   label-width="80px">
-            <el-form-item label="资料类别:">
-              <el-select v-model="queryParam.useStatus"
-                         size="small"
-                         style="width:100%;"
-                         placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="文件名称:">
-              <el-input v-model="queryParam.fileName"
-                        size="small" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary"
-                         :size="GlobalCss.buttonSize"
-                         @click="$refs.table.refresh(true)"
-                         icon="el-icon-search">查询</el-button>
-              <el-button :size="GlobalCss.buttonSize"
-                         @click="() => (queryParam = {})">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-card>
+        <el-row type="flex" md="24" justify="space-between">
+          <el-col :span="8">
+            <div class="search-wrapper">
+              <AutoComplete @handleSelect="handleSelect" @handleQuery="handleQuery"></AutoComplete>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="operate">
+              <el-button
+                type="primary"
+                :size="GlobalCss.buttonSize"
+                @click="openAddForm"
+                icon="el-icon-plus"
+              >添加</el-button>
+            </div>
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
-    <el-row >
-      <el-col :span="6">
-        <el-card shadow="hover"
-                 :style="{height:mainHeight+'px'}">
-          <div slot="header"
-               class="clearfix">
-            <label>设备结构树</label>
+    <el-row>
+      <el-col :span="5">
+        <el-card shadow="hover" :style="{height:mainHeight+'px'}">
+          <div slot="header" class="clearfix">
+            <label>文件目录</label>
           </div>
-          <el-tree :data="treeData"
-                   node-key="id"
-                    ref="tree"
-                   :default-expanded-keys="defaultExpandKeys"
-                   :props="defaultProps"
-                   @node-click="handleNodeClick">
-            <span class="custom-tree-node"
-                  slot-scope="{ node, data }">
+          <el-tree
+            :data="treeData"
+            node-key="id"
+            ref="tree"
+            :default-expanded-keys="defaultExpandKeys"
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+          >
+            <span class="custom-tree-node" slot-scope="{ node, data }">
               <i :class="data.className"></i>
               <span style="margin-left:5px;">{{ node.label }}</span>
-            </span></el-tree>
+            </span>
+          </el-tree>
         </el-card>
       </el-col>
-      <el-col :span="18">
-        <el-card shadow="hover"
-                 :style="{height:mainHeight+'px'}">
-          <div slot="header"
-               class="clearfix">
+      <el-col :span="19">
+        <el-card shadow="hover">
+          <div slot="header" class="clearfix">
             <label>文件列表</label>
           </div>
-          <div class="operate">
-            <el-button type="primary"
-                       :size="GlobalCss.buttonSize"
-                       @click="dialogFormVisible=true"
-                       icon="el-icon-plus">添加</el-button>
-          </div>
           <div class="table-list">
-            <el-table :data="tableData"
-                      size="medium">
-              <el-table-column type="index"
-                               width="50"></el-table-column>
-              <el-table-column prop="type"
-                               label="类型"
-                               width="80">
+            <el-table :data="tableData" :size="GlobalCss.buttonSize">
+              <el-table-column type="index" width="50"></el-table-column>
+              <el-table-column prop="type" label="类型" width="80">
                 <template slot-scope="scope">
-                  <el-image class="table-td-deviceImg"
-                            style="width: 30px; height: 30px"
-                            :src="scope.row.deviceImg"
-                            :preview-src-list="[scope.row.deviceImg]"></el-image>
+                  <el-image
+                    class="table-td-deviceImg"
+                    style="width: 30px; height: 30px"
+                    :src="findTypeUrl(scope.row.type)"
+                  ></el-image>
                 </template>
-                <!-- <i class="fa fa-file-excel-o fa-3x" style="color:#1cd4d4"></i> -->
               </el-table-column>
-              <el-table-column prop="fileName"
-                               label="文件名称"></el-table-column>
+              <el-table-column prop="name" label="文件名称" align="center"></el-table-column>
 
-              <el-table-column prop="refDevice"
-                               label="关联设备"></el-table-column>
-              <el-table-column prop="category"
-                               label="资料类别">
-              </el-table-column>
-              <el-table-column prop="person"
-                               label="上传人"></el-table-column>
-              <el-table-column prop="uploadTime"
-                               sortable
-                               label="上传时间"></el-table-column>
-              <el-table-column fixed="right"
-                               align="center"
-                               width="180"
-                               label="操作">
+              <el-table-column prop="entityKey" label="关联设备" align="center"></el-table-column>
+              <el-table-column prop="categories" label="资料类别" align="center"></el-table-column>
+              <el-table-column prop="ownerName" label="上传人" width="100" align="center"></el-table-column>
+              <el-table-column prop="creationTime" sortable label="上传时间" align="center"></el-table-column>
+              <el-table-column fixed="right" align="center" width="180" label="操作">
                 <template slot-scope="scope">
-                  <el-button @click="handleViewClick(scope.row)"
-                             type="primary"
-                             icon="el-icon-camera"
-                             :size="GlobalCss.buttonSize">预览</el-button>
-                  <el-button type="success"
-                             icon="el-icon-download"
-                             @click="handleDownLoadClick(scope.row)"
-                             :size="GlobalCss.buttonSize">下载</el-button>
+                  <el-button
+                    @click="handleViewClick(scope.row)"
+                    type="primary"
+                    icon="el-icon-camera"
+                    :size="GlobalCss.buttonSize"
+                  >预览</el-button>
+                  <el-button
+                    type="warning"
+                    icon="el-icon-download"
+                    @click="handleDownLoadClick(scope.row)"
+                    :size="GlobalCss.buttonSize"
+                  >下载</el-button>
                 </template>
               </el-table-column>
             </el-table>
-            <div class="pagination"
-                 style="text-align:right;margin-top:12px;">
-              <el-pagination background
-                             layout="total, prev, pager, next"
-                             :current-page="1"
-                             :page-size="10"
-                             :total="100"
-                             @current-change="handlePageChange"></el-pagination>
+            <div class="pagination" style="text-align:right;margin-top:12px;">
+              <el-pagination
+                background
+                layout="total, prev, pager, next"
+                :current-page="queryParam.page"
+                :page-size="queryParam.size"
+                :total="total"
+                @current-change="handlePageChange"
+              ></el-pagination>
             </div>
+
             <!--新增弹框-->
-            <div class="dialogForm">
-              <el-dialog title="新增设备资料"
-                         width="30%"
-                         :visible.sync="dialogFormVisible">
-                <el-form :model="form">
-                  <el-form-item label="资料类别:"
-                                :label-width="formLabelWidth">
-                    <el-select v-model="queryParam.useStatus"
-                               size="small"
-                               style="width:320px;"
-                               placeholder="请选择">
-                      <el-option value="0"
-                                 label="说明书"></el-option>
-                      <el-option value="1"
-                                 label="质保卡"></el-option>
-                      <el-option value="2"
-                                 label="操作手册"></el-option>
-                      <el-option value="3"
-                                 label="维修经验"></el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item label="上传资料:"
-                                :label-width="formLabelWidth">
-                    <file-upload></file-upload>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer"
-                     class="dialog-footer">
-                  <el-button @click="dialogFormVisible = false" :size="GlobalCss.buttonSize">取 消</el-button>
-                  <el-button type="primary"
-                             @click="dialogFormVisible = false" :size="GlobalCss.buttonSize">确 定</el-button>
-                </div>
+            <UploadForm ref="upForm"></UploadForm>
+
+            <!-- 文件预览弹窗-->
+            <template>
+              <el-dialog title="文件预览" :visible.sync="viewVisible" width="50%" height="100%" destroy-on-close>
+                 <embed id="myObj" :src="pdfSrc" type="application/pdf" width="100%" height="500px;">
+                 <!-- <pdf :src="pdfSrc"></pdf> -->
               </el-dialog>
-            </div>
+            </template>
           </div>
         </el-card>
       </el-col>
@@ -169,5 +114,5 @@ import datas from './datas'
 export default datas
 </script>
 <style lang="scss" scoped>
-@import "./styles.scss";
+@import "./styles.scss"
 </style>

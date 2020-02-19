@@ -18,7 +18,7 @@ export default {
       eamInfos: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var resData = this.$route.params.data
     this.getDevicePicture(resData.deviceImg)
     this.eamInfos = resData

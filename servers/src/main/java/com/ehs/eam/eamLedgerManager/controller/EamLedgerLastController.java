@@ -49,11 +49,12 @@ public class EamLedgerLastController {
 	@RequestAuth(menuKeys = {"eamLedgerLast"})
 	@RequestMapping(value = "/getLastSuggestions")
 	public String getLastSuggestions() {
-		List<EamLedger> eamLedgers=	(List<EamLedger>) baseCommonService.findAll(EamLedger.class);
+		List<EamLedgerLast> eamLedgers=	(List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);
 		List<Object> resList=new  ArrayList<Object>();
-		for (EamLedger el : eamLedgers) {
+		for (EamLedgerLast el : eamLedgers) {
 			Map<String, String> innerMap=new HashMap<String, String>();
 			innerMap.put("value", el.getDeviceName());
+			innerMap.put("key",el.getRefKey());
 			resList.add(innerMap);
 		}
 		return JsonUtils.toJsonString(resList);

@@ -1,4 +1,8 @@
+import AutoComplete from '../../components/autocomplete.vue'
 export default {
+  components: {
+    AutoComplete
+  },
   data () {
     return {
       queryParam: {
@@ -8,7 +12,6 @@ export default {
       },
       show: false,
       form: {},
-      suggestions: [],
       activeName: 'first',
       total: 0,
       tableData: [],
@@ -17,7 +20,6 @@ export default {
   },
   created: function () {
     this.initTable()
-    this.loadSuggestions()
   },
   methods: {
     initTable () {
@@ -51,7 +53,6 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
           resArr[i].imgUrl = URL.createObjectURL(res.data)
           this.tableData.push(resArr[i])
-          console.log(this.tableData)
         }).catch(error => {
           this.$message({ message: error })
         })
@@ -98,29 +99,8 @@ export default {
         })
       })
     },
-    querySearch (queryString, cb) {
-      var suggestions = this.suggestions
-      var results = queryString ? suggestions.filter(this.createStateFilter(queryString)) : suggestions
-      // 调用 callback 返回建议列表的数据
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 1000 * Math.random())
-    },
-    createStateFilter (queryString) {
-      return (suggestion) => {
-        return (suggestion.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
-      }
-    },
     handleSelect (item) {
       this.queryParam.query = item.value
-    },
-    loadSuggestions () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
-        this.suggestions = res.data
-      }).catch(error => {
-        this.$message({ message: error })
-      })
     },
     changePage (val) { // 页码跳转
       this.queryParam.page = val

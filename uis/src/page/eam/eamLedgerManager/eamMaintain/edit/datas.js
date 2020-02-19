@@ -59,12 +59,13 @@ export default {
       }
     }
   },
-  mounted: function () {
+  created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     var resData = processObj.data
     if (resData !== undefined) {
       this.deviceKey = resData.key
       this.getDevicePicture(resData.deviceImg)
+      console.log(this.form)
       this.form = resData
     }
   },
@@ -132,11 +133,6 @@ export default {
           return false
         }
       })
-    },
-    handleRemove (file, fileList) {
-    },
-    beforeRemove: function (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
     }
   }
 }

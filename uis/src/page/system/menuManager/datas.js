@@ -1,4 +1,4 @@
-import LeftRolesTable from './moduls/leftRolesTable'
+import LeftRolesTable from './modules/leftRolesTable'
 export default {
   components: {
     LeftRolesTable
