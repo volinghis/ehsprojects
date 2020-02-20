@@ -123,7 +123,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			entityKey = pi.getBusinessKey();
 			List<EamParameters> parameters = eamRequestBean.getParamsList();
 			if (!CollectionUtils.isEmpty(parameters)) {
-
 				for (EamParameters ep : parameters) {
 					ep.setDeviceKey(entityKey);
 					baseCommonService.saveOrUpdate(ep);
@@ -132,13 +131,11 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 
 			List<EamInspectors> inspectorsList = eamRequestBean.getInspectorsList();
 			if (!CollectionUtils.isEmpty(inspectorsList)) {
-
 				for (EamInspectors ei : inspectorsList) {
 					ei.setDeviceKey(entityKey);
 					baseCommonService.saveOrUpdate(ei);
 				}
 			}
-			
 			// 同步数据eamLedgerLast表中
 			EamLedgerLast eLast=eamRequestBean.getEamLedgerLast();
 			if(StringUtils.isNotBlank(eLast.getKey())) {

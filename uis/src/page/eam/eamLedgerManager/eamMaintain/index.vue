@@ -7,7 +7,15 @@
                   justify="space-between">
             <el-col :span="8">
               <div class="table-search-wrapper">
-                <AutoComplete @handleSelect="handleSelect" @handleQuery="handleQuery"></AutoComplete>
+               <el-autocomplete
+                  v-model="queryParam.query"
+                  :fetch-suggestions="querySearch"
+                  @select="handleSelect"
+                  ref="autocomplete"
+                  :size="GlobalCss.buttonSize"
+                  style="margin-bottom:10px;width:100%;">
+                 <el-button slot="append" type="primary" @click="handleQuery" icon="el-icon-search">搜索</el-button>
+               </el-autocomplete>
               </div>
             </el-col>
             <el-col :span="8">
@@ -41,8 +49,7 @@
                   <template slot-scope="scope">
                     <el-image class="table-td-deviceImg"
                               style="width: 30px; height: 30px"
-                              :src="scope.row.imgUrl"
-                              :preview-src-list="[scope.row.imgUr]"></el-image>
+                              :src="scope.row.imgUrl"></el-image>
                   </template>
                 </el-table-column>
                 <el-table-column prop="deviceNum"

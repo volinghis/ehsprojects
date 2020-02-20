@@ -65,7 +65,6 @@ export default {
     if (resData !== undefined) {
       this.deviceKey = resData.key
       this.getDevicePicture(resData.deviceImg)
-      console.log(this.form)
       this.form = resData
     }
   },
@@ -115,7 +114,6 @@ export default {
             inspectorsList: this.inspectorsDatas,
             flowProcessInfo: process
           }
-          console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

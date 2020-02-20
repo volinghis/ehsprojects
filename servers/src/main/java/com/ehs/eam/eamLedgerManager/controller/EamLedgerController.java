@@ -8,7 +8,11 @@
  */
 package com.ehs.eam.eamLedgerManager.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +30,7 @@ import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
+import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
 import com.ehs.eam.eamLedgerManager.service.EamScrapService;
@@ -295,5 +300,19 @@ public class EamLedgerController {
 	public String getEamLedgersNotInFlow(@RequestBody EamLedgerQueryBean querybean) {
 		PageInfoBean pageBean = eamLedgerService.findEamLedgersNotInFlow(querybean);
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
+	}
+	
+	@RequestAuth(menuKeys = {"eamLedger"})
+	@RequestMapping(value = "/getSuggestions")
+	public String getSuggestions() {
+		List<EamLedger> eamLedgers=	(List<EamLedger>) baseCommonService.findAll(EamLedger.class);
+		List<Object> resList=new  ArrayList<Object>();
+		for (EamLedger el : eamLedgers) {
+			Map<String, String> innerMap=new HashMap<String, String>();
+			innerMap.put("value", el.getDeviceName());
+			innerMap.put("key",el.getKey());
+			resList.add(innerMap);
+		}
+		return JsonUtils.toJsonString(resList);
 	}
 }

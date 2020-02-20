@@ -88,7 +88,6 @@ export default {
   },
   watch: {
     deviceKey: function (val) {
-      console.log(this.deviceKey)
       this.getParamsDataByKey(val)
     }
   },

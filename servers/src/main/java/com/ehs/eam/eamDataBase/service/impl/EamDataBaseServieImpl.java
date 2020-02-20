@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
@@ -26,17 +26,19 @@ import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.data.entity.DataFileInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
-import com.ehs.eam.eamDataBase.bean.EamDataReqBean;
+import com.ehs.eam.eamDataBase.dao.DataFileInfoCopyDao;
+import com.ehs.eam.eamDataBase.entity.DataFileInfoCopy;
 import com.ehs.eam.eamDataBase.service.EamDataBaseServie;
 import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
-import com.ehs.eam.eamLedgerManager.entity.EamLedger;
-import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 
 @Service
 public class EamDataBaseServieImpl implements EamDataBaseServie {
 
 	@Resource
 	private DataFileInfoDao  dataFileInfoDao;
+	
+	@Resource
+	private DataFileInfoCopyDao  dataFileCopyDao;
 	
 	@Resource
 	private BaseCommonService baseCommonService;
@@ -48,29 +50,26 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 	public PageInfoBean findEamDataBaseList(EamDataBaseQuery querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
         List<Predicate> ps=new ArrayList<Predicate>();
-        Specification<DataFileInfo> sf=(Root<DataFileInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+        Specification<DataFileInfoCopy> sf=(Root<DataFileInfoCopy> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
         	if(StringUtils.isNotBlank(querybean.getQuery())) {
-        		ps.add(cb.equal(root.get(DataFileInfo.ENTITY_KEY), querybean.getQuery()));
+        		ps.add(cb.like(root.get(DataFileInfo.NAME), "%"+querybean.getQuery()+"%"));
         	}
         	if (StringUtils.isNotBlank(querybean.getNodeKey())) {
+        		
 				ps.add(cb.equal(root.get(DataFileInfo.CATEGORIES), querybean.getNodeKey()));
 			}
         	ps.add(cb.or(cb.equal(root.get(BaseEntity.DATA_MODEL),DataModel.UPDATE), cb.equal(root.get(BaseEntity.DATA_MODEL), DataModel.CREATE)));
         	return cb.and(ps.toArray(new Predicate[0]));
         };
-       Page<DataFileInfo> fileInfos= dataFileInfoDao.findAll(sf, pageRequest);
+        Page<DataFileInfoCopy> fileInfos= dataFileCopyDao.findAll(sf, pageRequest);
 		if (fileInfos != null) {
 			PageInfoBean pb = new PageInfoBean();
-			List<DataFileInfo> resultList=fileInfos.getContent();
-			for (DataFileInfo df : resultList) {
-				if(StringUtils.isNotBlank(df.getCategories())) {
-					DataDictionary dd=baseCommonService.findByKey(DataDictionary.class, df.getCategories());
-					df.setCategories(dd.getText());
-				}
-				
-				if(StringUtils.isNotBlank(df.getEntityKey())) {
-					EamLedger el=baseCommonService.findByKey(EamLedger.class, df.getEntityKey());
-					df.setEntityKey(el.getDeviceName());
+			List<DataFileInfo> resultList=new ArrayList<DataFileInfo>();
+			List<DataFileInfoCopy> tempList=fileInfos.getContent();
+			if(!CollectionUtils.isEmpty(tempList)) {
+				for (DataFileInfoCopy df : tempList) {
+					DataFileInfo di=dataFileInfoDao.findDataFileInfoById(df.getFileId(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+					resultList.add(di);
 				}
 			}
 			pb.setDataList(resultList);
@@ -85,34 +84,18 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 	*/
 	@Override
 	@Transactional
-	public void saveDataFileInfo(EamDataReqBean eamDataReqBean) {
-		String fileId=eamDataReqBean.getFileId();
-		String category=eamDataReqBean.getCategory();
-		String entityKey= eamDataReqBean.getEntityKey();
+	public void saveDataFileInfo(String  fileId) {
 		Assert.notNull(fileId, "fileId is required");
-		Assert.notNull(entityKey, "EntityKey is required");
 		String[] fileIds=StringUtils.split(fileId, ",");
 	    List<DataFileInfo> fileInfos=dataFileInfoDao.find(fileIds,  new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 		for (DataFileInfo fileInfo : fileInfos) {
-			fileInfo.setEntityKey(entityKey);
-			baseCommonService.saveOrUpdate(fileInfo);
+			DataFileInfoCopy dc=new DataFileInfoCopy();
+			dc.setFileId(fileInfo.getFileId());
+			dc.setName(fileInfo.getName());
+			dc.setCategories(dc.getCategories());
+			baseCommonService.saveOrUpdate(dc);
 		}  
 		
-		// 保存对应类别的文件id到设备表中
-		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, entityKey);
-		EamLedgerLast eamLedgerLast=eamLastDao.findEamLedgerLastByRefKey(entityKey, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
-		if(StringUtils.equals("synopsis", category)) {// 说明书
-			eamLedger.setSynopsis(fileId);
-			eamLedgerLast.setSynopsis(fileId);
-		}else if(StringUtils.equals("maintenancesStandard", category)) { //检修质量标准
-			eamLedger.setMaintenancesStandard(fileId);
-			eamLedgerLast.setMaintenancesStandard(fileId);
-		}else if(StringUtils.equals("operationManual", category)) { //操作手册
-			eamLedger.setOperationManual(fileId);
-			eamLedgerLast.setOperationManual(fileId);
-		}
-		baseCommonService.saveOrUpdate(eamLedger);
-		baseCommonService.saveOrUpdate(eamLedgerLast);
 	}
 
 }

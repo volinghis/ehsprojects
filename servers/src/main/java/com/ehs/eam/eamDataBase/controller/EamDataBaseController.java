@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.interfaces.RequestAuth;
@@ -20,7 +21,6 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamDataBase.bean.DataDictTreeBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
-import com.ehs.eam.eamDataBase.bean.EamDataReqBean;
 import com.ehs.eam.eamDataBase.service.EamDataBaseServie;
 
 @RestController
@@ -39,7 +39,13 @@ public class EamDataBaseController {
 	@RequestAuth(menuKeys = { "dataBase" })
 	@RequestMapping("/getFileInfoList")
 	public String getFileInfoList(@RequestBody EamDataBaseQuery querybean) {
-		PageInfoBean pageBean = eamDataBaseServie.findEamDataBaseList(querybean);
+		PageInfoBean pageBean=null;
+		try {
+			pageBean = eamDataBaseServie.findEamDataBaseList(querybean);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
 	
@@ -73,15 +79,13 @@ public class EamDataBaseController {
 	}
 	
 	@RequestAuth(menuKeys = { "dataBase" })
-	@RequestMapping("/updateDataFileInfo")
-	public String updateDataFileInfo(@RequestBody EamDataReqBean eamDataReqBean) {
-		System.out.println("-----------------------------:::"+JsonUtils.toJsonString(eamDataReqBean));
+	@RequestMapping("/saveDataFileInfo")
+	public String saveDataFileInfo(@RequestParam String fileId ) {
 		ResultBean resultBean = new ResultBean();
 		try {
-			eamDataBaseServie.saveDataFileInfo(eamDataReqBean);
+			eamDataBaseServie.saveDataFileInfo(fileId);
 			return JsonUtils.toJsonString(resultBean.ok("保存成功"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonUtils.toJsonString(resultBean.error("保存失败"));

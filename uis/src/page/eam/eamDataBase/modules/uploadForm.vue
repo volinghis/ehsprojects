@@ -2,9 +2,6 @@
   <div class="dialogForm">
     <el-dialog title="新增设备资料" width="30%" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form">
-        <el-form-item label="选择设备:" :label-width="formLabelWidth">
-          <AutoComplete @handleSelect="handleSelect" :isShow="false"></AutoComplete>
-        </el-form-item>
         <el-form-item label="上传资料:" :label-width="formLabelWidth">
           <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange"></file-upload>
         </el-form-item>
@@ -21,11 +18,9 @@
 </template>
 <script>
 import FileUpload from '@components/upload/index'
-import AutoComplete from '../../components/autocomplete.vue'
 export default {
   components: {
-    FileUpload,
-    AutoComplete
+    FileUpload
   },
   data () {
     return {
@@ -41,35 +36,33 @@ export default {
       }
     }
   },
-  mounted () {
-  },
   methods: {
     openForm (val) { // 打开弹窗
       this.form.category = val
       this.paramData.categories = val
       this.dialogFormVisible = true
     },
-    handleSelect (item) {
-      this.form.entityKey = item.key
-    },
     handleChange (val) {
       this.form.fileId = val
     },
     handleSubmit () {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          console.log(this.form)
-          this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/dataBase/updateDataFileInfo', this.form).then(res => {
-            if (res.data.resultType === 'ok') {
-              this.dialogFormVisible = false
-            }
-          }).catch(error => {
-            this.$message({ message: error })
-          })
-        } else {
-          return false
-        }
-      })
+      var fileId = this.form.fileId
+      if (fileId) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/dataBase/saveDataFileInfo', { params: { fileId: fileId } }).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.dialogFormVisible = false
+            this.$emit('flushData')
+          }
+        }).catch(error => {
+          this.$message({ message: error })
+        })
+      } else {
+        this.$message({
+          message: '请先上传文件',
+          type: 'warning'
+        })
+        return false
+      }
     }
   }
 }

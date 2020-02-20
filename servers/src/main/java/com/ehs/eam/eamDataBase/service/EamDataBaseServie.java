@@ -2,7 +2,6 @@ package com.ehs.eam.eamDataBase.service;
 
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
-import com.ehs.eam.eamDataBase.bean.EamDataReqBean;
 
 public interface EamDataBaseServie {
 
@@ -25,6 +24,6 @@ public interface EamDataBaseServie {
 	*---------------------------------------------------------*
 	* 2020年2月19日     Administrator           v1.0.0               修改原因
 	*/
-	void saveDataFileInfo(EamDataReqBean eamDataReqBean);
+	void saveDataFileInfo(String fileId);
 	
 }

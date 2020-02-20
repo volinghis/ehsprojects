@@ -5,7 +5,9 @@
         <el-row type="flex" md="24" justify="space-between">
           <el-col :span="8">
             <div class="search-wrapper">
-              <AutoComplete @handleSelect="handleSelect" @handleQuery="handleQuery"></AutoComplete>
+              <el-input v-model="queryParam.query" placeholder="请输入文件名" :size="GlobalCss.buttonSize">
+                <el-button slot="append" icon="el-icon-search" @click="handleQuery"></el-button>
+              </el-input>
             </div>
           </el-col>
           <el-col :span="8">
@@ -48,8 +50,8 @@
             <label>文件列表</label>
           </div>
           <div class="table-list">
-            <el-table :data="tableData" :size="GlobalCss.buttonSize">
-              <el-table-column type="index" width="50"></el-table-column>
+            <el-table :data="tableData" :size="GlobalCss.buttonSize" border>
+              <el-table-column type="index" width="50" align="center"></el-table-column>
               <el-table-column prop="type" label="类型" width="80">
                 <template slot-scope="scope">
                   <el-image
@@ -61,7 +63,7 @@
               </el-table-column>
               <el-table-column prop="name" label="文件名称" align="center"></el-table-column>
 
-              <el-table-column prop="entityKey" label="关联设备" align="center"></el-table-column>
+              <!-- <el-table-column prop="entityKey" label="关联设备" align="center"></el-table-column> -->
               <el-table-column prop="categories" label="资料类别" align="center"></el-table-column>
               <el-table-column prop="ownerName" label="上传人" width="100" align="center"></el-table-column>
               <el-table-column prop="creationTime" sortable label="上传时间" align="center"></el-table-column>
@@ -94,7 +96,7 @@
             </div>
 
             <!--新增弹框-->
-            <UploadForm ref="upForm"></UploadForm>
+            <UploadForm ref="upForm" @flushData="flushData"></UploadForm>
 
             <!-- 文件预览弹窗-->
             <template>

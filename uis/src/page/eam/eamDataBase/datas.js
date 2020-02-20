@@ -79,6 +79,9 @@ export default {
     handleQuery () {
       this.initTable()
     },
+    flushData () {
+      this.initTable()
+    },
     openAddForm () { // 打开子组件弹窗
       var nodeKey = this.queryParam.nodeKey
       if (nodeKey) {

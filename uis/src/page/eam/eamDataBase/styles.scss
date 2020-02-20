@@ -3,28 +3,11 @@
   text-align: right;
 }
 /deep/.el-card__header {
+  padding:12px 20px;
   border-bottom: 1px solid #409eff;
 }
 .searchCol {
   margin-bottom: 5px;
-}
-@mixin setColor($color) {
-  width: 10px;
-  height: 10px;
-  background-color: $color;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  display: inline-block;
-}
-.first-level {
-  @include setColor(#000080);
-}
-.second-level {
-  @include setColor(#9e23ea);
-}
-.third-level {
-  @include setColor(#1cd4d4);
 }
 // 搜索按钮样式
 /deep/.el-input-group__append{
