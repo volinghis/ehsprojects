@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang.StringUtils;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -101,6 +102,11 @@ public class EamScrapServiceImpl implements EamScrapService {
 				FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(ep.getKey());
 				if (fpi != null) {
 					ep.setStatus(fpi.getFlowCurrentStepName());
+					if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+						ep.setCurrentStepPerson(fpi.getFlowPrevPersonName());
+					}else {
+						ep.setCurrentStepPerson(fpi.getFlowCurrentPersonName());
+					}
 				}
 			}
 			PageInfoBean pb = new PageInfoBean();

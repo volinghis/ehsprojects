@@ -65,6 +65,7 @@
                 </div>
               </template>
            </el-table-column>
+           <el-table-column prop="currentStepPerson" label="审核人" align="center"></el-table-column>
             <el-table-column fixed="right" align="center" label="操作" width="180">
               <template slot-scope="scope">
                 <el-button

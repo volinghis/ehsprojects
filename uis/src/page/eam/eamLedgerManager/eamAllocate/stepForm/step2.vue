@@ -37,7 +37,7 @@
             <span v-if="isSet">
                 <OrgSelect :size="GlobalCss.controlSize"
                       v-model="result.allocateForm.targetDept"
-                      placeholder="请输入调入位置"></OrgSelect></span>
+                      placeholder="请输入调入部门"></OrgSelect></span>
             <span v-else>{{scope.row.targetDept}}</span>
           </template>
         </el-table-column>

@@ -21,7 +21,7 @@
         <el-form-item label="调拨名称："
                       prop="applicationName">
           <el-input v-model="allocateForm.applicationName"
-                    placeholder="请填写报废名称"></el-input>
+                    placeholder="请填写调拨名称"></el-input>
         </el-form-item>
         <el-form-item label="申请日期："
                       prop="applicationTime">

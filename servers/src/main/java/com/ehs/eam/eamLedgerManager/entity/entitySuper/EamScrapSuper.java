@@ -43,6 +43,7 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 	public static final String SCRAP_DATE = "scrapDate";
 	public static final String APPLICANT = "applicant";
 	public static final String SCRAP_DEPT = "scrapDept";
+	public static final String CURRENT_STEP_PERSON = "currentStepPerson";
 	public static final String SCRAP_REASON = "scrapReason";
 	public static final String STATUS = "status";
 
@@ -86,6 +87,12 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 	 */
 	@Transient
 	private String status;
+	
+	/**
+	 * 审核人
+	 */
+	@Transient
+	private String currentStepPerson;
 
 	/**
 	 * @return the scrapNum
@@ -211,6 +218,15 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 
 	@Override
 	public String getViewPage() {
-		return "eamScrapBaseForm";
+		return "eamScrapDetails";
 	}
+
+	public String getCurrentStepPerson() {
+		return currentStepPerson;
+	}
+
+	public void setCurrentStepPerson(String currentStepPerson) {
+		this.currentStepPerson = currentStepPerson;
+	}
+	
 }

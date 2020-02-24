@@ -116,9 +116,16 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 				FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
 				if (fpi != null) {
 					el.setStatus(fpi.getFlowCurrentStepName());
+					if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+						el.setCurrentStepPerson(fpi.getFlowPrevPersonName());
+					}else {
+						el.setCurrentStepPerson(fpi.getFlowCurrentPersonName());
+					}
 				}
 				OrganizationInfo org=baseCommonService.findByKey(OrganizationInfo.class, el.getTargetDept());
-				el.setTargetDept(org.getName());
+				if(org!=null) {
+					el.setTargetDept(org.getName());
+				}
 			}
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(resList);

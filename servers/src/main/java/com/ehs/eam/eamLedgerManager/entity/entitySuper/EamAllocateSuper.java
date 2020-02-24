@@ -41,6 +41,7 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public static final String APPLICATION_TIME = "applicationTime" ;
 	public static final String ALLOCATE_DATE = "allocateDate" ;
 	public static final String APPLICANT = "applicant" ;
+	public static final String ALLOCATE_DEPT = "allocateDept" ;
 	public static final String TARGET_DEPT = "targetDept" ;
 	public static final String ALLOCATE_REASON = "allocateReason" ;
 	public static final String STATUS = "status" ;
@@ -48,7 +49,9 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public static final String PROFESSION = "profession" ;
 	public static final String TARGET_POSITION = "targetPosition" ;
 	public static final String AMOUNT = "amount" ;
+	public static final String CURRENT_STEP_PERSON = "currentStepPerson";
 	public static final String UNIT = "unit" ;
+	
 
 
 	/**
@@ -74,6 +77,11 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 * 申请人
 	 */
 	private String applicant;
+	
+	/**
+	 * 申请部门
+	 */
+	private String allocateDept;
 
 	/**
 	 * 调入部门
@@ -91,6 +99,12 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 */
 	@Transient
 	private String status;
+	
+	/**
+	 * 审核人
+	 */
+	@Transient
+	private String currentStepPerson;
 
 	/**
 	 * 调出位置
@@ -310,6 +324,22 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 
 	@Override
 	public String getViewPage() {
-		return "eamAllocateBaseForm";
+		return "eamAllocateDetails";
+	}
+
+	public String getCurrentStepPerson() {
+		return currentStepPerson;
+	}
+
+	public void setCurrentStepPerson(String currentStepPerson) {
+		this.currentStepPerson = currentStepPerson;
+	}
+
+	public String getAllocateDept() {
+		return allocateDept;
+	}
+
+	public void setAllocateDept(String allocateDept) {
+		this.allocateDept = allocateDept;
 	}
 }
