@@ -1,5 +1,7 @@
 package com.ehs.common.organization.service;
 
+import java.util.List;
+
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.entity.OrganizationInfo;
@@ -79,5 +81,9 @@ public interface OrganizationService {
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
 	public PageInfoBean getAllOrgsTable(String orgParentKey, OrgQueryBean queryBean);
+
+	public OrganizationInfo getFirstNode();
+
+	public List<OrganizationInfo> getChildNode(String id);
 
 }

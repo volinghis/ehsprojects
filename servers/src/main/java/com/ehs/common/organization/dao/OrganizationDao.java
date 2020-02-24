@@ -1,5 +1,7 @@
 package com.ehs.common.organization.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.organization.entity.OrganizationInfo;
 
 /**   
@@ -44,7 +47,7 @@ public interface OrganizationDao extends JpaRepository<OrganizationInfo, String>
 	*---------------------------------------------------------*
 	* 2019年12月20日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select org from OrganizationInfo org where org.parentKey=?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select org from OrganizationInfo org where org.parentKey=?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc" )
 	public Page<OrganizationInfo> findOrgsByParentKey(String parentKey, String query, PageRequest pageRequest);
 
 	/**
@@ -68,4 +71,9 @@ public interface OrganizationDao extends JpaRepository<OrganizationInfo, String>
 	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.KEY+" <> 'rootOrg' and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
 	public Page<OrganizationInfo> findAllOrgs(String query, PageRequest pageRequest);
 
+	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = null and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	public OrganizationInfo getFirstNode();
+
+	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = ?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	public List<OrganizationInfo> getFirstNode(String key);
 }

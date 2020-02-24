@@ -14,9 +14,14 @@ export default {
       orgTableData: [],
       totalCount: 0,
       dialogTableVisible: false,
-      treeProps: {
+      // treeProps: {
+      //   children: 'children',
+      //   label: 'label'
+      // },
+      props: {
+        label: 'name',
         children: 'children',
-        label: 'label'
+        isLeaf: 'leaf'
       },
       form: {
         page: 1,
@@ -47,6 +52,26 @@ export default {
     this.findOrgsByParentKey()
   },
   methods: {
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        this.requestTreeNodeOne(resolve)
+      }
+      if (node.level === 1) {
+        this.requestTreeNode(node, resolve)
+      }
+    },
+    requestTreeNodeOne (resolve) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode').then(res => {
+        resolve(res.data)
+      })
+    },
+    requestTreeNode (node, resolve) {
+      if (node) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode', { params: { id: node.data.id } }).then(res => {
+          resolve(res.data)
+        })
+      }
+    },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
@@ -57,6 +82,20 @@ export default {
         this.defaultExpandKeys = [this.treeData[0].id]
       })
     },
+    // orgCodeValidation: function (d) {
+    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/orgValidation', { params: { dataCode: d.dataCode, key: d.key } }).then(res => {
+    //     if (res.data.resultType === 'error') {
+    //       this.$message.error(res.data.message)
+    //       this.form.dataCode = ''
+    //     }
+    //     if (res.data.resultType === 'ok') {
+    //       this.$message({
+    //         message: res.data.message,
+    //         type: 'success'
+    //       })
+    //     }
+    //   })
+    // },
     handleNodeClick: function (data) {
       this.findOrgsByParentKey(data.id)
       this.nodeParentKey = data.id
@@ -108,40 +147,44 @@ export default {
           this.$message.error('此节点有子级，不可删除！')
           return false
         }
-        this.$confirm('此操作将删除该条记录及相关信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/deleteOrgInfo', { params: { key: row.key } })
-            .then((res) => {
-              if (res.data.resultType === 'ok') {
-                this.$message({
-                  message: res.data.message,
-                  type: 'success'
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: row.key } }).then(res => {
+          if (res.data.dataList.length > 0) {
+            this.$message.error('此部门下还有人员，不可删除')
+          } else {
+            this.$confirm('此操作将删除该条记录及相关信息, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/deleteOrgInfo', { params: { key: row.key } })
+                .then((res) => {
+                  if (res.data.resultType === 'ok') {
+                    this.$message({
+                      message: res.data.message,
+                      type: 'success'
+                    })
+                    this.findOrgsByParentKey()
+                    this.initTreeData()
+                  }
+                  if (res.data.resultType === 'error') {
+                    this.$message({
+                      message: res.data.message,
+                      type: 'warning'
+                    })
+                    this.findOrgsByParentKey()
+                    this.initTreeData()
+                  }
+                }).catch((error) => {
+                  this.$message.error(error)
                 })
-                this.findOrgsByParentKey()
-                this.initTreeData()
-              }
-              if (res.data.resultType === 'error') {
-                this.$message({
-                  message: res.data.message,
-                  type: 'warning'
-                })
-                this.findOrgsByParentKey()
-                this.initTreeData()
-              }
-            }).catch((error) => {
-              this.$message.error(error)
             })
+          }
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           })
         })
-      }).catch(error => {
-        console.log(error)
       })
     },
     onSubmit () {
@@ -154,9 +197,7 @@ export default {
       })
     },
     handleSubmit: function () {
-      // console.log(this.formLabelAlign.dataCode)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/organization/saveOrg', this.formLabelAlign).then(res => {
-        // console.log('parentKey====' + this.formLabelAlign.parentKey)
         if (res.data.resultType === 'ok') {
           this.$message({
             message: `部门${this.formLabelAlign.name}保存成功`,
@@ -166,6 +207,14 @@ export default {
           this.findOrgsByParentKey(this.formLabelAlign.parentKey)
           this.initTreeData()
           this.$refs.formLabelAlign.resetFields()
+        }
+        if (res.data.resultType === 'error') {
+          this.$message({
+            message: res.data.message,
+            type: 'warning'
+          })
+          console.log(this.form)
+          this.formLabelAlign.dataCode = ''
         }
       })
     },

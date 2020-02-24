@@ -2,7 +2,8 @@ export default {
   props: {
     organName: String,
     organKey: String,
-    editUserForm: Object
+    editUserForm: Object,
+    userInfo: String
   },
   mounted () {
     if (this.editUserForm.orgName !== this.orgName) {
@@ -14,6 +15,9 @@ export default {
     }
   },
   watch: {
+    userInfo: function (val) {
+      console.log('val==========' + val)
+    },
     organName (newValue, oldValue) {
       this.form.orgName = newValue
     },

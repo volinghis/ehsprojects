@@ -4,6 +4,7 @@ export default {
   data () {
     return {
       drawer: false,
+      exchange: false,
       userKey: '',
       userInfo: '',
       organName: '',
@@ -34,9 +35,9 @@ export default {
   },
   watch: {
     userDatas: {
-      handler (newValue, oldValue) {
-        if (newValue) {
-          this.tableData = newValue
+      handler (val) {
+        if (val) {
+          this.tableData = val
         }
       },
       deep: true
@@ -54,9 +55,30 @@ export default {
       this.totalCount = newValue
     }
   },
+  // created () {
+  //   this.findUserByOrgKey()
+  // },
   methods: {
+    transferUser: function (rows) {
+      console.log(rows)
+      if (rows) {
+        // rows.forEach(row => {
+        //   this.$refs.multipleTable.toggleRowSelection(row)
+        // })
+      } else {
+        this.$refs.multipleTable.clearSelection()
+      }
+    },
+    handleSelectionChange: function (val) {
+      if (val.length > 0) {
+        this.exchange = true
+        this.multipleSelection = val
+      } else {
+        this.exchange = false
+      }
+    },
     addUser: function () {
-      this.userInfo = true
+      this.userInfo = 'add'
       if (this.organizationName === '') {
         this.$message({
           message: '请选择部门',
@@ -83,8 +105,17 @@ export default {
     editUser: function (row) {
       this.dialogVisible = true
       this.editUserForm = row
-      this.userInfo = true
+      this.userInfo = 'edit'
     },
+    // findUserByOrgKey: function (key, formParams) { // 查询组织下所有人员
+    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: 'rootOrg', searchData: formParams } }).then(res => {
+    //     console.log('key==========' + key)
+    //     this.userTableData = res.data.dataList
+    //     this.totalCount = res.data.totalCount
+    //   }).catch(() => {
+    //     this.$message.error('查询出错，请刷新重试！')
+    //   })
+    // },
     // 当前状态：data,  d:当前数据对象, index:当前序号(数组下标)
     changeState: function (e, row, index) {
       // console.log(row.orgKey)
@@ -122,10 +153,10 @@ export default {
       this.userKey = row.key
       this.drawer = true
     },
-    handleInfo: function (row) {
+    handleView: function (row) {
       this.dialogVisible = true
       this.editUserForm = row
-      this.userInfo = false
+      this.userInfo = 'view'
     },
     onSubmit: function () {
       this.$refs.addUserForm.$refs.form.validate((valid) => {
@@ -137,25 +168,22 @@ export default {
       })
     },
     handleSubmit: function () {
-      // console.log(this.$refs.addUserForm.form)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/orgUser/saveOrgUser', this.$refs.addUserForm.form).then(res => {
         if (res.data.resultType === 'ok') {
           this.$message({
-            message: `用户信息保存成功`,
+            message: res.data.message,
             type: 'success'
           })
           this.dialogVisible = false
           this.$emit('findUserByOrgKey', this.$refs.addUserForm.form.orgKey)
-        } else {
+        }
+        if (res.data.resultType === 'error') {
           this.$message({
             message: res.data.message,
-            type: 'info'
+            type: 'warning'
           })
-          this.dialogVisible = false
-          this.$emit('findUserByOrgKey', this.$refs.addUserForm.form.orgKey)
+          this.$refs.addUserForm.form.dataCode = ''
         }
-      }).catch((error) => {
-        this.$message.error(error)
       })
     },
     handleClose (done) {

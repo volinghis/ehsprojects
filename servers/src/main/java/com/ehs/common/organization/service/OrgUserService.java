@@ -96,6 +96,7 @@ public interface OrgUserService {
 	*
 	* @version: v1.0.0
 	* @author: zhaol
+	 * @return 
 	* @date: 2019年12月26日 上午11:17:10 
 	*
 	* Modification History:
@@ -103,7 +104,7 @@ public interface OrgUserService {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	public void deleteOrgUser(String key);
+	public OrgUser deleteOrgUser(String key);
 
 	/**
 	 * 
@@ -123,7 +124,7 @@ public interface OrgUserService {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean, UserQueryBean uq);
+	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean);
 
 	/**
 	 * 
