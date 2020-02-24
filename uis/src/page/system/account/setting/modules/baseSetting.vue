@@ -22,8 +22,8 @@
           </el-form-item>
           <el-form-item label="部 门："
                         prop="orgName">
-            <OrgSelect style="width:100%;"
-                       v-model="form.orgName"></OrgSelect>
+            <OrgSelect style="width:100%;" :propOrgValue="form.orgKey"
+                       v-model="form.orgKey"></OrgSelect>
           </el-form-item>
           <el-form-item label="邮 箱："
                         prop="email">
@@ -65,6 +65,7 @@
                         prop="graduatedDate">
             <el-date-picker v-model="form.graduatedDate"
                             type="date"
+                            style="width:100%;"
                             placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
@@ -82,7 +83,7 @@
       <el-col :span="12"
               style="text-align: center;">
         <el-upload class="avatar-uploader"
-                   action="https://jsonplaceholder.typicode.com/posts/"
+                   :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                    :show-file-list="false"
                    :on-success="handleAvatarSuccess"
                    :before-upload="beforeAvatarUpload">
@@ -125,7 +126,8 @@ export default {
         homeTown: '',
         profession: '',
         graduatedDate: '',
-        desc: ''
+        desc: '',
+        avatar: ''
       },
       formLabelWidth: '80px',
       options: [{
@@ -172,35 +174,39 @@ export default {
   },
   methods: {
     handleAvatarSuccess (res, file) {
+      this.form.avatar = res.entityKey
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     initForm () {
       const code = localStorage.getItem(this.GlobalVars.userLocal)
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: code } })
         .then((res) => {
+          var fileId = res.data.avatar
+          console.log(res.data.avatar)
+          this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
+            this.imageUrl = URL.createObjectURL(res.data)
+          })
           this.form = res.data
         })
     },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/orgUser/saveOrgUser', this.form)
+            .then((res) => {
+              if (res.data.resultType === 'ok') {
+                this.$message({
+                  type: 'sucess',
+                  message: res.data.message
+                })
+              }
+            })
         } else {
           return false
         }
       })
     },
     handleChange (value) {
-    },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.dialogFormVisible = false
-          alert('submit!')
-        } else {
-          return false
-        }
-      })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
@@ -239,12 +245,11 @@ export default {
   border-radius: 6px;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
   margin-top: 20px;
 }
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  height: 180px;
   display: block;
 }
 .el-divider {
