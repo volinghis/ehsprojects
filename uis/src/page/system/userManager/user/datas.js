@@ -86,7 +86,6 @@ export default {
     },
     findUserByOrgKey: function (key, formParams) { // 查询组织下所有人员
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: key, searchData: formParams } }).then(res => {
-        console.log(res.data)
         this.userTableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(() => {

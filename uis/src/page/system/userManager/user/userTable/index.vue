@@ -7,7 +7,7 @@
         </el-input>
       </div>
       <div style="float:right;margin-bottom: 5px;">
-        <!-- <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-exchange" @click="transferUser(tableData)" v-show="exchange"> 调岗</el-button> -->
+        <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-exchange" @click="transferUser" v-show="exchange"> 调岗</el-button>
         <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-plus" @click="addUser"> 新增</el-button>
       </div>
     </div>
@@ -37,11 +37,9 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="220">
         <template slot-scope="scope">
-          <el-button type="warning" :size="GlobalCss.controlSize" @click="authorizeUser(scope.row)"
-            style="color:#E6A23C">授权</el-button>
+          <el-button type="warning" :size="GlobalCss.controlSize" @click="authorizeUser(scope.row)" style="color:#E6A23C">授权</el-button>
           <el-button type="primary" :size="GlobalCss.controlSize" @click="editUser(scope.row)">编辑</el-button>
-          <el-button type="danger" :size="GlobalCss.controlSize" @click="handleDelete(scope.row)" style="color:#F56C6C">
-            删除</el-button>
+          <el-button type="danger" :size="GlobalCss.controlSize" @click="handleDelete(scope.row)" style="color:#F56C6C">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,19 +47,27 @@
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
     <el-dialog title="员工信息" :visible.sync="dialogVisible" :destroy-on-close="true" width="50%">
-      <user-form ref="addUserForm" :userInfo="userInfo" class="userForm" :organName="organName" :organKey="organKey"
-        :editUserForm="editUserForm"></user-form>
+      <user-form ref="addUserForm" :userInfo="userInfo" class="userForm" :organName="organName" :organKey="organKey" :editUserForm="editUserForm"></user-form>
       <el-divider></el-divider>
       <span slot="footer" v-show="userInfo" class="dialog-footer">
         <el-button @click="dialogVisible = false" :size="GlobalCss.controlSize">取 消</el-button>
-        <el-button type="primary" @click="onSubmit" :size="GlobalCss.controlSize" style="margin-left:15px;">提 交
-        </el-button>
+        <el-button type="primary" @click="onSubmit" :size="GlobalCss.controlSize" style="margin-left:15px;">提 交</el-button>
       </span>
     </el-dialog>
     <el-drawer title="用户授权" :destroy-on-close="true" :visible.sync="drawer" size="40%">
       <el-divider></el-divider>
       <userAuth @authResult="authResult" :user_key="userKey" :roleTable="roleTable"></userAuth>
     </el-drawer>
+    <el-dialog title="调岗" :destroy-on-close="true" :visible.sync="drawerTransfer"  width="30%">
+      <el-divider></el-divider>
+      <!-- <userAuth @authResult="authResult" :user_key="userKey" :roleTable="roleTable"></userAuth> -->
+       <el-tree node-key="id" :props="props" :load="loadNode" lazy highlight-current accordion @node-click="nodeClick"></el-tree>
+       <el-divider></el-divider>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeTransfer" :size="GlobalCss.controlSize">取 消</el-button>
+        <el-button type="primary" @click="saveTransfer" :size="GlobalCss.controlSize">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>

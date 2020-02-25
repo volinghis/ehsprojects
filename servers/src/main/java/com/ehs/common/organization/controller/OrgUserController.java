@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
 import com.ehs.common.organization.bean.UserTreeDataBean;
@@ -475,6 +477,21 @@ public class OrgUserController {
 	}
 	/**
 	 * 
+	* @Function: OrgUserController.java
+	* @Description: 根据部门key查找所有用户
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:46:55 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
 	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/auth/orgUser/findUserByKey")
@@ -482,5 +499,37 @@ public class OrgUserController {
 		String key=request.getParameter("key");
 		OrgUser ou=baseCommonService.findByKey(OrgUser.class, key);
 		return ou==null?"{}":JsonUtils.toJsonString(ou);
+	}
+	
+	/**
+	 * 
+	* @Function: OrgUserController.java
+	* @Description: 人员调岗
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:47:31 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
+	 */
+	@RequestAuth(menuKeys = {"userManager"})
+	@RequestMapping(value = "/auth/orgUser/transferUser")
+	@ResponseBody
+	public String transferUser(@RequestBody OrgUserBean userBean,HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		try {
+			orgUserService.transferUser(userBean);
+			return JsonUtils.toJsonString(resultBean.ok("人员调岗成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("人员调岗失败"));
 	}
 }

@@ -25,7 +25,6 @@ import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.bean.OrgTreeNodeLazy;
 import com.ehs.common.organization.bean.OrganizationBean;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
 import com.ehs.common.organization.service.OrganizationService;
@@ -212,10 +211,6 @@ public class OrganizationController {
 	public String deleteOrgInfo(HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		String key=request.getParameter("key");
-//		List<OrgUser> users=orgUserService.findUserByOrgKey(key);
-//		if (users.size() > 0) {
-//			return JsonUtils.toJsonString(resultBean.error("该部门下存在用户，请先删除该部门用户"));
-//		}
 		organizationService.deleteOrgByKey(key);
 		return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
 	}
@@ -273,7 +268,6 @@ public class OrganizationController {
 	@RequestAuth(menuKeys = {"orgManager"})
 	@RequestMapping(value = "/auth/orgManager/getTreeLazyNode")
 	public String getTreeNode(@RequestParam(required = false) String id) {
-		System.out.println("id============"+id);
 		List<OrgTreeNodeLazy> trees=new ArrayList<OrgTreeNodeLazy>();
 		if(StringUtils.isBlank(id)) {
 			OrganizationInfo organizationInfo = organizationService.getFirstNode();

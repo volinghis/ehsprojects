@@ -3,7 +3,6 @@ package com.ehs.common.organization.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -28,6 +27,7 @@ import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
 import com.ehs.common.organization.dao.OrgUserDao;
@@ -528,6 +528,37 @@ public class OrgUserServiceImpl implements OrgUserService{
 		return null;
 	}
 
-
+	/**
+	 * 
+	* @see com.ehs.common.organization.service.OrgUserService#transferUser(com.ehs.common.organization.bean.OrgUserBean)  
+	* @Function: OrgUserServiceImpl.java
+	* @Description: 人员调岗
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:47:58 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
+	 */
+	@Override
+	@Transactional
+	public void transferUser(OrgUserBean userBean) {
+		if (userBean.getUsers() != null) {
+			for (OrgUser orgUser : userBean.getUsers()) {
+				OrgUser user = baseCommonService.findByKey(OrgUser.class, orgUser.getKey());
+				OrganizationInfo orgInfo = baseCommonService.findByKey(OrganizationInfo.class, userBean.getOrgKey());
+				user.setOrgKey(userBean.getOrgKey());
+				user.setOrgName(orgInfo.getName());
+				baseCommonService.saveOrUpdate(user);
+			}
+		}
+	}
 
 }

@@ -3,8 +3,11 @@ import userAuth from '../../userAuth/index.vue'
 export default {
   data () {
     return {
+      multipleSelection: [],
+      nodeId: '',
       drawer: false,
       exchange: false,
+      drawerTransfer: false,
       userKey: '',
       userInfo: '',
       organName: '',
@@ -17,6 +20,11 @@ export default {
         query: '',
         page: 1,
         size: 20
+      },
+      props: {
+        label: 'name',
+        children: 'children',
+        isLeaf: 'leaf'
       },
       roleTableData: [],
       roleTable: []
@@ -55,16 +63,35 @@ export default {
       this.totalCount = newValue
     }
   },
-  // created () {
-  //   this.findUserByOrgKey()
-  // },
   methods: {
-    transferUser: function (rows) {
-      console.log(rows)
-      if (rows) {
-        // rows.forEach(row => {
-        //   this.$refs.multipleTable.toggleRowSelection(row)
-        // })
+    saveTransfer: function () {
+      const orguser = {
+        orgKey: this.nodeId,
+        users: this.multipleSelection
+      }
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/orgUser/transferUser', orguser).then(res => {
+        if (res.data.resultType === 'ok') {
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          })
+        }
+        if (res.data.resultType === 'error') {
+          this.$message.error(res.data.message)
+        }
+        this.drawerTransfer = false
+        this.$emit('findUserByOrgKey')
+      })
+    },
+    closeTransfer: function () {
+      this.drawerTransfer = false
+    },
+    nodeClick: function (node) {
+      this.nodeId = Object.assign(node.id)
+    },
+    transferUser: function () {
+      if (this.multipleSelection) {
+        this.drawerTransfer = true
       } else {
         this.$refs.multipleTable.clearSelection()
       }
@@ -75,6 +102,26 @@ export default {
         this.multipleSelection = val
       } else {
         this.exchange = false
+      }
+    },
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        this.requestTreeNodeOne(resolve)
+      }
+      if (node.level === 1) {
+        this.requestTreeNode(node, resolve)
+      }
+    },
+    requestTreeNodeOne (resolve) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode').then(res => {
+        resolve(res.data)
+      })
+    },
+    requestTreeNode (node, resolve) {
+      if (node) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode', { params: { id: node.data.id } }).then(res => {
+          resolve(res.data)
+        })
       }
     },
     addUser: function () {
@@ -107,18 +154,8 @@ export default {
       this.editUserForm = row
       this.userInfo = 'edit'
     },
-    // findUserByOrgKey: function (key, formParams) { // 查询组织下所有人员
-    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: 'rootOrg', searchData: formParams } }).then(res => {
-    //     console.log('key==========' + key)
-    //     this.userTableData = res.data.dataList
-    //     this.totalCount = res.data.totalCount
-    //   }).catch(() => {
-    //     this.$message.error('查询出错，请刷新重试！')
-    //   })
-    // },
     // 当前状态：data,  d:当前数据对象, index:当前序号(数组下标)
     changeState: function (e, row, index) {
-      // console.log(row.orgKey)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/orgUser/changeState', row).then(res => {
         if (res.data.state === 0) {
           this.$message({
@@ -133,7 +170,6 @@ export default {
           })
           this.$emit('findUserByOrgKey', row.orgKey)
         }
-        // TODO ：刷新列表数据
       }).catch(() => {
         this.$message.error('切换状态失败')
         let newData = row
