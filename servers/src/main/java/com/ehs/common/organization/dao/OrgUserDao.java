@@ -113,10 +113,15 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u.orgKey=?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
 	public Page<OrgUser> findUserByOrgKey(String orgKey, PageRequest pageRequest);
+	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	public List<OrgUser> findUserByOrgKey(String orgKey);
 
 	public OrgUser findOrgUserBySysUserKey(String sysUserKey);
 	
 	public List<OrgUser> findOrgUserByOrgKeyAndDataModelIn(String orgKey,DataModel[] dataModel);
+
+	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	public List<OrgUser> findUserByQuery(String query);
 }

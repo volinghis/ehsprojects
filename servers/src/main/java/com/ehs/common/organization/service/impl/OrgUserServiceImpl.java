@@ -25,11 +25,15 @@ import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
 import com.ehs.common.organization.dao.OrgUserDao;
+import com.ehs.common.organization.dao.OrganizationDao;
 import com.ehs.common.organization.entity.OrgUser;
+import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
 
 /**   
@@ -64,6 +68,9 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Resource
 	private LoginDao loginDao;
 	
+	@Resource
+	private OrganizationDao orgDao;
+	
 	/**
 	 * 
 	* @see com.ehs.common.organization.service.OrgUserService#getAllUser(com.ehs.common.organization.bean.UserQueryBean)  
@@ -85,7 +92,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	@Override
 	public PageInfoBean getAllUser(UserQueryBean userQueryBean) {
-		// TODO Auto-generated method stub
 		PageRequest pageRequest =PageRequest.of(userQueryBean.getPage()-1, userQueryBean.getSize());
 		if (StringUtils.isNotBlank(userQueryBean.getQuery())) {
 			Page<OrgUser> users=orgUserDao.findUsers(userQueryBean.getQuery(), pageRequest);
@@ -128,15 +134,13 @@ public class OrgUserServiceImpl implements OrgUserService{
 	*---------------------------------------------------------*
 	* 2019年12月24日     zhaol           v1.0.0               修改原因
 	 */
+	
 	@Override
-	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean,UserQueryBean uq) {
-		// TODO Auto-generated method stub
+	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean) {
 		PageRequest pageRequest =PageRequest.of(userQueryBean.getPage()-1, userQueryBean.getSize());
-		if (StringUtils.isNotBlank(orgKey) && StringUtils.isNotBlank(uq.getQuery())) {
-//			System.out.println("userQueryBean.getQuery()=========="+userQueryBean.getQuery());
-//			System.out.println("uq.getQuery()=========="+uq.getQuery());
-//			System.out.println("userQueryBean.orgKey=========="+orgKey);
-			Page<OrgUser> users=orgUserDao.findUserByOrgKey(orgKey,uq.getQuery(), pageRequest);
+		if (StringUtils.isNotBlank(orgKey) && StringUtils.isNotBlank(userQueryBean.getQuery())) {
+			System.out.println("=============两个查询条件=============");
+			Page<OrgUser> users=orgUserDao.findUserByOrgKey(orgKey,userQueryBean.getQuery(), pageRequest);
 			if (users!=null) {
 				PageInfoBean pb=new PageInfoBean();
 				pb.setDataList(users.getContent());
@@ -145,20 +149,64 @@ public class OrgUserServiceImpl implements OrgUserService{
 			}
 			return null;
 		}else if (StringUtils.isNotBlank(orgKey)) {
-			Page<OrgUser> users=orgUserDao.findUserByOrgKey(orgKey, pageRequest);
-			if (users!=null) {
+			List list =getOrgUsers(orgKey);
+//			List list = new ArrayList();
+//			List<OrganizationInfo> orgList = orgDao.getFirstNode(orgKey);
+//			if (orgList.size() > 0) {
+//				List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
+//				filterItems(templist, orgList,orgKey);
+//				for (OrganizationInfo organizationInfo : templist) {
+//					List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
+//					for (OrgUser user : users) {
+//						list.add(user);
+//					}
+//				}
+//			}else {
+//				List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
+//				for (OrgUser orgUser : users) {
+//					list.add(orgUser);
+//				}
+//			}
+			if (list!=null) {
 				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(users.getContent());
-				pb.setTotalCount(users.getTotalElements()); 
+				pb.setDataList(list);
+				pb.setTotalCount(list.size()); 
 				return pb;
 			}
 			return null;
 		}
 		else {
-			return this.getAllUser(uq);
+			return this.getAllUser(userQueryBean);
 		}
 	}
 	
+	private void filterItems(List<OrganizationInfo> list,List<OrganizationInfo> dataList,String parentKey) {
+		dataList.stream().filter(s->StringUtils.equals(s.getParentKey(),parentKey)).forEach(c->{
+			list.add(c);
+			filterItems(list,dataList,c.getKey());
+		});
+	}
+	
+	public List<OrgUser> getOrgUsers(String orgKey){
+		List list = new ArrayList();
+		List<OrganizationInfo> orgList = orgDao.getFirstNode(orgKey);
+		if (orgList.size() > 0) {
+			List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
+			filterItems(templist, orgList,orgKey);
+			for (OrganizationInfo organizationInfo : templist) {
+				List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
+				for (OrgUser user : users) {
+					list.add(user);
+				}
+			}
+		}else {
+			List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
+			for (OrgUser orgUser : users) {
+				list.add(orgUser);
+			}
+		}
+		return list;
+	}
 	/**
 	 * 
 	* @see com.ehs.common.organization.service.OrgUserService#saveUser(com.ehs.common.organization.entity.OrgUser)  
@@ -181,7 +229,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Override
 	@Transactional
 	public OrgUser saveUser(OrgUser orgUser) {
-		// TODO Auto-generated method stub
 		if (StringUtils.isBlank(orgUser.getSysUserKey())) {
 			String dataCode = orgUser.getDataCode();
 			String salt = BaseUtils.getSalt();
@@ -231,7 +278,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Override
 	@Transactional
 	public OrgUser changeState(OrgUser orgUser) {
-		// TODO Auto-generated method stub
 		SysUser sysUser = baseCommonService.findByKey(SysUser.class, orgUser.getSysUserKey());
 		orgUser.setState(orgUser.getState()== 0 ? 0: 1);
 		sysUser.setState(orgUser.getState()== 0 ? 0: 1);
@@ -260,18 +306,22 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	@Override
 	@Transactional
-	public void deleteOrgUser(String key) {
-		// TODO Auto-generated method stub
-		try {
-			OrgUser orgUser = baseCommonService.findByKey(OrgUser.class, key);
-			baseCommonService.deleteByKey(OrgUser.class, key);
-			baseCommonService.deleteByKey(SysUser.class, orgUser.getSysUserKey());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public OrgUser deleteOrgUser(String key) {
+		OrgUser user=null;
+		List<FlowProcessInfo> flowProcessInfos = (List<FlowProcessInfo>) baseCommonService.findAll(FlowProcessInfo.class);
+		if(flowProcessInfos != null && flowProcessInfos.size() >0) {
+			long count = flowProcessInfos.stream().filter(s -> !StringUtils.equals(s.getFlowCurrentStep(), "END") 
+					&&(StringUtils.equals(s.getOwner(), key) || StringUtils.equals(s.getFlowCurrentPerson(), key))).count();
+			if (count > 0) {
+				return null;
+			}else {
+				OrgUser orgUser = baseCommonService.findByKey(OrgUser.class, key);
+				user =baseCommonService.deleteByKey(OrgUser.class, key);
+				baseCommonService.deleteByKey(SysUser.class, orgUser.getSysUserKey());
+			}
 		}
+		return user;
 	}
-
 	/**
 	 * 
 	* @see com.ehs.common.organization.service.OrgUserService#findRolesByUserKey(java.lang.String)  
@@ -293,7 +343,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	@Override
 	public List<SysRole> findRolesByUserKey(String userKey) {
-		// TODO Auto-generated method stub
 		OrgUser orgUser = baseCommonService.findByKey(OrgUser.class, userKey);
 		List<SysRole> roles = new ArrayList<SysRole>();
 		if (orgUser != null && orgUser.getRoles() != null) {
@@ -328,7 +377,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Override
 	@Transactional
 	public void saveUserRole(UserRolesBean userRolesBean) {
-		// TODO Auto-generated method stub
 		OrgUser user = baseCommonService.findByKey(OrgUser.class, userRolesBean.getUserKey());
 		SysUser sysUser = loginDao.findByAccount(user.getDataCode());
 		List<RoleBean> sysRoles = userRolesBean.getRoleList();
@@ -373,7 +421,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Override
 	@Transactional
 	public void deleteUserRole(UserRolesBean userRolesBean) {
-		// TODO Auto-generated method stub
 		OrgUser user = baseCommonService.findByKey(OrgUser.class, userRolesBean.getUserKey());
 		SysUser sysUser = loginDao.findByAccount(user.getDataCode());
 		List<String> roleKeys = new ArrayList(Arrays.asList(sysUser.getRoleKeys().split(",")));
@@ -436,7 +483,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	@Override
 	public PageInfoBean findAllRolesByUserKey(String userKey, RoleQueryBean queryBean) {
-		// TODO Auto-generated method stub
 		Assert.notNull(userKey, "用户key不能为空");
 		List<SysRole> roles=findRolesByUserKey(userKey);
 		if(roles==null||roles.isEmpty()) {
@@ -474,7 +520,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	*/
 	@Override
 	public OrgUser findOrgUserBySysUserKey(String code) {
-		// TODO Auto-generated method stub
 		Assert.notNull(code, "params account is required");
 		SysUser sysUser=loginDao.findByAccount(code);
 		if (sysUser!=null) {
@@ -483,6 +528,37 @@ public class OrgUserServiceImpl implements OrgUserService{
 		return null;
 	}
 
-
+	/**
+	 * 
+	* @see com.ehs.common.organization.service.OrgUserService#transferUser(com.ehs.common.organization.bean.OrgUserBean)  
+	* @Function: OrgUserServiceImpl.java
+	* @Description: 人员调岗
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:47:58 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
+	 */
+	@Override
+	@Transactional
+	public void transferUser(OrgUserBean userBean) {
+		if (userBean.getUsers() != null) {
+			for (OrgUser orgUser : userBean.getUsers()) {
+				OrgUser user = baseCommonService.findByKey(OrgUser.class, orgUser.getKey());
+				OrganizationInfo orgInfo = baseCommonService.findByKey(OrganizationInfo.class, userBean.getOrgKey());
+				user.setOrgKey(userBean.getOrgKey());
+				user.setOrgName(orgInfo.getName());
+				baseCommonService.saveOrUpdate(user);
+			}
+		}
+	}
 
 }

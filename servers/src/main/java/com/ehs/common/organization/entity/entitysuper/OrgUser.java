@@ -50,6 +50,7 @@ public abstract  class OrgUser extends BaseEntity {
 	public static final String HOME_TOWN="homeTown";
 	public static final String PROFESSION="profession";
 	public static final String GRADUATED_DATE="graduatedDate";
+	public static final String AVATAR="avatar";
 	
 	public static final String ROLES="roles";
 	
@@ -57,6 +58,8 @@ public abstract  class OrgUser extends BaseEntity {
 	 * 员工编号
 	 */
 	private String dataCode;
+	
+	private String avatar;
 	
 	/**
 	 * 所属组织
@@ -262,6 +265,14 @@ public abstract  class OrgUser extends BaseEntity {
 
 	public void setRoles(String roles) {
 		this.roles = roles;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }

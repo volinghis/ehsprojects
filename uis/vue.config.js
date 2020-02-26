@@ -6,6 +6,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? '/platform/' : './',
   outputDir: './src/main/resources/static',
   productionSourceMap: false,
   transpileDependencies: ['resize-detector'],

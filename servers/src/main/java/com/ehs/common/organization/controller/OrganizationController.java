@@ -3,6 +3,7 @@ package com.ehs.common.organization.controller;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,8 @@ import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
+import com.ehs.common.organization.bean.OrgTreeNodeLazy;
 import com.ehs.common.organization.bean.OrganizationBean;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
 import com.ehs.common.organization.service.OrganizationService;
@@ -86,6 +88,7 @@ public class OrganizationController {
 		createOrg(orgs, orgList, null);
 		return JsonUtils.toJsonString(orgs);
 	}
+	
 	/**
 	 * 
 	* @Function: OrganizationController.java
@@ -170,10 +173,16 @@ public class OrganizationController {
 	public String saveOrg(@RequestBody OrganizationInfo orgInfo, HttpServletRequest request,HttpServletResponse response) {
 		ResultBean resultBean=new ResultBean();
 	 	try {
-			organizationService.saveOrg(orgInfo);
-			return JsonUtils.toJsonString(resultBean.ok("认证成功"));
+	 		List<OrganizationInfo> organizationInfos = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
+	 		if(organizationInfos != null && organizationInfos.size() >0) {
+	 			long count = organizationInfos.stream().filter(s -> StringUtils.equals(s.getDataCode(), orgInfo.getDataCode()) &&!StringUtils.equals(s.getKey(), orgInfo.getKey())).count();
+	 			if (count > 0) {
+	 				return JsonUtils.toJsonString(resultBean.error("此部门编号已经存在，请重新确认"));
+	 			}
+	 		}
+	 		organizationService.saveOrg(orgInfo);
+	 		return JsonUtils.toJsonString(resultBean.ok("认证成功"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	 	return JsonUtils.toJsonString(resultBean.error("保存失败"));
@@ -202,13 +211,91 @@ public class OrganizationController {
 	public String deleteOrgInfo(HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		String key=request.getParameter("key");
-		List<OrgUser> users=orgUserService.findUserByOrgKey(key);
-		System.out.println("count==================="+users.size());
-		if (users.size() > 0) {
-			return JsonUtils.toJsonString(resultBean.error("该部门下存在用户，请先删除该部门用户"));
-		}
 		organizationService.deleteOrgByKey(key);
 		return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
+	}
+	
+	/**
+	 * 
+	* @Function: OrganizationController.java
+	* @Description: 验证部门编号是否存在
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月19日 下午4:05:48 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月19日     zhaol           v1.0.0               修改原因
+	 */
+//	@RequestAuth(menuKeys = {"orgManager"})
+//	@RequestMapping(value = "/auth/orgManager/orgValidation")
+//	@ResponseBody
+//	public String orgValidation(HttpServletRequest request) {
+//		ResultBean resultBean=new ResultBean();
+//		String dataCode = request.getParameter("dataCode");
+//		String key = request.getParameter("key");
+//		List<OrganizationInfo> orgs = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
+//		long count=orgs.stream().filter((e)->e.getDataCode().equals(dataCode)).count();
+//		if (!StringUtils.isBlank(key)) {
+//			OrganizationInfo orgInfo=(OrganizationInfo)baseCommonService.findByKey(OrganizationInfo.class, key);
+//			System.out.println(JsonUtils.toJsonString(orgInfo));
+//			if(orgInfo != null) {
+//				if(StringUtils.equals(dataCode, orgInfo.getDataCode())) {
+//					return JsonUtils.toJsonString(resultBean.ok("此部门编号尚未修改"));
+//				}else {
+//					if(!dataCode.equals(orgInfo.getDataCode()) && count > 0l) {
+//						return JsonUtils.toJsonString(resultBean.error("该部门编号已经存在，请重新确认"));
+//					}
+//				}
+//			}
+//		}
+//		if (count >= 1l) {
+//			return JsonUtils.toJsonString(resultBean.error("该部门编号已经存在，请重新确认"));
+//		}
+//		if(StringUtils.isNotBlank(dataCode)) {
+//			return JsonUtils.toJsonString(resultBean.ok("该部门编号可以使用"));
+//		}
+//		return JsonUtils.toJsonString("");
+//		
+//	}
+	
+	@RequestAuth(menuKeys = {"orgManager"})
+	@RequestMapping(value = "/auth/orgManager/getTreeLazyNode")
+	public String getTreeNode(@RequestParam(required = false) String id) {
+		List<OrgTreeNodeLazy> trees=new ArrayList<OrgTreeNodeLazy>();
+		if(StringUtils.isBlank(id)) {
+			OrganizationInfo organizationInfo = organizationService.getFirstNode();
+			OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
+			tn.setId(organizationInfo.getKey());
+			tn.setPid(organizationInfo.getParentKey());
+			tn.setName(organizationInfo.getName());
+			tn.setLeaf(false);
+			System.out.println(JsonUtils.toJsonString(tn));
+			trees.add(tn);
+		}else {
+			List<OrganizationInfo> orgs = organizationService.getChildNode(id);
+			if (orgs != null && orgs.size() > 0) {
+				for (OrganizationInfo organizationInfo : orgs) {
+					if(StringUtils.equals(organizationInfo.getParentKey(), id)) {
+						OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
+						tn.setId(organizationInfo.getKey());
+						tn.setPid(organizationInfo.getParentKey());
+						tn.setName(organizationInfo.getName());
+		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
+		    			tn.setLeaf(list==null||list.size()<1);
+		    			System.out.println(JsonUtils.toJsonString(tn));
+		    			trees.add(tn);
+					}
+				}
+			}
+		}
+		return (trees==null?"[]":JsonUtils.toJsonString(trees));
 	}
 	
 }

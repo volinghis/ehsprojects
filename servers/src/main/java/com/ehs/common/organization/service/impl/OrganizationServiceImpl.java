@@ -1,5 +1,7 @@
 package com.ehs.common.organization.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -9,10 +11,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.dao.OrganizationDao;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
+import com.ehs.common.organization.service.OrgUserService;
 import com.ehs.common.organization.service.OrganizationService;
 
 /**   
@@ -38,6 +43,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Resource
 	private BaseCommonService baseCommonService;
 	
+	@Resource
+	private OrgUserService orgUserService;
+	
 	/**
 	 * 
 	* @see com.ehs.common.organization.service.OrganizationService#saveOrg(com.ehs.common.organization.entity.OrganizationInfo)  
@@ -52,11 +60,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	@Transactional
 	public void saveOrg(OrganizationInfo orgInfo) {
-		// TODO Auto-generated method stub
 		try {
 			baseCommonService.saveOrUpdate(orgInfo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -83,11 +89,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	@Transactional
 	public void deleteOrgByKey(String key) {
-		// TODO Auto-generated method stub
 		try {
+			List<OrgUser> users=orgUserService.findUserByOrgKey(key);
+			if (users.size() > 0) {
+				for (OrgUser orgUser : users) {
+					orgUserService.deleteOrgUser(orgUser.getKey());
+				}
+			}
 			baseCommonService.deleteByKey(OrganizationInfo.class, key);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -113,7 +123,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 */
 	@Override
 	public PageInfoBean getAllOrgsTable(String orgParentKey,OrgQueryBean queryBean) {
-		// TODO Auto-generated method stub
 		PageRequest pageRequest =PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
 		PageInfoBean pb=new PageInfoBean();
 		if(StringUtils.isNotBlank(orgParentKey)) {
@@ -130,6 +139,31 @@ public class OrganizationServiceImpl implements OrganizationService {
 			pb.setDataList(orgspPage.getContent());
 			pb.setTotalCount(orgspPage.getTotalElements());
 			return pb;
+		}
+		return null;
+	}
+
+	@Override
+	public OrganizationInfo getFirstNode() {
+		System.out.println("----------父节点为空------------------------");
+		try {
+			OrganizationInfo organizationInfo = organizationDao.getFirstNode();
+			System.out.println(JsonUtils.toJsonString(organizationInfo));
+			return organizationInfo;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public List<OrganizationInfo> getChildNode(String id) {
+		System.out.println("==============父节点不为空==============");
+		try {
+			List<OrganizationInfo> organizationInfos = organizationDao.getFirstNode(id);
+			System.out.println(JsonUtils.toJsonString(organizationInfos));
+			return organizationInfos;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

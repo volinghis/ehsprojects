@@ -5,6 +5,7 @@ import java.util.List;
 import com.ehs.common.auth.bean.RoleQueryBean;
 import com.ehs.common.auth.entity.SysRole;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
 import com.ehs.common.organization.entity.OrgUser;
@@ -96,6 +97,7 @@ public interface OrgUserService {
 	*
 	* @version: v1.0.0
 	* @author: zhaol
+	 * @return 
 	* @date: 2019年12月26日 上午11:17:10 
 	*
 	* Modification History:
@@ -103,7 +105,7 @@ public interface OrgUserService {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	public void deleteOrgUser(String key);
+	public OrgUser deleteOrgUser(String key);
 
 	/**
 	 * 
@@ -123,7 +125,7 @@ public interface OrgUserService {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean, UserQueryBean uq);
+	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean);
 
 	/**
 	 * 
@@ -223,4 +225,24 @@ public interface OrgUserService {
 	* 2019年12月27日     qjj        v1.0.0            修改原因
 	 */
 	public OrgUser findOrgUserBySysUserKey(String code);
+
+	/**
+	 * 
+	* @Function: OrgUserService.java
+	* @Description: 人员调岗
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午8:37:00 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
+	 */
+	public void transferUser(OrgUserBean userBean);
 }

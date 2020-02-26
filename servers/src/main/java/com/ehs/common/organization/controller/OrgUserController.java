@@ -1,7 +1,5 @@
 package com.ehs.common.organization.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,22 +8,21 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.bean.RoleQueryBean;
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
-import com.ehs.common.auth.utils.SessionBean;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.common.organization.bean.OrganizationBean;
+import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
 import com.ehs.common.organization.bean.UserTreeDataBean;
@@ -146,13 +143,52 @@ public class OrgUserController {
 	public String findUserByOrgKey(HttpServletRequest request,UserQueryBean queryBean) {
 		String orgKey=request.getParameter("orgKey");
 		String searchData=request.getParameter("searchData");
-		UserQueryBean uq= new UserQueryBean();
 		if (StringUtils.isNotBlank(searchData)) {
-			uq = (UserQueryBean) JsonUtils.parseObject(searchData, UserQueryBean.class);
+			queryBean = (UserQueryBean) JsonUtils.parseObject(searchData, UserQueryBean.class);
 		}
-		PageInfoBean users=orgUserService.findUserByOrgKey(orgKey,queryBean,uq);
+		PageInfoBean users=orgUserService.findUserByOrgKey(orgKey,queryBean);
 		return (users == null ? "[]" : JsonUtils.toJsonString(users));
 	}
+	
+//	@RequestMapping(value="/action/userBaseInfoManager/userBaseInfoManagerList")
+//	@ResponseBody
+//	public String userBaseInfoManagerList(HttpServletRequest request) {
+//		Pagenate pageNate=new Pagenate();
+//		String searchParam=request.getParameter("searchParam");
+//        pageNate.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
+//        pageNate.setStartNum(Integer.parseInt(request.getParameter("pageIndex")));
+//		String orgCode=request.getParameter("orgCode");
+//		List<OrganizationInfo> orgList = baseCommonService.findAll(OrganizationInfo.class, null);
+//        List<String> treelist=new ArrayList<String>();
+//		createMenuNode(treelist, orgList, orgCode);
+//		Specification<UserBaseInfo> sf=null;
+//		List<Predicate> ps=new ArrayList<Predicate>();
+//		//多条件查询
+//		sf=(Root<UserBaseInfo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)->{
+//			if(StringUtils.isNotBlank(orgCode)) {
+//				OrganizationInfo orgInfos= (OrganizationInfo) baseCommonService.findByCode(OrganizationInfo.class, orgCode);
+//				CriteriaBuilder.In<String> in=null;
+//				if(orgInfos != null ) {
+//					in= criteriaBuilder.in(root.get(UserBaseInfo.ORG_CODE));
+//					if (treelist.size() > 0) {
+//						for (int j = 0; j < treelist.size(); j++) {
+//							in.value(treelist.get(j));
+//							System.out.println("递归查询到的第"+(j+1)+"个Code："+treelist.get(j));
+//						}
+//					}
+//				}
+//				in.value(orgCode);
+//				ps.add(criteriaBuilder.and(in));//存入条件集合里
+//			}
+//        	if(StringUtils.isNotBlank(searchParam)) {
+//        		ps.add(criteriaBuilder.or(criteriaBuilder.like(root.get(UserBaseInfo.DATA_CODE),"%"+searchParam+"%" ), criteriaBuilder.like(root.get(UserBaseInfo.NAME),"%"+searchParam+"%" )));
+//        	}
+//        	return criteriaBuilder.and(ps.toArray(new Predicate[0]));
+//        };
+//        return JSON.toJSONString(baseCommonService.findPagenate(UserBaseInfo.class, sf, pageNate));
+//	} 
+//	
+
 	
 	/**
 	 * 
@@ -176,15 +212,20 @@ public class OrgUserController {
 	@RequestMapping(value = "/auth/orgUser/saveOrgUser")
 	public String saveOrgUser(@RequestBody OrgUser orgUser,HttpServletRequest request, HttpServletResponse response) {
 		ResultBean resultBean=new ResultBean();
-//		List<OrgUser> users= (List<OrgUser>)baseCommonService.findAll(OrgUser.class);
-//		if (users!=null&&users.size()>0) {
-//			long c=users.stream().filter(s->StringUtils.equals(s.getDataCode(),orgUser.getDataCode())&&!StringUtils.equals(s.getKey(), orgUser.getKey())).count();
-//			if(c>0) {
-//				return JsonUtils.toJsonString(resultBean.error("保存用户失败:已存在相同用户编号"));
-//			}
-//		}
-		OrgUser user = orgUserService.saveUser(orgUser);
-		return JsonUtils.toJsonString(resultBean.ok("保存角色成功",user.getKey()));
+		try {
+			List<OrgUser> users= (List<OrgUser>)baseCommonService.findAll(OrgUser.class);
+			if (users!=null&&users.size()>0) {
+				long c=users.stream().filter(s->StringUtils.equals(s.getDataCode(),orgUser.getDataCode())&&!StringUtils.equals(s.getKey(), orgUser.getKey())).count();
+				if(c>0) {
+					return JsonUtils.toJsonString(resultBean.error("此用户编号已经被使用，请重新输入"));
+				}
+			}
+			orgUserService.saveUser(orgUser);
+			return JsonUtils.toJsonString(resultBean.ok("用户信息保存成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("保存用户失败"));
 	}
 	
 	/**
@@ -235,15 +276,13 @@ public class OrgUserController {
 	@RequestMapping(value = "/auth/orgUser/deleteOrgUser")
 	public String deleteOrgUser(HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
-		try {
-			String key=request.getParameter("key");
-			orgUserService.deleteOrgUser(key);
+		String key=request.getParameter("key");
+		OrgUser user = orgUserService.deleteOrgUser(key);
+		if (user != null) {
 			return JsonUtils.toJsonString(resultBean.ok("用户删除成功"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}else {
+			return JsonUtils.toJsonString(resultBean.error("该用户有提交的任务尚未审核或有待办任务"));
 		}
-		return JsonUtils.toJsonString(resultBean.error("用户删除失败"));
 	}
 	
 	/**
@@ -327,7 +366,6 @@ public class OrgUserController {
 			orgUserService.saveUserRole(userRolesBean);
 			return JsonUtils.toJsonString(resultBean.ok("授权成功！",""));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonUtils.toJsonString(resultBean.error("授权失败！"));
@@ -360,7 +398,6 @@ public class OrgUserController {
 			orgUserService.deleteUserRole(userRolesBean);
 			return JsonUtils.toJsonString(resultBean.ok("删除成功！",""));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonUtils.toJsonString(resultBean.error("删除失败！"));
@@ -384,38 +421,38 @@ public class OrgUserController {
 	*---------------------------------------------------------*
 	* 2019年12月25日     zhaol           v1.0.0               修改原因
 	 */
-	@RequestAuth(menuKeys = {"userManager"})
-	@RequestMapping(value = "/auth/orgUser/userValidation")
-	@ResponseBody
-	public String userValidation(HttpServletRequest request) {
-		ResultBean resultBean=new ResultBean();
-		String dataCode = request.getParameter("dataCode");
-		String key = request.getParameter("key");
-		List<OrgUser> users = (List<OrgUser>) baseCommonService.findAll(OrgUser.class);
-		long count=users.stream().filter((e)->e.getDataCode().equals(dataCode)).count();
-		if (!StringUtils.isBlank(key)) {
-			OrgUser user=(OrgUser)baseCommonService.findByKey(OrgUser.class, key);
-			if(user != null) {
-				System.out.println("user===dataCode==="+user.getDataCode());
-				if(StringUtils.equals(dataCode, user.getDataCode())) {
-					return JsonUtils.toJsonString(resultBean.ok("该工号尚未修改"));
-				}else {
-					if(!dataCode.equals(user.getDataCode()) && count > 0l) {
-						return JsonUtils.toJsonString(resultBean.error("该员工工号已经存在，请重新确认"));
-					}
-				}
-			}
-		}
-		if (count >= 1l) {
-			return JsonUtils.toJsonString(resultBean.error("该员工工号已经存在，请重新确认"));
-		}
 
-		if(StringUtils.isNotBlank(dataCode)) {
-			return JsonUtils.toJsonString(resultBean.ok("该工号可以使用"));
-		}
-		return JsonUtils.toJsonString("");
+//	@RequestAuth(menuKeys = {"userManager"})
+//	@RequestMapping(value = "/auth/orgUser/userValidation")
+//	@ResponseBody
+//	public String userValidation(HttpServletRequest request) {
+//		ResultBean resultBean=new ResultBean();
+//		String dataCode = request.getParameter("dataCode");
+//		String key = request.getParameter("key");
+//		List<OrgUser> users = (List<OrgUser>) baseCommonService.findAll(OrgUser.class);
+//		long count=users.stream().filter((e)->e.getDataCode().equals(dataCode)).count();
+//		if (!StringUtils.isBlank(key)) {
+//			OrgUser user=(OrgUser)baseCommonService.findByKey(OrgUser.class, key);
+//			if(user != null) {
+//				System.out.println("user===dataCode==="+user.getDataCode());
+//				if(StringUtils.equals(dataCode, user.getDataCode())) {
+//					return JsonUtils.toJsonString(resultBean.ok("该工号尚未修改"));
+//				}else {
+//					if(!dataCode.equals(user.getDataCode()) && count > 0l) {
+//						return JsonUtils.toJsonString(resultBean.error("该员工工号已经存在，请重新确认"));
+//					}
+//				}
+//			}
+//		}
+//		if (count >= 1l) {
+//			return JsonUtils.toJsonString(resultBean.error("该员工工号已经存在，请重新确认"));
+//		}
+//		if(StringUtils.isNotBlank(dataCode)) {
+//			return JsonUtils.toJsonString(resultBean.ok("该工号可以使用"));
+//		}
+//		return JsonUtils.toJsonString("");
+//	}
 
-	}
 	
 	/**
 	 * 
@@ -442,6 +479,21 @@ public class OrgUserController {
 	}
 	/**
 	 * 
+	* @Function: OrgUserController.java
+	* @Description: 根据部门key查找所有用户
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:46:55 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
 	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/auth/orgUser/findUserByKey")
@@ -449,5 +501,37 @@ public class OrgUserController {
 		String key=request.getParameter("key");
 		OrgUser ou=baseCommonService.findByKey(OrgUser.class, key);
 		return ou==null?"{}":JsonUtils.toJsonString(ou);
+	}
+	
+	/**
+	 * 
+	* @Function: OrgUserController.java
+	* @Description: 人员调岗
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月24日 下午10:47:31 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月24日     zhaol           v1.0.0               修改原因
+	 */
+	@RequestAuth(menuKeys = {"userManager"})
+	@RequestMapping(value = "/auth/orgUser/transferUser")
+	@ResponseBody
+	public String transferUser(@RequestBody OrgUserBean userBean,HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		try {
+			orgUserService.transferUser(userBean);
+			return JsonUtils.toJsonString(resultBean.ok("人员调岗成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("人员调岗失败"));
 	}
 }
