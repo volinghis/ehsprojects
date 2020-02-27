@@ -139,34 +139,18 @@ public class OrgUserServiceImpl implements OrgUserService{
 	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean) {
 		PageRequest pageRequest =PageRequest.of(userQueryBean.getPage()-1, userQueryBean.getSize());
 		if (StringUtils.isNotBlank(orgKey) && StringUtils.isNotBlank(userQueryBean.getQuery())) {
-			System.out.println("=============两个查询条件=============");
-			Page<OrgUser> users=orgUserDao.findUserByOrgKey(orgKey,userQueryBean.getQuery(), pageRequest);
-			if (users!=null) {
+			List<OrgUser> users = getOrgUsers(orgKey);
+			List<OrgUser> orgUsers = users.stream().filter(s -> StringUtils.contains(s.getName(), userQueryBean.getQuery()) || 
+					StringUtils.contains(s.getDataCode(), userQueryBean.getQuery())).collect(Collectors.toList());
+			if (orgUsers!=null) {
 				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(users.getContent());
-				pb.setTotalCount(users.getTotalElements()); 
+				pb.setDataList(orgUsers);
+				pb.setTotalCount(orgUsers.size()); 
 				return pb;
 			}
 			return null;
 		}else if (StringUtils.isNotBlank(orgKey)) {
 			List list =getOrgUsers(orgKey);
-//			List list = new ArrayList();
-//			List<OrganizationInfo> orgList = orgDao.getFirstNode(orgKey);
-//			if (orgList.size() > 0) {
-//				List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
-//				filterItems(templist, orgList,orgKey);
-//				for (OrganizationInfo organizationInfo : templist) {
-//					List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
-//					for (OrgUser user : users) {
-//						list.add(user);
-//					}
-//				}
-//			}else {
-//				List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
-//				for (OrgUser orgUser : users) {
-//					list.add(orgUser);
-//				}
-//			}
 			if (list!=null) {
 				PageInfoBean pb=new PageInfoBean();
 				pb.setDataList(list);

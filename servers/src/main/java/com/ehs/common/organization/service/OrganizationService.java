@@ -82,8 +82,44 @@ public interface OrganizationService {
 	 */
 	public PageInfoBean getAllOrgsTable(String orgParentKey, OrgQueryBean queryBean);
 
+	/**
+	 * 
+	* @Function: OrganizationService.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月27日 下午9:15:32 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月27日     zhaol           v1.0.0               修改原因
+	 */
 	public OrganizationInfo getFirstNode();
 
+	/**
+	 * 
+	* @Function: OrganizationService.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月27日 下午9:15:36 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月27日     zhaol           v1.0.0               修改原因
+	 */
 	public List<OrganizationInfo> getChildNode(String id);
 
 }

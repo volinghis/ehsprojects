@@ -7,9 +7,10 @@ export default {
       nodeId: '',
       drawer: false,
       exchange: false,
+      buttonShow: true,
       drawerTransfer: false,
       userKey: '',
-      userInfo: '',
+      userFlag: '',
       organName: '',
       organKey: '',
       dialogVisible: false,
@@ -37,7 +38,7 @@ export default {
   props: {
     organizationKey: String,
     organizationName: String,
-    organizationChildren: Number,
+    organizationChildren: Boolean,
     totals: Number,
     userDatas: Array
   },
@@ -125,14 +126,14 @@ export default {
       }
     },
     addUser: function () {
-      this.userInfo = 'add'
+      this.userFlag = 'add'
+      this.buttonShow = true
       if (this.organizationName === '') {
         this.$message({
           message: '请选择部门',
           type: 'warning'
         })
-        return
-      } if (this.organizationChildren > 0) {
+      } else if (this.organizationChildren === false) {
         this.$message({
           message: '请选择具体部门',
           type: 'warning'
@@ -152,7 +153,8 @@ export default {
     editUser: function (row) {
       this.dialogVisible = true
       this.editUserForm = row
-      this.userInfo = 'edit'
+      this.userFlag = 'edit'
+      this.buttonShow = true
     },
     // 当前状态：data,  d:当前数据对象, index:当前序号(数组下标)
     changeState: function (e, row, index) {
@@ -192,7 +194,8 @@ export default {
     handleView: function (row) {
       this.dialogVisible = true
       this.editUserForm = row
-      this.userInfo = 'view'
+      this.userFlag = 'view'
+      this.buttonShow = false
     },
     onSubmit: function () {
       this.$refs.addUserForm.$refs.form.validate((valid) => {

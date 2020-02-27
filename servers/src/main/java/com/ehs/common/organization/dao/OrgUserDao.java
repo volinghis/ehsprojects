@@ -124,4 +124,5 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 
 	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
 	public List<OrgUser> findUserByQuery(String query);
+
 }

@@ -17,7 +17,7 @@ export default {
       userTableData: [],
       organizationKey: '',
       organizationName: '',
-      organizationChildren: 0,
+      organizationChildren: false,
       defaultExpandKeys: [],
       searchParam: {},
       filterText: '',
@@ -71,16 +71,12 @@ export default {
     },
     handleNodeClick: function (data) {
       this.organizationKey = data.id
-      this.organizationName = data.label
-      // if (data.children !== null) {
-      //   this.organizationChildren = data.children.length
-      //   this.$message({
-      //     message: '请点击子部门进行查看',
-      //     type: 'warning'
-      //   })
-      // } else {
-      //   this.organizationChildren = 0
-      // }
+      this.organizationName = data.name
+      if (data.leaf === false) {
+        this.organizationChildren = data.leaf
+      } else {
+        this.organizationChildren = true
+      }
       this.findUserByOrgKey(data.id, this.searchParam)
       this.nodeParentKey = data.id
     },

@@ -42,7 +42,7 @@
         <!-- Form -->
         <div style="margin:0px 10px">
           <div class="search-wrapper"
-               style="width:42%;">
+               style="width:47%;">
             <el-form ref="searchForm"
                      :model="searchForm"
                      :inline="true">
@@ -64,20 +64,21 @@
                       :size="GlobalCss.controlSize">
               <el-table-column type="selection"
                                align="center"
-                               width="45">
+                               width="40">
               </el-table-column>
               <el-table-column prop="name"
                                align="center"
-                               width="90"
+                               width="80"
                                label="角色名称">
               </el-table-column>
               <el-table-column prop="dataCode"
                                align="center"
-                               width="90"
+                               width="80"
                                label="角色编码">
               </el-table-column>
               <el-table-column prop="remark"
                                align="center"
+                               width="100"
                                label="备注">
               </el-table-column>
               <el-table-column prop="creationTime"

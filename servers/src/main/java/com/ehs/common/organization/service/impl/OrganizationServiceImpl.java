@@ -143,9 +143,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return null;
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.organization.service.OrganizationService#getFirstNode()  
+	* @Function: OrganizationServiceImpl.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月27日 下午9:16:24 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月27日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public OrganizationInfo getFirstNode() {
-		System.out.println("----------父节点为空------------------------");
 		try {
 			OrganizationInfo organizationInfo = organizationDao.getFirstNode();
 			System.out.println(JsonUtils.toJsonString(organizationInfo));
@@ -155,9 +173,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	* @see com.ehs.common.organization.service.OrganizationService#getChildNode(java.lang.String)  
+	* @Function: OrganizationServiceImpl.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年2月27日 下午9:16:19 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年2月27日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public List<OrganizationInfo> getChildNode(String id) {
-		System.out.println("==============父节点不为空==============");
 		try {
 			List<OrganizationInfo> organizationInfos = organizationDao.getFirstNode(id);
 			System.out.println(JsonUtils.toJsonString(organizationInfos));
