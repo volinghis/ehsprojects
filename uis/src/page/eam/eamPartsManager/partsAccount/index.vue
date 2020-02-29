@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ height: $store.state.contentHeight + 'px', padding: '10px', background: '#fff'}" class="cardHeight">
+    <div class="cardHeight">
     <div class="fromHeight" style="margin: 0px 0px;">
       <div style="width:20%;float:left;">
         <el-autocomplete class="inline-input" style="width:100%;" :size="GlobalCss.controlSize" :fetch-suggestions="querySearch"

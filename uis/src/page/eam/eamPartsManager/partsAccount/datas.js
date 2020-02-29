@@ -30,7 +30,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // this.$refs.multipleTable.removeRow(index)
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/deletePartsAccount', { params: { key: row.key } }).then(res => {
           if (res.data.resultType === 'ok') {
             this.$message({
@@ -96,7 +95,6 @@ export default {
     },
     getTableData: function () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getPartsAccountAll', this.form).then(res => {
-        console.log(res.data.dataList[0])
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       })
@@ -107,15 +105,14 @@ export default {
       // })
     },
     handleSelect: function (item) {
-      console.log(item)
     }
   },
   mounted: function () {
-    var hcard = document.querySelector('.cardHeight').offsetHeight
-    var hfrom = document.querySelector('.fromHeight').offsetHeight
-    var hpage = document.querySelector('.pageHeight').offsetHeight
-    var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    this.htable = (hcard - hfrom - hpage - hbutton - 45) + 'px'
+    // var hcard = document.querySelector('.cardHeight').offsetHeight
+    // var hfrom = document.querySelector('.fromHeight').offsetHeight
+    // var hpage = document.querySelector('.pageHeight').offsetHeight
+    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
+    // this.htable = (hcard - hfrom - hpage - hbutton - 45) + 'px'
     this.restaurants = this.loadAll()
     this.getTableData()
     this.loadAll()

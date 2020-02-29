@@ -55,12 +55,12 @@
                 <el-col :span="8">
                   <span class="info-title">预警值</span>:&nbsp;<span class="info-content">{{ eamItem.warningValue }}</span>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamItem.creationName }}</span>
                 </el-col>
                 <el-col :span="8">
                   <span class="info-title">创建时间</span>:&nbsp;<span class="info-content">{{ eamItem.creationTime }}</span>
-                </el-col>
+                </el-col> -->
               </el-row>
             </div>
           </div>

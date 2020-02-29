@@ -70,10 +70,10 @@
 		
 		<!-- 备件管理 -->
 		<menu dataCode="eamPartsManager" key="eamPartsManager" name="备件管理" url="" icon="fa-archive" leaf="false" sort="9992">
-			<menu dataCode="partsBaseInfo" key="partsBaseInfo" name="备件基础数据" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsBaseInfo/index"  sort="35">
+			<!-- <menu dataCode="partsBaseInfo" key="partsBaseInfo" name="备件基础数据" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsBaseInfo/index"  sort="35">
 				<menu dataCode="partsBaseInfoEdit" key="partsBaseInfoEdit" name="备件台账编辑" url="/eam/eamPartsManager/partsBaseInfo/component/edit/index" business="true" sort="351"></menu>
 				<menu dataCode="partsBaseInfoDetails" key="partsBaseInfoDetails" name="备件台账详情" url="/eam/eamPartsManager/partsBaseInfo/component/details/index" business="true" sort="352"></menu>
-			</menu>
+			</menu> -->
 			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsAccount/index"  sort="31">
 				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="备件台账详情页面 " url="/eam/eamPartsManager/partsAccount/component/details/index" business="true" sort="311"></menu>
 			</menu>
