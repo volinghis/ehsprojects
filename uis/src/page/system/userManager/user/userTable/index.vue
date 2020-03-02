@@ -14,17 +14,17 @@
     <el-table :data="tableData" ref="multipleTable" border :size="GlobalCss.controlSize" @row-dblclick="handleView" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column type="index" align="center" width="45"> </el-table-column>
-      <el-table-column prop="dataCode" label="工号" align="center" width="110"> </el-table-column>
-      <el-table-column prop="name" label="姓名" align="center" width="110"> </el-table-column>
-      <el-table-column prop="position" label="职务" align="center" width="100"> </el-table-column>
+      <el-table-column prop="dataCode" label="工号" align="center" > </el-table-column>
+      <el-table-column prop="name" label="姓名" align="center"> </el-table-column>
+      <el-table-column prop="position" label="职务" align="center"> </el-table-column>
       <el-table-column prop="gender" label="性别" align="center" width="90">
         <template slot-scope="scope">
           <el-tag size="small" v-if="scope.row.gender ==='男'">{{ scope.row.gender }}</el-tag>
           <el-tag size="small" v-else type="danger">{{ scope.row.gender }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="orgName" label="所属部门" align="center" width="110"> </el-table-column>
-      <el-table-column prop="telephone" label="手机" align="center" width="129"> </el-table-column>
+      <el-table-column prop="orgName" label="所属部门" align="center"> </el-table-column>
+      <el-table-column prop="telephone" label="手机" align="center"> </el-table-column>
       <el-table-column prop="state" label="启用状态" align="center" width="90">
         <template slot-scope="scope">
           <el-tooltip :content="scope.row.state===0 ? '启用中':'停用中'" placement="left">

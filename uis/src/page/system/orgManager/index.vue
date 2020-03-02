@@ -19,6 +19,7 @@
           <div class="refRoleTable">
             <template>
               <el-table :data="orgTableData" :size="GlobalCss.buttonSize" border>
+                <el-table-column type="index" align="center" width="45"> </el-table-column>
                 <el-table-column prop="dataCode" align="center" label="部门编码"></el-table-column>
                 <el-table-column prop="name" align="center" label="部门名称">
                 </el-table-column>
@@ -46,8 +47,7 @@
           <!--添加组织-->
           <el-dialog title="添加部门" :visible.sync="dialogTableVisible" width="30%" :before-close="handleClose">
             <div>
-              <el-form label-position="right" label-width="80px" ref="formLabelAlign" :rules="rules"
-                :model="formLabelAlign" :size="GlobalCss.buttonSize">
+              <el-form label-position="right" label-width="80px" ref="formLabelAlign" :rules="rules" :model="formLabelAlign" :size="GlobalCss.buttonSize">
                 <el-form-item label="部门编码:" prop="dataCode">
                   <el-input v-model="formLabelAlign.dataCode"></el-input>
                   <!-- <el-input v-model="formLabelAlign.dataCode" @blur.prevent="orgCodeValidation(formLabelAlign)"></el-input> -->

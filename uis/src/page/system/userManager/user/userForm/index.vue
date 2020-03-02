@@ -56,7 +56,7 @@
         </el-col>
         <el-col>
           <el-form-item label="备注：" prop="remark">
-            <el-input type="textarea" style="width:660px;" v-model="form.remark" placeholder="请输入内容" maxlength="300"
+            <el-input type="textarea" style="width:100%;" v-model="form.remark" placeholder="请输入内容" maxlength="300"
               :disabled="inputShow" show-word-limit>
             </el-input>
           </el-form-item>
