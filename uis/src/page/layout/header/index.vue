@@ -1,11 +1,22 @@
 <template>
   <div>
-    <div class="topleft"><i class="fa fa-paper-plane-o fa-3x"></i><span>设备管理系统</span></div>
+    <div class="topleft">
+      <div style="float:left;">
+        <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 25px;"></el-image>
+      </div>
+      <div style="float:right;">
+        <span>东恒快速开发平台</span><br>
+      </div>
+    </div>
     <div class="topright">
-      <i class='fa fa-user fa-1x'></i>
-      <span>{{sessionUser.username}}({{sessionUser.account}})</span>
-      <br>
-      <span @click="logout()" title="安全退出"><i class='fa el-icon-warning logout'></i></span></div>
+      <div style="float:left">
+        <el-avatar style="margin-right:10px;margin-top:15px;" :size="24" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      </div>
+      <div style="float:right;padding-top: 13px;">
+        <span style="margin-right:25px;">欢迎您，{{sessionUser.username}}({{sessionUser.account}})</span>
+        <span @click="logout()" title="安全退出"><i class='fa fa-sign-out logout'> 退出登录</i></span>
+      </div>
+    </div>
   </div>
 </template>
 <script>
