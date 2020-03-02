@@ -8,15 +8,8 @@
  */
 package com.ehs.common.organization.entity;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.organization.entity.entitysuper.OrganizationInfo;
 
 /**   

@@ -8,17 +8,11 @@
  */
 package com.ehs.common.organization.entity;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.entity.BaseEntity;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司

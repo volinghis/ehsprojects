@@ -59,6 +59,9 @@ public abstract  class OrgUser extends BaseEntity {
 	 */
 	private String dataCode;
 	
+	/**
+	 * 用户头像
+	 */
 	private String avatar;
 	
 	/**

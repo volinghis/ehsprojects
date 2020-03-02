@@ -13,20 +13,19 @@
     </div>
     <el-table :data="tableData" ref="multipleTable" border :size="GlobalCss.controlSize" @row-dblclick="handleView" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
-      <el-table-column type="index" align="center" width="40"> </el-table-column>
-      <el-table-column prop="dataCode" label="工号" align="center" width="100"> </el-table-column>
-      <el-table-column prop="name" label="姓名" align="center" width="100"> </el-table-column>
-      <el-table-column prop="position" label="职务" align="center" width="90"> </el-table-column>
-      <el-table-column prop="gender" label="性别" align="center" width="70">
+      <el-table-column type="index" align="center" width="45"> </el-table-column>
+      <el-table-column prop="dataCode" label="工号" align="center" width="110"> </el-table-column>
+      <el-table-column prop="name" label="姓名" align="center" width="110"> </el-table-column>
+      <el-table-column prop="position" label="职务" align="center" width="100"> </el-table-column>
+      <el-table-column prop="gender" label="性别" align="center" width="90">
         <template slot-scope="scope">
           <el-tag size="small" v-if="scope.row.gender ==='男'">{{ scope.row.gender }}</el-tag>
           <el-tag size="small" v-else type="danger">{{ scope.row.gender }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="orgName" label="所属部门" align="center" width="100"> </el-table-column>
-      <el-table-column prop="telephone" label="手机" align="center" width="118"> </el-table-column>
-      <el-table-column prop="position" label="职务" align="center" width="95"> </el-table-column>
-      <el-table-column prop="state" label="启用状态" align="center" width="80">
+      <el-table-column prop="orgName" label="所属部门" align="center" width="110"> </el-table-column>
+      <el-table-column prop="telephone" label="手机" align="center" width="129"> </el-table-column>
+      <el-table-column prop="state" label="启用状态" align="center" width="90">
         <template slot-scope="scope">
           <el-tooltip :content="scope.row.state===0 ? '启用中':'停用中'" placement="left">
             <el-switch @change="changeState($event,scope.row,scope.$index)" v-model="scope.row.state"
@@ -35,7 +34,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="220">
+      <el-table-column label="操作" align="center" width="230">
         <template slot-scope="scope">
           <el-button type="warning" :size="GlobalCss.controlSize" @click="authorizeUser(scope.row)" style="color:#E6A23C">授权</el-button>
           <el-button type="primary" :size="GlobalCss.controlSize" @click="editUser(scope.row)">编辑</el-button>
@@ -47,9 +46,9 @@
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
     <el-dialog title="员工信息" :visible.sync="dialogVisible" :destroy-on-close="true" width="50%">
-      <user-form ref="addUserForm" :userInfo="userInfo" class="userForm" :organName="organName" :organKey="organKey" :editUserForm="editUserForm"></user-form>
-      <el-divider></el-divider>
-      <span slot="footer" v-show="userInfo" class="dialog-footer">
+      <user-form ref="addUserForm" :userFlag="userFlag" :organName="organName" :organKey="organKey" :editUserForm="editUserForm"></user-form>
+      <!-- <el-divider></el-divider> -->
+      <span slot="footer" v-show="buttonShow" class="dialog-footer">
         <el-button @click="dialogVisible = false" :size="GlobalCss.controlSize">取 消</el-button>
         <el-button type="primary" @click="onSubmit" :size="GlobalCss.controlSize" style="margin-left:15px;">提 交</el-button>
       </span>
@@ -60,7 +59,6 @@
     </el-drawer>
     <el-dialog title="调岗" :destroy-on-close="true" :visible.sync="drawerTransfer"  width="30%">
       <el-divider></el-divider>
-      <!-- <userAuth @authResult="authResult" :user_key="userKey" :roleTable="roleTable"></userAuth> -->
        <el-tree node-key="id" :props="props" :load="loadNode" lazy highlight-current accordion @node-click="nodeClick"></el-tree>
        <el-divider></el-divider>
       <span slot="footer" class="dialog-footer">

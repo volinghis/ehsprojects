@@ -2,21 +2,29 @@ export default {
   props: {
     organName: String,
     organKey: String,
-    editUserForm: Object,
-    userInfo: String
+    userFlag: String,
+    editUserForm: Object
   },
   mounted () {
-    if (this.editUserForm.orgName !== this.orgName) {
-      this.form = this.editUserForm
-    } else {
+    if (this.userFlag === 'add') {
       this.form.orgKey = this.organKey
       this.form.orgName = this.organName
       this.form.gender = '男'
+      this.inputShow = false
+    } else {
+      this.form = this.editUserForm
+      if (this.userFlag === 'view') {
+        this.inputShow = true
+      }
     }
   },
   watch: {
-    userInfo: function (val) {
-      console.log('val==========' + val)
+    userFlag: function (val) {
+      if (val === 'view') {
+        this.inputShow = true
+      } else {
+        this.inputShow = false
+      }
     },
     organName (newValue, oldValue) {
       this.form.orgName = newValue
@@ -51,6 +59,7 @@ export default {
   },
   data () {
     return {
+      inputShow: false,
       form: {
         name: '',
         gender: '',

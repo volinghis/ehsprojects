@@ -6,6 +6,8 @@ export default {
   },
   data () {
     return {
+      node: {},
+      resolve: [],
       filterText: '',
       nodeParentKey: '',
       orgList: Array,
@@ -58,6 +60,8 @@ export default {
       }
       if (node.level === 1) {
         this.requestTreeNode(node, resolve)
+        this.node = node
+        this.resolve = resolve
       }
     },
     requestTreeNodeOne (resolve) {
@@ -205,15 +209,14 @@ export default {
           })
           this.dialogTableVisible = false
           this.findOrgsByParentKey(this.formLabelAlign.parentKey)
-          this.initTreeData()
           this.$refs.formLabelAlign.resetFields()
+          this.loadNode(this.node, this.resolve)
         }
         if (res.data.resultType === 'error') {
           this.$message({
             message: res.data.message,
             type: 'warning'
           })
-          console.log(this.form)
           this.formLabelAlign.dataCode = ''
         }
       })
