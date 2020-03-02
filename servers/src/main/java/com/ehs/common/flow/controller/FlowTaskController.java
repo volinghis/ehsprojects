@@ -53,7 +53,9 @@ public class FlowTaskController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/flow/task/findApplys")
 	public String findApplys(HttpServletRequest request, @RequestBody ApplysQueryBean pageBody) {
-		
+		if(StringUtils.isBlank(SysAccessUser.get().getUserKey())) {
+			return "[]";
+		}
 		pageBody.setUserKey(SysAccessUser.get().getUserKey());
 		PageInfoBean pib=new PageInfoBean();
 		PageInfoBean pip=flowProcessInfoService.findProcessInfo(pageBody);
@@ -89,6 +91,9 @@ public class FlowTaskController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/flow/task/findTasks")
 	public String findTasks(HttpServletRequest request, @RequestBody PageBody pageBody) {
+		if(StringUtils.isBlank(SysAccessUser.get().getUserKey())) {
+			return "[]";
+		}
 		PageInfoBean pib=new PageInfoBean();
 		
 		long count=taskService.createTaskQuery().taskAssignee(SysAccessUser.get().getUserKey()).active().count();
@@ -139,6 +144,9 @@ public class FlowTaskController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/flow/task/findDones")
 	public String findDones(HttpServletRequest request, @RequestBody PageBody pageBody) {
+		if(StringUtils.isBlank(SysAccessUser.get().getUserKey())) {
+			return "[]";
+		}
 		PageInfoBean pib=new PageInfoBean();
 		
 		long count=historyService.createHistoricTaskInstanceQuery().taskAssignee(SysAccessUser.get().getUserKey()).count();
