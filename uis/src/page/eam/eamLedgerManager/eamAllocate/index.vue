@@ -31,6 +31,7 @@
           <el-table :data="tableData"
                     style="width: 100%"
                     border
+                    @row-dblclick="handleViewClick"
                     @select="onChange"
                     size="medium">
             <el-table-column type="selection"
@@ -66,16 +67,6 @@
               </template>
            </el-table-column>
            <el-table-column prop="currentStepPerson" label="审核人" align="center"></el-table-column>
-            <el-table-column fixed="right" align="center" label="操作" width="180">
-              <template slot-scope="scope">
-                <el-button
-                  type="success"
-                  @click="handleViewClick(scope.row)"
-                  icon="fa fa-eye pull-left"
-                  :size="GlobalCss.buttonSize"
-                >查看</el-button>
-              </template>
-            </el-table-column>
           </el-table>
           <div class="pagination"
                style="float:right;margin-top:12px;">

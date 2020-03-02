@@ -74,6 +74,7 @@ export default {
     },
     handleNodeClick: function (n) {
       this.queryParam.nodeKey = n.id
+      console.log(this.queryParam)
       this.initTable()
     },
     handleQuery () {

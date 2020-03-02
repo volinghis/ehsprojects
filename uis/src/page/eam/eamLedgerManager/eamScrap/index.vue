@@ -29,7 +29,7 @@
 
       <div class="table-list">
         <template>
-          <el-table :data="tableData" style="width: 100%" border size="medium" @select="onChange">
+          <el-table :data="tableData" style="width: 100%" border size="medium" @row-dblclick="handleViewClick" @select="onChange">
             <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column prop="scrapNum" width="160" label="报废编号"></el-table-column>
             <el-table-column prop="applicationName" label="申请名称"></el-table-column>
@@ -47,16 +47,6 @@
               </template>
             </el-table-column>
             <el-table-column prop="currentStepPerson" label="审核人" align="center"></el-table-column>
-            <el-table-column fixed="right" align="center" label="操作" width="180">
-              <template slot-scope="scope">
-                <el-button
-                  type="success"
-                  @click="handleViewClick(scope.row)"
-                  icon="fa fa-eye pull-left"
-                  :size="GlobalCss.buttonSize"
-                >查看</el-button>
-              </template>
-            </el-table-column>
           </el-table>
           <div class="pagination" style="float:right;margin-top:12px;">
             <el-pagination

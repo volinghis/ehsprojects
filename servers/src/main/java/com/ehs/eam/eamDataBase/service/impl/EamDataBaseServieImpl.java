@@ -24,6 +24,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataFileInfoDao;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.data.entity.DataFileInfo;
+import com.ehs.common.data.service.DataDictionaryService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
 import com.ehs.eam.eamDataBase.dao.DataFileInfoCopyDao;
@@ -52,11 +53,11 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
         List<Predicate> ps=new ArrayList<Predicate>();
         Specification<DataFileInfoCopy> sf=(Root<DataFileInfoCopy> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
         	if(StringUtils.isNotBlank(querybean.getQuery())) {
-        		ps.add(cb.like(root.get(DataFileInfo.NAME), "%"+querybean.getQuery()+"%"));
+        		ps.add(cb.like(root.get(DataFileInfoCopy.NAME), "%"+querybean.getQuery()+"%"));
         	}
         	if (StringUtils.isNotBlank(querybean.getNodeKey())) {
         		
-				ps.add(cb.equal(root.get(DataFileInfo.CATEGORIES), querybean.getNodeKey()));
+				ps.add(cb.equal(root.get(DataFileInfoCopy.CATEGORIES), querybean.getNodeKey()));
 			}
         	ps.add(cb.or(cb.equal(root.get(BaseEntity.DATA_MODEL),DataModel.UPDATE), cb.equal(root.get(BaseEntity.DATA_MODEL), DataModel.CREATE)));
         	return cb.and(ps.toArray(new Predicate[0]));
@@ -69,6 +70,8 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 			if(!CollectionUtils.isEmpty(tempList)) {
 				for (DataFileInfoCopy df : tempList) {
 					DataFileInfo di=dataFileInfoDao.findDataFileInfoById(df.getFileId(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+					DataDictionary dd=baseCommonService.findByKey(DataDictionary.class, di.getCategories());
+					di.setCategories(dd.getText());
 					resultList.add(di);
 				}
 			}
@@ -92,7 +95,7 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 			DataFileInfoCopy dc=new DataFileInfoCopy();
 			dc.setFileId(fileInfo.getFileId());
 			dc.setName(fileInfo.getName());
-			dc.setCategories(dc.getCategories());
+			dc.setCategories(fileInfo.getCategories());
 			baseCommonService.saveOrUpdate(dc);
 		}  
 		
