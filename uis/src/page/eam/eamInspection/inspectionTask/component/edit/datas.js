@@ -55,11 +55,6 @@ export default {
   mounted () {
     const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.form.founder = user.username
-    // var flowInfo = JSON.parse(this.$route.params.processInfo)
-    // console.log('2222')
-    // console.log(flowInfo)
-    // console.log('2222')
-    // this.businessKey = flowInfo.businessKey
   },
   methods: {
     handlerSelect: function (val) {
@@ -79,8 +74,13 @@ export default {
         })
         .catch(_ => {})
     },
+    changeSelectOrg: function (val) {
+      this.form.responsibleDept = val
+    },
+    changeSelectUser: function (val) {
+      this.form.responsiblePerson = val
+    },
     handerSubmit: function (processInfo) {
-      console.log(processInfo)
       this.$refs.form.validate(valid => {
         if (valid) {
           const reParams = {
@@ -93,6 +93,8 @@ export default {
               this.$message({
                 message: res.data.message
               })
+              this.$router.push({ name: 'eamInspection' })
+              window.close()
             } else {
               this.$message.error(res.data.message)
             }

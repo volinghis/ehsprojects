@@ -2,10 +2,10 @@ export default {
   methods: {
     handleAdd: function () {
       // this.$router.push({ name: 'eamInspectionEdit' })
-      this.GlobalMethods.openFlowWin('eamInspectionEdit', { processDefineKey: 'EamInspectionTaskFlow' })
-      // this.GlobalMethods.openFlowWin(v.processPage, v, function () {
-      //   that.flushData()
-      // })
+      // this.GlobalMethods.openFlowWin('eamInspectionEdit', { processDefineKey: 'EamInspectionTaskFlow' })
+      this.GlobalMethods.openFlowWin('eamInspectionEdit', { processDefineKey: 'EamInspectionTaskFlow' }, function () {
+        this.getAllTask()
+      })
     },
     handleDelete: function () {
       this.$message({
@@ -17,7 +17,10 @@ export default {
       this.$router.push({ name: 'eamInspectionDetails' })
     },
     handleEdit: function (row) {
-      this.$router.push({ name: 'eamInspectionEdit' })
+      // this.$router.push({ name: 'eamInspectionEdit' })
+      this.GlobalMethods.openFlowWin('eamInspectionEdit', { processDefineKey: 'EamInspectionTaskFlow' }, function () {
+        this.getAllTask()
+      })
     },
     exportExcel: function () {
       this.$message('正在导出，请稍等···')
@@ -26,7 +29,6 @@ export default {
     },
     getAllTask: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamInspection/getAllTask', this.form).then(res => {
-        console.log(res.data)
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount
       })
