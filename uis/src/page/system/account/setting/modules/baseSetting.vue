@@ -9,21 +9,22 @@
                  :rules="rules">
           <el-divider content-position="center"><span style="color:#409EFF">基本信息</span></el-divider>
           <el-form-item label="账 号："
-                        prop="dataCode">
-            <el-input v-model="form.dataCode"></el-input>
+                        prop="dataCode"
+                        >
+            <el-input v-model="form.dataCode" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="姓 名："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.name" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="职 务："
                         prop="position">
-            <el-input v-model="form.position"></el-input>
+            <el-input v-model="form.position" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="部 门："
                         prop="orgName">
             <OrgSelect style="width:100%;" :propOrgValue="form.orgKey"
-                       v-model="form.orgKey"></OrgSelect>
+                       v-model="form.orgKey" :disabled="true"></OrgSelect>
           </el-form-item>
           <el-form-item label="邮 箱："
                         prop="email">
