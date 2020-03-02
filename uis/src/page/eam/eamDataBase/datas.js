@@ -1,10 +1,8 @@
 import UploadForm from './modules/uploadForm'
 import AutoComplete from '../components/autocomplete.vue'
-import pdf from 'vue-pdf'
 export default {
   components: {
     UploadForm,
-    pdf,
     AutoComplete
   },
   data () {
