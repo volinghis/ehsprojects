@@ -78,29 +78,24 @@ export default {
         two: spanTwoArr
       }
     },
-    handleCurrentChange: function (val) {
-      this.$message({
-        message: '恭喜你，这是一条成功消息',
-        type: 'success'
-      })
-    },
-    handleSelect: function () {
+    // handleSelect: function () {
 
-    },
-    querySearch: function (queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results)
-    },
-    createFilter: function (queryString) {
-      return (restaurant) => {
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-      }
-    },
+    // },
+    // querySearch: function (queryString, cb) {
+    //   var restaurants = this.restaurants
+    //   var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+    //   // 调用 callback 返回建议列表的数据
+    //   cb(results)
+    // },
+    // createFilter: function (queryString) {
+    //   return (restaurant) => {
+    //     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+    //   }
+    // },
     getTableData: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.form).then(res => {
         if (res.data.totalCount > 0) {
+          this.tableData = []
           res.data.dataList.forEach(element => {
             element.forEach(e => {
               this.tableData.push(Object.assign(e))

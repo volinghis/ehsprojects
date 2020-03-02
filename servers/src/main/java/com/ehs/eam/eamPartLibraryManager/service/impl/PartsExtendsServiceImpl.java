@@ -2,9 +2,11 @@ package com.ehs.eam.eamPartLibraryManager.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -76,7 +78,6 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 		if(enterWareHouses != null) {
 			for (EnterWareHouse enterWareHouse : enterWareHouses) {
 				Page<PartsExtends> page = partsExtendsDao.getExtendsByKey(enterWareHouse.getKey(),pageRequest);
-				System.out.println(JsonUtils.toJsonString(page));
 				if (page != null) {
 					List<PartsExtends> partsExtends = page.getContent();
 					if (partsExtends != null) {

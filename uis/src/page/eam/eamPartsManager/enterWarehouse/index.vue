@@ -1,8 +1,8 @@
 <template>
   <div class="cardHeight">
     <div class="fromHeight" style="margin: 0px 0px;">
-      <div style="width:25%;float:left;">
-        <el-autocomplete class="inline-input"
+      <div style="width:20%;float:left;">
+        <!-- <el-autocomplete class="inline-input"
                          :size="GlobalCss.controlSize"
                          style="width:100%;"
                          v-model="form.query"
@@ -10,7 +10,10 @@
                          placeholder="可搜索编号，名称，类型"
                          @select="handleSelect">
           <el-button slot="append" icon="el-icon-search" @click="() => (queryParam = {})"></el-button>
-        </el-autocomplete>
+        </el-autocomplete> -->
+        <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入备件名称或者备件编号">
+          <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
+        </el-input>
       </div>
       <div class="operatorHeight" style="float:right;">
         <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>
@@ -44,9 +47,7 @@
       <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
     </el-table>
       <div style="text-align:right;">
-        <el-pagination class="pageHeight" background @current-change="handleCurrentChange" :current-page.sync="form.page"
-                       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
-        </el-pagination>
+        <el-pagination class="pageHeight" background :current-page.sync="form.page" :page-size="form.size" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
       </div>
     </template>
   </div>
