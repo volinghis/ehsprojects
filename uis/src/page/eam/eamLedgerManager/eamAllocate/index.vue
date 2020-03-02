@@ -37,24 +37,35 @@
             <el-table-column type="selection"
                              width="50"> </el-table-column>
             <el-table-column prop="allocateNum"
+                             width="150"
+                             align="center"
                              label="调拨编号"></el-table-column>
             <el-table-column prop="applicationName"
+                             align="center"
                              label="申请名称"></el-table-column>
             <el-table-column prop="applicationTime"
+                             align="center"
                              label="申请时间"></el-table-column>
             <el-table-column prop="allocateDate"
+                             align="center"
                              label="调拨日期"></el-table-column>
             <el-table-column prop="applicant"
+                             align="center"
                              label="申请人"></el-table-column>
             <el-table-column prop="profession"
+                             align="center"
                              label="调出部门"></el-table-column>
             <el-table-column prop="installLocation"
+                             align="center"
                              label="调出位置"></el-table-column>
             <el-table-column prop="targetDept"
+                             align="center"
                              label="调入部门"></el-table-column>
             <el-table-column prop="targetPosition"
+                             align="center"
                              label="调入位置"></el-table-column>
             <el-table-column prop="allocateReason"
+                             align="center"
                              label="调拨原因"></el-table-column>
             <el-table-column prop="status"
                              align="center"
@@ -65,8 +76,10 @@
                           :type="scope.row.status === '已结束' ? 'danger' : 'success'">{{ scope.row.status}}</el-tag>
                 </div>
               </template>
-           </el-table-column>
-           <el-table-column prop="currentStepPerson" label="审核人" align="center"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="currentStepPerson"
+                             label="审核人"
+                             align="center"></el-table-column>
           </el-table>
           <div class="pagination"
                style="float:right;margin-top:12px;">

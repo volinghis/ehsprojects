@@ -6,7 +6,6 @@ export default {
   },
   mounted () {
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    console.log(this.sessionUser)
   },
   methods: {
     logout () {

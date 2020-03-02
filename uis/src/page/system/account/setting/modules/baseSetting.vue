@@ -4,6 +4,7 @@
       <el-col :span="12">
         <el-form ref="form"
                  :model="form"
+                 disabled
                  :size="GlobalCss.buttonSize"
                  label-width="100px"
                  :rules="rules">
