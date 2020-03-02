@@ -8,8 +8,8 @@
               <el-input v-model="form.inspTaskCode" placeholder="不用填写，系统自动生成"></el-input>
             </el-form-item>
             <el-form-item label="责任部门：" prop="responsibleDept">
-              <!-- <org v-model="form.responsibleDept" style="width:100%"></org> -->
-              <el-input v-model="form.responsibleDept"></el-input>
+              <org style="width:100%" @change="changeSelectOrg"></org>
+              <!-- <el-input v-model="form.responsibleDept"></el-input> -->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -17,8 +17,8 @@
               <el-input v-model="form.inspTaskName"></el-input>
             </el-form-item>
             <el-form-item label="责任人：" prop="responsiblePerson">
-              <!-- <user v-model="form.responsiblePerson" style="width:100%"></user> -->
-              <el-input v-model="form.responsiblePerson"></el-input>
+              <user style="width:100%" @change="changeSelectUser"></user>
+              <!-- <el-input v-model="form.responsiblePerson"></el-input> -->
             </el-form-item>
           </el-col>
           <el-col :span="6">

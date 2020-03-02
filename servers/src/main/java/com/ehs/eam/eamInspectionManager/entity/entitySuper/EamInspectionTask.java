@@ -8,10 +8,23 @@ import javax.persistence.MappedSuperclass;
 import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: EamInspectionTask.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年1月19日 上午10:28:06 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年1月19日     zhaol           v1.0.0               修改原因
+*/
 @MappedSuperclass
 public abstract class EamInspectionTask extends FlowBaseEntity{
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 	
 	public static final String INSPTASK_CODE = "inspTaskCode";
