@@ -12,6 +12,7 @@ export default {
   },
   data () {
     return {
+      currentUserKey: '',
       currentOrgKey: '',
       currentOrgName: '',
       userTableData: [],
@@ -37,6 +38,8 @@ export default {
   mounted () {
     this.initTreeData()
     this.findUserByOrgKey()
+    // const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    // this.currentUserKey = user.userKey
   },
   methods: {
     loadNode (node, resolve) {
@@ -48,13 +51,13 @@ export default {
       }
     },
     requestTreeNodeOne (resolve) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode').then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/getTreeLazyNode').then(res => {
         resolve(res.data)
       })
     },
     requestTreeNode (node, resolve) {
       if (node) {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/getTreeLazyNode', { params: { id: node.data.id } }).then(res => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/getTreeLazyNode', { params: { id: node.data.id } }).then(res => {
           resolve(res.data)
         })
       }

@@ -1,5 +1,6 @@
 package com.ehs.common.organization.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,8 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.bean.OrgQueryBean;
+import com.ehs.common.organization.bean.OrgTreeNodeLazy;
 import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
 import com.ehs.common.organization.bean.UserRolesBean;
@@ -28,6 +32,7 @@ import com.ehs.common.organization.bean.UserTreeDataBean;
 import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
+import com.ehs.common.organization.service.OrganizationService;
 
 /**   
 * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
@@ -51,6 +56,9 @@ public class OrgUserController {
 	
 	@Resource
 	private OrgUserService orgUserService;
+	
+	@Resource
+	private OrganizationService organizationService;
 	
 	/**
 	 * 
@@ -116,7 +124,40 @@ public class OrgUserController {
 		return JsonUtils.toJsonString(users);
 	}
 	
-
+	@RequestAuth(menuKeys = {"userManager"})
+	@RequestMapping(value = "/auth/orgUser/getTreeLazyNode")
+	@ResponseBody
+	public String getTreeNode(@RequestParam(required = false) String id) {
+		List<OrgTreeNodeLazy> trees=new ArrayList<OrgTreeNodeLazy>();
+		if(StringUtils.isBlank(id)) {
+			OrganizationInfo organizationInfo = organizationService.getFirstNode();
+			OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
+			tn.setId(organizationInfo.getKey());
+			tn.setPid(organizationInfo.getParentKey());
+			tn.setName(organizationInfo.getName());
+			tn.setLeaf(false);
+			System.out.println(JsonUtils.toJsonString(tn));
+			trees.add(tn);
+		}else {
+			List<OrganizationInfo> orgs = organizationService.getChildNode(id);
+			if (orgs != null && orgs.size() > 0) {
+				for (OrganizationInfo organizationInfo : orgs) {
+					if(StringUtils.equals(organizationInfo.getParentKey(), id)) {
+						OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
+						tn.setId(organizationInfo.getKey());
+						tn.setPid(organizationInfo.getParentKey());
+						tn.setName(organizationInfo.getName());
+		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
+		    			tn.setLeaf(list==null||list.size()<1);
+		    			System.out.println(JsonUtils.toJsonString(tn));
+		    			trees.add(tn);
+					}
+				}
+			}
+		}
+		return (trees==null?"[]":JsonUtils.toJsonString(trees));
+	}
+	
 	
 	/**
 	 * 

@@ -3,6 +3,7 @@ import userAuth from '../../userAuth/index.vue'
 export default {
   data () {
     return {
+      // authorizeButton: false,
       multipleSelection: [],
       nodeId: '',
       drawer: false,
@@ -41,8 +42,12 @@ export default {
     organizationChildren: Boolean,
     totals: Number,
     userDatas: Array
+    // currentUserKey: String
   },
   watch: {
+    // currentUserKey: function (val) {
+    //   this.initRoleTable(val)
+    // },
     userDatas: {
       handler (val) {
         if (val) {
@@ -65,6 +70,17 @@ export default {
     }
   },
   methods: {
+    // filterByName: function (aim, dataCode) {
+    //   return aim.filter(item => item.dataCode === dataCode)
+    // },
+    // initRoleTable (val) { // 获取所有待选角色
+    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserRoles', { params: { userKey: val } }).then(res => {
+    //     let role = this.filterByName(res.data, 'sysAdmin')
+    //     if (role.length) {
+    //       this.authorizeButton = true
+    //     }
+    //   })
+    // },
     saveTransfer: function () {
       const orguser = {
         orgKey: this.nodeId,
