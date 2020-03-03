@@ -63,7 +63,7 @@ export default {
     handleCurrentChange () {},
     getLeftMenuRoles () { // 获取所有待选角色
       this.form['menuKey'] = this.currentMenuKey
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/menu/findAllRolesByMenuKey', this.form).then(
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/menu/findLeftRolesByMenuKey', this.form).then(
         res => {
           this.tableData = res.data.dataList
           this.totalCount = res.data.totalCount

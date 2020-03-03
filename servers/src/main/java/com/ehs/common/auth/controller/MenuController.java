@@ -205,10 +205,10 @@ public class MenuController {
 	 * 获取待选择角色列表
 	 */
 	@RequestAuth(menuKeys = {"menuManager"})
-	@RequestMapping(value = "/auth/menu/findAllRolesByMenuKey")
+	@RequestMapping(value = "/auth/menu/findLeftRolesByMenuKey")
 	@ResponseBody
-	public String findAllRolesByMenuKey(@RequestBody RoleQueryBean roleQueryBean,HttpServletResponse response) {
-		PageInfoBean pb = roleService.findRoles(roleQueryBean);
+	public String findLeftRolesByMenuKey(@RequestBody RoleQueryBean roleQueryBean,HttpServletResponse response) {
+		PageInfoBean pb = menuService.findLeftRolesByMenuKey(roleQueryBean);
 		 return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
