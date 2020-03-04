@@ -3,7 +3,7 @@
     <el-dialog title="新增设备资料" width="30%" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form">
         <el-form-item label="上传资料:" :label-width="formLabelWidth">
-          <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange"></file-upload>
+          <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange" ref="myUpload"></file-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -51,6 +51,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/dataBase/saveDataFileInfo', { params: { fileId: fileId } }).then(res => {
           if (res.data.resultType === 'ok') {
             this.dialogFormVisible = false
+            this.$refs.myUpload.$children[0].clearFiles()// 清理文件列表
             this.$emit('flushData')
           }
         }).catch(error => {

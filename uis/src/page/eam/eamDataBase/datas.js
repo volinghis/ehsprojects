@@ -37,7 +37,6 @@ export default {
     handleViewClick: function (scope) {
       var url = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
       this.pdfSrc = url
-      // this.pdfSrc = pdf.createLoadingTask(url)
       this.viewVisible = true
     },
     handleDownLoadClick: function (scope) {
@@ -64,6 +63,8 @@ export default {
         return require('@/assets/images/fileType/excle.png')
       } else if (fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg') {
         return require('@/assets/images/fileType/img.png')
+      } else if (fileType === 'pdf') {
+        return require('@/assets/images/fileType/pdf.png')
       }
     },
     handlePageChange: function (v) {

@@ -15,7 +15,10 @@
           </span>
         </el-tree>
       </el-col>
-      <el-col :span="19">
+      <el-col :span="1">
+        <el-divider direction="vertical"></el-divider>
+      </el-col>
+      <el-col :span="18">
         <el-row>
           <el-col class="searchCol">
             <el-row type="flex"
