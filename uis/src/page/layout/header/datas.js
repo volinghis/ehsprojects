@@ -1,6 +1,7 @@
 export default {
   data () {
     return {
+      dhUrl: require('@/assets/dongheng.svg'),
       sessionUser: {}
     }
   },

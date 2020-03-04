@@ -45,11 +45,11 @@ public class MenuServiceImpl implements MenuService {
 		childrenMenus.add(sm);
 		createChildrenMenu(menus, childrenMenus, sm.getKey());
 		for (SysMenu s : childrenMenus) {
-			if(s.getRoles()!=null) {
+			if (s.getRoles() != null) {
 				List<RoleBean> roleBeans = JsonUtils.parseList(s.getRoles(), RoleBean.class);
 				roleBeans.addAll(menuRolesBean.getRoleList());
 				s.setRoles(JsonUtils.toJsonString(roleBeans));
-			}else {
+			} else {
 				s.setRoles(JsonUtils.toJsonString(menuRolesBean.getRoleList()));
 			}
 			baseCommonService.saveOrUpdate(s);
@@ -84,34 +84,31 @@ public class MenuServiceImpl implements MenuService {
 		}
 	}
 
-	/** 
-	* @see com.ehs.common.auth.service.MenuService#findLeftRolesByMenuKey(com.ehs.common.auth.bean.RoleQueryBean)  
-	*/
+	/**
+	 * @see com.ehs.common.auth.service.MenuService#findLeftRolesByMenuKey(com.ehs.common.auth.bean.RoleQueryBean)
+	 */
 	@Override
 	public PageInfoBean findLeftRolesByMenuKey(RoleQueryBean queryBean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize());
 		Page<SysRole> allRoles = rolesDao.findRoles(queryBean.getQuery(), pageRequest);
-		
-		List<SysRole> resultList=new ArrayList<SysRole>();
-		//当前菜单已有角色
-		List<SysRole> roles=roleService.findRolesByMenuKey(queryBean.getMenuKey());
-		if(roles==null||roles.isEmpty()) {
-		  resultList=allRoles.getContent().stream().filter(
-					s->(!StringUtils.equals(s.getKey(), "sysAdminRoleKey"))
-					).collect(Collectors.toList());
+
+		List<SysRole> resultList = new ArrayList<SysRole>();
+		// 当前菜单已有角色
+		List<SysRole> roles = roleService.findRolesByMenuKey(queryBean.getMenuKey());
+		if (roles == null || roles.isEmpty()) {
+			resultList = allRoles.getContent();
+		} else {
+			resultList = allRoles.getContent().stream()
+					.filter(s -> roles.stream()
+							.allMatch(ss -> (!StringUtils.equals(s.getKey(), ss.getKey()))
+									))
+					.collect(Collectors.toList());
 		}
-		 resultList=allRoles.getContent().stream().filter(
-				s->roles.stream().allMatch(ss->(!StringUtils.equals(s.getKey(), ss.getKey()))
-				&&(!StringUtils.equals(s.getKey(), "sysAdminRoleKey")))
-				).collect(Collectors.toList());
-	
-		 if(resultList==null||resultList.isEmpty()) {
-				return null;
-		}
+
 		PageInfoBean pb = new PageInfoBean();
 		pb.setDataList(resultList);
-		pb.setTotalCount(resultList.size());
+		pb.setTotalCount(allRoles.getTotalElements());
 		return pb;
 	}
 }
