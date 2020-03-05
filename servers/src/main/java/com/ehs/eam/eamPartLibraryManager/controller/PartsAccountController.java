@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -109,8 +110,9 @@ public class PartsAccountController {
 	 */
 	@RequestAuth(menuKeys = {"partsAccount"})
 	@RequestMapping(value = "/getPartsAccountAll")
-	public String getPartsAccountAll(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+	public String getPartsAccountAll(@RequestBody(required = false) QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getPartsAccountAll方法=============");
+		System.out.println(JsonUtils.toJsonString(queryBean));
 		PageInfoBean pb = partsAccountService.findPartsAccountAll(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}

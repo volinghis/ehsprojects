@@ -20,11 +20,14 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 	public PartsExtends findByDeviceCode(String deviceCode);
 
 	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<PartsExtends> getExtendsByKey(String key, PageRequest pageRequest);
+	public Page<PartsExtends> getExtendsByKey(String key,PageRequest pageRequest);
 	
 	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsExtends> getAllByWareHouseKey(String wareHouseKey);
 
 	@Query(" select p from PartsExtends p where p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<PartsExtends> getAll(PageRequest pageRequest);
+
+	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+PartsExtends.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public List<PartsExtends> getExtendsByKey(String key);
 }

@@ -1,6 +1,7 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -107,10 +108,19 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
 		Page<PartsAccount> parts = partsAccountDao.findPartsAccountAll(pageRequest);
 		if (parts!=null) {
-			PageInfoBean pb=new PageInfoBean();
-			pb.setDataList(parts.getContent());
-			pb.setTotalCount(parts.getTotalElements());
-			return pb;
+			if(StringUtils.isNotBlank(queryBean.getQuery()) ) {
+				List<PartsAccount> partsAccounts =parts.getContent().stream().filter(s -> StringUtils.contains(s.getDeviceCode(), queryBean.getQuery()) 
+						|| StringUtils.contains(s.getDeviceName(), queryBean.getQuery())).collect(Collectors.toList());
+				PageInfoBean pb=new PageInfoBean();
+				pb.setDataList(partsAccounts);
+				pb.setTotalCount(partsAccounts.size());
+				return pb;
+			}else {
+				PageInfoBean pb=new PageInfoBean();
+				pb.setDataList(parts.getContent());
+				pb.setTotalCount(parts.getTotalElements());
+				return pb;
+			}
 		}
 		return null;
 	}

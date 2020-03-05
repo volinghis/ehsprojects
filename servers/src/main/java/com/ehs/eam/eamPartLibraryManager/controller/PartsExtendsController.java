@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,15 +49,14 @@ public class PartsExtendsController {
 	}
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllEnterWareHouseParts")
-	public String getAllEnterWareHouseParts(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+	public String getAllEnterWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getExtendsByKey方法=============");
-//		String key=request.getParameter("key");
 		PageInfoBean pb = partsExtendsService.getAllEnterWareHouseParts(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllOutWareHouseParts")
-	public String getAllOutWareHouseParts(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+	public String getAllOutWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getExtendsByKey方法=============");
 //		String key=request.getParameter("key");
 		PageInfoBean pb = partsExtendsService.getAllOutWareHouseParts(queryBean);

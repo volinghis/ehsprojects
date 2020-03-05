@@ -79,7 +79,6 @@ export default {
       }
     },
     // handleSelect: function () {
-
     // },
     // querySearch: function (queryString, cb) {
     //   var restaurants = this.restaurants
@@ -92,30 +91,23 @@ export default {
     //     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
     //   }
     // },
+    // loadAll: function () {
+    // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getSuggestions').then(res => {
+    //   this.restaurants = res.data
+    // })
+    // }
     getTableData: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.form).then(res => {
-        if (res.data.totalCount > 0) {
-          this.tableData = []
-          res.data.dataList.forEach(element => {
-            element.forEach(e => {
-              this.tableData.push(Object.assign(e))
-              this.totalCount = this.tableData.length
-            })
-          })
-        }
+        this.tableData = res.data.dataList
+        this.totalCount = this.tableData.length
       })
-    },
-    loadAll: function () {
-      // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getSuggestions').then(res => {
-      //   this.restaurants = res.data
-      // })
     }
   },
   mounted: function () {
-    this.restaurants = this.loadAll()
-    this.loadAll()
     this.getTableData()
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    // this.restaurants = this.loadAll()
+    // this.loadAll()
+    // this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {

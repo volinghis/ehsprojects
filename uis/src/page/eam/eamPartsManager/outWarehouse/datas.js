@@ -75,48 +75,42 @@ export default {
         two: spanTwoArr
       }
     },
-    querySearch: function (queryString, cb) {
-      var restaurants = this.restaurants
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-      // 调用 callback 返回建议列表的数据
-      cb(results)
-    },
-    createFilter: function (queryString) {
-      return (restaurant) => {
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-      }
-    },
-    handleSelect: function (item) {
-      console.log(item)
-    },
-    loadAll: function () {
-      // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getSuggestions').then(res => {
-      //   this.restaurants = res.data
-      // })
-    },
+    // querySearch: function (queryString, cb) {
+    //   var restaurants = this.restaurants
+    //   var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+    //   // 调用 callback 返回建议列表的数据
+    //   cb(results)
+    // },
+    // createFilter: function (queryString) {
+    //   return (restaurant) => {
+    //     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+    //   }
+    // },
+    // handleSelect: function (item) {
+    //   console.log(item)
+    // },
+    // loadAll: function () {
+    // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getSuggestions').then(res => {
+    //   this.restaurants = res.data
+    // })
+    // },
     getTableData: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllOutWareHouseParts', this.form).then(res => {
-        if (res.data.totalCount > 0) {
-          res.data.dataList.forEach(element => {
-            element.forEach(e => {
-              this.tableData.push(Object.assign(e))
-              this.totalCount = this.tableData.length
-            })
-          })
-        }
+        this.tableData = res.data.dataList
+        this.totalCount = this.tableData.length
       })
     }
   },
   mounted: function () {
-    var hcard = document.querySelector('.cardHeight').offsetHeight
-    var hfrom = document.querySelector('.fromHeight').offsetHeight
-    var hpage = document.querySelector('.pageHeight').offsetHeight
-    var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    this.htable = (hcard - hfrom - hpage - hbutton - 25) + 'px'
-    this.restaurants = this.loadAll()
-    this.loadAll()
     this.getTableData()
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    // var hcard = document.querySelector('.cardHeight').offsetHeight
+    // var hfrom = document.querySelector('.fromHeight').offsetHeight
+    // var hpage = document.querySelector('.pageHeight').offsetHeight
+    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
+    // this.htable = (hcard - hfrom - hpage - hbutton - 25) + 'px'
+    // this.restaurants = this.loadAll()
+    // this.loadAll()
+    // this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {
