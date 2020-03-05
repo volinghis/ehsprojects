@@ -21,13 +21,13 @@
               <el-table :data="orgTableData" :size="GlobalCss.buttonSize" border>
                 <el-table-column type="index" align="center" width="45"> </el-table-column>
                 <el-table-column prop="dataCode" align="center" label="部门编码"></el-table-column>
-                <el-table-column prop="name" align="center" label="部门名称">
-                </el-table-column>
+                <el-table-column prop="name" align="center" label="部门名称"></el-table-column>
+                <el-table-column prop="sort" align="center" label="排序" width="120"></el-table-column>
                 <!-- <el-table-column prop="name"
                                    align="center"
                                    label="业务权限">
                   </el-table-column> -->
-                <el-table-column align="center" width="240" label="操作">
+                <el-table-column align="center" width="200" label="操作">
                   <template slot-scope="scope">
                     <!-- <el-button type="warning"
                                  :size="GlobalCss.buttonSize"
