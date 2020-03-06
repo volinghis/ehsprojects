@@ -1,16 +1,16 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5">
+      <el-col :span="5" style="border-right:1px solid #DCDFE6;margin-right:15px;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
         <!-- <el-input placeholder="输入关键字进行查找" :size="GlobalCss.buttonSize" v-model="filterText"></el-input> -->
         <!-- <el-tree :data="treeData"  node-key="id"  ref="tree" :props="treeProps" :default-expanded-keys="defaultExpandKeys"
                    @node-click="handleNodeClick" :filter-node-method="filterNode" highlight-current :expand-on-click-node="false">
           </el-tree> -->
         <el-tree :props="props" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
       </el-col>
-      <el-col :span="1">
+      <!-- <el-col :span="1">
         <el-divider direction="vertical"></el-divider>
-      </el-col>
+      </el-col> -->
       <el-col :span="18">
         <div class="container">
           <div class="operation">
@@ -23,15 +23,10 @@
                 <el-table-column prop="dataCode" align="center" label="部门编码"></el-table-column>
                 <el-table-column prop="name" align="center" label="部门名称"></el-table-column>
                 <el-table-column prop="sort" align="center" label="排序" width="120"></el-table-column>
-                <!-- <el-table-column prop="name"
-                                   align="center"
-                                   label="业务权限">
-                  </el-table-column> -->
+                <!-- <el-table-column prop="name" align="center" label="业务权限"></el-table-column> -->
                 <el-table-column align="center" width="200" label="操作">
                   <template slot-scope="scope">
-                    <!-- <el-button type="warning"
-                                 :size="GlobalCss.buttonSize"
-                                 @click="handleAuthToOrg(scope.row)">授权</el-button> -->
+                    <!-- <el-button type="warning" :size="GlobalCss.buttonSize" @click="handleAuthToOrg(scope.row)">授权</el-button> -->
                     <el-button type="primary" :size="GlobalCss.buttonSize" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" :size="GlobalCss.buttonSize" @click="handleRemove(scope.row)">删除
                     </el-button>

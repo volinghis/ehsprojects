@@ -107,10 +107,14 @@ export default {
       this.nodeId = Object.assign(node.id)
     },
     transferUser: function () {
-      if (this.multipleSelection) {
+      console.log(this.multipleSelection)
+      if (this.multipleSelection.length > 0) {
         this.drawerTransfer = true
       } else {
-        this.$refs.multipleTable.clearSelection()
+        this.$message({
+          message: '请先选择调岗人员',
+          type: 'warning'
+        })
       }
     },
     handleSelectionChange: function (val) {
@@ -125,7 +129,7 @@ export default {
       if (node.level === 0) {
         this.requestTreeNodeOne(resolve)
       }
-      if (node.level === 1) {
+      if (node.level >= 1) {
         this.requestTreeNode(node, resolve)
       }
     },
