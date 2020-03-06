@@ -2,11 +2,20 @@ export default {
   data () {
     return {
       dhUrl: require('@/assets/dongheng.svg'),
+      avatarUrl: '',
       sessionUser: {}
     }
   },
   mounted () {
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    this.sessionUser = currUser
+    if (currUser.avatar !== null) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + currUser.avatar, { responseType: 'blob' }).then((res) => {
+        this.avatarUrl = URL.createObjectURL(res.data)
+      })
+    } else {
+      this.avatarUrl = require('@/assets/Avatar.svg')
+    }
   },
   methods: {
     logout () {

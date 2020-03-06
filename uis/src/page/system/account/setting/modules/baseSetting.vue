@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="12">
+      <el-col :span="12" style="margin-left:70px;">
         <el-form ref="form"
                  :model="form"
                  :size="GlobalCss.buttonSize"
@@ -42,10 +42,6 @@
             <el-input v-model="form.telephone"></el-input>
           </el-form-item>
           <el-divider content-position="center"><span style="color:#409EFF">辅助信息</span></el-divider>
-          <el-form-item label="员工工号："
-                        prop="jobNum">
-            <el-input v-model="form.jobNum"></el-input>
-          </el-form-item>
           <el-form-item label="员工学历："
                         prop="education">
             <el-input v-model="form.education"></el-input>
@@ -76,21 +72,21 @@
                        @click="onSubmit('form')">保存</el-button>
             <el-button type="primary"
                        :size="GlobalCss.buttonSize"
-                       @click="onSubmit('form')">重置</el-button>
+                       @click="resetForm('form')">取消</el-button>
           </el-form-item>
         </el-form>
       </el-col>
 
-      <el-col :span="12"
+      <el-col :span="10"
               style="text-align: center;">
         <el-upload class="avatar-uploader"
                    :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                    :show-file-list="false"
                    :on-success="handleAvatarSuccess"
                    :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl"
+          <el-image v-if="imageUrl"
                :src="imageUrl"
-               class="avatar">
+               class="avatar"></el-image>
           <i v-else
              class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -121,7 +117,6 @@ export default {
         position: '',
         orgName: '',
         telephone: '',
-        jobNum: '',
         education: '',
         graduatedSchool: '',
         homeTown: '',
@@ -153,19 +148,9 @@ export default {
         }]
       }],
       rules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
         telephone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 11, max: 11, message: '11位手机号码', trigger: 'blur' }
-        ],
-        region: [
-          { required: true, message: '请选择居住地', trigger: 'change' }
-        ],
-        desc: [
-          { required: true, message: '请填写个人简介', trigger: 'blur' }
         ]
       }
     }
@@ -183,9 +168,9 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: code } })
         .then((res) => {
           var fileId = res.data.avatar
-          console.log(res.data.avatar)
           this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
             this.imageUrl = URL.createObjectURL(res.data)
+            console.log(this.imageUrl)
           })
           this.form = res.data
         })
@@ -197,7 +182,7 @@ export default {
             .then((res) => {
               if (res.data.resultType === 'ok') {
                 this.$message({
-                  type: 'sucess',
+                  type: 'success',
                   message: res.data.message
                 })
               }
@@ -211,7 +196,7 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
-      this.dialogFormVisible = false
+      this.initForm()
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
