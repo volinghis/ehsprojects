@@ -31,7 +31,7 @@
             </template>
           </div>
           <!--添加组织-->
-          <el-dialog title="添加部门" :visible.sync="dialogTableVisible" width="40%" :before-close="handleClose">
+          <el-dialog title="编辑页面" :visible.sync="dialogTableVisible" width="40%" :before-close="handleClose">
             <el-divider></el-divider>
             <div>
               <el-form label-position="right" label-width="80px" ref="formLabelAlign" :rules="rules" :model="formLabelAlign" :size="GlobalCss.buttonSize">
