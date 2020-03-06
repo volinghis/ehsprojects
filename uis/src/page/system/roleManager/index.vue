@@ -20,8 +20,8 @@
         <!-- <el-table-column prop="updateTime" label="更新时间"></el-table-column> -->
         <el-table-column fixed="right" label="操作" align="center" width="180">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.row)" type="primary" :size="GlobalCss.buttonSize" icon="fa fa-pencil pull-left">编辑</el-button>
-            <el-button type="danger" @click="handleDelete(scope.row)" icon="fa fa-trash-o pull-left" :size="GlobalCss.buttonSize">删除</el-button>
+            <el-button @click="handleEdit(scope.row)" type="primary" :size="GlobalCss.buttonSize" >编辑</el-button>
+            <el-button type="danger" @click="handleDelete(scope.row)" :size="GlobalCss.buttonSize">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

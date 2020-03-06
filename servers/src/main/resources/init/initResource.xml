@@ -25,7 +25,7 @@
 			<menu dataCode="userBaseSetting" key="userBaseSetting" name="个人资料" url="/system/account/setting/baseSetting" icon="fa-user"  parentKey="systemManager"  sort="421"  business="true"></menu>
 			<menu dataCode="roleManager" key="roleManager" name="角色管理" url="/system/roleManager/index" icon="fa-user"  parentKey="systemManager"  sort="43" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 			<menu dataCode="menuManager" key="menuManager" name="菜单授权" url="/system/menuManager/index" icon="fa-list"  parentKey="systemManager"  sort="44" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			
+			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-list"  parentKey="systemManager"  sort="45" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 		</menu>
 		
 	

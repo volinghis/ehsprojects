@@ -20,6 +20,7 @@ import com.ehs.common.auth.bean.LoginInfoBean;
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.entity.SysUser;
 import com.ehs.common.auth.interfaces.RequestAuth;
+import com.ehs.common.auth.service.LoginLogService;
 import com.ehs.common.auth.service.LoginService;
 import com.ehs.common.auth.utils.SessionBean;
 import com.ehs.common.base.utils.BaseUtils;
@@ -48,6 +49,9 @@ public class LoginController {
 	
 	@Resource
 	private SessionBean sessionBean;
+	
+	@Resource
+	private LoginLogService loginLogService;
 
 	/**
 	 * 
@@ -81,6 +85,8 @@ public class LoginController {
 		if (sysUser.getState()!=null&&sysUser.getState()==1) {
 				return JsonUtils.toJsonString(resultBean.error("用户已被锁定"));
 		}
+		//记录登录日志
+		loginLogService.addLoginLog(sysUser.getKey(), BaseUtils.getIpAddress(request));
 		sessionBean.login(sysUser.getKey(), request);
 		return JsonUtils.toJsonString(resultBean.ok("认证成功"));
 		
@@ -107,7 +113,6 @@ public class LoginController {
 	@RequestMapping(value = "/auth/login/doLogout")
 	public String doLogout(HttpServletRequest request, HttpServletResponse response) {
 		sessionBean.logout(request);
-		//LoginResultBean loginResultBean=new LoginResultBean();
 		ResultBean resultBean=new ResultBean();
 		return JsonUtils.toJsonString(resultBean.ok("退出成功"));
 	}
