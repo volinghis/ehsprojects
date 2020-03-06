@@ -35,12 +35,11 @@ export default {
           message: '请选择要删除项'
         })
       } else {
-        var keys = []; var keysStr
+        var keysStr = ''
         this.multipleSelection.forEach(e => {
-          keys.push(e.key)
+          keysStr += e.key + ','
         })
-        keysStr = keys.join(',')
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/loginLog/deleteLoginLog', { params: { keys: keysStr } })
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/loginLog/deleteLoginLog', { params: { keys: keysStr.substring(0, keysStr.length - 1) } })
           .then((res) => {
             if (res.data.resultType === 'ok') {
               this.$message({
