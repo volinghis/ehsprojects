@@ -125,7 +125,7 @@ public class DataDictionaryController {
 	@RequestMapping(value = "/findDatasByParentCode")
 	@ResponseBody
 	public String getAllOrgsTable(HttpServletRequest request,HttpServletResponse response, OrgQueryBean queryBean) {
-		String parentCode = request.getParameter("parentCode");
+		String parentCode = request.getParameter("parentKey");
 		PageInfoBean pb = dataDictionaryService.getAllDatasTable(parentCode,queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
