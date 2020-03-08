@@ -2,6 +2,7 @@ package com.ehs.common.data.service.impl;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataDictionaryDao;
 import com.ehs.common.data.entity.DataDictionary;
@@ -42,6 +44,13 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 	@Resource
 	private BaseCommonService baseCommonService;
 
+	
+	@Override
+	public List<DataDictionary> findDataDictByParentKey(String key) {
+		return dataDictionaryDao.findDataDictByParentKey(key, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+	}
+
+	
 	/**
 	 * 
 	* @see com.ehs.common.data.service.DataDictionaryService#getFirstNode()  
@@ -95,9 +104,10 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 			return null;
 		}
 		Page<DataDictionary> datas=dataDictionaryDao.findAllDatas(queryBean.getQuery(), pageRequest);
-		if (datas!=null) {
-			pb.setDataList(datas.getContent());
-			pb.setTotalCount(datas.getTotalElements());
+		List<DataDictionary> dataDicts = datas.stream().filter(s -> !StringUtils.equals(s.getParentKey(), "dataDict")).collect(Collectors.toList());
+		if (dataDicts!=null) {
+			pb.setDataList(dataDicts);
+			pb.setTotalCount(dataDicts.size());
 			return pb;
 		}
 		return null;
