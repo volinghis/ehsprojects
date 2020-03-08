@@ -73,50 +73,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 	
 	/**
 	 * 
-	* @see com.ehs.common.organization.service.OrgUserService#getAllUser(com.ehs.common.organization.bean.UserQueryBean)  
-	* @Function: OrgUserServiceImpl.java
-	* @Description: 该函数的功能描述
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月24日 上午9:23:29 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月24日     zhaol           v1.0.0               修改原因
-	 */
-	@Override
-	public PageInfoBean getAllUser(UserQueryBean userQueryBean) {
-		PageRequest pageRequest =PageRequest.of(userQueryBean.getPage()-1, userQueryBean.getSize());
-		if (StringUtils.isNotBlank(userQueryBean.getQuery())) {
-			Page<OrgUser> users=orgUserDao.findUsers(userQueryBean.getQuery(), pageRequest);
-			if (users!=null) {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(users.getContent());
-				pb.setTotalCount(users.getTotalElements());
-				return pb;
-			}
-			return null;
-		}
-		else {
-			Page<OrgUser> users=orgUserDao.findUsers(pageRequest);
-			if (users!=null) {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(users.getContent());
-				pb.setTotalCount(users.getTotalElements());
-				return pb;
-			}
-			return null;
-		}
-	}
-	
-	/**
-	 * 
 	* @see com.ehs.common.organization.service.OrgUserService#findUserByOrgKey(java.lang.String, com.ehs.common.organization.bean.UserQueryBean, com.ehs.common.organization.bean.UserQueryBean)  
 	* @Function: OrgUserServiceImpl.java
 	* @Description: 该函数的功能描述
@@ -150,7 +106,7 @@ public class OrgUserServiceImpl implements OrgUserService{
 			}
 			return null;
 		}else if (StringUtils.isNotBlank(orgKey)) {
-			List list =getOrgUsers(orgKey);
+			List list = getOrgUsers(orgKey);
 			if (list!=null) {
 				PageInfoBean pb=new PageInfoBean();
 				pb.setDataList(list);
@@ -160,7 +116,14 @@ public class OrgUserServiceImpl implements OrgUserService{
 			return null;
 		}
 		else {
-			return this.getAllUser(userQueryBean);
+			List<OrgUser> users = (List<OrgUser>) baseCommonService.findAll(OrgUser.class);
+			if (users != null) {
+				PageInfoBean pb=new PageInfoBean();
+				pb.setDataList(users);
+				pb.setTotalCount(users.size()); 
+				return pb;
+			}
+			return null;
 		}
 	}
 	
@@ -173,20 +136,25 @@ public class OrgUserServiceImpl implements OrgUserService{
 	
 	public List<OrgUser> getOrgUsers(String orgKey){
 		List list = new ArrayList();
-		List<OrganizationInfo> orgList = orgDao.getFirstNode(orgKey);
+//		List<OrganizationInfo> orgList = orgDao.findIdByChildren(orgKey);
+		List<OrganizationInfo> orgList = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
 		if (orgList.size() > 0) {
 			List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
 			filterItems(templist, orgList,orgKey);
-			for (OrganizationInfo organizationInfo : templist) {
-				List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
-				for (OrgUser user : users) {
-					list.add(user);
+			if (templist.size() == 0) {
+				List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
+				for (OrgUser orgUser : users) {
+					list.add(orgUser);
 				}
-			}
-		}else {
-			List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
-			for (OrgUser orgUser : users) {
-				list.add(orgUser);
+			}else {
+				for (OrganizationInfo organizationInfo : templist) {
+					List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
+					if (users!=null) {
+						for (OrgUser user : users) {
+							list.add(user);
+						}
+					}
+				}
 			}
 		}
 		return list;

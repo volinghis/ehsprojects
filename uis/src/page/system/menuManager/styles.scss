@@ -1,0 +1,22 @@
+.operation {
+    margin-bottom: 10px;
+  }
+/deep/.el-dialog__body{
+    padding: 0px 20px;
+    text-align: center;
+}
+/deep/.el-divider--horizontal{
+    margin: 12px 0;
+}
+/deep/.el-dialog__footer{
+    text-align: center;
+}
+.el-col-1 {
+    width: 1%;
+}
+.el-col-18 {
+    width: 78%;
+}
+.el-divider--vertical{
+    height: 650px;
+}

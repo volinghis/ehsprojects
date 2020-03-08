@@ -23,7 +23,6 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.bean.OrgTreeNodeLazy;
 import com.ehs.common.organization.bean.OrgUserBean;
 import com.ehs.common.organization.bean.UserQueryBean;
@@ -63,7 +62,7 @@ public class OrgUserController {
 	/**
 	 * 
 	* @Function: OrgUserController.java
-	* @Description: 查询所有用户
+	* @Description: 该函数的功能描述
 	*
 	* @param:描述1描述
 	* @return：返回结果描述
@@ -71,20 +70,13 @@ public class OrgUserController {
 	*
 	* @version: v1.0.0
 	* @author: zhaol
-	* @date: 2019年12月19日 下午7:10:14 
+	* @date: 2020年3月5日 下午11:11:50 
 	*
 	* Modification History:
 	* Date         Author          Version            Description
 	*---------------------------------------------------------*
-	* 2019年12月19日     zhaol           v1.0.0               修改原因
+	* 2020年3月5日     zhaol           v1.0.0               修改原因
 	 */
-	@RequestAuth(menuKeys = {"userManager"})
-	@RequestMapping(value = "/auth/orgUser/getAllUser")
-	public String getAll(@RequestBody(required = false) UserQueryBean userQueryBean,HttpServletRequest request) {
-		PageInfoBean pb = orgUserService.getAllUser(userQueryBean);
-		return (pb==null?"[]":JsonUtils.toJsonString(pb));
-	}
-	
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/auth/orgUser/getAllForTree")
 	@ResponseBody
@@ -124,6 +116,24 @@ public class OrgUserController {
 		return JsonUtils.toJsonString(users);
 	}
 	
+	/**
+	 * 
+	* @Function: OrgUserController.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年3月5日 下午11:11:57 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年3月5日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"userManager"})
 	@RequestMapping(value = "/auth/orgUser/getTreeLazyNode")
 	@ResponseBody
@@ -136,10 +146,9 @@ public class OrgUserController {
 			tn.setPid(organizationInfo.getParentKey());
 			tn.setName(organizationInfo.getName());
 			tn.setLeaf(false);
-			System.out.println(JsonUtils.toJsonString(tn));
 			trees.add(tn);
 		}else {
-			List<OrganizationInfo> orgs = organizationService.getChildNode(id);
+			List<OrganizationInfo> orgs = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
 			if (orgs != null && orgs.size() > 0) {
 				for (OrganizationInfo organizationInfo : orgs) {
 					if(StringUtils.equals(organizationInfo.getParentKey(), id)) {
@@ -149,7 +158,6 @@ public class OrgUserController {
 						tn.setName(organizationInfo.getName());
 		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
-		    			System.out.println(JsonUtils.toJsonString(tn));
 		    			trees.add(tn);
 					}
 				}

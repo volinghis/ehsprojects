@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.dao.OrganizationDao;
@@ -165,9 +164,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public OrganizationInfo getFirstNode() {
 		try {
-			OrganizationInfo organizationInfo = organizationDao.getFirstNode();
-			System.out.println(JsonUtils.toJsonString(organizationInfo));
-			return organizationInfo;
+			return organizationDao.getFirstNode();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -194,11 +191,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 	* 2020年2月27日     zhaol           v1.0.0               修改原因
 	 */
 	@Override
-	public List<OrganizationInfo> getChildNode(String id) {
+	public List<OrganizationInfo> findIdByChildren(String id) {
 		try {
-			List<OrganizationInfo> organizationInfos = organizationDao.getFirstNode(id);
-			System.out.println(JsonUtils.toJsonString(organizationInfos));
-			return organizationInfos;
+			return organizationDao.findIdByChildren(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

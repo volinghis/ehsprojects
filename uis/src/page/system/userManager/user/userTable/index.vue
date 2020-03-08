@@ -7,7 +7,7 @@
         </el-input>
       </div>
       <div style="float:right;margin-bottom: 5px;">
-        <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-exchange" @click="transferUser" v-show="exchange"> 调岗</el-button>
+        <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-exchange" @click="transferUser"> 调岗</el-button>
         <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-plus" @click="addUser"> 新增</el-button>
       </div>
     </div>

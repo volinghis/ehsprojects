@@ -10,7 +10,7 @@
     </div>
     <div class="topright">
       <div style="float:left">
-        <el-avatar style="margin-right:10px;margin-top:15px;" :size="24" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <el-avatar style="margin-right:10px;margin-top:15px;" :size="24" :src="avatarUrl"></el-avatar>
       </div>
       <div style="float:right;padding-top: 13px;">
         <span style="margin-right:25px;">欢迎您，{{sessionUser.username}}({{sessionUser.account}})</span>

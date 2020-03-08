@@ -75,5 +75,5 @@ public interface OrganizationDao extends JpaRepository<OrganizationInfo, String>
 	public OrganizationInfo getFirstNode();
 
 	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = ?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
-	public List<OrganizationInfo> getFirstNode(String key);
+	public List<OrganizationInfo> findIdByChildren(String key);
 }

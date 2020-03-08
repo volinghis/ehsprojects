@@ -8,15 +8,8 @@
  */
 package com.ehs.common.data.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.data.entity.entitysuper.DataDictionary;
 
 /**   
@@ -37,14 +30,6 @@ import com.ehs.common.data.entity.entitysuper.DataDictionary;
 @Table(name="HIS_DATA_DICTIONARY")
 public class DataDictionaryHis extends DataDictionary{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	
-
-
-
 
 }

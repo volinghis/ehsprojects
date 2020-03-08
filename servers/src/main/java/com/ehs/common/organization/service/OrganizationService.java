@@ -120,6 +120,6 @@ public interface OrganizationService {
 	*---------------------------------------------------------*
 	* 2020年2月27日     zhaol           v1.0.0               修改原因
 	 */
-	public List<OrganizationInfo> getChildNode(String id);
+	public List<OrganizationInfo> findIdByChildren(String id);
 
 }

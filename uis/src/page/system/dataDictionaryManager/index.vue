@@ -2,31 +2,22 @@
   <div>
     <el-row>
       <el-col :span="5" style="border-right:1px solid #DCDFE6;margin-right:15px;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-        <!-- <el-input placeholder="输入关键字进行查找" :size="GlobalCss.buttonSize" v-model="filterText"></el-input> -->
-        <!-- <el-tree :data="treeData"  node-key="id"  ref="tree" :props="treeProps" :default-expanded-keys="defaultExpandKeys"
-                   @node-click="handleNodeClick" :filter-node-method="filterNode" highlight-current :expand-on-click-node="false">
-          </el-tree> -->
         <el-tree :props="props" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
       </el-col>
-      <!-- <el-col :span="1">
-        <el-divider direction="vertical"></el-divider>
-      </el-col> -->
       <el-col :span="18">
         <div class="container">
           <div class="operation">
-            <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="orgAdd"> 新增</el-button>
+            <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="dictionaryAdd"> 新增</el-button>
           </div>
           <div class="refRoleTable">
             <template>
               <el-table :data="orgTableData" :size="GlobalCss.buttonSize" border>
                 <el-table-column type="index" align="center" width="45"> </el-table-column>
-                <el-table-column prop="dataCode" align="center" label="部门编码"></el-table-column>
-                <el-table-column prop="name" align="center" label="部门名称"></el-table-column>
+                <el-table-column prop="dataCode" align="center" label="编码"></el-table-column>
+                <el-table-column prop="text" align="center" label="名称"></el-table-column>
                 <el-table-column prop="sort" align="center" label="排序" width="120"></el-table-column>
-                <!-- <el-table-column prop="name" align="center" label="业务权限"></el-table-column> -->
                 <el-table-column align="center" width="200" label="操作">
                   <template slot-scope="scope">
-                    <!-- <el-button type="warning" :size="GlobalCss.buttonSize" @click="handleAuthToOrg(scope.row)">授权</el-button> -->
                     <el-button type="primary" :size="GlobalCss.buttonSize" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" :size="GlobalCss.buttonSize" @click="handleRemove(scope.row)">删除
                     </el-button>
@@ -40,16 +31,16 @@
             </template>
           </div>
           <!--添加组织-->
-          <el-dialog title="添加部门" :visible.sync="dialogTableVisible" width="40%" :before-close="handleClose">
+          <el-dialog title="编辑页面" :visible.sync="dialogTableVisible" width="40%" :before-close="handleClose">
             <el-divider></el-divider>
             <div>
               <el-form label-position="right" label-width="80px" ref="formLabelAlign" :rules="rules" :model="formLabelAlign" :size="GlobalCss.buttonSize">
-                <el-form-item label="部门编码:" prop="dataCode">
+                <el-form-item label="编码:" prop="dataCode">
                   <el-input v-model="formLabelAlign.dataCode"></el-input>
                   <!-- <el-input v-model="formLabelAlign.dataCode" @blur.prevent="orgCodeValidation(formLabelAlign)"></el-input> -->
                 </el-form-item>
-                <el-form-item label="部门名称:" prop="name">
-                  <el-input v-model="formLabelAlign.name"></el-input>
+                <el-form-item label="名称:" prop="text">
+                  <el-input v-model="formLabelAlign.text"></el-input>
                 </el-form-item>
                 <el-form-item label="排序:" prop="sort">
                   <el-input v-model="formLabelAlign.sort"></el-input>
@@ -76,5 +67,4 @@ export default datas
 
 <style lang="scss" scoped>
   @import "./styles.scss";
-
 </style>

@@ -58,7 +58,7 @@ export default {
       if (node.level === 0) {
         this.requestTreeNodeOne(resolve)
       }
-      if (node.level === 1) {
+      if (node.level >= 1) {
         this.requestTreeNode(node, resolve)
         this.node = node
         this.resolve = resolve

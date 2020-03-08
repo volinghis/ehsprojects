@@ -3,7 +3,9 @@
     <div class="account-settings-info-left">
       <el-tabs tab-position="left"
                v-model="activeName"
-               @tab-click="handleSelect">
+               @tab-click="handleSelect"
+               style="border-right:1px solid #DCDFE6;margin-right:15px;"
+               :style="{height:(this.$store.state.contentHeight-15)+'px'}">
         <!-- <el-tab-pane label="个人首页"
                      name="first"></el-tab-pane> -->
         <el-tab-pane label="修改密码"

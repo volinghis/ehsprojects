@@ -26,25 +26,6 @@ import com.ehs.common.organization.entity.OrgUser;
 */
 public interface OrgUserService {
 
-	/**
-	 * 
-	* @Function: OrgUserService.java
-	* @Description: 查询部门下所有用户并分页
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 上午11:15:41 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	public PageInfoBean getAllUser(UserQueryBean userQueryBean);
 
 	/**
 	 * 

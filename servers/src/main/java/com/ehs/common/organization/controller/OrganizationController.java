@@ -276,10 +276,9 @@ public class OrganizationController {
 			tn.setPid(organizationInfo.getParentKey());
 			tn.setName(organizationInfo.getName());
 			tn.setLeaf(false);
-			System.out.println(JsonUtils.toJsonString(tn));
 			trees.add(tn);
 		}else {
-			List<OrganizationInfo> orgs = organizationService.getChildNode(id);
+			List<OrganizationInfo> orgs = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
 			if (orgs != null && orgs.size() > 0) {
 				for (OrganizationInfo organizationInfo : orgs) {
 					if(StringUtils.equals(organizationInfo.getParentKey(), id)) {
@@ -289,7 +288,6 @@ public class OrganizationController {
 						tn.setName(organizationInfo.getName());
 		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
-		    			System.out.println(JsonUtils.toJsonString(tn));
 		    			trees.add(tn);
 					}
 				}

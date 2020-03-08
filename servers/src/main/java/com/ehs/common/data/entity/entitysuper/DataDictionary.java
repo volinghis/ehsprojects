@@ -8,15 +8,8 @@
  */
 package com.ehs.common.data.entity.entitysuper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-
 import com.ehs.common.base.entity.BaseEntity;
 
 /**   
@@ -37,132 +30,74 @@ import com.ehs.common.base.entity.BaseEntity;
 public abstract class DataDictionary extends BaseEntity{
 
 	public static final String DATA_CODE="dataCode";
-	public static final String PARENT_KEY="parentKey";
+	public static final String PARENT_CODE="parentCode";
 	public static final String TEXT="text";
 	public static final String SORT="sort";
 	public static final String SYSTEM_CODE="systemCode";
 
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	     * 数据字典编码
+	*/
+	@Column(nullable = false)
+	private String dataCode;
 
 	/**
 	 * 父菜单
 	 */
-	private String parentKey;
+	private String parentCode;
 	
+	/**
+	 * 名称
+	 */
 	private String text;
 	
+	/**
+	 * 排序
+	 */
 	private Integer sort;
 	
 	private String systemCode;
-	
-	
-    /**
-             * 数据字典编码
-     */
-	@Column(nullable = false)
-	private String dataCode;
-	
-	
-	
-
-
-
-
 
 	public String getDataCode() {
 		return dataCode;
 	}
 
-
-
-
 	public void setDataCode(String dataCode) {
 		this.dataCode = dataCode;
 	}
 
-
-
-
-	/**
-	 * @return the systemCode
-	 */
-	public String getSystemCode() {
-		return systemCode;
+	public String getParentCode() {
+		return parentCode;
 	}
 
-
-
-
-	/**
-	 * @param systemCode the systemCode to set
-	 */
-	public void setSystemCode(String systemCode) {
-		this.systemCode = systemCode;
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
 	}
 
-
-
-
-	/**
-	 * @return the sort
-	 */
-	public Integer getSort() {
-		return sort;
-	}
-
-
-
-
-	/**
-	 * @param sort the sort to set
-	 */
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
-
-
-
-
-
-
-
-
-
-
-	public String getParentKey() {
-		return parentKey;
-	}
-
-
-
-
-	public void setParentKey(String parentKey) {
-		this.parentKey = parentKey;
-	}
-
-
-
-
-	/**
-	 * @return the text
-	 */
 	public String getText() {
 		return text;
 	}
 
-
-
-
-	/**
-	 * @param text the text to set
-	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 
+	public Integer getSort() {
+		return sort;
+	}
 
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
+	public String getSystemCode() {
+		return systemCode;
+	}
 
-
-
+	public void setSystemCode(String systemCode) {
+		this.systemCode = systemCode;
+	}
+   
 }
