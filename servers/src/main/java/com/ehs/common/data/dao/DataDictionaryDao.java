@@ -1,5 +1,7 @@
 package com.ehs.common.data.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,13 +29,13 @@ import com.ehs.common.data.entity.DataDictionary;
 @Repository
 public interface DataDictionaryDao extends JpaRepository<DataDictionary, String> {
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_CODE+" = null and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
-	public DataDictionary getFirstNode();
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" = ?1 and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+BaseEntity.BASE_SORT_NUM+" desc" )
+	public List<DataDictionary> getFirstNode(String parentKey);
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_CODE+" =?1 and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc" )
-	public Page<DataDictionary> findDatasByParentCode(String parentCode, String query, PageRequest pageRequest);
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" =?1 and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc" )
+	public Page<DataDictionary> findDatasByParentCode(String parentKey, String query, PageRequest pageRequest);
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_CODE+" <> 'null' and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" <> 'null' and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+BaseEntity.BASE_SORT_NUM+" desc" )
 	public Page<DataDictionary> findAllDatas(String query, PageRequest pageRequest);
 
 }

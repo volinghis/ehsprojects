@@ -30,7 +30,7 @@ import com.ehs.common.base.entity.BaseEntity;
 public abstract class DataDictionary extends BaseEntity{
 
 	public static final String DATA_CODE="dataCode";
-	public static final String PARENT_CODE="parentCode";
+	public static final String PARENT_KEY="parentKey";
 	public static final String TEXT="text";
 	public static final String SORT="sort";
 	public static final String SYSTEM_CODE="systemCode";
@@ -46,7 +46,7 @@ public abstract class DataDictionary extends BaseEntity{
 	/**
 	 * 父菜单
 	 */
-	private String parentCode;
+	private String parentKey;
 	
 	/**
 	 * 名称
@@ -68,12 +68,12 @@ public abstract class DataDictionary extends BaseEntity{
 		this.dataCode = dataCode;
 	}
 
-	public String getParentCode() {
-		return parentCode;
+	public String getParentKey() {
+		return parentKey;
 	}
 
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
+	public void setParentKey(String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 	public String getText() {

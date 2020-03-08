@@ -31,13 +31,13 @@
 	</menus>
 	
 	<DataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">
-		<DataDictionary dataCode ="position" key="position" text="职务" systemCode="dataDict" sort="1">
-			<DataDictionary dataCode="Aposition" key="Aposition" text="厂长" sort="1" parentCode="position"  systemCode="dataDict" />
-			<DataDictionary dataCode="Bposition" key="Bposition" text="生产主管" sort="2" parentCode="position"  systemCode="dataDict" />
-			<DataDictionary dataCode="Cposition" key="Cposition" text="车间主任" sort="3" parentCode="position"  systemCode="dataDict" />
-			<DataDictionary dataCode="Dposition" key="Dposition" text="设备工程师" sort="4" parentCode="position"  systemCode="dataDict" />
-			<DataDictionary dataCode="Eposition" key="Eposition" text="质量控制主管" sort="5" parentCode="position"  systemCode="dataDict" />
-			<DataDictionary dataCode="Fposition" key="Fposition" text="检修工程师" sort="6" parentCode="position"  systemCode="dataDict" />
+		<DataDictionary dataCode ="position" key="position" text="职务" parentKey="dataDict" systemCode="dataDict" sort="1">
+			<DataDictionary dataCode="Aposition" key="Aposition" text="厂长" sort="1" parentKey="position"  systemCode="dataDict" />
+			<DataDictionary dataCode="Bposition" key="Bposition" text="生产主管" sort="2" parentKey="position"  systemCode="dataDict" />
+			<DataDictionary dataCode="Cposition" key="Cposition" text="车间主任" sort="3" parentKey="position"  systemCode="dataDict" />
+			<DataDictionary dataCode="Dposition" key="Dposition" text="设备工程师" sort="4" parentKey="position"  systemCode="dataDict" />
+			<DataDictionary dataCode="Eposition" key="Eposition" text="质量控制主管" sort="5" parentKey="position"  systemCode="dataDict" />
+			<DataDictionary dataCode="Fposition" key="Fposition" text="检修工程师" sort="6" parentKey="position"  systemCode="dataDict" />
 		</DataDictionary>
 	</DataDictionarys>
 </root>
