@@ -22,6 +22,7 @@ import com.ehs.common.organization.bean.OrgQueryBean;
 */
 public interface DataDictionaryService {
 
+	List<DataDictionary> findDataDictByParentKey(String key);
 	/**
 	 * 
 	* @Function: DataDictionaryService.java
