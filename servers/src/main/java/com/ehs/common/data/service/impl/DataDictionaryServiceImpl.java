@@ -1,6 +1,7 @@
 package com.ehs.common.data.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -93,9 +94,10 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 			return null;
 		}
 		Page<DataDictionary> datas=dataDictionaryDao.findAllDatas(queryBean.getQuery(), pageRequest);
-		if (datas!=null) {
-			pb.setDataList(datas.getContent());
-			pb.setTotalCount(datas.getTotalElements());
+		List<DataDictionary> dataDicts = datas.stream().filter(s -> !StringUtils.equals(s.getParentKey(), "dataDict")).collect(Collectors.toList());
+		if (dataDicts!=null) {
+			pb.setDataList(dataDicts);
+			pb.setTotalCount(dataDicts.size());
 			return pb;
 		}
 		return null;
