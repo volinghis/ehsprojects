@@ -1,6 +1,9 @@
 package com.ehs.common.data.service.impl;
 
 
+import java.util.List;
+
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -55,9 +58,9 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 	* 2020年3月6日     zhaol           v1.0.0               修改原因
 	 */
 	@Override
-	public DataDictionary getFirstNode() {
+	public List<DataDictionary> getFirstNode(String parentCode) {
 		try {
-			return dataDictionaryDao.getFirstNode();
+			return dataDictionaryDao.getFirstNode(parentCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

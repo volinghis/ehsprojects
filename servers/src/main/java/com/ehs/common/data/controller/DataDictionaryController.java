@@ -75,23 +75,28 @@ public class DataDictionaryController {
 	public String dataDictionaryTreeData(@RequestParam(required = false) String id) {
 		List<OrgTreeNodeLazy> trees=new ArrayList<OrgTreeNodeLazy>();
 		if(StringUtils.isBlank(id)) {
-			DataDictionary dataDictionary = dataDictionaryService.getFirstNode();
-			OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
-			tn.setId(dataDictionary.getKey());
-			tn.setPid(dataDictionary.getParentCode());
-			tn.setName(dataDictionary.getText());
-			tn.setLeaf(false);
-			trees.add(tn);
+			String parentCode = "dataDict";
+			List<DataDictionary> dataDictionarys = dataDictionaryService.getFirstNode(parentCode);
+			if(dataDictionarys != null) {
+				for (DataDictionary dataDictionary : dataDictionarys) {
+					OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
+					tn.setId(dataDictionary.getKey());
+					tn.setPid(dataDictionary.getParentKey());
+					tn.setName(dataDictionary.getText());
+					tn.setLeaf(false);
+					trees.add(tn);
+				}
+			}
 		}else {
 			List<DataDictionary> dataDictionaries = (List<DataDictionary>) baseCommonService.findAll(DataDictionary.class);
 			if (dataDictionaries != null && dataDictionaries.size() > 0) {
 				for (DataDictionary dataDict : dataDictionaries) {
-					if(StringUtils.equals(dataDict.getParentCode(), id)) {
+					if(StringUtils.equals(dataDict.getParentKey(), id)) {
 						OrgTreeNodeLazy tn=new OrgTreeNodeLazy();
 						tn.setId(dataDict.getKey());
-						tn.setPid(dataDict.getParentCode());
+						tn.setPid(dataDict.getParentKey());
 						tn.setName(dataDict.getText());
-		    			List list=dataDictionaries.stream().filter(d->StringUtils.equals(d.getParentCode(),dataDict.getKey())).collect(Collectors.toList());
+		    			List list=dataDictionaries.stream().filter(d->StringUtils.equals(d.getParentKey(),dataDict.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
 		    			trees.add(tn);
 					}
@@ -123,7 +128,7 @@ public class DataDictionaryController {
 	@RequestMapping(value = "/findDatasByParentCode")
 	@ResponseBody
 	public String getAllOrgsTable(HttpServletRequest request,HttpServletResponse response, OrgQueryBean queryBean) {
-		String parentCode = request.getParameter("parentCode");
+		String parentCode = request.getParameter("parentKey");
 		PageInfoBean pb = dataDictionaryService.getAllDatasTable(parentCode,queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}

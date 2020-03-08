@@ -22,7 +22,7 @@ export default {
       },
       formLabelAlign: {
         dataCode: '',
-        parentCode: '',
+        parentKey: '',
         text: '',
         sort: ''
       },
@@ -72,7 +72,7 @@ export default {
       this.nodeLevel = node.level
     },
     findDatasByParentKey: function (key) { // 查询组织下所有组织
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentCode', { params: { parentCode: key } }).then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentCode', { params: { parentKey: key } }).then(res => {
         this.orgTableData = res.data.dataList
         this.totalCount = res.data.totalCount
       }).catch(() => {
@@ -95,7 +95,7 @@ export default {
       } else {
         this.dialogTableVisible = true
         this.formLabelAlign = {}
-        this.formLabelAlign.parentCode = node
+        this.formLabelAlign.parentKey = node
       }
     },
     handleEdit: function (row) {
@@ -157,7 +157,7 @@ export default {
             type: 'success'
           })
           this.dialogTableVisible = false
-          this.findDatasByParentKey(this.formLabelAlign.parentCode)
+          this.findDatasByParentKey(this.formLabelAlign.parentKey)
           this.$refs.formLabelAlign.resetFields()
           this.loadNode(this.node, this.resolve)
         }

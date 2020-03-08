@@ -1,6 +1,9 @@
 package com.ehs.common.data.service;
 
 
+import java.util.List;
+
+
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
@@ -32,6 +35,7 @@ public interface DataDictionaryService {
 	*
 	* @version: v1.0.0
 	* @author: zhaol
+	 * @param key 
 	* @date: 2020年3月6日 下午3:31:56 
 	*
 	* Modification History:
@@ -39,7 +43,7 @@ public interface DataDictionaryService {
 	*---------------------------------------------------------*
 	* 2020年3月6日     zhaol           v1.0.0               修改原因
 	 */
-	public DataDictionary getFirstNode();
+	public List<DataDictionary> getFirstNode(String parentCode);
 
 	/**
 	 * 根据父节点查找子节点数据
