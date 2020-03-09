@@ -9,7 +9,7 @@
 	</users>
 	
 	<orgs targetClass="com.ehs.common.organization.entity.OrganizationInfo">
-		<org dataCode="rootOrg" key="rootOrg" name="大唐韩城第二发电厂有限公司" sort="0">
+		<org dataCode="rootOrg" key="rootOrg" name="东恒软件" sort="0">
 			<org dataCode="equipmentDivision" key="equipmentDivision" name="设备部" parentKey="rootOrg" sort="1"></org>
 		</org>
 	</orgs> 
@@ -34,7 +34,6 @@
 
 			<menu dataCode="userCenter" key="userCenter" name="个人中心" url="/layout/content/portal" icon="fa-user-circle"  parentKey="systemManager"  sort="15" ></menu>
 			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user"  parentKey="systemManager"  sort="42" ></menu>
-			<menu dataCode="userBaseSetting" key="userBaseSetting" name="个人资料" url="/system/account/setting/baseSetting" icon="fa-user"  parentKey="systemManager"  sort="421"  business="true"></menu>
 
 			<menu dataCode="roleManager" key="roleManager" name="角色管理" url="/system/roleManager/index" icon="fa-user"  parentKey="systemManager"  sort="43" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 			<menu dataCode="menuManager" key="menuManager" name="菜单授权" url="/system/menuManager/index" icon="fa-list"  parentKey="systemManager"  sort="44" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>

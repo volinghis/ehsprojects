@@ -35,15 +35,13 @@
 /deep/.el-dialog__body{
   padding: 5px 20px;
 }
-.el-divider--vertical{
-  height: 650px;
-}
-.el-col-1 {
-  width: 1%;
-}
 .el-col-18 {
   width: 78%;
 }
 /deep/.el-divider--horizontal {
   margin: 12px 0px;
+}
+.el-col-push-1 {
+  position: relative;
+  left: 0.8%;
 }

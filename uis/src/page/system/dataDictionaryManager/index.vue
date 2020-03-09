@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5" style="border-right:1px solid #DCDFE6;margin-right:15px;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
+      <el-col :span="5" style="border-right:1px solid #DCDFE6;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
         <el-tree :props="props" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="18" :push="1">
         <div class="container">
           <div class="operation">
             <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="dictionaryAdd"> 新增</el-button>

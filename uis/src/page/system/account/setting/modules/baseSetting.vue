@@ -37,7 +37,7 @@
               <el-radio label="女"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="联系电话："
+          <el-form-item label="手机号码："
                         prop="telephone">
             <el-input v-model="form.telephone"></el-input>
           </el-form-item>
@@ -126,31 +126,15 @@ export default {
         avatar: ''
       },
       formLabelWidth: '80px',
-      options: [{
-        value: 'shannxi',
-        label: '陕西',
-        children: [{
-          value: 'xiann',
-          label: '西安',
-          children: [{
-            value: 'changan',
-            label: '长安区'
-          }, {
-            value: 'yanta',
-            label: '雁塔区'
-          }, {
-            value: 'beilin',
-            label: '碑林区'
-          }, {
-            value: 'baqiao',
-            label: '灞桥区'
-          }]
-        }]
-      }],
+      options: [],
       rules: {
         telephone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 11, max: 11, message: '11位手机号码', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]
       }
     }
@@ -168,10 +152,13 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: code } })
         .then((res) => {
           var fileId = res.data.avatar
-          this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
-            this.imageUrl = URL.createObjectURL(res.data)
-            console.log(this.imageUrl)
-          })
+          if (code === 'admin') {
+            this.imageUrl = require('@/assets/Avatar.svg')
+          } else {
+            this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
+              this.imageUrl = URL.createObjectURL(res.data)
+            })
+          }
           this.form = res.data
         })
     },
@@ -227,7 +214,7 @@ export default {
   border-color: #409eff;
 }
 /deep/.avatar-uploader .el-upload {
-  border: 1px dashed #8c939d;
+ // border: 1px dashed #8c939d;
   border-radius: 6px;
   cursor: pointer;
   position: relative;

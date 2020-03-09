@@ -11,12 +11,10 @@
 /deep/.el-dialog__footer{
     text-align: center;
 }
-.el-col-1 {
-    width: 1%;
-}
 .el-col-18 {
     width: 78%;
 }
-.el-divider--vertical{
-    height: 650px;
-}
+.el-col-push-1 {
+    position: relative;
+    left: 0.8%;
+  }
