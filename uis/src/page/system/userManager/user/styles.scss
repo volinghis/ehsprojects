@@ -6,13 +6,10 @@
   font-size: 14px;
   padding-right: 8px;
 }
-// .el-divider--vertical{
-//   // height: 650px;
-//   // height: 650px;
-// }
-.el-col-1 {
-  width: 1%;
-}
 .el-col-18 {
   width: 78%;
+}
+.el-col-push-1 {
+  position: relative;
+  left: 0.8%;
 }
