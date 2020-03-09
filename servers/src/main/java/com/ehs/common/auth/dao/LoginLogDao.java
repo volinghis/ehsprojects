@@ -35,7 +35,7 @@ import com.ehs.common.base.entity.BaseEntity;
 @Repository
 public interface LoginLogDao extends JpaRepository<SysLoginLog, String>{
 	
-	@Query(" select sl from SysLoginLog sl where (sl."+SysLoginLog.ACCOUNT+" like %?1% or sl."+SysLoginLog.NAME+" like %?1% ) and sl."+BaseEntity.DATA_MODEL+" in ?2  order by "+BaseEntity.BASE_SORT_NUM)
+	@Query(" select sl from SysLoginLog sl where (sl."+SysLoginLog.ACCOUNT+" like %?1% or sl."+SysLoginLog.NAME+" like %?1% ) and sl."+BaseEntity.DATA_MODEL+" in ?2  order by "+BaseEntity.BASE_SORT_NUM +" desc")
 	public Page<SysLoginLog> findAlLoginLogs(String query,DataModel[] dataModels,Pageable pageable);
 
 }
