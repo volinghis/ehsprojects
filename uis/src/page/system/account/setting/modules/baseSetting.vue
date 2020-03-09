@@ -165,13 +165,17 @@ export default {
     },
     initForm () {
       const code = localStorage.getItem(this.GlobalVars.userLocal)
+      console.log(code)
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: code } })
         .then((res) => {
           var fileId = res.data.avatar
-          this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
-            this.imageUrl = URL.createObjectURL(res.data)
-            console.log(this.imageUrl)
-          })
+          if (code === 'admin') {
+            this.imageUrl = require('@/assets/Avatar.svg')
+          } else {
+            this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
+              this.imageUrl = URL.createObjectURL(res.data)
+            })
+          }
           this.form = res.data
         })
     },
@@ -227,7 +231,7 @@ export default {
   border-color: #409eff;
 }
 /deep/.avatar-uploader .el-upload {
-  border: 1px dashed #8c939d;
+ // border: 1px dashed #8c939d;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
