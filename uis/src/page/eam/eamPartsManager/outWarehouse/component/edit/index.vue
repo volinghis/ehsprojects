@@ -5,18 +5,17 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <el-form-item label="出库仓库：" prop="outWarehouseName">
-              <el-input v-model="form.outWarehouseName" :disabled="show"></el-input>
+              <el-input v-model="form.outWarehouseName" placeholder="请填写出库仓库" :disabled="show"></el-input>
             </el-form-item>
             <el-form-item label="领用部门：" prop="receiveDepartCode">
-              <OrgSelector v-model="form.receiveDepartCode"  style="width:100%;" :disabled="show"></OrgSelector>
+              <OrgSelector v-model="form.receiveDepartCode" style="width:100%;" :disabled="show"></OrgSelector>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="出库类型：" prop="outBoundType">
-              <el-input v-model="form.outBoundType" :disabled="show"></el-input>
+              <el-input v-model="form.outBoundType" placeholder="请填写出库类型" :disabled="show"></el-input>
             </el-form-item>
             <el-form-item label="领用人：" prop="receiveEmpCode">
-              <!-- <UserSelector v-model="form.receiveEmpCode" :propOrgValue="form.receiveEmpCode"  style="width:100%;"></UserSelector> -->
               <template v-if="form.receiveEmp">
                 <el-input v-model="form.receiveEmp" :disabled="show"></el-input>
               </template>
@@ -27,10 +26,10 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="出库编码：" prop="outWarehouseCode">
-              <el-input v-model="form.outWarehouseCode" placeholder="不用填写，系统自动生成" :disabled="show"></el-input>
+              <el-input v-model="form.outWarehouseCode" placeholder="请填写出库编码" :disabled="show"></el-input>
             </el-form-item>
              <el-form-item label="创建人：" prop="founder">
-              <el-input v-model="form.founder" disabled prefix-icon="el-icon-edit" placeholder="不用填写，系统自动生成" ></el-input>
+              <el-input v-model="form.founder" disabled placeholder="不用填写，系统自动生成" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -49,19 +48,20 @@
           </el-form-item>
         </el-row>
       </div>
-      <el-button type="primary"  icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="dialogVisible = true" v-show="showButton">添加备件</el-button>
-      <!--添加备件-->
-      <div class="tableHeight" :style="{height:tableHeight}">
-        <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount"></TablePart>
-      </div>
     </el-form>
-    <el-dialog title="添加备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+    <el-button type="primary"  icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="dialogVisible = true" v-show="showButton">添加备件</el-button>
+    <!--添加备件-->
+    <div class="tableHeight" :style="{height:tableHeight}">
+      <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount"></TablePart>
+    </div>
+    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
+      <el-divider></el-divider>
       <div style="text-align:center;">
         <AddPart @partsData="partsData"></AddPart>
-        <div style="margin: 10px;text-align:center;">
+        <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false" :size="GlobalCss.buttonSize">取 消</el-button>
-            <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize">确 定</el-button>
+            <el-button @click="dialogVisible = false" :size="GlobalCss.buttonSize" v-show="showButton">取 消</el-button>
+            <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize" v-show="showButton">确 定</el-button>
           </span>
         </div>
       </div>

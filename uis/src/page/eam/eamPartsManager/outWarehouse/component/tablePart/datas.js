@@ -90,19 +90,27 @@ export default {
     handleDel: function (index, rows) {
       rows.splice(index, 1)
     },
+    handleClose: function (done) {
+      this.$confirm('确认关闭？').then(_ => {
+        this.drawer = false
+      })
+    },
     saveForm: function () {
       this.$refs.partData.$refs.form.validate(valid => {
         if (valid) {
           this.drawer = false
           this.tableData.forEach((e, index) => {
-            if (e.key === this.$refs.partData.form.key) {
+            if (e.id === this.$refs.partData.form.id) {
               this.tableData.splice(index, 1)
-              this.$refs.partData.form.totalPrice = this.$refs.partData.form.amount * this.$refs.partData.form.price
-              var d = new Date(this.$refs.partData.form.leaveFactoryDate)
-              var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
-              this.$refs.partData.form.leaveFactoryDate = datetime
-              console.log(this.$refs.partData.form)
-              this.tableData.push(this.$refs.partData.form)
+              if (this.$refs.partData.form.leaveFactoryDate !== '') {
+                var d = new Date(this.$refs.partData.form.leaveFactoryDate)
+                var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
+                this.$refs.partData.form.leaveFactoryDate = datetime
+              }
+              let tableDataNew = []
+              tableDataNew.push(this.$refs.partData.form)
+              this.select.push.apply(this.select, tableDataNew)
+              this.tableData = this.select
               this.$emit('tableParams', this.tableData)
               return this.tableData
             }
@@ -110,14 +118,14 @@ export default {
         }
       })
     },
-    handleClose: function (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          this.drawer = false
-          this.partsFormEdit = {}
-        })
-        .catch(_ => { })
-    },
+    // handleClose: function (done) {
+    //   this.$confirm('确认关闭？')
+    //     .then(_ => {
+    //       this.drawer = false
+    //       this.partsFormEdit = {}
+    //     })
+    //     .catch(_ => { })
+    // },
     getSummaries: function (param) {
       const { columns, data } = param
       const sums = []

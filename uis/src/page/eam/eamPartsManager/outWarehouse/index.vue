@@ -21,21 +21,20 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" resizable  highlight-current-row border  @row-dblclick="handleClick" :span-method="objectSpanMethod"
-      :size="GlobalCss.buttonSize" style="width: 100%;">
-      <el-table-column prop="wareHouseName" label="所在仓库" width="110" align="center"></el-table-column>
-      <el-table-column prop="wareHouseCode" label="入库编号" width="110" align="center"></el-table-column>
-      <el-table-column prop="deviceCode" label="备件编号" width="110" align="center"></el-table-column>
-      <el-table-column prop="deviceName" label="备件名称" width="110" align="center"></el-table-column>
-      <el-table-column prop="norm" label="规格型号" width="100" align="center"></el-table-column>
-      <el-table-column prop="leaveFactoryCode" label="出厂编号" width="100" align="center"></el-table-column>
-      <el-table-column prop="leaveFactoryDate" label="出厂日期" width="100" align="center"></el-table-column>
-      <el-table-column prop="supplier" label="供应商" width="100" align="center"></el-table-column>
-      <el-table-column prop="amount" label="数量" align="center"></el-table-column>
-      <el-table-column prop="price" label="单价" align="center"></el-table-column>
-      <el-table-column prop="unit" label="单位" align="center"></el-table-column>
-      <el-table-column prop="totalPrice" label="总价" align="center"></el-table-column>
-      <el-table-column prop="status" label="任务状态" align="center">
+      <el-table :data="tableData" resizable  highlight-current-row border  @row-dblclick="handleClick" :span-method="objectSpanMethod" :size="GlobalCss.buttonSize" style="width: 100%;">
+        <el-table-column prop="wareHouseName" label="所在仓库" align="center"></el-table-column>
+        <el-table-column prop="wareHouseCode" label="入库编号" align="center"></el-table-column>
+        <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
+        <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
+        <el-table-column prop="norm" label="规格型号" align="center"></el-table-column>
+        <el-table-column prop="leaveFactoryCode" label="出厂编号" align="center"></el-table-column>
+        <el-table-column prop="leaveFactoryDate" label="出厂日期" align="center"></el-table-column>
+        <el-table-column prop="supplier" label="供应商" align="center"></el-table-column>
+        <el-table-column prop="amount" label="数量" align="center" width="90"></el-table-column>
+        <el-table-column prop="price" label="单价" align="center" width="90"></el-table-column>
+        <el-table-column prop="unit" label="单位" align="center" width="90"></el-table-column>
+        <el-table-column prop="totalPrice" label="总价" align="center" width="90"></el-table-column>
+        <el-table-column prop="status" label="任务状态" align="center" width="100">
           <template slot-scope="scope">
             <div slot="reference">
               <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>
@@ -47,7 +46,7 @@
       <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
     </el-table>
       <div style="text-align:right;">
-        <el-pagination class="pageHeight" background @current-change="handleCurrentChange" :current-page.sync="form.page"
+        <el-pagination class="pageHeight" background :current-page.sync="form.page"
                        :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
         </el-pagination>
       </div>

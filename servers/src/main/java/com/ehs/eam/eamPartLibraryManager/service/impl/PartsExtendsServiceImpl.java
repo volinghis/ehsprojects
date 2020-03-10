@@ -82,8 +82,12 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 					for (PartsExtends partsExtends2 : partsExtends) {
 						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
 						if(fpi!=null && enterWareHouse !=null) {
+							if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
+							}else {
+								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+							}
 							partsExtends2.setStatus(fpi.getFlowCurrentStepName());
-							partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
 							partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
 							partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
 						}
@@ -119,8 +123,12 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 					for (PartsExtends partsExtends2 : partsExtends) {
 						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
 						if(fpi!=null && outWareHouse !=null) {
+							if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
+							}else {
+								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+							}
 							partsExtends2.setStatus(fpi.getFlowCurrentStepName());
-							partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
 							partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
 							partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
 						}

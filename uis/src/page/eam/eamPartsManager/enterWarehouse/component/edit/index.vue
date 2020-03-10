@@ -36,14 +36,15 @@
       <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerAdd" v-show="showButton">添加备件</el-button>
       <!--备件表格-->
       <div class="tableHeight" :style="{height:tableHeight}">
-        <table-part ref="table" :parts="parts" :objPart="obj"  :showFlag="showFlag" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount">
+        <table-part ref="table" :parts="parts" :objPart="obj" :showFlag="showFlag" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount">
         </table-part>
       </div>
     </el-form>
     <el-dialog title="添加备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
+      <el-divider></el-divider>
       <div style="text-align:center;">
         <add-part @partsData="partsData"></add-part>
-        <div style="margin-top:45px;">
+        <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize">确 定</el-button>
             <el-button @click="resetSelect" :size="GlobalCss.buttonSize">取 消</el-button>

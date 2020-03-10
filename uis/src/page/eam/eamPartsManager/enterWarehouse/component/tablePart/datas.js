@@ -51,7 +51,7 @@ export default {
       handler (val) {
         this.tableData = val
         this.select.push.apply(this.select, val)
-        this.unique(this.select)
+        // this.unique(this.select)
         this.select.filter((item, index, self) => self.indexOf(item) === index)
       }
     },
@@ -62,21 +62,13 @@ export default {
           e.key = ''
           newVal.push(e)
         })
-        this.select.push.apply(this.select, newVal)
-        this.unique(this.select)
+        this.select.push.apply(this.select, val)
+        // this.unique(this.select)
         this.tableData = this.select
-        this.partDatas = newVal
+        this.partDatas = val
       }
     },
     deep: true
-  },
-  mounted: function () {
-    // var hdiv = document.querySelector('.divHeight').offsetHeight
-    // var hsubmiit = document.querySelector('.submitHeight').offsetHeight
-    // var hsearch = document.querySelector('.searchHeight').offsetHeight
-    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    // var hpage = document.querySelector('.pageHeight').offsetHeight
-    // this.tableHeight = (hdiv - hsubmiit - hsearch - hbutton - hpage - 5) + 'px'
   },
   methods: {
     unique: function (arr) {
@@ -107,14 +99,20 @@ export default {
         if (valid) {
           this.drawer = false
           this.tableData.forEach((e, index) => {
-            if (e.key === this.$refs.partData.form.key) {
+            if (e.id === this.$refs.partData.form.id) {
               this.tableData.splice(index, 1)
               if (this.$refs.partData.form.leaveFactoryDate !== '') {
                 var d = new Date(this.$refs.partData.form.leaveFactoryDate)
                 var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
                 this.$refs.partData.form.leaveFactoryDate = datetime
               }
-              this.tableData.push(this.$refs.partData.form)
+              let tableDataNew = []
+              tableDataNew.push(this.$refs.partData.form)
+              this.select.push.apply(this.select, tableDataNew)
+              // this.unique(this.select)
+              this.tableData = this.select
+              // this.tableData.push(this.$refs.partData.form)
+              // console.log(this.tableData)
               // this.tableParams = this.tableData
               this.$emit('tableParams', this.tableData)
               return this.tableData
@@ -126,8 +124,7 @@ export default {
     handleClose: function (done) {
       this.$confirm('确认关闭？').then(_ => {
         this.drawer = false
-        this.partsFormEdit = {}
-      }).catch(_ => { })
+      })
     },
     getSummaries: function (param) {
       const { columns, data } = param

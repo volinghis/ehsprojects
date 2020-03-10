@@ -18,12 +18,6 @@ export default {
         this.$message({ message: error })
       })
     },
-    handleCurrentChange: function (val) {
-      this.$message({
-        message: '恭喜你，这是一条成功消息',
-        type: 'success'
-      })
-    },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
         const _row = this.setTable(this.tableData).one[rowIndex]
@@ -103,6 +97,7 @@ export default {
   },
   mounted: function () {
     this.getTableData()
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     // var hcard = document.querySelector('.cardHeight').offsetHeight
     // var hfrom = document.querySelector('.fromHeight').offsetHeight
     // var hpage = document.querySelector('.pageHeight').offsetHeight
@@ -110,7 +105,6 @@ export default {
     // this.htable = (hcard - hfrom - hpage - hbutton - 25) + 'px'
     // this.restaurants = this.loadAll()
     // this.loadAll()
-    // this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {

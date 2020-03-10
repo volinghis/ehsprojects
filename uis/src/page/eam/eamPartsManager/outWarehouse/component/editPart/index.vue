@@ -36,7 +36,7 @@
                   <el-input  v-model="form.materialCode" placeholder="请填写物资编码" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="单价：" prop="price">
-                  <el-input v-model="form.price"  @blur="priceBlur($event)" placeholder="请输入单价" :disabled="partFlag"></el-input>
+                  <el-input v-model="form.price" @blur="priceBlur($event)" placeholder="请输入单价" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="预警值:" prop="warningValue">
                   <el-input v-model="form.warningValue" :disabled="partFlag"></el-input>
@@ -56,7 +56,7 @@
                   <el-input v-model="form.unit" placeholder="请输入单位" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="数量：" prop="amount">
-                  <el-input v-model="form.amount" placeholder="请输入单位" :disabled="partFlag"></el-input>
+                  <el-input v-model="form.amount" placeholder="请输入单位" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <!-- <el-form-item label="创建人:" prop="founder">
                   <el-input v-model="form.founder" :disabled="true"></el-input>

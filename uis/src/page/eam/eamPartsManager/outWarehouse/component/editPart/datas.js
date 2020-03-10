@@ -14,12 +14,12 @@ export default {
     },
     amountNew: function (val) {
       if (this.priceNew !== undefined) {
-        this.totalPriceNew = this.priceNew * val
+        this.totalPriceNew = this.form.price * val
       }
     },
     priceNew: function (val) {
       if (this.amountNew !== undefined) {
-        this.totalPriceNew = this.priceNew * val
+        this.totalPriceNew = this.form.amount * val
       }
     },
     totalPriceNew: function (val) {
@@ -31,6 +31,9 @@ export default {
     partsForm: {
       handler (val) {
         this.form = val
+        this.oldAmount = this.form.amount
+        this.oldWarningValue = this.form.warningValue
+        this.form.totalPrice = this.form.amount * this.form.price
         this.partFlag = false
         if (this.form.partsImg) {
           this.getDevicePicture(this.form.partsImg)
@@ -40,14 +43,29 @@ export default {
     }
   },
   mounted: function () {
-    JSON.parse(JSON.stringify(this.partsForm))
-    this.form = this.partsForm
-    const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.form.founder = user.username
+    // JSON.parse(JSON.stringify(this.partsForm))
+    // this.form = this.partsForm
+    // const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    // this.form.founder = user.username
   },
   methods: {
     amountBlur: function (e) {
-      this.amountNew = e.target.value
+      if (e.target.value <= this.oldAmount) {
+        let a = this.oldAmount - e.target.value
+        if (a <= this.oldWarningValue) {
+          this.$message({
+            message: '您的剩余库存已经达到预警值，请尽快采购',
+            type: 'warning'
+          })
+        }
+        this.amountNew = e.target.value
+      } else {
+        this.$message({
+          message: '您填写的数量已经超出库存，请重新填写',
+          type: 'warning'
+        })
+        this.form.amount = ''
+      }
     },
     priceBlur: function (e) {
       this.priceNew = e.target.value
@@ -67,6 +85,8 @@ export default {
   data () {
     return {
       key: 0,
+      oldAmount: '',
+      oldWarningValue: '',
       partFlag: true,
       paramsData: [],
       priceNew: 0,
@@ -89,8 +109,8 @@ export default {
         warningValue: '',
         founder: '',
         supplier: '',
-        price: 0,
-        amount: 0,
+        price: '',
+        amount: '',
         unit: '',
         totalPrice: 0
       },

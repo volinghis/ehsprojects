@@ -17,11 +17,12 @@
 .el-dialog__footer{
   text-align: center;
 }
-.el-dialog__body {
+/deep/.el-dialog__body {
   padding: 5px 20px;
 }
-// .formWidth {
-//   position: relative;
-//   width: 80%;
-//   left: 10%;
-// }
+/deep/.el-divider--horizontal {
+  margin: 5px 0;
+}
+/deep/.el-dialog__header {
+  padding-bottom: 0px;
+}

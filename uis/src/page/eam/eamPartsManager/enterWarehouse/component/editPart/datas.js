@@ -8,19 +8,20 @@ export default {
     flag: String
   },
   watch: {
-    // flag: function (val) {
-    //   if (val === 'view') {
-    //     this.buttonFlag = false
-    //   }
-    // },
+    flag: function (val) {
+      if (val === 'view') {
+        this.buttonFlag = false
+        this.partFlag = true
+      }
+    },
     amountNew: function (val) {
       if (this.priceNew !== undefined) {
-        this.totalPriceNew = this.priceNew * val
+        this.totalPriceNew = this.form.price * val
       }
     },
     priceNew: function (val) {
       if (this.amountNew !== undefined) {
-        this.totalPriceNew = this.priceNew * val
+        this.totalPriceNew = this.form.amount * val
       }
     },
     totalPriceNew: function (val) {
@@ -32,11 +33,13 @@ export default {
     partsForm: {
       handler (val) {
         this.form = val
+        this.form.totalPrice = this.form.amount * this.form.price
         if (this.form.partsImg) {
           this.getDevicePicture(this.form.partsImg)
           this.key += 1
           if (this.key) {
             this.buttonFlag = false
+            // this.partFlag = true
           }
         }
       }
@@ -90,6 +93,7 @@ export default {
   data () {
     return {
       key: 0,
+      partFlag: false,
       buttonFlag: true,
       paramsData: [],
       priceNew: 0,

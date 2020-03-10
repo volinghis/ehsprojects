@@ -105,9 +105,9 @@ export default {
   },
   mounted: function () {
     this.getTableData()
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     // this.restaurants = this.loadAll()
     // this.loadAll()
-    // this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {

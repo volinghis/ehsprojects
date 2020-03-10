@@ -22,7 +22,7 @@
     <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :before-close="handleClose" size="60%" >
+    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="50%" >
       <el-divider></el-divider>
       <editPart ref="partData" :partsForm="partsFormEdit" :flag="editPartFlag"></editPart>
       <div style="text-align:center;">

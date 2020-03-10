@@ -13,7 +13,7 @@
       <el-table-column prop="price" label="单价" align="center"></el-table-column>
       <el-table-column prop="unit" label="单位" align="center"></el-table-column>
       <el-table-column prop="totalPrice" label="总价" align="center"></el-table-column>
-      <el-table-column fixed="right"  label="操作" width="160" align="center" v-if="flagMark">
+      <el-table-column fixed="right"  label="操作" width="160" align="center">
         <template slot-scope="scope">
           <el-button @click="handleEdit(scope.row)"  :size="GlobalCss.buttonSize" type="primary">编辑</el-button>
           <el-button @click="handleDel(scope.$index,tableData)" :size="GlobalCss.buttonSize" type="danger">删除</el-button>
@@ -23,12 +23,12 @@
     <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
                    :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :before-close="handleClose" size="50%" >
+    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="50%" >
       <el-divider></el-divider>
       <editPart ref="partData" :flag="flagMark" :partsForm="partsFormEdit"></editPart>
       <div style="text-align:center;">
-        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm" v-show="flagMark">保 存</el-button>
-        <el-button :size="GlobalCss.buttonSize" @click="handleClose" v-show="flagMark">取 消</el-button>
+        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm">保 存</el-button>
+        <el-button :size="GlobalCss.buttonSize" @click="handleClose">取 消</el-button>
       </div>
     </el-drawer>
   </div>

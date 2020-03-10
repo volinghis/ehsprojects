@@ -45,7 +45,6 @@ export default {
   mounted () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     this.flag = processObj.flag
-
     if (this.flag === 'add') {
       const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
       this.form.founder = user.username
@@ -54,12 +53,10 @@ export default {
       this.showFlag = 'add'
     } else if (this.flag === 'view') {
       if (processObj.key != null) {
-        if (processObj.flag === 'view') {
-          this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
-            this.form = res.data
-            this.getPartsAccounts()
-          })
-        }
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+          this.form = res.data
+          this.getPartsAccounts()
+        })
         this.show = true
         this.showButton = false
         this.showFlag = 'view'
@@ -72,36 +69,6 @@ export default {
         })
       }
     }
-
-    // if (processObj.key != null) {
-    //   if (processObj.flag === 'view') {
-    //     this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
-    //       this.form = res.data
-    //       this.getPartsAccounts()
-    //     })
-    //   }
-    // } else {
-    //   if (processObj.businessKey !== undefined) {
-    //     this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
-    //       this.form = res.data
-    //       this.getPartsAccounts()
-    //     })
-    //   }
-    // }
-
-    // if (this.flag === 'add') {
-    //   const user = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    //   this.form.founder = user.username
-    //   if (this.$refs.table.tableData.length > 1) {
-    //     this.$refs.table.tableData = []
-    //   }
-    //   this.show = true
-    //   this.showFlag = 'add'
-    // } else {
-    //   this.show = false
-    //   this.showFlag = 'view'
-    //   this.getPartsAccounts()
-    // }
   },
   methods: {
     handleClose: function (done) {
@@ -141,8 +108,9 @@ export default {
                 message: res.data.message,
                 type: 'success'
               })
-              // this.$router.push({ name: 'enterWarehouse', replace: true })
-              window.close()
+              setTimeout(() => {
+                window.close()
+              }, 1000)
             } else {
               this.$message.error(res.data.message)
             }

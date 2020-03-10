@@ -67,7 +67,6 @@ export default {
       if (processObj.key) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
-          this.showFlag = 'view'
           this.getPartsAccounts()
         })
       }
