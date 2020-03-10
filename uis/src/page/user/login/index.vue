@@ -23,7 +23,7 @@
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="loginForm.password"
-                        placeholder="请输入密码"><template slot="prepend"><i class="fa fa-key"></i></template></el-input>
+                        placeholder="请输入密码" type="password"><template slot="prepend"><i class="fa fa-key"></i></template></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary"

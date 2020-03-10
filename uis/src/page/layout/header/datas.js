@@ -14,7 +14,7 @@ export default {
         this.avatarUrl = URL.createObjectURL(res.data)
       })
     } else {
-      this.avatarUrl = require('@/assets/Avatar.svg')
+      this.avatarUrl = require('@/assets/logo.svg')
     }
   },
   methods: {

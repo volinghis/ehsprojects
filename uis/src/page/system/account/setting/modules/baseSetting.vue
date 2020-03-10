@@ -84,7 +84,7 @@
                    :show-file-list="false"
                    :on-success="handleAvatarSuccess"
                    :before-upload="beforeAvatarUpload">
-          <el-image v-if="imageUrl"
+          <el-image v-if="form.avatar||account==='admin'"
                :src="imageUrl"
                class="avatar"></el-image>
           <i v-else
@@ -107,6 +107,7 @@ export default {
   data () {
     return {
       imageUrl: '',
+      account: '',
       ruleForm: {
         pass: '',
         checkPass: ''
@@ -140,6 +141,7 @@ export default {
     }
   },
   mounted () {
+    this.account = localStorage.getItem(this.GlobalVars.userLocal)
     this.initForm()
   },
   methods: {
@@ -148,12 +150,11 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     initForm () {
-      const code = localStorage.getItem(this.GlobalVars.userLocal)
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: code } })
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: this.account } })
         .then((res) => {
           var fileId = res.data.avatar
-          if (code === 'admin') {
-            this.imageUrl = require('@/assets/Avatar.svg')
+          if (this.account === 'admin') {
+            this.imageUrl = require('@/assets/logo.svg')
           } else {
             this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
               this.imageUrl = URL.createObjectURL(res.data)
@@ -214,7 +215,7 @@ export default {
   border-color: #409eff;
 }
 /deep/.avatar-uploader .el-upload {
- // border: 1px dashed #8c939d;
+  border: 1px dashed #8c939d;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
