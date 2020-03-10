@@ -15,9 +15,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
-import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -39,6 +39,6 @@ public interface EamAllocateDao extends JpaRepository<EamAllocate, String>{
 	@Query(" select el from EamAllocate el where el."+EamAllocate.ALLOCATE_NUM+" like %?1%  and el."+EamAllocate.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamAllocate> findEamAllocateList(String query,Pageable pageable);
 	
-	@Query(" select el from EamLedger el where el."+EamLedger.ALLOCATE_KEY+" =?1  and el."+EamLedger.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'")
-	public EamLedger findEamByAllocateKey(String key);
+	@Query(" select el from EamAllocate el where el."+EamAllocate.DEVICE_KEY+" =?1  and el."+BaseEntity.DATA_MODEL+" in ?2")
+	public EamAllocate findByDeviceKey(String key,DataModel[] dataModels);
 }

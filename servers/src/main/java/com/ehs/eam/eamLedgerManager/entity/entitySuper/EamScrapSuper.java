@@ -46,6 +46,7 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 	public static final String CURRENT_STEP_PERSON = "currentStepPerson";
 	public static final String SCRAP_REASON = "scrapReason";
 	public static final String STATUS = "status";
+	public static final String DEVICE_KEY = "deviceKey";
 
 	/**
 	 * 报废编号
@@ -93,6 +94,11 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 	 */
 	@Transient
 	private String currentStepPerson;
+	
+	/**
+	   * 关联设备
+	 */
+	private String deviceKey;
 
 	/**
 	 * @return the scrapNum
@@ -228,5 +234,18 @@ public abstract class EamScrapSuper extends FlowBaseEntity{
 	public void setCurrentStepPerson(String currentStepPerson) {
 		this.currentStepPerson = currentStepPerson;
 	}
-	
+
+	/**
+	 * @return the deviceKey
+	 */
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	/**
+	 * @param deviceKey the deviceKey to set
+	 */
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
 }

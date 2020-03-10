@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -30,6 +31,7 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamScrapRequestBean;
+import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
 import com.ehs.eam.eamLedgerManager.dao.EamScrapDao;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
@@ -63,6 +65,9 @@ public class EamScrapServiceImpl implements EamScrapService {
 	private FlowBaseService flowBaseService;
 
 	@Resource
+	private EamLedgerLastDao eamLastDao;
+	
+	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 
 	/**
@@ -73,17 +78,15 @@ public class EamScrapServiceImpl implements EamScrapService {
 	public void saveEamScrap(EamScrapRequestBean reqBean) {
 		EamScrap reqScrap = reqBean.getEamScrap();
 		reqScrap.setScrapNum(BaseUtils.getNumberForAll());
+		EamLedger eamLedger=reqBean.getScrapDatas().get(0);
+		reqScrap.setDeviceKey(eamLedger.getKey());
 		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqScrap, reqBean.getFlowProcessInfo());
-		String entityKey = "";
-		if (pi != null) {
-			entityKey = pi.getBusinessKey();
-			// 保存关联的设备
+		if (pi != null) {// 保存关联的设备
 			List<EamLedger> eamLedgers = reqBean.getScrapDatas();
 			if (!CollectionUtils.isEmpty(eamLedgers)) {
 				EamLedger el = baseCommonService.findByKey(EamLedger.class, eamLedgers.get(0).getKey());
 				el.setDeviceStatus("报废申请中");
-				el.setScrapKey(entityKey);
 				baseCommonService.saveOrUpdate(el);
 			}
 		}
@@ -160,21 +163,15 @@ public class EamScrapServiceImpl implements EamScrapService {
 		EamScrap es=baseCommonService.findByKey(EamScrap.class, flowProcessInfo.getBusinessEntityKey());
 		if(es!=null) {
 			es.setScrapDate(new Timestamp(System.currentTimeMillis())); 
+			//设备更新表数据更新
+			EamLedger el = baseCommonService.findByKey(EamLedger.class, es.getDeviceKey());
+			el.setDeviceStatus(status);
+			
+			//设备台账表数据更新
+			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+			ell.setDeviceStatus(status);
+			baseCommonService.saveOrUpdate(ell);
 		}
 		
-		//设备更新表数据更新
-		EamLedger el = eamScrapDao.findEamByScrapKey(flowProcessInfo.getBusinessEntityKey());
-		el.setDeviceStatus(status);
-		
-		//设备台账表数据更新
-		EamLedgerLast ell = baseCommonService.findByKey(EamLedgerLast.class, el.getKey());
-		ell.setScrapKey(flowProcessInfo.getBusinessEntityKey());
-		ell.setDeviceStatus(status);
-		baseCommonService.saveOrUpdate(ell);
-	}
-
-	@Override
-	public EamLedger findEamLedgerByScrapKey(String key) {
-		return eamScrapDao.findEamByScrapKey(key);
 	}
 }

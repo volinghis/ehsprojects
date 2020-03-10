@@ -103,8 +103,7 @@ public class EamLedgerLastController {
 	@RequestMapping(value = "/getListNotPage")
 	public String getEamLedgerListNotPage( HttpServletRequest request) {
 		List<EamLedgerLast>  eamLedgers= (List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);
-	    List<EamLedgerLast> resultList=	eamLedgers.stream().filter(s -> (StringUtils.isEmpty(s.getScrapKey()))).collect(Collectors.toList());
-		return resultList == null ? "[]" : JsonUtils.toJsonString(resultList);
+		return eamLedgers == null ? "[]" : JsonUtils.toJsonString(eamLedgers);
 	}
 	
 }

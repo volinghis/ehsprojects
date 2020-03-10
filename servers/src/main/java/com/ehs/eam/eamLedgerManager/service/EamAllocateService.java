@@ -13,8 +13,7 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
-import com.ehs.eam.eamLedgerManager.entity.EamLedger;
-/**   
+ /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
 * @ClassName: EamAllocateService.java
 * @Description: 该类的功能描述
@@ -82,9 +81,5 @@ public interface EamAllocateService {
  	void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo);
 
 	EamFlowBean findAllocateFlowBean(String key);
-
-	EamLedger EamLedgerByAllocateKey(String key);
-
-
 
 }

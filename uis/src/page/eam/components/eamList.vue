@@ -36,6 +36,7 @@
         </template>
         <el-table-column prop="deviceNum"
                          label="设备编号"
+                         width="160"
                          align="center"></el-table-column>
         <el-table-column prop="deviceName"
                          label="设备名称"
@@ -48,6 +49,9 @@
                          align="center"></el-table-column>
         <el-table-column prop="deviceModel"
                          label="型号"
+                         align="center"></el-table-column>
+        <el-table-column prop="deviceStatus"
+                         label="状态"
                          align="center"></el-table-column>
       </el-table>
     </div>
@@ -86,7 +90,7 @@ export default {
     if (this.flag === 'child') {
       this.getLeftChildList()
     } else {
-      this.getLedgerListNotScrap()
+      this.getLedgerListNotInFlow()
     }
     this.$refs.leftTable.clearSelection()
   },
@@ -101,7 +105,7 @@ export default {
         this.$message({ message: error })
       })
     },
-    getLedgerListNotScrap () { // 未报废的设备集合
+    getLedgerListNotInFlow () { // 未报废的设备集合
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamLedgersNotInFlow', this.queryParam).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount

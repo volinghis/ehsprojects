@@ -43,6 +43,16 @@ export default {
       }).catch(error => {
         this.$message({ message: error })
       })
+    },
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/updateAfterFlow', v).then(res => {
+        console.log(res.data)
+        if (res.data.resultType === 'ok') {
+          // window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
     }
   }
 }

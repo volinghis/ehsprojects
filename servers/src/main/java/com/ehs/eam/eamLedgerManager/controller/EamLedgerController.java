@@ -30,7 +30,6 @@ import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
-import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
 import com.ehs.eam.eamLedgerManager.service.EamScrapService;
@@ -140,6 +139,23 @@ public class EamLedgerController {
 		return eamParameters != null && eamParameters.size() > 0 ? JsonUtils.toJsonString(eamParameters) : "[]";
 	}
 
+	/**
+	 * 
+	* @Function:deleteEamParams 
+	* @Description: 删除设备参数
+	* @param request
+	* @param key
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 上午11:09:04 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "eamLedger" })
 	@RequestMapping(value = "/deleteEamParams")
 	public String deleteEamParams(HttpServletRequest request, @RequestParam String key) {
@@ -249,7 +265,13 @@ public class EamLedgerController {
 	public String deleteEamLedgerByKey(@RequestParam String key, HttpServletRequest request) {
 		ResultBean resultBean = new ResultBean();
 		try {
-			baseCommonService.deleteByKey(EamLedger.class, key);
+			EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, key);
+			if (eamLedger!=null) {
+				if (eamLedger.getDeviceStatus().contains("申请中")) {
+					return JsonUtils.toJsonString(resultBean.error("申请中的设备不能删除"));
+				}
+			}
+			eamLedgerService.deleteEamLedger(key);
 		} catch (Exception e) {
 
 			return JsonUtils.toJsonString(resultBean.error("删除失败"));
@@ -295,6 +317,22 @@ public class EamLedgerController {
 	}
 	
 	
+	/**
+	 * 
+	* @Function:getEamLedgersNotInFlow 
+	* @Description: 获取不在流程中的设备
+	* @param querybean
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 下午4:48:09 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "eamLedger" })
 	@RequestMapping(value = "/getEamLedgersNotInFlow")
 	public String getEamLedgersNotInFlow(@RequestBody EamLedgerQueryBean querybean) {

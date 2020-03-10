@@ -14,8 +14,11 @@
                        :limit="1"
                        :on-success="handleAvatarSuccess"
                        :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey">
-              <el-image v-if="imgUrl" :src="imgUrl" fit="fill"></el-image>
-              <div v-else class="uploadContent" >
+              <el-image v-if="imgUrl"
+                        :src="imgUrl"
+                        fit="fill"></el-image>
+              <div v-else
+                   class="uploadContent">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
                   将图片拖到此处，或<em>点击上传</em>
@@ -30,17 +33,23 @@
           <!--检修质量标准-->
           <div class="item-block">
             <span>检修质量标准</span>
-            <file-upload  :propUploadValue="form.maintenancesStandard" :paramData="{'categories':'maintenancesStandard'}" @change="standardChange"></file-upload>
+            <file-upload :propUploadValue="form.maintenancesStandard"
+                         :paramData="{'categories':'maintenancesStandard'}"
+                         @change="standardChange"></file-upload>
           </div>
           <!--设备说明书-->
           <div class="item-block">
             <span>设备说明书</span>
-            <file-upload  :propUploadValue="form.synopsis" :paramData="{'categories':'synopsis'}" @change="synopsisChange"></file-upload>
+            <file-upload :propUploadValue="form.synopsis"
+                         :paramData="{'categories':'synopsis'}"
+                         @change="synopsisChange"></file-upload>
           </div>
           <!--设备操作手册-->
           <div class="item-block">
             <span>设备操作手册</span>
-            <file-upload  :propUploadValue="form.operationManual" :paramData="{'categories':'operationManual'}" @change="operationManualChange"></file-upload>
+            <file-upload :propUploadValue="form.operationManual"
+                         :paramData="{'categories':'operationManual'}"
+                         @change="operationManualChange"></file-upload>
           </div>
 
           <div class="item-block">
@@ -92,19 +101,20 @@
                                 placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="采购时间"
-                            prop="purchaseTime">
-                <el-date-picker v-model="form.purchaseTime"
-                                type="date"
-                                style="width:100%;"
-                                placeholder="选择日期">
-                </el-date-picker>
+              <el-form-item label="生产厂家"
+                            prop="factoryName">
+                <el-input v-model="form.factoryName">
+                </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-               <el-form-item label="负责人"
+              <el-form-item label="负责人"
                             prop="person">
-                <UserSelector v-model="form.person" :propOrgValue="form.person" @change="userSelectChange" ref="userSelect"  style="width:100%;"></UserSelector>
+                <UserSelector v-model="form.person"
+                              :propOrgValue="form.person"
+                              @change="userSelectChange"
+                              ref="userSelect"
+                              style="width:100%;"></UserSelector>
               </el-form-item>
               <el-form-item label="出厂编号"
                             prop="leaveNum">

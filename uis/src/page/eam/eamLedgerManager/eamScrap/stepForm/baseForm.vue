@@ -87,15 +87,6 @@ export default {
       window.close()
       this.$router.push({ name: 'eamScrap' })
     },
-    handlerAfterFlow (v) { // 流程结束数据处理
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/updateAfterFlow', v).then(res => {
-        if (res.data.resultType === 'ok') {
-          window.close()
-        }
-      }).catch(error => {
-        this.$message.error(error)
-      })
-    },
     handerSubmit (process) {
       // 提交数据 准备开始流程
       this.reqBean.flowProcessInfo = process

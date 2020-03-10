@@ -7,7 +7,7 @@
     :size="GlobalCss.buttonSize"
     style="margin-bottom:10px;width:100%;">
     <template v-if="isShow">
-     <el-button slot="append" type="primary" @click="handleQuery" icon="el-icon-search">搜索</el-button>
+     <el-button slot="append" type="primary" @click="handleQuery" icon="el-icon-search"></el-button>
     </template>
   </el-autocomplete>
 </template>

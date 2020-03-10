@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -32,6 +33,7 @@ import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
 import com.ehs.eam.eamLedgerManager.dao.EamAllocateDao;
+import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
@@ -64,6 +66,9 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	private FlowBaseService flowBaseService;
 
 	@Resource
+	private EamLedgerLastDao eamLastDao;
+	
+	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 
 	/**
@@ -85,17 +90,13 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 			OrganizationInfo oi = baseCommonService.findByKey(OrganizationInfo.class, deptKey);
 			reqAllocate.setTargetDept(oi == null ? null : oi.getName());
 		}
-
-		// 开始流程
+		reqAllocate.setDeviceKey(ledgers.get(0).getKey());
+		//开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqAllocate, reqBean.getFlowProcessInfo());
-		String entityKey = "";
-		if (pi != null) {
-			entityKey = pi.getBusinessKey();
-			// 保存关联的设备
+		if (pi != null) {// 保存关联的设备
 			if (!CollectionUtils.isEmpty(ledgers)) {
 				EamLedger el = baseCommonService.findByKey(EamLedger.class, ledgers.get(0).getKey());
 				el.setDeviceStatus("调拨申请中");
-				el.setAllocateKey(entityKey);
 				baseCommonService.saveOrUpdate(el);
 			}
 		}
@@ -158,12 +159,12 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		if (ea != null) {
 			ea.setAllocateDate(new Timestamp(System.currentTimeMillis()));
 			//设备更新表数据更新
-			EamLedger el = eamAllocateDao.findEamByAllocateKey(flowProcessInfo.getBusinessEntityKey());
-			el.setDeviceStatus("已调拨");
+			EamLedger el=baseCommonService.findByKey(EamLedger.class,ea.getDeviceKey());
+			el.setDeviceStatus("正常");
 			el.setInstallLocation(ea.getTargetPosition());
 			el.setProfession(ea.getTargetDept());
 			//设备台账表数据更新
-			EamLedgerLast ell = baseCommonService.findByKey(EamLedgerLast.class, el.getKey());
+			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 			ell.setInstallLocation(ea.getTargetPosition());
 			ell.setProfession(ea.getTargetDept());
 		}
@@ -185,10 +186,5 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 			}
 		}
 		return eFlowBean;
-	}
-
-	@Override
-	public EamLedger EamLedgerByAllocateKey(String key) {
-		return eamAllocateDao.findEamByAllocateKey(key);
 	}
 }

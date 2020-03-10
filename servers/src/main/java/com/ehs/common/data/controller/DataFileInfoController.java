@@ -97,7 +97,6 @@ public class DataFileInfoController {
 			}
 			baseCommonService.saveOrUpdate(dfi);
 			
-			System.out.println(JsonUtils.toJsonString(dfi));
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();

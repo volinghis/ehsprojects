@@ -214,7 +214,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		if (eamLedger != null) {
 			keys = eamLedger.getRefDeviceKey() + "," + keys;
 			eamLedger.setRefDeviceKey(keys);
-			System.out.println("===================" + keys);
 		}
 		baseCommonService.saveOrUpdate(eamLedger);
 	}
@@ -246,11 +245,24 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			List<EamLedger> resultList=new ArrayList<EamLedger>();
-			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(),"已报废"))).collect(Collectors.toList());
+			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(),"已报废")&&!StringUtils.contains(s.getDeviceStatus(), "申请中"))).collect(Collectors.toList());
 			pb.setDataList(resultList);
 			pb.setTotalCount(eamLedgers.getTotalElements());
 			return pb;
 		}
 		return null;
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#deleteEamLedger(java.lang.String)  
+	*/
+	@Override
+	@Transactional
+	public void deleteEamLedger(String key) {
+		EamLedgerLast eLast=eamLedgerLastDao.findEamLedgerLastByRefKey(key, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		if (eLast!=null) {
+			baseCommonService.deleteByKey(EamLedgerLast.class, eLast.getKey());
+		}
+		baseCommonService.deleteByKey(EamLedger.class, key);
 	}
 }

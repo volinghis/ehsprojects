@@ -22,11 +22,10 @@ export default {
       form: {
         deviceName: '',
         deviceNum: '',
-        purchaseTime: '',
         runDate: '',
+        factoryName: '',
         profession: '',
         installLocation: '',
-        textarea: '',
         completePoint: 0,
         person: '',
         personName: '',

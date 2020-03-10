@@ -128,4 +128,21 @@ public interface EamLedgerService {
 
 
 	public PageInfoBean findEamLedgersNotInFlow(EamLedgerQueryBean querybean);
+
+
+	/**   
+	* @Function:deleteEamLedger 
+	* @Description: 该函数的功能描述
+	* @param key
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 上午11:14:58 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	*/
+	public void deleteEamLedger(String key);
 }

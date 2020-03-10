@@ -154,14 +154,35 @@ public class EamScrapController {
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/getEamLedgerByScrapKey")
 	public String getEamLedgerByScrapKey(@RequestParam String key) {
-		EamLedger eamLedger = eamScrapService.findEamLedgerByScrapKey(key);
+		EamScrap eamScrap =baseCommonService.findByKey(EamScrap.class, key);
+		EamLedger eamLedger=null;
+		if (eamScrap!=null) {
+			eamLedger = baseCommonService.findByKey(EamLedger.class, eamScrap.getDeviceKey());
+		}
 		return eamLedger != null ? JsonUtils.toJsonString(eamLedger) : "{}";
 	}
 
+	/**
+	 * 
+	* @Function:updateAfterFlow 
+	* @Description:报废流程结束后的数据更新
+	* @param flowProcessInfo
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 下午3:44:05 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/updateAfterFlow")
 	public String updateAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
 		ResultBean resultBean = new ResultBean();
+		System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 		try {
 			eamScrapService.updateRelatedAfterFlow(flowProcessInfo);
 		} catch (Exception e) {

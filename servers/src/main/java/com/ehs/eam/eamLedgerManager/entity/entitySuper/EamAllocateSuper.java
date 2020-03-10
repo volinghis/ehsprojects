@@ -51,6 +51,7 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public static final String AMOUNT = "amount" ;
 	public static final String CURRENT_STEP_PERSON = "currentStepPerson";
 	public static final String UNIT = "unit" ;
+	public static final String DEVICE_KEY = "deviceKey";
 	
 
 
@@ -129,6 +130,12 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 * 单位
 	 */
 	private String unit;
+	
+	/**
+	   * 关联设备
+	 */
+	private String deviceKey;
+	
 	/**
 	 * @return the allocateNum
 	 */
@@ -342,4 +349,19 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public void setAllocateDept(String allocateDept) {
 		this.allocateDept = allocateDept;
 	}
+
+	/**
+	 * @return the deviceKey
+	 */
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	/**
+	 * @param deviceKey the deviceKey to set
+	 */
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
+	
 }

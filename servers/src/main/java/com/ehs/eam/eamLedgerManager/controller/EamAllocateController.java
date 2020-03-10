@@ -154,17 +154,49 @@ public class EamAllocateController {
 		return eamFlowBean != null ? JsonUtils.toJsonString(eamFlowBean) : "{}";
 	}
 
+	/**
+	 * 
+	* @Function:getEamLedgerByAllocateKey 
+	* @Description: 该函数的功能描述
+	* @param key
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 下午3:31:53 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "eamAllocate" })
 	@RequestMapping(value = "/getEamLedgerByAllocateKey")
 	public String getEamLedgerByAllocateKey(@RequestParam String key) {
 		Map<String,Object> resMap=new HashMap<String, Object>();
 		EamAllocate eamAllocate = baseCommonService.findByKey(EamAllocate.class, key);
-		EamLedger eamLedger = eamAllocateService.EamLedgerByAllocateKey(key);
+		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, eamAllocate.getDeviceKey());
 		resMap.put("allocate", eamAllocate);
 		resMap.put("table", eamLedger);
 		return JsonUtils.toJsonString(resMap);
 	}
 
+	/**
+	 * 
+	* @Function:updateAfterAllocateFlow 
+	* @Description: 调拨流程结束后数据更新
+	* @param flowProcessInfo
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月10日 下午3:38:28 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月10日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "eamAllocate" })
 	@RequestMapping(value = "/updateAfterAllocateFlow")
 	public String updateAfterAllocateFlow(@RequestBody FlowProcessInfo flowProcessInfo) {

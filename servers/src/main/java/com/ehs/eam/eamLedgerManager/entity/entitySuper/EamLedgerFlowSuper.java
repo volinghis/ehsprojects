@@ -8,7 +8,6 @@
  */
 package com.ehs.eam.eamLedgerManager.entity.entitySuper;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -46,26 +45,22 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String RUN_DATE = "runDate";
 	public static final String INSTALL_LOCATION = "installLocation";
 	public static final String PROFESSION = "profession";
-	public static final String PURCHASE_TIME = "purchaseTime";
 	public static final String WARRANTY = "warranty";
 	public static final String SERVICE_LIFE = "serviceLife";
 	public static final String REPAIR_FREQUENCY = "repairFrequency";
-	public static final String BUYING_PRICE = "buyingPrice";
 	public static final String PERSON = "person";
 	public static final String PERSON_NAME = "personName";
 	public static final String FILE_ID = "fileId";
 	public static final String DEVICE_IMG = "deviceImg";
 	public static final String REPAIR_NUMBER = "repairNumber";
-	public static final String FAULTS_NUMBER = "faultsNumber";
 	public static final String REMARKS = "remarks";
 	public static final String LEAVE_NUM = "leaveNum";
+	public static final String LEAVE_DATE = "leaveDate";
 	
 	public static final String MAINTENANCES_STANDARD = "maintenancesStandard";
 	public static final String SYNOPSIS = "synopsis";
 	public static final String OPERATION_MANUAL = "operationManual";
 	public static final String REF_DEVICE_KEY = "refDeviceKey";
-	public static final String SCRAP_KEY = "scrapKey";
-	public static final String ALLOCATE_KEY = "allocateKey";
 
 	/**
 	 * 设备编码
@@ -113,11 +108,12 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	private String profession;
 
+	
 	/**
-	 * 采购时间
+	 * 出厂日期
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-	private Timestamp purchaseTime;
+	private Timestamp leaveDate;
 
 	/**
 	 * 保修期
@@ -133,11 +129,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 * 检修频率
 	 */
 	private Byte repairFrequency;
-
-	/**
-	 * 采购价格
-	 */
-	private BigDecimal buyingPrice;
 
 	/**
 	 * 负责人
@@ -181,11 +172,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	private Integer repairNumber;
 
 	/**
-	 * 故障数量
-	 */
-	private Integer faultsNumber;
-
-	/**
 	 * 备注
 	 */
 	@Column(length = 3000)
@@ -199,16 +185,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	@Column(length = 4000)
 	private String refDeviceKey;
 
-	/**
-	 * 报废申请key
-	 */
-	private String scrapKey;
-	
-	/**
-	 * 调拨申请key
-	 */
-	private String allocateKey;
-	
 	/**
 	 * @return the deviceNum
 	 */
@@ -321,19 +297,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 		this.installLocation = installLocation;
 	}
 
-	/**
-	 * @return the purchaseTime
-	 */
-	public Timestamp getPurchaseTime() {
-		return purchaseTime;
-	}
-
-	/**
-	 * @param purchaseTime the purchaseTime to set
-	 */
-	public void setPurchaseTime(Timestamp purchaseTime) {
-		this.purchaseTime = purchaseTime;
-	}
 
 	/**
 	 * @return the warranty
@@ -375,20 +338,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	public void setRepairFrequency(Byte repairFrequency) {
 		this.repairFrequency = repairFrequency;
-	}
-
-	/**
-	 * @return the buyingPrice
-	 */
-	public BigDecimal getBuyingPrice() {
-		return buyingPrice;
-	}
-
-	/**
-	 * @param buyingPrice the buyingPrice to set
-	 */
-	public void setBuyingPrice(BigDecimal buyingPrice) {
-		this.buyingPrice = buyingPrice;
 	}
 
 	/**
@@ -434,20 +383,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the faultsNumber
-	 */
-	public Integer getFaultsNumber() {
-		return faultsNumber;
-	}
-
-	/**
-	 * @param faultsNumber the faultsNumber to set
-	 */
-	public void setFaultsNumber(Integer faultsNumber) {
-		this.faultsNumber = faultsNumber;
-	}
-
-	/**
 	 * @return the remarks
 	 */
 	public String getRemarks() {
@@ -473,34 +408,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	public void setRefDeviceKey(String refDeviceKey) {
 		this.refDeviceKey = refDeviceKey;
-	}
-
-	/**
-	 * @return the scrapKey
-	 */
-	public String getScrapKey() {
-		return scrapKey;
-	}
-
-	/**
-	 * @param scrapKey the scrapKey to set
-	 */
-	public void setScrapKey(String scrapKey) {
-		this.scrapKey = scrapKey;
-	}
-
-	/**
-	 * @return the allocateKey
-	 */
-	public String getAllocateKey() {
-		return allocateKey;
-	}
-
-	/**
-	 * @param allocateKey the allocateKey to set
-	 */
-	public void setAllocateKey(String allocateKey) {
-		this.allocateKey = allocateKey;
 	}
 
 	/**
@@ -582,5 +489,18 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
-	
+
+	/**
+	 * @return the leaveDate
+	 */
+	public Timestamp getLeaveDate() {
+		return leaveDate;
+	}
+
+	/**
+	 * @param leaveDate the leaveDate to set
+	 */
+	public void setLeaveDate(Timestamp leaveDate) {
+		this.leaveDate = leaveDate;
+	}
 }
