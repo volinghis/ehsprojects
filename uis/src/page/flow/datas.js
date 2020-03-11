@@ -3,7 +3,7 @@ export default {
 
   methods: {
     doneProcess (stepKey) {
-      if (this.processInfo.flowStartActivityId === stepKey) {
+      if (this.processInfo.flowStartActivityId === this.processInfo.flowCurrentStep) {
         this.startFlow()
       } else {
         this.processInfo.vars = this.vars
