@@ -1,4 +1,4 @@
-package com.ehs.common.base.Controller;
+package com.ehs.common.base.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,4 +42,6 @@ public class BaseController {
 	public String getMenu(HttpServletRequest request,HttpServletResponse response) {
 		return JsonUtils.toJsonString(SysAccessUser.get());
 	}
+	
+
 }
