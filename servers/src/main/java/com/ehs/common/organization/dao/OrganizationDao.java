@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.organization.entity.OrganizationInfo;
 
