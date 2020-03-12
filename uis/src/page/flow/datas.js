@@ -4,11 +4,11 @@ export default {
   methods: {
 
     doneProcess (stepKey) {
+      this.processInfo.vars = this.vars
+      this.processInfo.vars.taskId = this.processInstance.activeTaskId
       if (this.processInfo.flowStartActivityId === this.processInfo.flowCurrentStep) {
         this.startFlow()
       } else {
-        this.processInfo.vars = this.vars
-        this.processInfo.vars.taskId = this.processInstance.activeTaskId
         var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
         if (stepKey === 'END') {
           url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
