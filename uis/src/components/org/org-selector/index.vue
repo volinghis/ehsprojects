@@ -1,5 +1,5 @@
 <template>
-  <el-cascader placeholder="请选择组织" ref="orgCasCader" :options="options" :size="GlobalCss.buttonSize"
+  <el-cascader placeholder="请选择组织" ref="orgCasCader" :options="options" :size="normalsize"
     :disabled="disabled" :clearable="clearable" :show-all-levels="showAllLevels" transfer :value="propOrgValue"
     @change="change" @blur="blur" @focus="focus" @visible-change="visibleChange" @remove-tag="removeTag"
     :props="defaultProps">

@@ -3,6 +3,7 @@ export default {
   props: {
     'disabled': Boolean,
     'clearable': Boolean,
+    'size': { type: String },
     'show-all-levels': { type: Boolean, default: false },
     'propOrgValue': String,
     'props': Object
@@ -48,6 +49,7 @@ export default {
   },
   data () {
     return {
+      normalsize: this.size ? this.size : this.GlobalCss.buttonSize,
       defaultProps: Object.assign({ multiple: false, checkStrictly: true, emitPath: false }, this.props),
       options: []
     }
