@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -131,6 +132,19 @@ public class DataDictionaryController {
 		String parentCode = request.getParameter("parentKey");
 		PageInfoBean pb = dataDictionaryService.getAllDatasTable(parentCode,queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+	}
+	
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/findDatasByParentKey")
+	@ResponseBody
+	public String findDatasByParentKey(HttpServletRequest request,HttpServletResponse response, OrgQueryBean queryBean) {
+		String parentKey = request.getParameter("parentKey");
+		List<DataDictionary> list= (List<DataDictionary>)baseCommonService.findAll(DataDictionary.class);
+		if(list!=null&&!list.isEmpty()) {
+			List<DataDictionary>  ll=list.stream().filter(s->StringUtils.equals(parentKey, s.getParentKey())).collect(Collectors.toList());
+			return (ll==null?"[]":JsonUtils.toJsonString(ll));
+		}
+		return (list==null?"[]":JsonUtils.toJsonString(list));
 	}
 	
 	/**

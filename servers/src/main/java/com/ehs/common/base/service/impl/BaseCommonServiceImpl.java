@@ -199,6 +199,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 	}
 
 	@Override
+	@Cacheable(value = DataConfig.CACHE_NAME, key = "#clazz.name", unless = "#result == null")
 	public List<?> findAll(Class<? extends BaseEntity> clazz) {
 		logger.debug("findAll:Class="+clazz.getName());
 		StringBuilder builder = new StringBuilder(" select be from  ");
