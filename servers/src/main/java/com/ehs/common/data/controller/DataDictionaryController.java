@@ -2,6 +2,8 @@ package com.ehs.common.data.controller;
 
 import java.util.ArrayList;
 
+import java.util.Comparator;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -141,7 +143,7 @@ public class DataDictionaryController {
 		String parentKey = request.getParameter("parentKey");
 		List<DataDictionary> list= (List<DataDictionary>)baseCommonService.findAll(DataDictionary.class);
 		if(list!=null&&!list.isEmpty()) {
-			List<DataDictionary>  ll=list.stream().filter(s->StringUtils.equals(parentKey, s.getParentKey())).collect(Collectors.toList());
+			List<DataDictionary>  ll=list.stream().filter(s->StringUtils.equals(parentKey, s.getParentKey())).sorted(Comparator.comparing(DataDictionary::getSort, Comparator.nullsLast(Comparator.naturalOrder()))).collect(Collectors.toList());
 			return (ll==null?"[]":JsonUtils.toJsonString(ll));
 		}
 		return (list==null?"[]":JsonUtils.toJsonString(list));
