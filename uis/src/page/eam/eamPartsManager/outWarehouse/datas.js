@@ -1,8 +1,9 @@
 export default {
   methods: {
     handleAdd: function () {
-      this.GlobalMethods.openFlowWin('outWarehouseEdit', { processDefineKey: 'EamOutWareHouseFlow', flag: 'add', replace: true }, function () {
-        this.getTableData()
+      var that = this
+      this.GlobalMethods.openFlowWin('outWarehouseEdit', { processDefineKey: 'EamOutWareHouseFlow', flag: 'add' }, function () {
+        that.getTableData()
       })
     },
     handleClick: function (row) {
@@ -10,12 +11,18 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseFlowBean', { params: { key: row.wareHouseKey } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', key: row.wareHouseKey, replace: true })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', key: row.wareHouseKey })
         } else {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', key: row.wareHouseKey, replace: true })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', key: row.wareHouseKey })
         }
       }).catch(error => {
         this.$message({ message: error })
+      })
+    },
+    getTableData: function () {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllOutWareHouseParts', this.form).then(res => {
+        this.tableData = res.data.dataList
+        this.totalCount = this.tableData.length
       })
     },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
@@ -68,7 +75,7 @@ export default {
         one: spanOneArr,
         two: spanTwoArr
       }
-    },
+    }
     // querySearch: function (queryString, cb) {
     //   var restaurants = this.restaurants
     //   var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
@@ -88,12 +95,6 @@ export default {
     //   this.restaurants = res.data
     // })
     // },
-    getTableData: function () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllOutWareHouseParts', this.form).then(res => {
-        this.tableData = res.data.dataList
-        this.totalCount = this.tableData.length
-      })
-    }
   },
   mounted: function () {
     this.getTableData()

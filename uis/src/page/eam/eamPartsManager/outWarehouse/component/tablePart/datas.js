@@ -49,7 +49,8 @@ export default {
         this.tableData = val
         this.select.push.apply(this.select, val)
         this.unique(this.select)
-        this.select.filter((item, index, self) => self.indexOf(item) === index)
+        this.tableData = this.select
+        // this.select.filter((item, index, self) => self.indexOf(item) === index)
       }
     },
     parts: {
@@ -92,7 +93,13 @@ export default {
     },
     handleClose: function (done) {
       this.$confirm('确认关闭？').then(_ => {
-        this.drawer = false
+        this.$refs.partData.$refs.form.validate(valid => {
+          if (valid) {
+            this.drawer = false
+          } else {
+            this.drawer = true
+          }
+        })
       })
     },
     saveForm: function () {
@@ -118,14 +125,6 @@ export default {
         }
       })
     },
-    // handleClose: function (done) {
-    //   this.$confirm('确认关闭？')
-    //     .then(_ => {
-    //       this.drawer = false
-    //       this.partsFormEdit = {}
-    //     })
-    //     .catch(_ => { })
-    // },
     getSummaries: function (param) {
       const { columns, data } = param
       const sums = []

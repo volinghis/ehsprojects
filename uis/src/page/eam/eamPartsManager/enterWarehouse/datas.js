@@ -1,8 +1,9 @@
 export default {
   methods: {
     handleAdd: function () {
-      this.GlobalMethods.openFlowWin('enterWarehouseEdit', { processDefineKey: 'EamEnterWareHouseFlow', flag: 'add', replace: true }, function () {
-        this.getTableData()
+      var that = this
+      this.GlobalMethods.openFlowWin('enterWarehouseEdit', { processDefineKey: 'EamEnterWareHouseFlow', flag: 'add' }, function () {
+        that.getTableData()
       })
     },
     handleClick (row) { // 查看
@@ -10,16 +11,19 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseFlowBean', { params: { key: row.wareHouseKey } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', key: row.wareHouseKey, replace: true })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', key: row.wareHouseKey })
         } else {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', key: row.wareHouseKey, replace: true })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', key: row.wareHouseKey })
         }
       }).catch(error => {
         this.$message({ message: error })
       })
     },
-    handleDelete: function (row) {
-      confirm('确定删除此数据吗？')
+    getTableData: function () {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.form).then(res => {
+        this.tableData = res.data.dataList
+        this.totalCount = this.tableData.length
+      })
     },
     exportExcel: function (row) {
       this.$message({
@@ -77,7 +81,7 @@ export default {
         one: spanOneArr,
         two: spanTwoArr
       }
-    },
+    }
     // handleSelect: function () {
     // },
     // querySearch: function (queryString, cb) {
@@ -96,12 +100,6 @@ export default {
     //   this.restaurants = res.data
     // })
     // }
-    getTableData: function () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.form).then(res => {
-        this.tableData = res.data.dataList
-        this.totalCount = this.tableData.length
-      })
-    }
   },
   mounted: function () {
     this.getTableData()

@@ -20,5 +20,17 @@ import javax.persistence.MappedSuperclass;
 public abstract class PartsAccount extends PartsExtends {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String DUMMY_AMOUNT = "dummyAmount";
+
+	private Integer dummyAmount;
+
+	public Integer getDummyAmount() {
+		return dummyAmount;
+	}
+
+	public void setDummyAmount(Integer dummyAmount) {
+		this.dummyAmount = dummyAmount;
+	}
 
 }

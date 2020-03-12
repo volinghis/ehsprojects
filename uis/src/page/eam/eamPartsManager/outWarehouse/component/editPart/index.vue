@@ -56,7 +56,7 @@
                   <el-input v-model="form.unit" placeholder="请输入单位" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="数量：" prop="amount">
-                  <el-input v-model="form.amount" placeholder="请输入单位" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
+                  <el-input v-model="form.amount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <!-- <el-form-item label="创建人:" prop="founder">
                   <el-input v-model="form.founder" :disabled="true"></el-input>

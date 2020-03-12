@@ -65,6 +65,8 @@ export default {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
+          this.showFlag = 'edit'
+          this.showButton = true
           this.getPartsAccounts()
         })
       }

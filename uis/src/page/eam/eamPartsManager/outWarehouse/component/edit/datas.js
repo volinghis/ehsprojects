@@ -63,6 +63,7 @@ export default {
       this.show = false
       this.showButton = true
       this.showFlag = 'add'
+      console.log('this.showFlag=====' + this.showFlag)
     } else if (this.flag === 'view') {
       if (processObj.key) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
@@ -77,7 +78,8 @@ export default {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
-          this.showFlag = 'view'
+          this.showFlag = 'edit'
+          this.showButton = true
           this.getPartsAccounts()
         })
       }
@@ -102,6 +104,9 @@ export default {
         })
         .catch(_ => {})
     },
+    resetSelect: function () {
+      this.dialogVisible = false
+    },
     handlerAfterFlow (v) { // 流程结束数据处理
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/updateAfterFlow', v).then(res => {
         if (res.data.resultType === 'ok') {
@@ -112,6 +117,7 @@ export default {
       })
     },
     handerSubmit: function (processInfo) {
+      alert('驳回后我又要重新提交了')
       this.$refs.form.validate(valid => {
         if (valid) {
           const requestParam = {
@@ -119,15 +125,16 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          // console.log(requestParam)
+          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
                 message: res.data.message,
                 type: 'success'
               })
-              // this.$router.push({ name: 'outWarehouse', replace: true })
-              window.close()
+              setTimeout(() => {
+                window.close()
+              }, 1000)
             } else {
               this.$message.error(res.data.message)
             }

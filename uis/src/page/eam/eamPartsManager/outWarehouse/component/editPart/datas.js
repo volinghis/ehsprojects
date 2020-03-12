@@ -50,9 +50,10 @@ export default {
   },
   methods: {
     amountBlur: function (e) {
+      console.log(e.target.value)
       if (e.target.value <= this.oldAmount) {
         let a = this.oldAmount - e.target.value
-        if (a <= this.oldWarningValue) {
+        if (e.target.value !== '' && a <= this.oldWarningValue) {
           this.$message({
             message: '您的剩余库存已经达到预警值，请尽快采购',
             type: 'warning'

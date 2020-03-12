@@ -23,7 +23,6 @@ import com.ehs.eam.eamPartLibraryManager.entity.entitySuper.PartsAccount;
 @Table(name = "EAM_PARTS_ACCOUNT_HIS")
 public class PartsAccountHis extends PartsAccount {
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 
 }

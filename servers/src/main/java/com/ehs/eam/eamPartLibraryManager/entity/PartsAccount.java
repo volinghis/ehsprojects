@@ -32,7 +32,6 @@ import com.ehs.common.base.config.DataConfig;
 @Table(name = "EAM_PARTS_ACCOUNT",uniqueConstraints = @UniqueConstraint(columnNames = DataConfig.TABLE_UNIQUE_KEY))
 public class PartsAccount extends com.ehs.eam.eamPartLibraryManager.entity.entitySuper.PartsAccount {
 
-	// @Fields serialVersionUID : TODO
 	private static final long serialVersionUID = 1L;
 
 }

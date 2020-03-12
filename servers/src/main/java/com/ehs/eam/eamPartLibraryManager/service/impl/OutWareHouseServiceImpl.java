@@ -100,12 +100,30 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
 			wareHouserBean.getOutWareHouse().setReceiveDepart(org.getName());
 			wareHouserBean.getOutWareHouse().setReceiveEmp(user.getName());
+			System.out.println("wareHouserBean.getOutWareHouse()========="+wareHouserBean.getOutWareHouse());
+			System.out.println("wareHouserBean.getFlowProcessInfo()======="+wareHouserBean.getFlowProcessInfo());
 			ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
+//			System.out.println("pi.key=========="+pi.getBusinessKey()); //这个key 不会变
+			System.out.println("pi.id======++++====="+pi.getId());//流程id
 			if (!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 				for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
 					partsExtends.setWareHouseKey(pi.getBusinessKey());
 					logger.info("准备保存备件信息");
-					baseCommonService.saveOrUpdate(partsExtends);
+					PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
+					List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());
+					if (!CollectionUtils.isEmpty(pAccounts)) {
+						for (PartsAccount partsAccount : pAccounts) {
+							if (partsAccount != null) {
+								if(partsAccount.getPrice().compareTo(pp.getPrice()) == 0) {
+									logger.info("编码相同，价格相同的时候");
+									partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
+									logger.info("真实数量为================"+partsAccount.getAmount());
+									logger.info("出库以后的虚拟数量为================"+partsAccount.getDummyAmount());
+									baseCommonService.saveOrUpdate(partsAccount);
+								}
+							}
+						}
+					}
 					logger.info("保存完成");
 				}
 			}
@@ -128,14 +146,16 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
 				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
-				for (PartsAccount partsAccount : pAccounts) {
-					PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
-					if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
-						logger.info("编码相同，价格相同的时候");
-						pa.setAmount(new Integer(pa.getAmount().intValue() - pExtends.getAmount().intValue()));
-						logger.info("出库以后的数量为========="+pa.getAmount());
-						baseCommonService.saveOrUpdate(pa);
-						logger.info("====出库流程回调结束======");
+				if (CollectionUtils.isEmpty(pAccounts)) {
+					for (PartsAccount partsAccount : pAccounts) {
+						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
+						if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
+							logger.info("编码相同，价格相同的时候");
+							pa.setAmount(new Integer(pa.getAmount().intValue() - pExtends.getAmount().intValue()));
+							logger.info("出库以后的数量为========="+pa.getAmount());
+							baseCommonService.saveOrUpdate(pa);
+							logger.info("====出库流程回调结束======");
+						}
 					}
 				}
 			}

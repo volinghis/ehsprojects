@@ -60,7 +60,7 @@
         <AddPart @partsData="partsData"></AddPart>
         <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false" :size="GlobalCss.buttonSize" v-show="showButton">取 消</el-button>
+            <el-button @click="resetSelect" :size="GlobalCss.buttonSize" v-show="showButton">取 消</el-button>
             <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize" v-show="showButton">确 定</el-button>
           </span>
         </div>
