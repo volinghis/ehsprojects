@@ -29,7 +29,13 @@ export default {
       return this.$refs['orgCasCader'].getCheckedNodes(leafOnly)
     },
     change (v) {
-      this.$emit('change', v)
+      var vr = ''
+      if (v instanceof Array) {
+        vr = v.join(',')
+      } else {
+        vr = v
+      }
+      this.$emit('change', vr)
     },
     expandChange (v) {
       this.$emit('expand-change', v)
