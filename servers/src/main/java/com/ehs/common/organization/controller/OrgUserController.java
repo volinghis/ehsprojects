@@ -145,6 +145,7 @@ public class OrgUserController {
 			tn.setId(organizationInfo.getKey());
 			tn.setPid(organizationInfo.getParentKey());
 			tn.setName(organizationInfo.getName());
+			tn.setSort(String.valueOf(organizationInfo.getSort()));
 			tn.setLeaf(false);
 			trees.add(tn);
 		}else {
@@ -156,12 +157,20 @@ public class OrgUserController {
 						tn.setId(organizationInfo.getKey());
 						tn.setPid(organizationInfo.getParentKey());
 						tn.setName(organizationInfo.getName());
+						tn.setSort(String.valueOf(organizationInfo.getSort()));
 		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
 		    			trees.add(tn);
 					}
 				}
 			}
+			trees.sort((a, b) -> {
+		    	int c = Integer.parseInt(StringUtils.defaultIfBlank(a.getSort(), "0")) - Integer.parseInt(StringUtils.defaultIfBlank(b.getSort(), "0"));
+		    	if(c==0) {
+		    		return (Integer.parseInt(a.getSort()) - Integer.parseInt(b.getSort()));
+		    	}
+		    	return c;
+		    });
 		}
 		return (trees==null?"[]":JsonUtils.toJsonString(trees));
 	}

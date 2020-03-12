@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="5" style="border-right:1px solid #DCDFE6;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-        <el-tree :props="props" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
+        <el-tree :props="props" ref="tree" node-key="id" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
       </el-col>
       <el-col :span="18" :push="1">
         <div class="container">
@@ -31,7 +31,7 @@
             </template>
           </div>
           <!--添加组织-->
-          <el-dialog title="编辑页面" :visible.sync="dialogTableVisible" width="40%" :before-close="handleClose">
+          <el-dialog title="编辑页面" :visible.sync="dialogTableVisible" :close-on-click-modal="false" width="40%" :before-close="handleClose">
             <el-divider></el-divider>
             <div>
               <el-form label-position="right" label-width="80px" ref="formLabelAlign" :rules="rules" :model="formLabelAlign" :size="GlobalCss.buttonSize">

@@ -82,6 +82,7 @@ public class DataDictionaryController {
 					tn.setId(dataDictionary.getKey());
 					tn.setPid(dataDictionary.getParentKey());
 					tn.setName(dataDictionary.getText());
+					tn.setSort(String.valueOf(dataDictionary.getSort()));
 					tn.setLeaf(false);
 					trees.add(tn);
 				}
@@ -95,12 +96,20 @@ public class DataDictionaryController {
 						tn.setId(dataDict.getKey());
 						tn.setPid(dataDict.getParentKey());
 						tn.setName(dataDict.getText());
+						tn.setSort(String.valueOf(dataDict.getSort()));
 		    			List list=dataDictionaries.stream().filter(d->StringUtils.equals(d.getParentKey(),dataDict.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
 		    			trees.add(tn);
 					}
 				}
 			}
+			trees.sort((a, b) -> {
+		    	int c=Integer.parseInt(StringUtils.defaultIfBlank(a.getSort(), "0")) - Integer.parseInt(StringUtils.defaultIfBlank(b.getSort(), "0"));
+		    	if(c==0) {
+		    		return ((Long)(Long.parseLong(a.getSort()) - Long.parseLong(b.getSort()))).intValue();
+		    	}
+		    	return c;
+		    });
 		}
 		return (trees==null?"[]":JsonUtils.toJsonString(trees));
 	}
@@ -126,7 +135,7 @@ public class DataDictionaryController {
 	@RequestAuth(menuKeys = {"dataDictionaryManager"})
 	@RequestMapping(value = "/findDatasByParentCode")
 	@ResponseBody
-	public String getAllOrgsTable(HttpServletRequest request,HttpServletResponse response, OrgQueryBean queryBean) {
+	public String getAllDatasTable(HttpServletRequest request,HttpServletResponse response, OrgQueryBean queryBean) {
 		String parentCode = request.getParameter("parentKey");
 		PageInfoBean pb = dataDictionaryService.getAllDatasTable(parentCode,queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
@@ -165,7 +174,7 @@ public class DataDictionaryController {
 	 */
 	@RequestAuth(menuKeys = {"dataDictionaryManager"})
 	@RequestMapping(value = "/saveDataDictionary")
-	public String saveOrg(@RequestBody DataDictionary data, HttpServletRequest request,HttpServletResponse response) {
+	public String saveDataDictionary(@RequestBody DataDictionary data, HttpServletRequest request,HttpServletResponse response) {
 		ResultBean resultBean=new ResultBean();
 	 	try {
 	 		List<DataDictionary> organizationInfos = (List<DataDictionary>) baseCommonService.findAll(DataDictionary.class);
@@ -203,11 +212,11 @@ public class DataDictionaryController {
 	 */
 	@RequestAuth(menuKeys = {"dataDictionaryManager"})
 	@RequestMapping(value = "/deleteDataDictionary")
-	public String deleteOrgInfo(HttpServletRequest request) {
+	public String deleteDataDictionary(HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		try {
 			String key=request.getParameter("key");
-			dataDictionaryService.deleteOrgByKey(key);
+			dataDictionaryService.deleteDataDictionary(key);
 			return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -23,9 +23,7 @@ export default {
     initTree () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
         this.treeData = res.data.filter(d => !d.business && d.key !== 'home')
-        console.log(this.treeData)
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     handleNodeClick (data) {
@@ -35,8 +33,7 @@ export default {
     findRolesByMenu (key) { // 查询菜单所有的角色权限
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/findMenuRoles', { params: { menuKey: key } }).then(res => {
         this.tableData = res.data
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     handleRomoveAuth (row) {
@@ -56,8 +53,7 @@ export default {
               })
               this.findRolesByMenu(this.currentMenuKey)
             }
-          }).catch((error) => {
-            console.log(error)
+          }).catch(() => {
           })
       }).catch(() => {
         this.$message({
@@ -79,7 +75,6 @@ export default {
     },
     handleSubmit () {
       const roles = this.selectRoles
-      console.log(roles)
       var roleBeans = []
       for (let i = 0; i < roles.length; i++) {
         const e = roles[i]
@@ -102,8 +97,7 @@ export default {
           } else {
             alert('失败')
           }
-        }).catch(error => {
-          console.log(error)
+        }).catch(() => {
         })
       }
     },
