@@ -36,42 +36,46 @@
                 <span class="info-title">负责人</span>:&nbsp;<span class="info-content">{{ eamInfos.personName }}</span>
               </el-col>
             </el-row>
+            <el-row>
+              <el-col :span="24">
+                <div class="item-block right">
+                  <div class="item-title">定期工作标准</div>
+                  <el-divider></el-divider>
+                  <el-input type="textarea"
+                            :rows="5"
+                            maxlength="300"
+                            show-word-limit
+                            placeholder="请输入定期工作标准"
+                            v-model="eamInfos.remarks">
+                  </el-input>
+                </div>
+              </el-col>
+            </el-row>
           </el-col>
         </el-row>
       </div>
     </div>
     <!--设备参数-->
     <div class="item-block right">
-      <div class="item-title">设备主要参数</div>
       <el-divider></el-divider>
       <params-table :deviceKey="deviceKey"
                     :isDisable="true"></params-table>
     </div>
-    <div class="item-block right">
-      <div class="item-title">定期工作标准</div>
-      <el-divider></el-divider>
-      <el-input type="textarea"
-                :rows="5"
-                maxlength="300"
-                show-word-limit
-                placeholder="请输入定期工作标准"
-                v-model="eamInfos.remarks">
-      </el-input>
-    </div>
     <!--历任点检员-->
     <div class="item-block right">
-      <div class="item-title">历任点检员</div>
       <el-divider></el-divider>
       <past-inspectors :deviceKey="deviceKey"
                        :isDisable="true"></past-inspectors>
     </div>
     <!--子设备-->
     <div class="item-block right">
+      <el-divider></el-divider>
       <ChildEamTable :deviceKey="deviceKey"
-                     :isDisable="true" />
+                     :isDisable="true" ></ChildEamTable>
     </div>
     <!--关联文件-->
     <div class="item-block right">
+      <el-divider></el-divider>
       <FilesTable :fileId="eamInfos.fileId"
                   :deviceKey="deviceKey"
                   :isDisable="true"></FilesTable>

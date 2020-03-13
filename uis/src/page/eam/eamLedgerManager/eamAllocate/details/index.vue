@@ -1,10 +1,5 @@
 <template>
-  <div :style="{
-      height: $store.state.contentHeight + 'px',
-      padding: '0px 20px',
-      background: '#fff'
-    }"
-       class="divHeight">
+  <div :style="{height: $store.state.contentHeight + 'px',padding: '0px 20px', background: '#fff'}" class="divHeight">
     <el-form ref="form"
              :model="allocateForm"
              label-position="right"

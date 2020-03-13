@@ -22,7 +22,6 @@ import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataFileInfoDao;
-import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.data.entity.DataFileInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
