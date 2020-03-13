@@ -86,6 +86,12 @@
 			</menu>
 		</menu>
 		
+		<menu dataCode="eamCheck" key="eamCheck" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
+			<menu dataCode="eamCheckPlan" key="eamCheckPlan" name="巡检计划" url="/eam/eamCheckplan/list/index" icon="fa-tasks" parentKey="eamCheck" sort="1"></menu>
+			<menu dataCode="eamCheckPlanEdit" key="eamCheckPlanEdit" name="巡检计划编辑" url="/eam/eamCheckplan/edit/index" icon="fa-tasks" parentKey="eamCheck" sort="10" business="true"></menu>
+			
+		</menu>
+		
 		<!-- 巡检 -->
 		<!--<menu dataCode="eamInspection" key="eamInspection" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
 			<menu dataCode="eamInspectionTask" key="eamInspectionTask" name="巡检任务" url="/eam/eamInspection/inspectionTask/index" icon="fa-tasks" parentKey="eamInspection" sort="4">
@@ -114,5 +120,8 @@
 			<DataDictionary dataCode="Eposition" key="Eposition" text="质量控制主管" sort="5" parentKey="position"  systemCode="dataDict" />
 			<DataDictionary dataCode="Fposition" key="Fposition" text="检修工程师" sort="6" parentKey="position"  systemCode="dataDict" />
 		</DataDictionary>
+		<DataDictionary dataCode ="deviceSystem" key="deviceSystem" text="设备系统" parentKey="dataDict" systemCode="dataDict" sort="10"></DataDictionary>
+		<DataDictionary dataCode ="deviceProfessiona" key="deviceProfessiona" text="设备专业" parentKey="dataDict" systemCode="dataDict" sort="20"></DataDictionary>
+			<DataDictionary dataCode ="deviceAddress" key="deviceAddress" text="设备位置" parentKey="dataDict" systemCode="dataDict" sort="30"></DataDictionary>
 	</DataDictionarys>
 </root>

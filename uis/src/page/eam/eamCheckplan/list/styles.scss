@@ -1,0 +1,16 @@
+.rightButtons{
+  float: right;
+}
+/deep/.el-input-group__append {
+  background-color: #409EFF;
+  border: 1px solid #409EFF;
+}
+/deep/.el-icon-search{
+  color: #ffffff;
+}
+.queryBodys{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 410px;
+  margin-left: 10px;
+}
