@@ -2,10 +2,10 @@
   <div style="margin-right:20px;">
     <el-form ref="form" :model="form" :rules="rules" label-position="right" label-width="80px" :size="GlobalCss.controlSize">
       <el-row :gutter="20" style="margin-left:10px;">
-        <el-col :span="6">
+        <el-col :span="4">
           <div class="item-block">
             <div class="item-title">设备图片</div>
-            <img style="width: 170px; height: 170px" v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img style="width: 150px; height: 150px" v-if="imageUrl" :src="imageUrl" class="avatar">
           </div>
           <!--检修质量标准-->
           <div class="item-block">
@@ -23,7 +23,7 @@
             <file-upload :propUploadValue="form.operationManual" :key="key"></file-upload>
           </div>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="20">
           <div class="item-block">
             <div class="item-title">备件基本信息</div>
             <el-divider></el-divider>
@@ -55,8 +55,8 @@
                 <el-form-item label="单位：" prop="unit">
                   <el-input v-model="form.unit" placeholder="请输入单位" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="数量：" prop="amount">
-                  <el-input v-model="form.amount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
+                <el-form-item label="数量：" prop="dummyAmount">
+                  <el-input v-model="form.dummyAmount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <!-- <el-form-item label="创建人:" prop="founder">
                   <el-input v-model="form.founder" :disabled="true"></el-input>

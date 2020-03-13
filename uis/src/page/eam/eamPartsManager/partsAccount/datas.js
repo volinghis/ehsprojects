@@ -100,7 +100,6 @@ export default {
     // })
     // },
     getTableData: function () {
-      console.log(this.form)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getPartsAccountAll', this.form).then(res => {
         this.tableData = res.data.dataList
         this.totalCount = res.data.totalCount

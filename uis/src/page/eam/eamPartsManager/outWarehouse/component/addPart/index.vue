@@ -12,7 +12,7 @@
         <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" align="center"></el-table-column>
         <el-table-column prop="materialType" label="物资类别" align="center"></el-table-column>
-        <el-table-column prop="amount" label="数量" align="center"></el-table-column>
+        <!-- <el-table-column prop="amount" label="数量" align="center"></el-table-column> -->
         <el-table-column prop="dummyAmount" label="虚拟数量" align="center"></el-table-column>
         <el-table-column prop="warningValue" label="预警值" align="center"></el-table-column>
       </el-table>

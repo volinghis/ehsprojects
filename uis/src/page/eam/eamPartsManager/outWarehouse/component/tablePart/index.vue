@@ -9,7 +9,8 @@
       <el-table-column prop="leaveFactoryDate" label="出厂日期" width="130" align="center"></el-table-column>
       <el-table-column prop="supplier" label="供应商" width="130" align="center"></el-table-column>
       <el-table-column prop="warningValue" label="预警值" width="130" align="center"></el-table-column>
-      <el-table-column prop="amount" label="数量" align="center"></el-table-column>
+      <el-table-column prop="amount" label="数量" align="center" v-if="flagMark!=='view'"></el-table-column>
+      <el-table-column prop="dummyAmount" label="数量" align="center" v-if="flagMark==='add'"></el-table-column>
       <el-table-column prop="price" label="单价" align="center"></el-table-column>
       <el-table-column prop="unit" label="单位" align="center"></el-table-column>
       <el-table-column prop="totalPrice" label="总价" align="center"></el-table-column>

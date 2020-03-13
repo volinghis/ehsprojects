@@ -39,7 +39,7 @@
             <div slot="reference">
               <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>
               <el-tag size="mini" v-else-if="(scope.row.status  === '已结束')" type="success">{{ scope.row.status}}</el-tag>
-              <el-tag size="mini" v-else-if="(scope.row.status  === '已驳回')" type="danger">{{ scope.row.status}}</el-tag>
+              <el-tag size="mini" v-else-if="(scope.row.status  === '填写单据')" type="danger">{{'已驳回'}}</el-tag>
             </div>
           </template>
         </el-table-column>

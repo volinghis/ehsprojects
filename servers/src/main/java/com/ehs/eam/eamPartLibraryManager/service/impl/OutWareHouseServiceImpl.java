@@ -100,31 +100,76 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
 			wareHouserBean.getOutWareHouse().setReceiveDepart(org.getName());
 			wareHouserBean.getOutWareHouse().setReceiveEmp(user.getName());
-			System.out.println("wareHouserBean.getOutWareHouse()========="+wareHouserBean.getOutWareHouse());
-			System.out.println("wareHouserBean.getFlowProcessInfo()======="+wareHouserBean.getFlowProcessInfo());
-			ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
-//			System.out.println("pi.key=========="+pi.getBusinessKey()); //这个key 不会变
-			System.out.println("pi.id======++++====="+pi.getId());//流程id
-			if (!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
-				for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
-					partsExtends.setWareHouseKey(pi.getBusinessKey());
-					logger.info("准备保存备件信息");
-					PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
-					List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());
-					if (!CollectionUtils.isEmpty(pAccounts)) {
-						for (PartsAccount partsAccount : pAccounts) {
-							if (partsAccount != null) {
-								if(partsAccount.getPrice().compareTo(pp.getPrice()) == 0) {
-									logger.info("编码相同，价格相同的时候");
-									partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
-									logger.info("真实数量为================"+partsAccount.getAmount());
-									logger.info("出库以后的虚拟数量为================"+partsAccount.getDummyAmount());
-									baseCommonService.saveOrUpdate(partsAccount);
+			System.out.println("wareHouserBean.getOutWareHouse()========="+wareHouserBean.getOutWareHouse().getKey());
+			System.out.println("wareHouserBean.getFlowProcessInfo()======="+wareHouserBean.getFlowProcessInfo().getBusinessEntityKey());
+			System.out.println("bussinessKey========"+wareHouserBean.getFlowProcessInfo().getBusinessEntityKey());
+			//流程驳回后再次提交
+			if(StringUtils.isNotBlank(wareHouserBean.getOutWareHouse().getKey()) && StringUtils.isNotBlank(wareHouserBean.getFlowProcessInfo().getBusinessEntityKey())
+					&& StringUtils.equals(wareHouserBean.getOutWareHouse().getKey(), wareHouserBean.getFlowProcessInfo().getBusinessEntityKey())){
+				logger.info("============驳回以后===========");
+				ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
+				if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
+					for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
+						partsExtends.setWareHouseKey(pi.getBusinessKey());
+						logger.info("旧的=====partsExtends.getKey()=========="+partsExtends.getKey());
+						PartsExtends oldExtends = baseCommonService.findByKey(partsExtends.getClass(), partsExtends.getKey());
+						PartsExtends newExtends = baseCommonService.saveOrUpdate(partsExtends);
+						logger.info("新的=====partsExtends.getKey()=========="+partsExtends.getKey());
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode());
+						if (!CollectionUtils.isEmpty(pAccounts)) {
+							for (PartsAccount partsAccount : pAccounts) {
+								if (partsAccount != null) {
+									if(partsAccount.getPrice().compareTo(newExtends.getPrice()) == 0) {
+										logger.info("编码相同，价格相同的时候");
+										partsAccount.setDummyAmount(partsAccount.getDummyAmount().intValue() + oldExtends.getAmount().intValue());
+										logger.info("驳回后虚拟数量为============="+partsAccount.getDummyAmount());
+										if(partsAccount.getDummyAmount().intValue() == 0) {
+											partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - newExtends.getAmount().intValue());
+										}else {
+											partsAccount.setDummyAmount(partsAccount.getDummyAmount().intValue() - newExtends.getAmount().intValue());
+										}
+										logger.info("真实数量为================"+partsAccount.getAmount());
+										logger.info("出库以后的虚拟数量为================"+partsAccount.getDummyAmount());
+										baseCommonService.saveOrUpdate(partsAccount);
+									}
 								}
 							}
 						}
 					}
-					logger.info("保存完成");
+				}
+			}else {
+				logger.info("===============新增=========================");
+				ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
+				if (!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
+					for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
+						partsExtends.setWareHouseKey(pi.getBusinessKey());
+						logger.info("准备保存备件信息");
+						PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());
+						if (!CollectionUtils.isEmpty(pAccounts)) {
+							for (PartsAccount partsAccount : pAccounts) {
+								if (partsAccount != null) {
+									if(partsAccount.getPrice().compareTo(pp.getPrice()) == 0) {
+										logger.info("编码相同，价格相同的时候");
+										logger.info("partsAccount.getDummyAmount()====="+partsAccount.getDummyAmount());
+										logger.info("lkdsjfls==="+StringUtils.isNotBlank(String.valueOf(partsAccount.getDummyAmount())));
+										if(StringUtils.isNotBlank(String.valueOf(partsAccount.getDummyAmount()))) {
+											logger.info("aksjdajldjalkjldjaklldajdlajd");
+											partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
+											logger.info("hhhh==="+partsAccount.getDummyAmount());
+										}else {
+											logger.info("jjjjjjjj======"+String.valueOf(partsAccount.getDummyAmount()));
+											partsAccount.setDummyAmount(partsAccount.getDummyAmount().intValue() - pp.getAmount().intValue());
+										}
+										logger.info("真实数量为================"+partsAccount.getAmount());
+										logger.info("出库以后的虚拟数量为================"+partsAccount.getDummyAmount());
+										baseCommonService.saveOrUpdate(partsAccount);
+									}
+								}
+							}
+						}
+						logger.info("保存完成");
+					}
 				}
 			}
 		}

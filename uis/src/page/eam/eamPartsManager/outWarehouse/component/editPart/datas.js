@@ -31,7 +31,7 @@ export default {
     partsForm: {
       handler (val) {
         this.form = val
-        this.oldAmount = this.form.amount
+        this.oldAmount = this.form.dummyAmount
         this.oldWarningValue = this.form.warningValue
         this.form.totalPrice = this.form.amount * this.form.price
         this.partFlag = false
@@ -65,7 +65,7 @@ export default {
           message: '您填写的数量已经超出库存，请重新填写',
           type: 'warning'
         })
-        this.form.amount = ''
+        this.form.dummyAmount = ''
       }
     },
     priceBlur: function (e) {
@@ -112,6 +112,7 @@ export default {
         supplier: '',
         price: '',
         amount: '',
+        dummyAmount: '',
         unit: '',
         totalPrice: 0
       },
@@ -136,6 +137,15 @@ export default {
           { min: 1, max: 3, message: '长度在 1 到 3 个字符', trigger: 'blur' }
         ],
         amount: [
+          { required: true, message: '请输入数量', trigger: 'blur' },
+          {
+            type: 'number',
+            message: '请输入正确数字',
+            trigger: 'blur',
+            transform: value => Number(value)
+          }
+        ],
+        dummyAmount: [
           { required: true, message: '请输入数量', trigger: 'blur' },
           {
             type: 'number',

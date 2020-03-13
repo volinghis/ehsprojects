@@ -120,6 +120,9 @@ export default {
       alert('驳回后我又要重新提交了')
       this.$refs.form.validate(valid => {
         if (valid) {
+          if (this.tableDatas === undefined) {
+            this.tableDatas = this.partsTable
+          }
           const requestParam = {
             outWareHouse: this.form,
             partsExtends: this.tableDatas,

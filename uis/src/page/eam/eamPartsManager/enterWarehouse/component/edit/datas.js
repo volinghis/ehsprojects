@@ -98,9 +98,11 @@ export default {
     handerSubmit: function (processInfo) {
       this.$refs.form.validate(valid => {
         if (valid) {
+          if (this.tableDatas === undefined) {
+            this.tableDatas = this.partsTable
+          }
           const requestParam = {
             enterWareHouse: this.form,
-            // partsAccounts: this.parts
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }

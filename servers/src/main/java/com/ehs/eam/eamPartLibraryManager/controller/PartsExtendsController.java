@@ -50,14 +50,14 @@ public class PartsExtendsController {
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllEnterWareHouseParts")
 	public String getAllEnterWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getExtendsByKey方法=============");
+		logger.info("===========进入getAllEnterWareHouseParts方法=============");
 		PageInfoBean pb = partsExtendsService.getAllEnterWareHouseParts(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllOutWareHouseParts")
 	public String getAllOutWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getExtendsByKey方法=============");
+		logger.info("===========进入getAllOutWareHouseParts方法=============");
 //		String key=request.getParameter("key");
 		PageInfoBean pb = partsExtendsService.getAllOutWareHouseParts(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
