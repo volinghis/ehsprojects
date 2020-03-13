@@ -2,6 +2,7 @@
 .el-form-item__label{
   @include font-styles;
 }
+
 .el-table {
   th{
     .cell{
@@ -12,6 +13,7 @@
   }
   .cell{
   @include font-styles;
+  color: #808695;
   }
 }
 .el-pager{
