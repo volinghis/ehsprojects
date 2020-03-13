@@ -20,14 +20,13 @@ export default {
       tableId: ''
     }
   },
-  mounted: function () {
+  created: function () {
     this.initTable()
   },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
         // this.tableData = res.data.dataList
-        this.tableData = []
         this.getDevicePicture(res.data.dataList)
         this.total = res.data.totalCount
       }).catch(error => {
@@ -47,11 +46,11 @@ export default {
       for (let i = 0; i < resArr.length; i++) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
           resArr[i].imgUrl = URL.createObjectURL(res.data)
-          this.tableData.push(resArr[i])
         }).catch(error => {
           this.$message({ message: error })
         })
       }
+      this.tableData = resArr
     },
     handldbClick: function (row) {
       // 详情查看

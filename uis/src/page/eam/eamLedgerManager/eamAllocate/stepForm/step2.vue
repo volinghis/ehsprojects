@@ -10,82 +10,99 @@
     </div>
 
     <template>
-      <el-table :data="result.tableData"
-                border
-                ref="multipleTable"
-                class="tableHeight"
-                :size="GlobalCss.controlSize">
-        <el-table-column prop="deviceNum"
-                         align="center"
-                         label="设备编号"> </el-table-column>
-        <el-table-column prop="deviceName"
-                         align="center"
-                         label="设备名称"> </el-table-column>
-        <el-table-column prop="deviceModel"
-                         align="center"
-                         label="规格型号"> </el-table-column>
-        <el-table-column prop="profession"
-                         align="center"
-                         label="调出部门"></el-table-column>
-        <el-table-column prop="installLocation"
-                         align="center"
-                         label="调出位置"></el-table-column>
-        <el-table-column prop="targetDept"
-                         align="center"
-                         label="调入部门">
-          <template slot-scope="scope">
-            <span v-if="isSet">
-                <OrgSelect :size="GlobalCss.controlSize"
-                      v-model="result.allocateForm.targetDept"
-                      placeholder="请输入调入部门"></OrgSelect></span>
-            <span v-else>{{scope.row.targetDept}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="targetPosition"
-                         align="center"
-                         label="调入位置">
-          <template slot-scope="scope">
-            <span v-if="isSet">
-                <el-input :size="GlobalCss.controlSize"
-                      v-model="result.allocateForm.targetPosition"
-                      placeholder="请输入调入位置"></el-input></span>
-            <span v-else>{{scope.row.targetPosition}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="amount"
-                         align="center"
-                         label="数量">
-          <template slot-scope="scope">
-            <span v-if="isSet">
-            <el-input :size="GlobalCss.controlSize"
-                      v-model="result.allocateForm.amount"
-                      placeholder="请输入数量"></el-input></span>
-            <span v-else>{{scope.row.amount}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="unit"
-                         align="center"
-                         label="单位">
-          <template slot-scope="scope">
-            <span v-if="isSet">
-              <el-input :size="GlobalCss.controlSize"
-                      v-model="result.allocateForm.unit"
-                      placeholder="请输入单位"></el-input></span>
-            <span v-else>{{scope.row.unit}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right"
-                         label="操作"
-                         width="120"
-                         align="center">
-          <template slot-scope="scope">
-            <el-button :size="GlobalCss.controlSize"
-                       type="danger"
-                       :disabled="!isSet"
-                       @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-form :model="result.allocateForm"
+               ref="allocateForm"
+               :show-message="false"
+               :rules="rules">
+        <el-table :data="result.tableData"
+                  border
+                  ref="multipleTable"
+                  class="tableHeight"
+                  :size="GlobalCss.controlSize">
+          <el-table-column prop="deviceNum"
+                           align="center"
+                           label="设备编号"> </el-table-column>
+          <el-table-column prop="deviceName"
+                           align="center"
+                           label="设备名称"> </el-table-column>
+          <el-table-column prop="deviceModel"
+                           align="center"
+                           label="规格型号"> </el-table-column>
+          <el-table-column prop="profession"
+                           align="center"
+                           label="调出部门"></el-table-column>
+          <el-table-column prop="installLocation"
+                           align="center"
+                           label="调出位置"></el-table-column>
+          <el-table-column prop="targetDept"
+                           align="center"
+                           label="调入部门">
+            <template slot-scope="scope">
+              <span v-if="isSet">
+                <el-form-item prop="targetDept">
+                  <OrgSelect :size="GlobalCss.controlSize"
+                             v-model="result.allocateForm.targetDept"
+                             placeholder="请输入调入部门"></OrgSelect>
+                </el-form-item>
+              </span>
+              <span v-else>{{scope.row.targetDept}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="targetPosition"
+                           align="center"
+                           label="调入位置">
+            <template slot-scope="scope">
+              <span v-if="isSet">
+                <el-form-item prop="targetPosition">
+                  <el-input :size="GlobalCss.controlSize"
+                            v-model="result.allocateForm.targetPosition"
+                            placeholder="请输入调入位置"></el-input>
+                </el-form-item>
+              </span>
+              <span v-else>{{scope.row.targetPosition}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="amount"
+                           align="center"
+                           label="数量">
+            <template slot-scope="scope">
+              <span v-if="isSet">
+                <el-form-item prop="amount">
+                  <el-input :size="GlobalCss.controlSize"
+                            v-model="result.allocateForm.amount"
+                            placeholder="请输入数量"></el-input>
+                </el-form-item>
+              </span>
+              <span v-else>{{scope.row.amount}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="unit"
+                           align="center"
+                           label="单位">
+            <template slot-scope="scope">
+              <span v-if="isSet">
+                <el-form-item prop="unit">
+                  <el-input :size="GlobalCss.controlSize"
+                            v-model="result.allocateForm.unit"
+                            placeholder="请输入单位"></el-input>
+                </el-form-item>
+              </span>
+              <span v-else>{{scope.row.unit}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right"
+                           label="操作"
+                           width="120"
+                           align="center">
+            <template slot-scope="scope">
+              <el-button :size="GlobalCss.controlSize"
+                         type="danger"
+                         :disabled="!isSet"
+                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
     </template>
     <div style="text-align:center;">
       <el-button @click="prevStep"
@@ -141,10 +158,16 @@ export default {
       },
       rules: {
         targetPosition: [
-          { required: true, message: '请输入调入位置', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
         targetDept: [
-          { required: true, message: '请输入调入部门', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
+        ],
+        amount: [
+          { required: true, trigger: 'blur' }
+        ],
+        unit: [
+          { required: true, trigger: 'blur' }
         ]
       }
     }
@@ -167,9 +190,14 @@ export default {
           message: '请选择需要调拨的设备',
           type: 'info'
         })
-        return
       }
-      this.$emit('nextStep', this.result)
+      this.$refs.allocateForm.validate((valid) => {
+        if (valid) {
+          this.$emit('nextStep', this.result)
+        } else {
+          return false
+        }
+      })
     },
     prevStep: function () {
       this.$emit('prevStep')

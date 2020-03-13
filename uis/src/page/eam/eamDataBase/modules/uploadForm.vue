@@ -3,7 +3,7 @@
     <el-dialog title="新增设备资料" width="30%" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form">
         <el-form-item label="上传资料:" :label-width="formLabelWidth">
-          <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange" ref="myUpload"></file-upload>
+          <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange" ref="myUpload" ></file-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

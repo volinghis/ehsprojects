@@ -1,14 +1,14 @@
 import ParamsTable from '../../../components/paramsTable'
 import PastInspectors from '../../../components/pastInspectors'
 import ChildEamTable from '../../../components/childEamTable'
-import FileUpload from '@components/upload/index'
+import FilesTable from '../../../components/filesTable'
 export default {
   name: 'eamAccountPrintDetail',
   components: {
     ParamsTable,
     PastInspectors,
     ChildEamTable,
-    FileUpload
+    FilesTable
   },
   data () {
     return {

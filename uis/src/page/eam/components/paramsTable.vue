@@ -1,60 +1,58 @@
 <template>
   <div class="tableClass">
-    <el-row>
-      <el-col :span="24">
-        <el-table size="mini"
-                  :data="eam_params.data"
-                  border
-                  style="width: 100%"
-                  highlight-current-row>
-          <el-table-column type="index"
-                           align="center"></el-table-column>
-          <el-table-column v-for="(item,index) in eam_params.columns"
-                           :label="item.label"
-                           :prop="item.prop"
-                           :key="index"
-                           align="center">
-            <template slot-scope="scope">
-              <span v-if="scope.row.isSet">
-                <el-input size="mini"
-                          placeholder="请输入内容"
-                          v-model="eam_params.sel[item.prop]"></el-input>
-              </span>
-              <span v-else>{{scope.row[item.prop]}}</span>
-            </template>
-          </el-table-column>
-          <template v-if="!isDisable">
-          <el-table-column label="操作"
-                           align="center"
-                           width="220">
-            <template slot-scope="scope">
-              <el-button type="success"
-                         :size="GlobalCss.buttonSize"
-                         @click.stop="saveRow(scope.row,scope.$index)"
-                         v-if="scope.row.isSet">保存
-              </el-button>
-              <el-button type="primary"
-                         :size="GlobalCss.buttonSize"
-                         @click="editRow(scope.row,scope.$index)">
-                编辑
-              </el-button>
-              <el-button type="danger"
-                         :size="GlobalCss.buttonSize"
-                         @click="deleteRow(scope.row,scope.$index)">
-                删除
-              </el-button>
-            </template>
-          </el-table-column>
+    <span style="display:inline-block;float:left">设备参数</span>
+    <div class="operate">
+      <el-button type="primary"
+                 v-if="!isDisable"
+                 icon="fa fa-plus pull-left"
+                 @click="add()"
+                 :size="GlobalCss.buttonSize">添加设备参数</el-button>
+    </div>
+    <el-table :size="GlobalCss.buttonSize"
+              :data="eam_params.data"
+              border
+              style="width: 100%"
+              highlight-current-row>
+      <el-table-column type="index"
+                       align="center"></el-table-column>
+      <el-table-column v-for="(item,index) in eam_params.columns"
+                       :label="item.label"
+                       :prop="item.prop"
+                       :key="index"
+                       align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.isSet">
+            <el-input :size="GlobalCss.buttonSize"
+                      placeholder="请输入内容"
+                      v-model="eam_params.sel[item.prop]"></el-input>
+          </span>
+          <span v-else>{{scope.row[item.prop]}}</span>
+        </template>
+      </el-table-column>
+      <template v-if="!isDisable">
+        <el-table-column label="操作"
+                         align="center"
+                         width="220">
+          <template slot-scope="scope">
+            <el-button type="success"
+                       :size="GlobalCss.buttonSize"
+                       @click.stop="saveRow(scope.row,scope.$index)"
+                       v-if="scope.row.isSet">保存
+            </el-button>
+            <el-button type="primary"
+                       :size="GlobalCss.buttonSize"
+                       @click="editRow(scope.row,scope.$index)">
+              编辑
+            </el-button>
+            <el-button type="danger"
+                       :size="GlobalCss.buttonSize"
+                       @click="deleteRow(scope.row,scope.$index)">
+              删除
+            </el-button>
           </template>
-        </el-table>
-      </el-col>
-      <el-col :span="24">
-        <div class="el-table-add-row"
-             v-if="!isDisable"
-             style="width: 100%;color:#409EFF;cursor:pointer;"
-             @click="add()"><span>+ 添加设备参数</span></div>
-      </el-col>
-    </el-row>
+        </el-table-column>
+      </template>
+    </el-table>
   </div>
 </template>
 
@@ -116,13 +114,13 @@ export default {
     },
     saveRow (row, index) { // 保存
       let data = JSON.parse(JSON.stringify(this.eam_params.sel))
-      for (var k in data) {
-        if (data[k] === '') { // 简单验证
-          this.$message.warning('不能保存空值或补充完整')
-          return
-        }
-        row[k] = data[k] // 将sel里面的value赋值给这一行。
+      if (data.paramName === '' && data.paramValue === '') {
+        this.$message.warning('请输入参数名和参数值')
+        return
       }
+      row.paramValue = data.paramValue
+      row.paramName = data.paramName
+      row.remark = data.remark
       this.$emit('getParamsTable', data)
 
       row.isSet = false
@@ -162,19 +160,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-table-add-row {
-  margin-top: 10px;
-  width: 100%;
-  height: 34px;
-  border: 1px dashed #c1c1cd;
-  border-radius: 1px;
-  justify-content: center;
-  display: flex;
-  line-height: 34px;
-}
 .tableClass {
   margin-top: 10px;
-  margin-bottom: 10px;
   text-align: center;
+}
+.operate {
+  margin-bottom: 8px;
+  float: right;
 }
 </style>

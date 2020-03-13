@@ -145,4 +145,22 @@ public interface EamLedgerService {
 	* 2020年3月10日     qjj        v1.0.0            修改原因
 	*/
 	public void deleteEamLedger(String key);
+
+
+	/**   
+	* @Function:removeRelatedFile 
+	* @Description: 该函数的功能描述
+	* @param deviceKey
+	* @param keys
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月12日 下午2:35:47 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月12日     qjj        v1.0.0            修改原因
+	*/
+	public void removeRelatedFile(String deviceKey, String key);
 }

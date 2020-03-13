@@ -57,9 +57,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String LEAVE_NUM = "leaveNum";
 	public static final String LEAVE_DATE = "leaveDate";
 	
-	public static final String MAINTENANCES_STANDARD = "maintenancesStandard";
-	public static final String SYNOPSIS = "synopsis";
-	public static final String OPERATION_MANUAL = "operationManual";
 	public static final String REF_DEVICE_KEY = "refDeviceKey";
 
 	/**
@@ -143,24 +140,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	@Column(length = 4000)
 	private String fileId;
 	
-	/**
-	   * 关联检修标准文件id
-	 */
-	@Column(length = 1000)
-	private String maintenancesStandard;
-	
-	/**
-	   * 关联操作手册id
-	 */
-	@Column(length = 1000)
-	private String operationManual;
-	
-	
-	/**
-	   * 关联说明书id
-	 */
-	@Column(length = 1000)
-	private String synopsis;
 	/**
 	 * 设备图片
 	 */
@@ -464,30 +443,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 
 	public void setLeaveNum(String leaveNum) {
 		this.leaveNum = leaveNum;
-	}
-
-	public String getMaintenancesStandard() {
-		return maintenancesStandard;
-	}
-
-	public void setMaintenancesStandard(String maintenancesStandard) {
-		this.maintenancesStandard = maintenancesStandard;
-	}
-
-	public String getOperationManual() {
-		return operationManual;
-	}
-
-	public void setOperationManual(String operationManual) {
-		this.operationManual = operationManual;
-	}
-
-	public String getSynopsis() {
-		return synopsis;
-	}
-
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
 	}
 
 	/**

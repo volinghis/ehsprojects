@@ -1,6 +1,7 @@
 import ParamsTable from '../../../components/paramsTable'
 import PastInspectors from '../../../components/pastInspectors'
 import ChildEamTable from '../../../components/childEamTable'
+import FilesTable from '../../../components/filesTable'
 import UserSelector from '@components/org/user-selector/index'
 import FileUpload from '@components/upload/index'
 export default {
@@ -10,7 +11,8 @@ export default {
     PastInspectors,
     ChildEamTable,
     UserSelector,
-    FileUpload
+    FileUpload,
+    FilesTable
   },
   data () {
     return {
@@ -18,6 +20,7 @@ export default {
       inspectorsDatas: [],
       relatedKyes: '',
       deviceKey: '',
+      fileIds: '',
       imgUrl: '',
       form: {
         deviceName: '',
@@ -31,10 +34,7 @@ export default {
         personName: '',
         fileId: '',
         remarks: '',
-        deviceImg: '',
-        operationManual: '',
-        maintenancesStandard: '',
-        synopsis: ''
+        deviceImg: ''
       },
       rules: {
         deviceName: [
@@ -72,6 +72,18 @@ export default {
       this.imgUrl = URL.createObjectURL(file.raw)
       this.form.deviceImg = res.entityKey
     },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
     },
@@ -80,6 +92,9 @@ export default {
     },
     getRelatedKeys (data) {
       this.relatedKyes = data
+    },
+    allFileId (v) {
+      this.fileIds = v
     },
     getDevicePicture (deviceImg) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + deviceImg, { responseType: 'blob' }).then(res => {
@@ -93,21 +108,13 @@ export default {
       var node = this.$refs.userSelect.getCheckedNodes()
       this.form.personName = node[0].label // 用户名称
     },
-    standardChange (v) {
-      this.form.maintenancesStandard = v
-    },
-    operationManualChange (v) {
-      this.form.operationManual = v
-    },
-    synopsisChange (v) {
-      this.form.synopsis = v
-    },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {
         if (valid) {
           const reqBean = {
             eamLedgerLast: this.form,
             eamLedger: this.form,
+            fileIds: this.fileIds,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas,

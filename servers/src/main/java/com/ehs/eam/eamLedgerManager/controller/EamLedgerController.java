@@ -307,6 +307,36 @@ public class EamLedgerController {
 		}
 		return JsonUtils.toJsonString(resultBean.ok("移除成功"));
 	}
+	
+	/**
+	 * 
+	* @Function:removeEamLedger 
+	* @Description: 删除关联文件
+	* @param deviceKey
+	* @param keys
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月12日 下午2:34:29 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月12日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/removeRefFile")
+	public String removeRefFile(@RequestParam String deviceKey, @RequestParam String key) {
+		ResultBean resultBean = new ResultBean();
+		try {
+			eamLedgerService.removeRelatedFile(deviceKey, key);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonUtils.toJsonString(resultBean.error("移除失败"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("移除成功"));
+	}
 
 	
 	@RequestAuth(menuKeys = { "eamLedger" })

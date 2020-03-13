@@ -103,12 +103,19 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
 		String newKeys = "";
+		String fileId="";
 		String oldKeys = reqEamLedger.getRefDeviceKey();
 		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
 			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
 		} else {
 			newKeys = eamRequestBean.getDeviceKeys();
 		}
+		if (StringUtils.isNotBlank(reqEamLedger.getFileId())) {// 关联文件的保存
+			fileId = new StringBuffer(reqEamLedger.getFileId()).append(",").append(eamRequestBean.getFileIds()).toString();
+		} else {
+			fileId = eamRequestBean.getFileIds();
+		}
+		reqEamLedger.setFileId(fileId);
 		reqEamLedger.setRefDeviceKey(newKeys);
 		// 设备新建的时候初始化的值
 		String deviceNum=BaseUtils.getNumberForAll();
@@ -264,5 +271,28 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			baseCommonService.deleteByKey(EamLedgerLast.class, eLast.getKey());
 		}
 		baseCommonService.deleteByKey(EamLedger.class, key);
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#removeRelatedFile(java.lang.String, java.lang.String)  
+	*/
+	@Override
+	@Transactional
+	public void removeRelatedFile(String deviceKey, String key) {
+		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, deviceKey);
+		StringBuffer newKeys=new StringBuffer();
+		if (eamLedger!=null) {
+			if (StringUtils.isNotBlank(eamLedger.getFileId())) {
+				String[] files=StringUtils.split(eamLedger.getFileId(), ",");
+				for (int i = 0; i < files.length; i++) {
+					if (StringUtils.equals(key, files[i])) {
+						continue;
+					}
+					newKeys.append(files[i]).append(",");
+				}
+			}
+			eamLedger.setFileId((newKeys.deleteCharAt(newKeys.length() - 1)).toString());
+			baseCommonService.saveOrUpdate(eamLedger);
+		}
 	}
 }

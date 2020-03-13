@@ -29,8 +29,8 @@ public interface EamLedgerLastDao extends JpaRepository<EamLedgerLast, String> {
 	*---------------------------------------------------------*
 	* 2020年1月8日     qjj        v1.0.0            修改原因
 	 */
-	@Query(" select el from EamLedgerLast el where el."+EamLedgerLast.DEVICE_NAME+" like %?1%  and el."+EamLedgerLast.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<EamLedgerLast> findEamLedgerList(String query,Pageable pageable);
+	@Query(" select el from EamLedgerLast el where el."+EamLedgerLast.DEVICE_NAME+" like %?1%  and el."+EamLedgerLast.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public Page<EamLedgerLast> findEamLedgerList(String query,DataModel[] dataModels,Pageable pageable);
 	
 	
 	@Query(" select el from EamLedgerLast el where el."+BaseEntity.KEY+"=?1 and el."+EamLedgerLast.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")

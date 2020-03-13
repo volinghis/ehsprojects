@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <span>关联子设备</span>
+  <div class="tableClass">
+    <span style="display:inline-block;float:left">关联子设备</span>
     <div class="operate">
       <template v-if="!isDisable">
-      <el-button type="primary"
-                 icon="fa fa-plus pull-left"
-                 @click="dialogTableVisible = true"
-                 style="float:right;"
-                 :size="GlobalCss.buttonSize">选择设备</el-button>
-      <el-button type="danger"
-                 icon="el-icon-delete"
-                 style="float:right;margin-right:10px;"
-                 @click="handleDeleteClick"
-                 :size="GlobalCss.buttonSize">移除</el-button>
+        <el-button type="primary"
+                   icon="fa fa-plus pull-left"
+                   @click="dialogTableVisible = true"
+                   :size="GlobalCss.buttonSize">选择设备</el-button>
+        <el-button type="danger"
+                   icon="el-icon-delete"
+                   @click="handleDeleteClick"
+                   :size="GlobalCss.buttonSize">移除</el-button>
       </template>
     </div>
     <div class="tableContainer">
@@ -25,14 +23,19 @@
                          width="55">
         </el-table-column>
         <el-table-column prop="deviceNum"
+                         align="center"
                          label="设备编号"></el-table-column>
         <el-table-column prop="deviceName"
+                         align="center"
                          label="设备名称"></el-table-column>
         <el-table-column prop="installLocation"
+                         align="center"
                          label="位置"></el-table-column>
         <el-table-column prop="deviceModel"
+                         align="center"
                          label="型号"></el-table-column>
         <el-table-column prop="profession"
+                         align="center"
                          label="专业"></el-table-column>
       </el-table>
     </div>
@@ -40,7 +43,8 @@
     <el-dialog title="设备台账"
                :visible.sync="dialogTableVisible">
       <eam-list @handlerSelect="handlerSelect"
-                :deviceKey="deviceKey" flag="child"></eam-list>
+                :deviceKey="deviceKey"
+                flag="child"></eam-list>
       <div slot="footer"
            class="dialog-footer">
         <el-button @click="dialogTableVisible = false"
@@ -129,3 +133,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+.operate {
+  margin-bottom: 8px;
+  float: right;
+}
+.tableClass {
+  margin-top: 10px;
+  text-align: center;
+}
+</style>

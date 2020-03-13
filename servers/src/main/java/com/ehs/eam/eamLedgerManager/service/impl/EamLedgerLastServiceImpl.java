@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -34,7 +35,7 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Override
 	public PageInfoBean findEamLedgerLastList(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedgerLast> eamLedgers = eamLastDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		Page<EamLedgerLast> eamLedgers = eamLastDao.findEamLedgerList(querybean.getQuery(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(eamLedgers.getContent());
@@ -47,7 +48,7 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Override
 	public PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedgerLast> allLedgers = eamLastDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		Page<EamLedgerLast> allLedgers = eamLastDao.findEamLedgerList(querybean.getQuery(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
 
 		List<EamLedgerLast> resultList = new ArrayList<EamLedgerLast>();
 		EamLedgerLast curLedger = baseCommonService.findByKey(EamLedgerLast.class, querybean.getDeviceKey());

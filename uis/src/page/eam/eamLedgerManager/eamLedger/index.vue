@@ -33,7 +33,7 @@
                                align="center"
                                width="50"
                                fixed="left"></el-table-column>
-              <el-table-column prop="deviceImg"
+              <!-- <el-table-column prop="deviceImg"
                                label="图片"
                                align="center"
                                width="60">
@@ -48,7 +48,7 @@
                     </div>
                   </el-image>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="deviceNum"
                                align="center"
                                label="设备编号"
@@ -97,7 +97,7 @@
               <el-table-column prop="deviceStatus"
                                label="设备状态"
                                align="center"
-                               width="100">
+                               width="120">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.deviceStatus === '正常' ? 'success' : 'warning'"
                           disable-transitions>{{scope.row.deviceStatus}}</el-tag>

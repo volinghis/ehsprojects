@@ -37,6 +37,8 @@ public class EamRequestBean {
 	private EamLedgerLast eamLedgerLast;
 
 	private String deviceKeys;
+	
+	private String fileIds;
 
 	private List<EamParameters> paramsList;
 
@@ -114,6 +116,20 @@ public class EamRequestBean {
 
 	public void setEamLedgerLast(EamLedgerLast eamLedgerLast) {
 		this.eamLedgerLast = eamLedgerLast;
+	}
+
+	/**
+	 * @return the fileIds
+	 */
+	public String getFileIds() {
+		return fileIds;
+	}
+
+	/**
+	 * @param fileIds the fileIds to set
+	 */
+	public void setFileIds(String fileIds) {
+		this.fileIds = fileIds;
 	}
 
 }

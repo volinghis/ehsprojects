@@ -3,12 +3,6 @@
     span {
       font-size: 14px;
     }
-    .upload-demo {
-      margin: 20px 0px;
-    }
-  }
-  .el-upload-dragger {
-    width: 295px;
   }
   .el-form--label-top .el-form-item__label {
     padding: 0 0 0px;
@@ -16,6 +10,26 @@
   .el-form-item {
     margin-bottom: 10px;
   }
-  .right {
-    margin: 10px 0;
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
