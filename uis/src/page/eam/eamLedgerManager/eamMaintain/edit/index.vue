@@ -110,7 +110,7 @@
     </div>
     <!--关联文件-->
     <div class="item-block right">
-      <FilesTable :fileId="form.fileId" :deviceKey="deviceKey" @getFileId="allFileId"></FilesTable>
+      <FilesTable :fileId="form.fileId" :deviceKey="deviceKey" @getFileId="allFileId" :isDisable="false"></FilesTable>
     </div>
   </div>
 </template>

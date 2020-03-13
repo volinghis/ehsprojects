@@ -27,7 +27,8 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '100px',
       paramData: {
-        categories: ''
+        categories: '',
+        categoriesName: ''
       },
       form: {
         fileId: '',
@@ -37,15 +38,17 @@ export default {
     }
   },
   methods: {
-    openForm (val) { // 打开弹窗
-      this.form.category = val
-      this.paramData.categories = val
+    openForm (nodeKey, nodeLabel) { // 打开弹窗
+      this.form.category = nodeKey
+      this.paramData.categories = nodeKey
+      this.paramData.categoriesName = nodeLabel
       this.dialogFormVisible = true
     },
     handleChange (val) {
       this.form.fileId = val
     },
     handleSubmit () {
+      console.log(this.paramData)
       var fileId = this.form.fileId
       if (fileId) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/dataBase/saveDataFileInfo', { params: { fileId: fileId } }).then(res => {

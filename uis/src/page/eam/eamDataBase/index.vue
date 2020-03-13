@@ -67,7 +67,7 @@
               <el-table-column prop="name"
                                label="文件名称"
                                align="center"></el-table-column>
-              <el-table-column prop="categories"
+              <el-table-column prop="categoriesName"
                                label="资料类别"
                                align="center"></el-table-column>
               <el-table-column prop="ownerName"
@@ -122,7 +122,6 @@
                    type="application/pdf"
                    width="100%"
                    height="500px;" />
-            <!-- <pdf :src="pdfSrc"></pdf> -->
           </el-dialog>
         </template>
       </el-col>

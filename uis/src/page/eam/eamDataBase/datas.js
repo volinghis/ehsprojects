@@ -13,6 +13,7 @@ export default {
         query: '',
         nodeKey: ''
       },
+      nodeLabel: '',
       defaultExpandKeys: [],
       mainHeight: 0,
       tableData: [],
@@ -72,8 +73,8 @@ export default {
       this.initTable()
     },
     handleNodeClick: function (n) {
+      this.nodeLabel = n.label
       this.queryParam.nodeKey = n.id
-      console.log(this.queryParam)
       this.initTable()
     },
     handleQuery () {
@@ -85,7 +86,7 @@ export default {
     openAddForm () { // 打开子组件弹窗
       var nodeKey = this.queryParam.nodeKey
       if (nodeKey) {
-        this.$refs.upForm.openForm(nodeKey)
+        this.$refs.upForm.openForm(nodeKey, this.nodeLabel)
       } else {
         this.$message({
           message: '请选择文件类型',

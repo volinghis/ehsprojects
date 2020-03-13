@@ -77,10 +77,10 @@ public class DataFileInfoController {
 	@ResponseBody
 	public String upload(@RequestParam("file") MultipartFile file,HttpServletRequest req) {
 		ResultBean rb=new ResultBean();
-		String paramData=req.getParameter("categories");
+		String categories=req.getParameter("categories");
+		String categoriesName=req.getParameter("categoriesName");
 		if (file.isEmpty()) {
 			return JsonUtils.toJsonString(rb.error("上传失败！"));
-
 		}
 
 		ObjectId objectId = ObjectId.get();
@@ -92,8 +92,11 @@ public class DataFileInfoController {
 			dfi.setFileSize(BaseUtils.formatFileSize(file.getSize()));
 			dfi.setName(file.getOriginalFilename());
 			dfi.setType(StringUtils.substringAfterLast(file.getOriginalFilename(), "."));
-			if(StringUtils.isNotBlank(paramData)) { //文件类别（说明书，检修标准，操作手册）
-				dfi.setCategories(paramData);
+			if(StringUtils.isNotBlank(categories)) { 
+				dfi.setCategories(categories);
+			}
+			if(StringUtils.isNotBlank(categoriesName)) { //文件类别（说明书，检修标准，操作手册）
+				dfi.setCategoriesName(categoriesName);;
 			}
 			baseCommonService.saveOrUpdate(dfi);
 			

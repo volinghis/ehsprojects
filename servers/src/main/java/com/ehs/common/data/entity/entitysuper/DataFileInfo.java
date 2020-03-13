@@ -35,6 +35,7 @@ public abstract class DataFileInfo extends BaseEntity {
 	public static final String ENTITY_KEY = "entityKey";
 	public static final String FILE_ID = "fileId";
 	public static final String CATEGORIES = "categories";
+	public static final String CATEGORIES_NAME = "categoriesText";
 
 	private String name;
 
@@ -50,6 +51,8 @@ public abstract class DataFileInfo extends BaseEntity {
 	   * 文件类别（检修标准，操作手册，说明书）
 	 */
 	private String categories;
+	
+	private String categoriesName;
 
 	public String getCategories() {
 		return categories;
@@ -57,6 +60,20 @@ public abstract class DataFileInfo extends BaseEntity {
 
 	public void setCategories(String categories) {
 		this.categories = categories;
+	}
+
+	/**
+	 * @return the categoriesnName
+	 */
+	public String getCategoriesName() {
+		return categoriesName;
+	}
+
+	/**
+	 * @param categoriesnName the categoriesnName to set
+	 */
+	public void setCategoriesName(String categoriesName) {
+		this.categoriesName = categoriesName;
 	}
 
 	/**

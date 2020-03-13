@@ -24,7 +24,6 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataFileInfoDao;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.data.entity.DataFileInfo;
-import com.ehs.common.data.service.DataDictionaryService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamDataBase.bean.EamDataBaseQuery;
 import com.ehs.eam.eamDataBase.dao.DataFileInfoCopyDao;
@@ -70,8 +69,6 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 			if(!CollectionUtils.isEmpty(tempList)) {
 				for (DataFileInfoCopy df : tempList) {
 					DataFileInfo di=dataFileInfoDao.findDataFileInfoById(df.getFileId(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
-					DataDictionary dd=baseCommonService.findByKey(DataDictionary.class, di.getCategories());
-					di.setCategories(dd.getText());
 					resultList.add(di);
 				}
 			}

@@ -50,7 +50,7 @@
                          align="center"
                          label="文件大小">
         </el-table-column>
-        <el-table-column prop="categories"
+        <el-table-column prop="categoriesName"
                          align="center"
                          label="类别">
         </el-table-column>
@@ -64,7 +64,7 @@
             <el-button type="danger"
                        v-if="!isDisable"
                        :size="GlobalCss.buttonSize"
-                       @click="handleDelete(scope.row)">删除</el-button>
+                       @click="handleDelete(scope.row,scope.$index)">删除</el-button>
             <el-button type="warning"
                        @click="handleDownLoadClick(scope.row)"
                        :size="GlobalCss.buttonSize">下载</el-button>
@@ -134,6 +134,7 @@ export default {
       const option = this.options.find((n) => n.value === v)
       this.label = option.label
       this.paramData.categories = v
+      this.paramData.categoriesName = option.label
       this.value = v
     },
     handleClickUpload () {
@@ -155,7 +156,7 @@ export default {
       f.name = file.name
       f.fileSize = this.bytesToSize(file.size)
       f.type = file.name.substring(file.name.indexOf('.') + 1, file.name.length)
-      f.categories = this.label
+      f.categoriesName = this.label
       f.fileId = res.entityKey
       this.filesTableData.push(f)
 
@@ -183,7 +184,9 @@ export default {
         d = d.length > 0 ? d.substring(1) : ''
         this.$emit('getFileId', d)
       } else {
+        console.log('第一步')
         if (this.deviceKey !== '') {
+          console.log('第二步')
           this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeRefFile', { params: { deviceKey: this.deviceKey, key: row.fileId } }).then(res => {
             if (res.data.resultType === 'ok') {
               this.filesTableData.splice(index, 1)
