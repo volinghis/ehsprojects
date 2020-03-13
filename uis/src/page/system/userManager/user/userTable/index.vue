@@ -45,7 +45,7 @@
     <el-pagination @current-change="handleCurrentChange" style="float:right;" background :current-page.sync="form.page"
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
-    <el-dialog title="员工信息" :visible.sync="dialogVisible" :destroy-on-close="true" width="50%">
+    <el-dialog title="员工信息" :visible.sync="dialogVisible" :destroy-on-close="true" width="50%" :close-on-click-modal="false" :before-close="handleClose">
       <user-form ref="addUserForm" :userFlag="userFlag" :organName="organName" :organKey="organKey" :editUserForm="editUserForm"></user-form>
       <!-- <el-divider></el-divider> -->
       <span slot="footer" v-show="buttonShow" class="dialog-footer">
@@ -57,7 +57,7 @@
       <el-divider></el-divider>
       <userAuth @authResult="authResult" :user_key="userKey" :roleTable="roleTable"></userAuth>
     </el-drawer>
-    <el-dialog title="调岗" :destroy-on-close="true" :visible.sync="drawerTransfer"  width="30%">
+    <el-dialog title="调岗" :destroy-on-close="true" :visible.sync="drawerTransfer" :close-on-click-modal="false" width="30%">
       <el-divider></el-divider>
        <el-tree node-key="id" :props="props" :load="loadNode" lazy highlight-current accordion @node-click="nodeClick"></el-tree>
        <el-divider></el-divider>

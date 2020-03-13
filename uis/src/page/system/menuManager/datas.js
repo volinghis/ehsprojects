@@ -21,13 +21,10 @@ export default {
   },
   methods: {
     initTree () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas').then(res => {
-        var resDatas = res.data.filter((data) => {
-          return !data.business
-        })
-        this.treeData = resDatas
-      }).catch(error => {
-        this.$message({ message: error })
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
+        this.treeData = res.data.filter(d => !d.business && d.key !== 'home')
+      }).catch(() => {
+
       })
     },
     handleNodeClick (data) {
@@ -37,8 +34,8 @@ export default {
     findRolesByMenu (key) { // 查询菜单所有的角色权限
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/findMenuRoles', { params: { menuKey: key } }).then(res => {
         this.tableData = res.data
-      }).catch(error => {
-        this.$message({ message: error })
+      }).catch(() => {
+
       })
     },
     handleRomoveAuth (row) {
@@ -58,8 +55,8 @@ export default {
               })
               this.findRolesByMenu(this.currentMenuKey)
             }
-          }).catch((error) => {
-            this.$message({ message: error })
+          }).catch(() => {
+
           })
       }).catch(() => {
         this.$message({
@@ -103,8 +100,8 @@ export default {
           } else {
             alert('失败')
           }
-        }).catch(error => {
-          this.$message({ message: error })
+        }).catch(() => {
+
         })
       }
     },

@@ -2,6 +2,8 @@ export default {
   data () {
     return {
       nodeLevel: 0,
+      nodeOne: {},
+      resolveOne: [],
       node: {},
       resolve: [],
       nodeParentKey: '',
@@ -46,6 +48,8 @@ export default {
   methods: {
     loadNode (node, resolve) {
       if (node.level === 0) {
+        this.nodeOne = node
+        this.resolveOne = resolve
         this.requestTreeNodeOne(resolve)
       }
       if (node.level >= 1) {
@@ -159,7 +163,8 @@ export default {
           this.dialogTableVisible = false
           this.findDatasByParentKey(this.formLabelAlign.parentKey)
           this.$refs.formLabelAlign.resetFields()
-          this.loadNode(this.node, this.resolve)
+          this.nodeOne.childNodes = []// 把存起来的node的子节点清空，不然会界面会出现重复树！
+          this.loadNode(this.nodeOne, this.resolveOne)// 再次执行懒加载的方法
         }
         if (res.data.resultType === 'error') {
           this.$message({
@@ -169,6 +174,11 @@ export default {
           this.formLabelAlign.dataCode = ''
         }
       })
+    },
+    refreshLazyTree (node, children) {
+      var theChildren = node.childNodes
+      theChildren.splice(0, theChildren.length)
+      node.doCreateChildren(children)
     },
     handleCurrentChange (val) { // 页面跳转
       this.form.page = val

@@ -31,7 +31,7 @@
     </div>
 
     <!-- Form -->
-    <el-dialog title="角色添加" width="40%" :visible.sync="dialogFormVisible">
+    <el-dialog title="角色添加" width="40%" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-divider></el-divider>
       <el-form :model="roleForm" ref="roleForm" size="small" :rules="rules" label-width="100px">
         <el-form-item label="角色名称：" prop="name">

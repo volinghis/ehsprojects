@@ -104,7 +104,7 @@ public interface DataDictionaryService {
 	*---------------------------------------------------------*
 	* 2020年3月6日     zhaol           v1.0.0               修改原因
 	 */
-	public void deleteOrgByKey(String key);
+	public void deleteDataDictionary(String key);
 
 
 }

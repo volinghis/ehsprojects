@@ -8,6 +8,8 @@ export default {
     return {
       node: {},
       resolve: [],
+      nodeOne: {},
+      resolveOne: [],
       filterText: '',
       nodeParentKey: '',
       orgList: Array,
@@ -56,6 +58,8 @@ export default {
   methods: {
     loadNode (node, resolve) {
       if (node.level === 0) {
+        this.nodeOne = node
+        this.resolveOne = resolve
         this.requestTreeNodeOne(resolve)
       }
       if (node.level >= 1) {
@@ -145,50 +149,31 @@ export default {
         .catch(_ => {})
     },
     handleRemove: function (row) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/findOrgsByParentKey', { params: { orgParentKey: row.key } }).then(res => {
-        const number = res.data.length
-        if (number > 0) {
-          this.$message.error('此节点有子级，不可删除！')
-          return false
-        }
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: row.key } }).then(res => {
-          if (res.data.dataList.length > 0) {
-            this.$message.error('此部门下还有人员，不可删除')
-          } else {
-            this.$confirm('此操作将删除该条记录及相关信息, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/deleteOrgInfo', { params: { key: row.key } })
-                .then((res) => {
-                  if (res.data.resultType === 'ok') {
-                    this.$message({
-                      message: res.data.message,
-                      type: 'success'
-                    })
-                    this.findOrgsByParentKey()
-                    this.initTreeData()
-                  }
-                  if (res.data.resultType === 'error') {
-                    this.$message({
-                      message: res.data.message,
-                      type: 'warning'
-                    })
-                    this.findOrgsByParentKey()
-                    this.initTreeData()
-                  }
-                }).catch((error) => {
-                  this.$message.error(error)
-                })
-            })
-          }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+      this.$confirm('此操作将删除此部门, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/deleteOrgInfo', { params: { key: row.key } })
+          .then((res) => {
+            if (res.data.resultType === 'ok') {
+              this.$message({
+                message: res.data.message,
+                type: 'success'
+              })
+            }
+            if (res.data.resultType === 'error') {
+              this.$message({
+                message: res.data.message,
+                type: 'warning'
+              })
+            }
+            this.findOrgsByParentKey(row.parentKey)
+            this.nodeOne.childNodes = []// 把存起来的node的子节点清空，不然会界面会出现重复树！
+            this.loadNode(this.nodeOne, this.resolveOne)// 再次执行懒加载的方法
+          }).catch((error) => {
+            this.$message.error(error)
           })
-        })
       })
     },
     onSubmit () {
@@ -210,7 +195,8 @@ export default {
           this.dialogTableVisible = false
           this.findOrgsByParentKey(this.formLabelAlign.parentKey)
           this.$refs.formLabelAlign.resetFields()
-          this.loadNode(this.node, this.resolve)
+          this.nodeOne.childNodes = []// 把存起来的node的子节点清空，不然会界面会出现重复树！
+          this.loadNode(this.nodeOne, this.resolveOne)// 再次执行懒加载的方法
         }
         if (res.data.resultType === 'error') {
           this.$message({

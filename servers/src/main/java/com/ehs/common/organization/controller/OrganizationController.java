@@ -25,6 +25,8 @@ import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.common.organization.bean.OrgQueryBean;
 import com.ehs.common.organization.bean.OrgTreeNodeLazy;
 import com.ehs.common.organization.bean.OrganizationBean;
+import com.ehs.common.organization.dao.OrgUserDao;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.common.organization.service.OrgUserService;
 import com.ehs.common.organization.service.OrganizationService;
@@ -54,6 +56,9 @@ public class OrganizationController {
 	
 	@Resource
 	private OrgUserService orgUserService;
+	
+	@Resource
+	private OrgUserDao orgUserDao;
 	
 	/**
 	 * 
@@ -211,8 +216,23 @@ public class OrganizationController {
 	public String deleteOrgInfo(HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		String key=request.getParameter("key");
-		organizationService.deleteOrgByKey(key);
-		return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
+		List<OrganizationInfo> orgs =(List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
+		long count = orgs.stream().filter(s -> StringUtils.equals(s.getParentKey(), key)).count();
+		if (count > 0) {
+			return JsonUtils.toJsonString(resultBean.error("此部门下有子部门，不可删除！"));
+		}
+		List<OrgUser> users = orgUserDao.findUserByOrgKey(key);
+		if(users.size() > 0) {
+			return JsonUtils.toJsonString(resultBean.error("此部门下有人员，不可删除！"));
+		}
+		try {
+			organizationService.deleteOrgByKey(key);
+			return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("部门删除失败！"));
+		
 	}
 	
 	/**
@@ -275,6 +295,7 @@ public class OrganizationController {
 			tn.setId(organizationInfo.getKey());
 			tn.setPid(organizationInfo.getParentKey());
 			tn.setName(organizationInfo.getName());
+			tn.setSort(String.valueOf(organizationInfo.getSort()));
 			tn.setLeaf(false);
 			trees.add(tn);
 		}else {
@@ -286,12 +307,21 @@ public class OrganizationController {
 						tn.setId(organizationInfo.getKey());
 						tn.setPid(organizationInfo.getParentKey());
 						tn.setName(organizationInfo.getName());
+						tn.setSort(String.valueOf(organizationInfo.getSort()));
 		    			List list=orgs.stream().filter(d->StringUtils.equals(d.getParentKey(),organizationInfo.getKey())).collect(Collectors.toList());
 		    			tn.setLeaf(list==null||list.size()<1);
 		    			trees.add(tn);
 					}
 				}
 			}
+			trees.sort((a, b) -> {
+		    	int c=Integer.parseInt(StringUtils.defaultIfBlank(a.getSort(), "0")) - Integer.parseInt(StringUtils.defaultIfBlank(b.getSort(), "0"));
+		    	System.out.println("c======"+c);
+		    	if(c == 0) {
+		    		return ((Long)(Long.parseLong(a.getSort()) - Long.parseLong(b.getSort()))).intValue();
+		    	}
+		    	return c;
+		    });
 		}
 		return (trees==null?"[]":JsonUtils.toJsonString(trees));
 	}

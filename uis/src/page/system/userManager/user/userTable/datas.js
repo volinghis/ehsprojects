@@ -107,7 +107,6 @@ export default {
       this.nodeId = Object.assign(node.id)
     },
     transferUser: function () {
-      console.log(this.multipleSelection)
       if (this.multipleSelection.length > 0) {
         this.drawerTransfer = true
       } else {

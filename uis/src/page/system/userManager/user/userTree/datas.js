@@ -30,21 +30,16 @@ export default {
       this.currentOrgName = data.label
       this.$emit('getOrg', this.currentOrgKey, this.currentOrgName)
       this.findUserByOrgKey(data.id)
-      // console.log('node======id===' + data.id)
     },
     findUserByOrgKey: function (key) { // 查询部门下所有人员
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserByOrgKey', { params: { orgKey: key } }).then(res => {
-        console.log(res.data)
         this.userData = res.data
-        // console.log('userData===' + this.userData)
         this.$emit('userTableData', this.userData)
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
       })
     },
     NodeBlur (n, d) { // 输入框失焦
       if (n.isEdit) {
-        console.log(d)
         // this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/organization/saveOrg', d).then(res => {
         //   if (res.data.resultType === 'ok') {
         //     this.$message.success('修改成功')
@@ -72,8 +67,6 @@ export default {
       })
     },
     editNode (node, data) {
-      console.log(node)
-      console.log(data)
       if (!node.isEdit) { // 检测isEdit是否存在or是否为false
         this.$set(node, 'isEdit', true)
       }
@@ -91,7 +84,6 @@ export default {
         let DelFun = () => {
           let _list = node.parent.data.children || node.parent.data// 节点同级数据
           let _index = _list.map((c) => c.id).indexOf(data.id)
-          console.log(_index)
           _list.splice(_index, 1)
           this.$message.success('删除成功！')
         }

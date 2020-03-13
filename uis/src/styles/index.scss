@@ -8,6 +8,10 @@
 span{
   @include font-styles;
 }
+.ehs-note-span{
+  color: #808695;
+  @include font-styles;
+}
 .el-button:not(.el-button--default):not(.el-button--text) span{
   @include font-styles;
   color: white;
@@ -41,7 +45,13 @@ body {
   overflow: hidden;
   @include font-styles;
 }
-
+.ehs_form_item_message{
+  font-size: 10px !important;
+  margin-top: 5px ;
+  color:#aeb2bb;
+  margin-left: 10px !important;
+  line-height:20px !important;
+}
 label {
   font-weight: 700;
 }

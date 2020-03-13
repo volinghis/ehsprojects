@@ -28,7 +28,7 @@
             </template>
           </div>
           <!--授权弹框-->
-          <el-dialog title="角色授权" destroy-on-close :visible.sync="dialogTableVisible">
+          <el-dialog title="角色授权" destroy-on-close :visible.sync="dialogTableVisible" :close-on-click-modal="false">
             <el-divider></el-divider>
             <left-roles-table :currentMenuKey="currentMenuKey" :dialogTableVisible="dialogTableVisible"
               @handleSelect="handleSelect" />

@@ -140,7 +140,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 
 	@Override
 	@Transactional
-	public void deleteOrgByKey(String key) {
+	public void deleteDataDictionary(String key) {
 		try {
 			baseCommonService.deleteByKey(DataDictionary.class, key);
 		} catch (Exception e) {
