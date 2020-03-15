@@ -1,5 +1,6 @@
 .operate {
     text-align: right;
+    margin-bottom: 8px;
   }
 /deep/.el-pagination__sizes {
     margin: 0 30px 0 0;
@@ -9,4 +10,10 @@
   background-color:#409EFF;
   border-color:#409EFF ;
   color: #ffffff;
+}
+.table-search-wrapper{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 410px;
+  margin-left: 10px;
 }

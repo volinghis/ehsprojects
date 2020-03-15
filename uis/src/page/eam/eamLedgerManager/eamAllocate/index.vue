@@ -1,36 +1,31 @@
 <template>
   <div>
-    <el-row type="flex"
-            justify="space-between">
-      <el-col :span="8">
-        <div class="table-search-wrapper">
-          <el-input placeholder="请输入报废编号"
-                    size="small"
-                    v-model="queryParam.query">
-            <el-button slot="append"
-                       icon="el-icon-search"></el-button>
-          </el-input>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="operate">
-          <el-button type="primary"
-                     :size="GlobalCss.buttonSize"
-                     icon="fa fa-plus pull-left"
-                     @click="handleAllocate">调拨申请</el-button>
-          <el-button type="danger"
-                     :size="GlobalCss.buttonSize"
-                     icon="fa fa-trash-o pull-left"
-                     @click="handleDelete">批量删除</el-button>
-        </div>
-      </el-col>
-    </el-row>
+    <div class="ehs_form_item_message">
+      1)该列表显示展示所有设备调拨信息。<br />2)可以根据调拨名称或调拨编号进行查询。<br />3)点击调拨编号可以查看详情
+    </div>
+    <div class="table-search-wrapper">
+      <el-input placeholder="请输入报废编号"
+                size="small"
+                v-model="queryParam.query">
+        <el-button slot="append"
+                   icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
+    <div class="operate">
+      <el-button type="primary"
+                 :size="GlobalCss.buttonSize"
+                 icon="fa fa-plus pull-left"
+                 @click="handleAllocate">调拨申请</el-button>
+      <el-button type="danger"
+                 :size="GlobalCss.buttonSize"
+                 icon="fa fa-trash-o pull-left"
+                 @click="handleDelete">批量删除</el-button>
+    </div>
     <div class="table-list">
       <template>
         <el-table :data="tableData"
                   style="width: 100%"
                   border
-                  @row-dblclick="handleViewClick"
                   @select="onChange"
                   size="medium">
           <el-table-column type="selection"
@@ -38,15 +33,21 @@
           <el-table-column prop="allocateNum"
                            width="150"
                            align="center"
-                           label="调拨编号"></el-table-column>
+                           label="调拨编号">
+            <template slot-scope="scope">
+              <el-link type="primary"
+                       @click="handleViewClick(scope.row)">{{ scope.row.allocateNum}}</el-link>
+            </template></el-table-column>
           <el-table-column prop="applicationName"
                            align="center"
                            label="申请名称"></el-table-column>
           <el-table-column prop="applicationTime"
                            align="center"
+                           sortable
                            label="申请时间"></el-table-column>
           <el-table-column prop="allocateDate"
                            align="center"
+                           sortable
                            label="调拨日期"></el-table-column>
           <el-table-column prop="applicant"
                            align="center"
@@ -72,7 +73,7 @@
             <template slot-scope="scope">
               <div slot="reference">
                 <el-tag :size="GlobalCss.buttonSize"
-                        :type="scope.row.status === '已结束' ? 'danger' : 'success'">{{ scope.row.status}}</el-tag>
+                        :type="scope.row.status === '已结束' ? 'danger' : 'success'">{{ scope.row.status }}</el-tag>
               </div>
             </template>
           </el-table-column>
@@ -98,17 +99,5 @@ import datas from './datas'
 export default datas
 </script>
 <style lang="scss" scoped>
-.operate {
-  margin-bottom: 20px;
-  float: right;
-}
-.el-card {
-  border: 1px solid #ffffff;
-}
-// 搜索按钮样式
-/deep/.el-input-group__append {
-  background-color: #409eff;
-  border-color: #409eff;
-  color: #ffffff;
-}
+@import "./styles.scss";
 </style>

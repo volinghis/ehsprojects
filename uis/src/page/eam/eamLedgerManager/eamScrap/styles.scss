@@ -1,0 +1,16 @@
+.operate {
+  margin-bottom: 8px;
+  float: right;
+}
+// 搜索按钮样式
+/deep/.el-input-group__append {
+  background-color: #409eff;
+  border-color: #409eff;
+  color: #ffffff;
+}
+.table-search-wrapper{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 410px;
+  margin-left: 10px;
+}

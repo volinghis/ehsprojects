@@ -1,9 +1,7 @@
 import RepairRecord from '../../components/repairRecord'
-import AutoComplete from '../../components/autocomplete.vue'
 export default {
   components: {
-    RepairRecord,
-    AutoComplete
+    RepairRecord
   },
   data () {
     return {
@@ -26,8 +24,7 @@ export default {
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {
-        // this.tableData = res.data.dataList
-        this.getDevicePicture(res.data.dataList)
+        this.tableData = res.data.dataList
         this.total = res.data.totalCount
       }).catch(error => {
         this.$message({ message: error })
@@ -42,26 +39,10 @@ export default {
         return '#67c23a'
       }
     },
-    getDevicePicture (resArr) {
-      for (let i = 0; i < resArr.length; i++) {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + resArr[i].deviceImg, { responseType: 'blob' }).then(res => {
-          resArr[i].imgUrl = URL.createObjectURL(res.data)
-        }).catch(error => {
-          this.$message({ message: error })
-        })
-      }
-      this.tableData = resArr
-    },
-    handldbClick: function (row) {
-      // 详情查看
-      this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })
-    },
     handleClick: function (tab, event) {
     },
-    handleSizeChange: function () {
-    },
-    handleQuery () {
-      this.initTable()
+    handleLink (row) {
+      this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })
     },
     handleCurrentChange (val) { // 联动检修记录
       this.tableId = val.id
@@ -72,9 +53,6 @@ export default {
         message: '准备导出',
         type: 'warning'
       })
-    },
-    handleSelect (item) {
-      this.queryParam.query = item.value
     },
     changePage (val) { // 页码跳转
       this.queryParam.page = val

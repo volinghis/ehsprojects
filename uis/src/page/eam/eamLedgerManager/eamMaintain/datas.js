@@ -1,7 +1,5 @@
-import AutoComplete from '../../components/autocomplete.vue'
 export default {
   components: {
-    AutoComplete
   },
   data () {
     return {
@@ -87,41 +85,9 @@ export default {
         })
       })
     },
-    handleSelect (item) {
-      this.queryParam.query = item.value
-    },
-    querySearch (queryString, cb) {
-      var suggestions = this.suggestions
-      var results = queryString ? suggestions.filter(this.createStateFilter(queryString)) : suggestions
-      // 调用 callback 返回建议列表的数据
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        cb(results)
-      }, 1000 * Math.random())
-    },
-    createStateFilter (queryString) {
-      return (suggestion) => {
-        return (suggestion.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
-      }
-    },
-    loadSuggestions () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getSuggestions').then(res => {
-        this.suggestions = res.data
-      }).catch(error => {
-        this.$message({ message: error })
-      })
-    },
     changePage (val) { // 页码跳转
       this.queryParam.page = val
       this.initTable()
     }
-    // findUrl (fileId) {
-    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' })
-    //     .then(res => {
-    //       URL.createObjectURL(res.data)
-    //     }).catch(error => {
-    //       this.$message({ message: error })
-    //     })
-    // }
   }
 }
