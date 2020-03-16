@@ -21,9 +21,13 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" resizable  highlight-current-row border  @row-dblclick="handleClick" :span-method="objectSpanMethod" :size="GlobalCss.buttonSize" style="width: 100%;">
+      <el-table :data="tableData" resizable  highlight-current-row border :span-method="objectSpanMethod" :size="GlobalCss.buttonSize" style="width: 100%;">
         <el-table-column prop="wareHouseName" label="所在仓库" align="center"></el-table-column>
-        <el-table-column prop="wareHouseCode" label="入库编号" align="center"></el-table-column>
+        <el-table-column prop="wareHouseCode" label="入库编号" align="center">
+          <template slot-scope="scope">
+            <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.wareHouseCode}}</el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
         <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" width="100" align="center"></el-table-column>

@@ -15,15 +15,18 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" ref="multipleTable" resizable border highlight-current-row class="tableHeight"
-                @row-dblclick="handleView" :max-height="htable" :size="GlobalCss.buttonSize">
+      <el-table :data="tableData" ref="multipleTable" resizable border highlight-current-row class="tableHeight" :max-height="htable" :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
-        <el-table-column prop="partsImg" label="图片" width="70" align="center">
+        <!-- <el-table-column prop="partsImg" label="图片" width="70" align="center">
           <template slot-scope="scope">
             <el-image style="width: 30px; height: 30px" :src="scope.row.partsImg" :preview-src-list="[scope.row.partsImg]"></el-image>
           </template>
+        </el-table-column> -->
+        <el-table-column prop="deviceCode" label="备件编号" align="center">
+          <template slot-scope="scope">
+            <el-link type="primary" @click="handleView(scope.row)">{{scope.row.deviceCode}}</el-link>
+          </template>
         </el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
         <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
         <el-table-column prop="completePoint" label="资料完整度" sortable align="center">
           <template slot-scope="scope">
