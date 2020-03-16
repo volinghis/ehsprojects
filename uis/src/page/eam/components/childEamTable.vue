@@ -28,15 +28,12 @@
         <el-table-column prop="deviceName"
                          align="center"
                          label="设备名称"></el-table-column>
-        <el-table-column prop="installLocation"
+        <el-table-column prop="installLocationName"
                          align="center"
                          label="位置"></el-table-column>
         <el-table-column prop="deviceModel"
                          align="center"
                          label="型号"></el-table-column>
-        <el-table-column prop="profession"
-                         align="center"
-                         label="专业"></el-table-column>
       </el-table>
     </div>
     <!--设备选择弹窗-->

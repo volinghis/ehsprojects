@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 
@@ -35,7 +36,7 @@ import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 @Repository
 public interface EamParametorsDao extends JpaRepository<EamParameters, String> {
 	
-	@Query(" select ep from EamParameters ep where ep."+EamParameters.DEVICE_KEY+" =?1 and "+EamParameters.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public List<EamParameters> findEamParametersByDeviceKey(String key);
+	@Query(" select ep from EamParameters ep where ep."+EamParameters.DEVICE_KEY+" =?1 and ep."+BaseEntity.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public List<EamParameters> findEamParametersByDeviceKey(String key,DataModel[] dataModels);
 
 }

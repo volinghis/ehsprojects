@@ -41,11 +41,8 @@
         <el-table-column prop="deviceName"
                          label="设备名称"
                          align="center"></el-table-column>
-        <el-table-column prop="installLocation"
+        <el-table-column prop="installLocationName"
                          label="位置"
-                         align="center"></el-table-column>
-        <el-table-column prop="profession"
-                         label="专业"
                          align="center"></el-table-column>
         <el-table-column prop="deviceModel"
                          label="型号"

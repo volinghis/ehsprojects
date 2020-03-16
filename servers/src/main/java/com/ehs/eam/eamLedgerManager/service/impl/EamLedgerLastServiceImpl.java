@@ -85,7 +85,7 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 		if (StringUtils.isNotBlank(refKeys)) {
 			String[] keysArr = refKeys.split(",");
 			for (int i = 0; i < keysArr.length; i++) {
-				EamLedgerLast el = eamLastDao.findEamLedgerLastByKey(keysArr[i]);
+				EamLedgerLast el = eamLastDao.findEamLedgerLastByKey(keysArr[i],new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 				if (el != null) {
 					resEamLedgers.add(el);
 				}

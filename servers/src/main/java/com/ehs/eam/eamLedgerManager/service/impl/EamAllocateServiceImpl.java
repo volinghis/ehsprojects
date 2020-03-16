@@ -28,7 +28,6 @@ import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamAllocateRequestBean;
 import com.ehs.eam.eamLedgerManager.bean.EamFlowBean;
@@ -67,7 +66,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 
 	@Resource
 	private EamLedgerLastDao eamLastDao;
-	
+
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 
@@ -82,16 +81,10 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		EamAllocate reqAllocate = reqBean.getAllocateForm();
 		reqAllocate.setAllocateNum(BaseUtils.getNumberForAll());
 		if (!CollectionUtils.isEmpty(ledgers)) {
-			reqAllocate.setProfession(ledgers.get(0).getProfession());
 			reqAllocate.setInstallLocation(ledgers.get(0).getInstallLocation());
 		}
-		String deptKey = reqAllocate.getTargetDept();
-		if (StringUtils.isNotBlank(deptKey) && deptKey.length() >= 32) {
-			OrganizationInfo oi = baseCommonService.findByKey(OrganizationInfo.class, deptKey);
-			reqAllocate.setTargetDept(oi == null ? null : oi.getName());
-		}
 		reqAllocate.setDeviceKey(ledgers.get(0).getKey());
-		//开始流程
+		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqAllocate, reqBean.getFlowProcessInfo());
 		if (pi != null) {// 保存关联的设备
 			if (!CollectionUtils.isEmpty(ledgers)) {
@@ -110,22 +103,18 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
 		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(),
-				pageRequest);
+				new DataModel[] { DataModel.CREATE, DataModel.UPDATE }, pageRequest);
 		if (eamAllocateage != null) {
 			List<EamAllocate> resList = eamAllocateage.getContent();
 			for (EamAllocate el : resList) {
 				FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
 				if (fpi != null) {
 					el.setStatus(fpi.getFlowCurrentStepName());
-					if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+					if (StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
 						el.setCurrentStepPerson(fpi.getFlowPrevPersonName());
-					}else {
+					} else {
 						el.setCurrentStepPerson(fpi.getFlowCurrentPersonName());
 					}
-				}
-				OrganizationInfo org=baseCommonService.findByKey(OrganizationInfo.class, el.getTargetDept());
-				if(org!=null) {
-					el.setTargetDept(org.getName());
 				}
 			}
 			PageInfoBean pb = new PageInfoBean();
@@ -154,19 +143,20 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	@Override
 	@Transactional
 	public void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo) {
-		// 更新设备报废流程信息表数据
+		// 更新设备调拨流程信息表数据
 		EamAllocate ea = baseCommonService.findByKey(EamAllocate.class, flowProcessInfo.getBusinessEntityKey());
 		if (ea != null) {
 			ea.setAllocateDate(new Timestamp(System.currentTimeMillis()));
-			//设备更新表数据更新
-			EamLedger el=baseCommonService.findByKey(EamLedger.class,ea.getDeviceKey());
+			// 设备更新表数据更新
+			EamLedger el = baseCommonService.findByKey(EamLedger.class, ea.getDeviceKey());
 			el.setDeviceStatus("正常");
 			el.setInstallLocation(ea.getTargetPosition());
-			el.setProfession(ea.getTargetDept());
-			//设备台账表数据更新
-			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+			baseCommonService.saveOrUpdate(el);
+			// 设备台账表数据更新
+			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(),
+					new DataModel[] { DataModel.CREATE, DataModel.UPDATE });
 			ell.setInstallLocation(ea.getTargetPosition());
-			ell.setProfession(ea.getTargetDept());
+			baseCommonService.saveOrUpdate(ell);
 		}
 	}
 
@@ -177,7 +167,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		if (eamAllocate != null) {
 			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(eamAllocate.getKey());
 			if (fpi != null) {
-				eFlowBean.setCurrentStep(fpi.getFlowCurrentStepName());
+				eFlowBean.setCurrentStep(fpi.getFlowCurrentStep());
 				eFlowBean.setCurrentUser(eamAllocate.getOwnerName());
 				eFlowBean.setEditPage(fpi.getFlowEditPage());
 				eFlowBean.setViewPage(fpi.getFlowViewPage());

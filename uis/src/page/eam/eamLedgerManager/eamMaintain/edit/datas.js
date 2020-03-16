@@ -22,13 +22,15 @@ export default {
       deviceKey: '',
       fileIds: '',
       imgUrl: '',
+      options: '',
       form: {
         deviceName: '',
         deviceNum: '',
         runDate: '',
         factoryName: '',
-        profession: '',
+        switchVal: true,
         installLocation: '',
+        installLocationName: '',
         completePoint: 0,
         person: '',
         personName: '',
@@ -43,9 +45,6 @@ export default {
         deviceModel: [
           { required: true, message: '请输入设备型号', trigger: 'blur' }
         ],
-        profession: [
-          { required: true, message: '请选择设备专业', trigger: 'blur' }
-        ],
         person: [
           { required: true, message: '请选择责任人', trigger: 'blur' }
         ],
@@ -53,7 +52,7 @@ export default {
           { required: true, message: '请选择投运日期', trigger: 'blur' }
         ],
         installLocation: [
-          { required: true, message: '请输入设备位置', trigger: 'blur' }
+          { required: true, message: '请选择设备位置', trigger: 'blur' }
         ]
       }
     }
@@ -66,6 +65,7 @@ export default {
       this.getDevicePicture(resData.deviceImg)
       this.form = resData
     }
+    this.handleSwitchChange(this.form.switchVal)
   },
   methods: {
     handleAvatarSuccess  (res, file) {
@@ -107,6 +107,17 @@ export default {
     userSelectChange () {
       var node = this.$refs.userSelect.getCheckedNodes()
       this.form.personName = node[0].label // 用户名称
+    },
+    handleSwitchChange (v) {
+      if (v) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
+          this.options = res.data
+        })
+      } else {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem').then(res => {
+          this.options = res.data
+        })
+      }
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {

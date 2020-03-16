@@ -19,10 +19,6 @@
                @prevStep="prevStep" :businessKey=businessKey />
       </keep-alive>
       <step3 v-if="active === 3"
-             @nextStep="nextStep"
-             @prevStep="prevStep" />
-
-      <step4 v-if="active === 4"
              @prevStep="prevStep"
              @finish="finish"
              @keepAdd="keepAdd" />
@@ -34,14 +30,12 @@
 import Step1 from './step1'
 import Step2 from './step2'
 import Step3 from './step3'
-import Step4 from './step4'
 export default {
   name: 'stepForm',
   components: {
     Step1,
     Step2,
-    Step3,
-    Step4
+    Step3
   },
   data () {
     return {
@@ -67,7 +61,7 @@ export default {
   },
   methods: {
     nextStep: function (val) {
-      if (this.active < 4) {
+      if (this.active < 3) {
         if (this.active === 1) {
           this.reqBean.allocateForm = val
           this.active += 1
@@ -75,8 +69,6 @@ export default {
           this.reqBean.eamLedgerDatas = val.tableData
           Object.assign(this.reqBean.allocateForm, val.allocateForm)
           this.active += 1
-        } else if (this.active === 3) {
-          this.handerSubmit()
         }
       }
     },

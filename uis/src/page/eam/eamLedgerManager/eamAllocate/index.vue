@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="ehs_form_item_message">
-      1)该列表显示展示所有设备调拨信息。<br />2)可以根据调拨名称或调拨编号进行查询。<br />3)点击调拨编号可以查看详情
+      1)该列表展示所有设备调拨信息。<br />2)可以根据调拨名称或调拨编号进行查询。<br />3)点击调拨编号可以查看详情。
     </div>
     <div class="table-search-wrapper">
       <el-input placeholder="请输入报废编号"
@@ -52,15 +52,9 @@
           <el-table-column prop="applicant"
                            align="center"
                            label="申请人"></el-table-column>
-          <el-table-column prop="profession"
-                           align="center"
-                           label="调出部门"></el-table-column>
           <el-table-column prop="installLocation"
                            align="center"
                            label="调出位置"></el-table-column>
-          <el-table-column prop="targetDept"
-                           align="center"
-                           label="调入部门"></el-table-column>
           <el-table-column prop="targetPosition"
                            align="center"
                            label="调入位置"></el-table-column>

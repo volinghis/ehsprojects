@@ -64,16 +64,9 @@
           <el-table-column prop="deviceModel"
                            label="规格型号">
           </el-table-column>
-          <el-table-column prop="profession"
-                           align="center"
-                           label="调出部门"></el-table-column>
           <el-table-column prop="installLocation"
                            align="center"
                            label="调出位置"></el-table-column>
-          <el-table-column prop="targetDept"
-                           align="center"
-                           label="调入部门">
-          </el-table-column>
           <el-table-column prop="targetPosition"
                            align="center"
                            label="调入位置">

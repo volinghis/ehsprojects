@@ -46,8 +46,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public static final String ALLOCATE_REASON = "allocateReason" ;
 	public static final String STATUS = "status" ;
 	public static final String INSTALL_LOCATION = "installLocation" ;
-	public static final String PROFESSION = "profession" ;
-	public static final String TARGET_POSITION = "targetPosition" ;
 	public static final String AMOUNT = "amount" ;
 	public static final String CURRENT_STEP_PERSON = "currentStepPerson";
 	public static final String UNIT = "unit" ;
@@ -85,11 +83,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	private String allocateDept;
 
 	/**
-	 * 调入部门
-	 */
-	private String targetDept;
-
-	/**
 	 * 调拨原因
 	 */
 	@Column(length = 3000)
@@ -111,11 +104,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 * 调出位置
 	 */
 	private String installLocation;
-	
-	/**
-	 * 调出部门
-	 */
-	private String profession;
 	
 	/**
 	 * 调入位置
@@ -207,20 +195,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the targetDept
-	 */
-	public String getTargetDept() {
-		return targetDept;
-	}
-
-	/**
-	 * @param targetDept the targetDept to set
-	 */
-	public void setTargetDept(String targetDept) {
-		this.targetDept = targetDept;
-	}
-
-	/**
 	 * @return the allocateReason
 	 */
 	public String getAllocateReason() {
@@ -260,20 +234,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 */
 	public void setInstallLocation(String installLocation) {
 		this.installLocation = installLocation;
-	}
-
-	/**
-	 * @return the profession
-	 */
-	public String getProfession() {
-		return profession;
-	}
-
-	/**
-	 * @param profession the profession to set
-	 */
-	public void setProfession(String profession) {
-		this.profession = profession;
 	}
 
 	/**

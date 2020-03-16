@@ -2,6 +2,7 @@
   <div class="step-container">
     <el-button type="primary"
                :size="GlobalCss.buttonSize"
+               style="float:right;margin-bottom:8px;"
                icon="el-icon-plus"
                @click="dialogTableVisible = true">选择设备</el-button>
     <template>
@@ -17,7 +18,7 @@
                          label="设备名称"> </el-table-column>
         <el-table-column prop="deviceModel"
                          label="规格型号"> </el-table-column>
-        <el-table-column prop="installLocation"
+        <el-table-column prop="installLocationName"
                          label="安装位置"> </el-table-column>
         <el-table-column prop="personName"
                          label="负责人"> </el-table-column>

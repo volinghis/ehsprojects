@@ -28,26 +28,9 @@
           <el-table-column prop="deviceModel"
                            align="center"
                            label="规格型号"> </el-table-column>
-          <el-table-column prop="profession"
-                           align="center"
-                           label="调出部门"></el-table-column>
-          <el-table-column prop="installLocation"
+          <el-table-column prop="installLocationName"
                            align="center"
                            label="调出位置"></el-table-column>
-          <el-table-column prop="targetDept"
-                           align="center"
-                           label="调入部门">
-            <template slot-scope="scope">
-              <span v-if="isSet">
-                <el-form-item prop="targetDept">
-                  <OrgSelect :size="GlobalCss.controlSize"
-                             v-model="result.allocateForm.targetDept"
-                             placeholder="请输入调入部门"></OrgSelect>
-                </el-form-item>
-              </span>
-              <span v-else>{{scope.row.targetDept}}</span>
-            </template>
-          </el-table-column>
           <el-table-column prop="targetPosition"
                            align="center"
                            label="调入位置">
@@ -133,12 +116,10 @@
 
 <script>
 import EamList from '../../../components/eamList'
-import OrgSelect from '@/components/org/org-selector'
 export default {
   name: 'stepTwo',
   components: {
-    EamList,
-    OrgSelect
+    EamList
   },
   data () {
     return {
@@ -148,9 +129,7 @@ export default {
       result: {
         tableData: [],
         allocateForm: {
-          profession: '',
           installLocation: '',
-          targetDept: '',
           targetPosition: '',
           amount: 1,
           unit: ''
@@ -190,6 +169,7 @@ export default {
           message: '请选择需要调拨的设备',
           type: 'info'
         })
+        return
       }
       this.$refs.allocateForm.validate((valid) => {
         if (valid) {

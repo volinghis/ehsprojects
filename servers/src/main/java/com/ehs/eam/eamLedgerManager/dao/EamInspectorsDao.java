@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamInspectors;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
@@ -36,6 +37,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 @Repository
 public interface EamInspectorsDao extends JpaRepository<EamInspectors, String>{
 
-	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DEVICE_KEY+" =?1 and ei."+EamInspectors.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public List<EamInspectors> findEamInspectorsByDeviceKey(String key);
+	@Query(" select ei from EamInspectors ei where ei."+EamInspectors.DEVICE_KEY+" =?1 and ei."+BaseEntity.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public List<EamInspectors> findEamInspectorsByDeviceKey(String key,DataModel[] dataModels);
 }

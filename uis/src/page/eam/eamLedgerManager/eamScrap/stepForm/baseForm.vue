@@ -21,12 +21,6 @@
       <step3 v-if="active === 3"
              @nextStep="nextStep"
              @prevStep="prevStep" />
-
-      <step4 v-if="active === 4"
-             @prevStep="prevStep"
-             @finish="finish"
-             @keepAdd="keepAdd" />
-
     </div>
   </div>
 </template>
@@ -34,14 +28,12 @@
 import Step1 from './step1'
 import Step2 from './step2'
 import Step3 from './step3'
-import Step4 from './step4'
 export default {
   name: 'stepForm',
   components: {
     Step1,
     Step2,
-    Step3,
-    Step4
+    Step3
   },
   data () {
     return {
@@ -66,15 +58,13 @@ export default {
   },
   methods: {
     nextStep: function (val) {
-      if (this.active < 4) {
+      if (this.active < 3) {
         if (this.active === 1) {
           this.reqBean.eamScrap = val
           this.active += 1
         } else if (this.active === 2) {
           this.reqBean.scrapDatas = val
           this.active += 1
-        } else if (this.active === 3) {
-          this.handerSubmit(this.active)
         }
       }
     },

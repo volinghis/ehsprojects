@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="ehs_form_item_message">
-      1)该列表显示展示所有设备报废信息。<br />2)可以根据报废名称或报废编号进行查询。<br />3)点击报废编号可以查看详情
+      1)该列表展示所有设备报废信息。<br />2)可以根据报废名称或报废编号进行查询。<br />3)点击报废编号可以查看详情。
     </div>
     <div class="table-search-wrapper">
       <el-input placeholder="请输入报废编号"

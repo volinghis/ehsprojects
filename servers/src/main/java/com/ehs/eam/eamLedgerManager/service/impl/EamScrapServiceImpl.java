@@ -98,7 +98,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 	@Override
 	public PageInfoBean findEamScrapList(EamScrapQueryBean scrapQueryBean) {
 		PageRequest pageRequest = PageRequest.of(scrapQueryBean.getPage() - 1, scrapQueryBean.getSize());
-		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), pageRequest);
+		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
 		if (eamScraPage != null) {
 			List<EamScrap> resList = eamScraPage.getContent();
 			for (EamScrap ep : resList) {
@@ -144,7 +144,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 		if (eamScrap != null) {
 			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(eamScrap.getKey());
 			if (fpi != null) {
-				eFlowBean.setCurrentStep(fpi.getFlowCurrentStepName());
+				eFlowBean.setCurrentStep(fpi.getFlowCurrentStep());
 				eFlowBean.setCurrentUser(eamScrap.getOwnerName());
 				eFlowBean.setEditPage(fpi.getFlowEditPage());
 				eFlowBean.setViewPage(fpi.getFlowViewPage());
@@ -166,6 +166,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 			//设备更新表数据更新
 			EamLedger el = baseCommonService.findByKey(EamLedger.class, es.getDeviceKey());
 			el.setDeviceStatus(status);
+			baseCommonService.saveOrUpdate(el);
 			
 			//设备台账表数据更新
 			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});

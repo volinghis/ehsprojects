@@ -75,10 +75,7 @@
                            label="生产厂家"
                            align="center"
                            :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column prop="profession"
-                           label="专业"
-                           align="center"></el-table-column>
-          <el-table-column prop="installLocation"
+          <el-table-column prop="installLocationName"
                            label="安装位置"
                            align="center"></el-table-column>
           <el-table-column prop="leaveDate"

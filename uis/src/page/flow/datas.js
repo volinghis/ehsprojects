@@ -68,6 +68,9 @@ export default {
     },
     prevStep () { // 返回上一步
       this.$refs.flowContent.prevStep()
+    },
+    show () {
+      this.isShow = false
     }
 
   },
@@ -96,7 +99,8 @@ export default {
       vars: { taskAssignee: '', taskComment: '', taskId: '' },
       processDefineInfo: { start: false, currentStepNum: 0 },
       processInstance: {},
-      comments: []
+      comments: [],
+      isShow: true
     }
   }
 }

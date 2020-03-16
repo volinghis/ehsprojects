@@ -44,7 +44,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String DEVICE_STATUS = "deviceStatus";
 	public static final String RUN_DATE = "runDate";
 	public static final String INSTALL_LOCATION = "installLocation";
-	public static final String PROFESSION = "profession";
+	public static final String INSTALL_LOCATION_NAME = "installLocationName";
 	public static final String WARRANTY = "warranty";
 	public static final String SERVICE_LIFE = "serviceLife";
 	public static final String REPAIR_FREQUENCY = "repairFrequency";
@@ -56,7 +56,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String REMARKS = "remarks";
 	public static final String LEAVE_NUM = "leaveNum";
 	public static final String LEAVE_DATE = "leaveDate";
-	
+
 	public static final String REF_DEVICE_KEY = "refDeviceKey";
 
 	/**
@@ -100,12 +100,13 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	private String installLocation;
 	
-	/**
-	 * 专业
-	 */
-	private String profession;
+	private String installLocationName;
 
-	
+	/**
+	 * 安装位置是否默认按照专业来选择
+	 */
+	private Boolean switchVal;
+
 	/**
 	 * 出厂日期
 	 */
@@ -131,7 +132,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 * 负责人
 	 */
 	private String person;
-	
+
 	private String personName;
 
 	/**
@@ -139,12 +140,12 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	@Column(length = 4000)
 	private String fileId;
-	
+
 	/**
 	 * 设备图片
 	 */
 	private String deviceImg;
-	
+
 	/**
 	 * 检修数量
 	 */
@@ -155,7 +156,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	@Column(length = 3000)
 	private String remarks;
-	
+
 	private String leaveNum;
 
 	/**
@@ -276,7 +277,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 		this.installLocation = installLocation;
 	}
 
-
 	/**
 	 * @return the warranty
 	 */
@@ -389,20 +389,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 		this.refDeviceKey = refDeviceKey;
 	}
 
-	/**
-	 * @return the profession
-	 */
-	public String getProfession() {
-		return profession;
-	}
-
-	/**
-	 * @param profession the profession to set
-	 */
-	public void setProfession(String profession) {
-		this.profession = profession;
-	}
-	
 	@Override
 	public String getFlow() {
 		// TODO Auto-generated method stub
@@ -458,4 +444,33 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public void setLeaveDate(Timestamp leaveDate) {
 		this.leaveDate = leaveDate;
 	}
+
+	/**
+	 * @return the switchVal
+	 */
+	public Boolean getSwitchVal() {
+		return switchVal;
+	}
+
+	/**
+	 * @param switchVal the switchVal to set
+	 */
+	public void setSwitchVal(Boolean switchVal) {
+		this.switchVal = switchVal;
+	}
+
+	/**
+	 * @return the installLocationName
+	 */
+	public String getInstallLocationName() {
+		return installLocationName;
+	}
+
+	/**
+	 * @param installLocationName the installLocationName to set
+	 */
+	public void setInstallLocationName(String installLocationName) {
+		this.installLocationName = installLocationName;
+	}
+
 }

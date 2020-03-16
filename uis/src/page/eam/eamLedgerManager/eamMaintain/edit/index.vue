@@ -42,10 +42,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="设备专业:"
-                            prop="profession">
-                <el-input v-model="form.profession"></el-input>
-              </el-form-item>
               <el-form-item label="投运日期:"
                             prop="runDate">
                 <el-date-picker v-model="form.runDate"
@@ -58,6 +54,24 @@
                             prop="factoryName">
                 <el-input v-model="form.factoryName">
                 </el-input>
+              </el-form-item>
+              <el-form-item label="安装位置:"
+                            prop="installLocation">
+                <el-select v-model="form.installLocation"
+                           style="width:55%;"
+                           placeholder="请选择">
+                  <el-option v-for="item in options"
+                             :key="item.key"
+                             :label="item.text"
+                             :value="item.key">
+                  </el-option>
+                </el-select>
+                <el-switch v-model="form.switchVal"
+                           style="margin-left:10px;"
+                           @change="handleSwitchChange"
+                           active-text="按专业"
+                           inactive-text="按系统">
+                </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -72,10 +86,6 @@
               <el-form-item label="出厂编号:"
                             prop="leaveNum">
                 <el-input v-model="form.leaveNum"></el-input>
-              </el-form-item>
-              <el-form-item label="安装位置:"
-                            prop="installLocation">
-                <el-input v-model="form.installLocation"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -95,13 +105,13 @@
     <div class="item-block right">
       <params-table @getParamsTable="getParamsTable"
                     :deviceKey=deviceKey
-                    :isDisable="false"/>
+                    :isDisable="false" />
     </div>
     <!--历任点检员-->
     <div class="item-block right">
       <past-inspectors @getInspectors="getInspectors"
                        :deviceKey=deviceKey
-                       :isDisable="false"/>
+                       :isDisable="false" />
     </div>
     <!--子设备-->
     <div class="item-block right">
@@ -110,7 +120,10 @@
     </div>
     <!--关联文件-->
     <div class="item-block right">
-      <FilesTable :fileId="form.fileId" :deviceKey="deviceKey" @getFileId="allFileId" :isDisable="false"></FilesTable>
+      <FilesTable :fileId="form.fileId"
+                  :deviceKey="deviceKey"
+                  @getFileId="allFileId"
+                  :isDisable="false"></FilesTable>
     </div>
   </div>
 </template>

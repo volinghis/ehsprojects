@@ -9,7 +9,7 @@
       <el-main> <router-view ref="flowContent"></router-view></el-main>
     </el-container>
 
-    <div style="width:200px" class="ehs-flows-right">
+    <div style="width:200px" class="ehs-flows-right" v-if="$store.state.showFlowEl">
       <el-input
         type="textarea"
         v-model="vars.taskComment"

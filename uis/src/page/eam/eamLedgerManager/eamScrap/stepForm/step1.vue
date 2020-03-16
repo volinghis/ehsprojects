@@ -86,6 +86,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.state.showFlowEl = false
     if (this.businessKey) {
       this.disable = true // 表单数据只读
       this.getScrapByKey(this.businessKey)
