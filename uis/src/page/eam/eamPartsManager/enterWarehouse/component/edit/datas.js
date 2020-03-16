@@ -61,12 +61,22 @@ export default {
         this.showButton = false
         this.showFlag = 'view'
       }
+    } else if (this.flag === 'edit') {
+      if (processObj.key != null) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+          this.form = res.data
+          this.getPartsAccounts()
+        })
+        this.show = false
+        this.showButton = true
+        this.showFlag = 'edit'
+      }
     } else {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
-          this.showFlag = 'edit'
-          this.showButton = true
+          this.showFlag = 'view'
+          this.showButton = false
           this.getPartsAccounts()
         })
       }

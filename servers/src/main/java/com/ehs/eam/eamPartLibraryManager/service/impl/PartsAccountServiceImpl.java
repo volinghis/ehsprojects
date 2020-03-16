@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamPartLibraryManager.bean.PartsInfoBean;
@@ -106,7 +107,7 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	@Override
 	public PageInfoBean findPartsAccountAll(QueryBean queryBean) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		Page<PartsAccount> parts = partsAccountDao.findPartsAccountAll(pageRequest);
+		Page<PartsAccount> parts = partsAccountDao.findPartsAccountAll(pageRequest,new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 		if (parts!=null) {
 			if(StringUtils.isNotBlank(queryBean.getQuery()) ) {
 				List<PartsAccount> partsAccounts =parts.getContent().stream().filter(s -> StringUtils.contains(s.getDeviceCode(), queryBean.getQuery()) 

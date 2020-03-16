@@ -9,12 +9,12 @@
       <el-table-column prop="leaveFactoryDate" label="出厂日期" width="130" align="center"></el-table-column>
       <el-table-column prop="supplier" label="供应商" width="130" align="center"></el-table-column>
       <el-table-column prop="warningValue" label="预警值" width="130" align="center"></el-table-column>
-      <el-table-column prop="amount" label="数量" align="center" v-if="flagMark!=='view'"></el-table-column>
-      <el-table-column prop="dummyAmount" label="数量" align="center" v-if="flagMark==='add'"></el-table-column>
+      <el-table-column prop="amount" label="数量" align="center"></el-table-column>
+      <!-- <el-table-column prop="dummyAmount" label="数量" align="center"></el-table-column> -->
       <el-table-column prop="price" label="单价" align="center"></el-table-column>
       <el-table-column prop="unit" label="单位" align="center"></el-table-column>
       <el-table-column prop="totalPrice" label="总价" align="center"></el-table-column>
-      <el-table-column fixed="right"  label="操作" width="160" align="center">
+      <el-table-column fixed="right"  label="操作" width="160" align="center" v-if="flagBotton">
         <template slot-scope="scope">
           <el-button @click="handleEdit(scope.row)"  :size="GlobalCss.buttonSize" type="primary">编辑</el-button>
           <el-button @click="handleDel(scope.$index,tableData)" :size="GlobalCss.buttonSize" type="danger">删除</el-button>
@@ -28,8 +28,8 @@
       <el-divider></el-divider>
       <editPart ref="partData" :flag="flagMark" :partsForm="partsFormEdit"></editPart>
       <div style="text-align:center;">
-        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm">保 存</el-button>
-        <el-button :size="GlobalCss.buttonSize" @click="handleClose">取 消</el-button>
+        <el-button type="primary" :size="GlobalCss.buttonSize" @click="saveForm" v-if="flagBotton">保 存</el-button>
+        <el-button :size="GlobalCss.buttonSize" @click="handleClose" v-if="flagBotton">取 消</el-button>
       </div>
     </el-drawer>
   </div>

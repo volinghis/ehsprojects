@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.config.DataConfig;
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 
@@ -27,7 +27,7 @@ import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 @Repository
 public interface EnterWareHouseDao extends JpaRepository<EnterWareHouse, String>{
 
-	@Query(" select ewh from EnterWareHouse ewh where ewh."+EnterWareHouse.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	Page<EnterWareHouse> findAll(PageRequest pageRequest);
+	@Query(" select ewh from EnterWareHouse ewh where ewh."+BaseEntity.DATA_MODEL+" in ?1  order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	Page<EnterWareHouse> findAll(PageRequest pageRequest,DataModel[] dataModels);
 
 }

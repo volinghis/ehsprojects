@@ -53,7 +53,6 @@ export default {
   created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
     this.flag = processObj.flag
-
     if (this.flag === 'add') {
       const d = new Date()
       var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
@@ -63,7 +62,6 @@ export default {
       this.show = false
       this.showButton = true
       this.showFlag = 'add'
-      console.log('this.showFlag=====' + this.showFlag)
     } else if (this.flag === 'view') {
       if (processObj.key) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
@@ -74,12 +72,22 @@ export default {
       this.show = true
       this.showButton = false
       this.showFlag = 'view'
+    } else if (this.flag === 'edit') {
+      if (processObj.key) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
+          this.form = res.data
+          this.getPartsAccounts()
+        })
+      }
+      this.show = false
+      this.showButton = true
+      this.showFlag = 'edit'
     } else {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
-          this.showFlag = 'edit'
-          this.showButton = true
+          this.showFlag = 'view'
+          this.showButton = false
           this.getPartsAccounts()
         })
       }
@@ -117,7 +125,6 @@ export default {
       })
     },
     handerSubmit: function (processInfo) {
-      alert('驳回后我又要重新提交了')
       this.$refs.form.validate(valid => {
         if (valid) {
           if (this.tableDatas === undefined) {
@@ -128,7 +135,6 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

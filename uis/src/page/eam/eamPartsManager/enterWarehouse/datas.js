@@ -7,7 +7,7 @@ export default {
       })
     },
     handleClick (row) { // 查看
-      const currentUser = this.sessionUser.userName
+      const currentUser = this.sessionUser.username
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseFlowBean', { params: { key: row.wareHouseKey } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
@@ -82,30 +82,10 @@ export default {
         two: spanTwoArr
       }
     }
-    // handleSelect: function () {
-    // },
-    // querySearch: function (queryString, cb) {
-    //   var restaurants = this.restaurants
-    //   var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-    //   // 调用 callback 返回建议列表的数据
-    //   cb(results)
-    // },
-    // createFilter: function (queryString) {
-    //   return (restaurant) => {
-    //     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-    //   }
-    // },
-    // loadAll: function () {
-    // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getSuggestions').then(res => {
-    //   this.restaurants = res.data
-    // })
-    // }
   },
   mounted: function () {
     this.getTableData()
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    // this.restaurants = this.loadAll()
-    // this.loadAll()
   },
   data () {
     return {

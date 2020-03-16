@@ -55,12 +55,12 @@
                 <el-form-item label="单位：" prop="unit">
                   <el-input v-model="form.unit" placeholder="请输入单位" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="数量：" prop="dummyAmount">
-                  <el-input v-model="form.dummyAmount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="partFlag"></el-input>
+                <el-form-item label="数量：" prop="amount">
+                  <el-input v-model="form.amount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="amountFlag"></el-input>
+                  <template v-if="amountFlag">
+                    <div class="ehs_form_item_message">剩余库存数量为：{{oldAmount}}</div>
+                  </template>
                 </el-form-item>
-                <!-- <el-form-item label="创建人:" prop="founder">
-                  <el-input v-model="form.founder" :disabled="true"></el-input>
-                </el-form-item> -->
               </el-col>
               <el-col :span="8">
                 <el-form-item label="规格型号:" prop="norm">

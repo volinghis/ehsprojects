@@ -7,7 +7,7 @@ export default {
       })
     },
     handleClick: function (row) {
-      const currentUser = this.sessionUser.userName
+      const currentUser = this.sessionUser.username
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseFlowBean', { params: { key: row.wareHouseKey } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
@@ -76,36 +76,10 @@ export default {
         two: spanTwoArr
       }
     }
-    // querySearch: function (queryString, cb) {
-    //   var restaurants = this.restaurants
-    //   var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-    //   // 调用 callback 返回建议列表的数据
-    //   cb(results)
-    // },
-    // createFilter: function (queryString) {
-    //   return (restaurant) => {
-    //     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-    //   }
-    // },
-    // handleSelect: function (item) {
-    //   console.log(item)
-    // },
-    // loadAll: function () {
-    // this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getSuggestions').then(res => {
-    //   this.restaurants = res.data
-    // })
-    // },
   },
   mounted: function () {
     this.getTableData()
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    // var hcard = document.querySelector('.cardHeight').offsetHeight
-    // var hfrom = document.querySelector('.fromHeight').offsetHeight
-    // var hpage = document.querySelector('.pageHeight').offsetHeight
-    // var hbutton = document.querySelector('.buttonHeight').offsetHeight
-    // this.htable = (hcard - hfrom - hpage - hbutton - 25) + 'px'
-    // this.restaurants = this.loadAll()
-    // this.loadAll()
   },
   data () {
     return {

@@ -13,7 +13,7 @@ public interface OutWareHouseService {
 
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean);
 
-	public int validAmount(String amount, String deviceCode, String price);
+//	public int validAmount(String amount, String deviceCode, String price);
 
 	public void updatePartsAccount(FlowProcessInfo flowProcessInfo);
 

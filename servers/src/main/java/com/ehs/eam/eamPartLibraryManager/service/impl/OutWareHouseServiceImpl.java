@@ -1,6 +1,5 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -100,9 +99,6 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
 			wareHouserBean.getOutWareHouse().setReceiveDepart(org.getName());
 			wareHouserBean.getOutWareHouse().setReceiveEmp(user.getName());
-			System.out.println("wareHouserBean.getOutWareHouse()========="+wareHouserBean.getOutWareHouse().getKey());
-			System.out.println("wareHouserBean.getFlowProcessInfo()======="+wareHouserBean.getFlowProcessInfo().getBusinessEntityKey());
-			System.out.println("bussinessKey========"+wareHouserBean.getFlowProcessInfo().getBusinessEntityKey());
 			//流程驳回后再次提交
 			if(StringUtils.isNotBlank(wareHouserBean.getOutWareHouse().getKey()) && StringUtils.isNotBlank(wareHouserBean.getFlowProcessInfo().getBusinessEntityKey())
 					&& StringUtils.equals(wareHouserBean.getOutWareHouse().getKey(), wareHouserBean.getFlowProcessInfo().getBusinessEntityKey())){
@@ -111,11 +107,9 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 				if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 					for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
 						partsExtends.setWareHouseKey(pi.getBusinessKey());
-						logger.info("旧的=====partsExtends.getKey()=========="+partsExtends.getKey());
 						PartsExtends oldExtends = baseCommonService.findByKey(partsExtends.getClass(), partsExtends.getKey());
 						PartsExtends newExtends = baseCommonService.saveOrUpdate(partsExtends);
-						logger.info("新的=====partsExtends.getKey()=========="+partsExtends.getKey());
-						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode());
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 						if (!CollectionUtils.isEmpty(pAccounts)) {
 							for (PartsAccount partsAccount : pAccounts) {
 								if (partsAccount != null) {
@@ -145,16 +139,14 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 						partsExtends.setWareHouseKey(pi.getBusinessKey());
 						logger.info("准备保存备件信息");
 						PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
-						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 						if (!CollectionUtils.isEmpty(pAccounts)) {
 							for (PartsAccount partsAccount : pAccounts) {
 								if (partsAccount != null) {
 									if(partsAccount.getPrice().compareTo(pp.getPrice()) == 0) {
 										logger.info("编码相同，价格相同的时候");
 										logger.info("partsAccount.getDummyAmount()====="+partsAccount.getDummyAmount());
-										logger.info("lkdsjfls==="+StringUtils.isNotBlank(String.valueOf(partsAccount.getDummyAmount())));
 										if(StringUtils.isNotBlank(String.valueOf(partsAccount.getDummyAmount()))) {
-											logger.info("aksjdajldjalkjldjaklldajdlajd");
 											partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
 											logger.info("hhhh==="+partsAccount.getDummyAmount());
 										}else {
@@ -187,10 +179,10 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			baseCommonService.saveOrUpdate(owh);
 		}
 		logger.info("==========开始更新备件台账数据=============");
-		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey());
+		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
-				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
+				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
 				if (CollectionUtils.isEmpty(pAccounts)) {
 					for (PartsAccount partsAccount : pAccounts) {
 						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
@@ -236,17 +228,17 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		}
 	}
 	
-	@Override
-	public int validAmount(String amount, String deviceCode, String price) {
-		Assert.notNull(amount, "数量不能为空");
-		Assert.notNull(deviceCode, "备件编码不能为空");
-		Assert.notNull(price, "价格不能为空");
-		BigDecimal newPrice = new BigDecimal(price);
-		PartsAccount partsAccount = partsAccountDao.findPartsAccount(deviceCode,newPrice);
-		int totalAmount = partsAccount.getAmount().intValue() + Integer.valueOf(amount).intValue();
-		System.out.println("totalAmount====="+totalAmount);
-		return totalAmount;
-	}
+//	@Override
+//	public int validAmount(String amount, String deviceCode, String price) {
+//		Assert.notNull(amount, "数量不能为空");
+//		Assert.notNull(deviceCode, "备件编码不能为空");
+//		Assert.notNull(price, "价格不能为空");
+//		BigDecimal newPrice = new BigDecimal(price);
+//		PartsAccount partsAccount = partsAccountDao.findPartsAccount(deviceCode,newPrice);
+//		int totalAmount = partsAccount.getAmount().intValue() + Integer.valueOf(amount).intValue();
+//		System.out.println("totalAmount====="+totalAmount);
+//		return totalAmount;
+//	}
 
 	@Override
 	public EnterWareHouseFlowBean getOutWareHouseFlowBean(String key) {
@@ -255,7 +247,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		if (ewhFlowBean != null) {
 			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(outWareHouse.getKey());
 			if (fpi != null) {
-				ewhFlowBean.setCurrentStep(fpi.getFlowCurrentStepName());
+				ewhFlowBean.setCurrentStep(fpi.getFlowCurrentStep());
 				ewhFlowBean.setCurrentUser(outWareHouse.getOwnerName());
 				ewhFlowBean.setEditPage(fpi.getFlowEditPage());
 				ewhFlowBean.setViewPage(fpi.getFlowViewPage());

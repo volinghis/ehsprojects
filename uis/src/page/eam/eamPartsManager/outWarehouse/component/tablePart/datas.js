@@ -34,12 +34,10 @@ export default {
       this.totalCount = val
     },
     flag: function (val) {
-      console.log('val==============' + val)
       if (val === 'view') {
         this.flagMark = 'view'
         this.flagBotton = false
       } else {
-        console.log('编辑')
         this.flagMark = 'edit'
         this.flagBotton = true
       }
@@ -50,7 +48,6 @@ export default {
         this.select.push.apply(this.select, val)
         this.unique(this.select)
         this.tableData = this.select
-        // this.select.filter((item, index, self) => self.indexOf(item) === index)
       }
     },
     parts: {
@@ -68,6 +65,11 @@ export default {
     },
     deep: true
   },
+  created: function () {
+    if (this.flag !== 'view') {
+      this.flagBotton = true
+    }
+  },
   methods: {
     unique: function (arr) {
       return arr.filter(function (item, index, arr) {
@@ -79,13 +81,14 @@ export default {
       this.drawer = true
       this.$nextTick(() => {
         this.partsFormEdit = row
+        this.flagMark = 'edit'
       })
     },
     handleClick: function (row) {
       this.drawer = true
       this.$nextTick(() => {
         this.partsFormEdit = row
-        this.editPartFlag = 'view'
+        this.flagMark = 'view'
       })
     },
     handleDel: function (index, rows) {

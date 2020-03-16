@@ -9,8 +9,6 @@ export default {
   },
   watch: {
     flag: function (val) {
-      console.log('flagMark')
-      console.log(val)
     },
     amountNew: function (val) {
       if (this.priceNew !== undefined) {
@@ -30,11 +28,17 @@ export default {
     },
     partsForm: {
       handler (val) {
+        if (this.flag !== 'view') {
+          this.partFlag = true
+        } else {
+          this.amountFlag = true
+          this.getLaveAmount()
+        }
         this.form = val
+        this.getLaveAmount()
         this.oldAmount = this.form.dummyAmount
         this.oldWarningValue = this.form.warningValue
         this.form.totalPrice = this.form.amount * this.form.price
-        this.partFlag = false
         if (this.form.partsImg) {
           this.getDevicePicture(this.form.partsImg)
           this.key += 1
@@ -50,7 +54,6 @@ export default {
   },
   methods: {
     amountBlur: function (e) {
-      console.log(e.target.value)
       if (e.target.value <= this.oldAmount) {
         let a = this.oldAmount - e.target.value
         if (e.target.value !== '' && a <= this.oldWarningValue) {
@@ -65,7 +68,7 @@ export default {
           message: '您填写的数量已经超出库存，请重新填写',
           type: 'warning'
         })
-        this.form.dummyAmount = ''
+        this.form.amount = ''
       }
     },
     priceBlur: function (e) {
@@ -81,11 +84,17 @@ export default {
       }).catch(error => {
         this.$message({ message: error })
       })
+    },
+    getLaveAmount: function () {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getLaveAmount', this.form).then(res => {
+        this.oldAmount = res.data.dummyAmount
+      })
     }
   },
   data () {
     return {
       key: 0,
+      amountFlag: false,
       oldAmount: '',
       oldWarningValue: '',
       partFlag: true,
