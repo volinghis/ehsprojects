@@ -14,3 +14,16 @@
   width: 410px;
   margin-left: 10px;
 }
+.info-title{
+  color: #303133;
+  font-weight: bolder;
+}
+.info-content{
+  color: #70737a;
+}
+/deep/.el-dialog__body {
+  padding: 0px 20px 30px 20px;
+}
+/deep/.el-divider--horizontal {
+  margin: 0px 0 15px 0;
+}

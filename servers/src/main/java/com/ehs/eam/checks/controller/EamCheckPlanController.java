@@ -205,4 +205,18 @@ public class EamCheckPlanController {
 	}
 	
 	
+	@RequestAuth(menuKeys ={"eamCheckPlan"})
+	@RequestMapping(value = "/eam/checks/plan/sendTask")
+	public String sendTask(@RequestBody EamCheckPlan eamCheckPlan, HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		try {
+			eamCheckPlanService.sendTask(eamCheckPlan);
+			return JsonUtils.toJsonString(resultBean.ok("执行成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("执行失败"));
+	}
+	
+	
 }

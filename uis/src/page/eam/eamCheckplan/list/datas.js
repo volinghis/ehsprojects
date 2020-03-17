@@ -2,8 +2,11 @@ export default {
   data () {
     return {
       plans: [],
+      dataView: {},
+      sessionUser: '',
       timeNow: '',
       oldTime: '',
+      dialogVisibleView: false,
       dialogVisible: false,
       queryBean: {
         page: 1,
@@ -35,6 +38,8 @@ export default {
       that.timeNow = time.data
       that.flushData()
     }))
+    var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    this.sessionUser = currUser
   },
   methods: {
     enableCheck (row) {
@@ -62,12 +67,27 @@ export default {
       var date = new Date(row.startTime.replace(/-/g, '/'))
       var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
       var now = new Date(this.timeNow.date.replace(/-/g, '/'))
-      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable && row.creationName
+      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable
     },
     delay: function (row) {
       this.dialogVisible = true
       this.formDate.oldTime = row.endTime
       this.formDate.key = row.key
+    },
+    comply: function (row) {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/sendTask', row).then(res => {
+        if (res.data.resultType === 'ok') {
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+      })
     },
     sortchange (v) {
       var cl = v.prop
@@ -81,6 +101,11 @@ export default {
     },
     add () {
       this.$router.push({ name: 'eamCheckPlanEdit' })
+    },
+    handleClick: function (row) {
+      this.dialogVisibleView = true
+      console.log(row)
+      this.dataView = row
     },
     handleSubmit: function () {
       var old = new Date(this.formDate.oldTime.replace(/-/g, '/'))

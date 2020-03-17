@@ -23,7 +23,7 @@
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" sortable="custom" label="计划名称">
         <template slot-scope="scope">
-          <el-link type="primary">{{scope.row.name}}</el-link>
+          <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.name}}</el-link>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="year" width="150" sortable="custom" label="计划年度"></el-table-column>
@@ -33,7 +33,7 @@
       <el-table-column align="center" prop="startTime" width="160" sortable="custom" label="开始时间"></el-table-column>
       <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="结束时间"></el-table-column>
       <el-table-column align="center" prop="enable" width="100" sortable="custom" label="状态">
-        <template slot-scope="scope">
+        <template slot-scope="scope" v-if="resetTimeCheck(scope.row)">
           <el-tooltip :content="scope.row.enable === true ? '启用中':'停用中'" placement="left">
             <el-switch @change="changeState($event,scope.row,scope.$index)" v-model="scope.row.enable"
               active-color="#13ce66" inactive-color="#ff4949">
@@ -44,7 +44,7 @@
       <el-table-column align="center" width="210" fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button type="info" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="delay(scope.row)">延期</el-button>
-          <el-button type="warning" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)">执行</el-button>
+          <el-button type="warning" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="comply(scope.row)">执行</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,7 +56,7 @@
 
     <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="30%" :destroy-on-close="true">
       <div>
-        <el-form :model="formDate" label-width="80px">
+        <el-form :model="formDate" label-width="120px">
           <el-form-item label="原定时间：">
               <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small" :disabled="true"></el-date-picker>
           </el-form-item>
@@ -69,6 +69,43 @@
         <el-button @click="handleReset" :size="GlobalCss.controlSize">取 消</el-button>
         <el-button type="primary" @click="handleSubmit" :size="GlobalCss.controlSize">确 定</el-button>
       </span>
+    </el-dialog>
+    <el-dialog title="查看页面" :visible.sync="dialogVisibleView" width="34%" :destroy-on-close="true">
+      <el-divider></el-divider>
+      <div>
+         <el-row>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">计划名称</span>:&nbsp;<span class="info-content">{{ dataView.name }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">执行频率</span>:&nbsp;<span class="info-content">{{ dataView.rate }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">计划年度</span>:&nbsp;<span class="info-content">{{ dataView.year }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">计划周期</span>:&nbsp;<span class="info-content">{{ dataView.startTime }}至{{dataView.endTime}}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">设备位置</span>:&nbsp;<span class="info-content">{{ dataView.deviceAddress }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">巡检范围</span>:&nbsp;<span class="info-content">{{ dataView.checkScopeStr }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">执行部门</span>:&nbsp;<span class="info-content">{{ dataView.checkor }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">是否启用</span>:&nbsp;<span class="info-content">{{ dataView.enableLabel }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">授权查看</span>:&nbsp;<span class="info-content">{{ dataView.viewType }}</span>
+          </el-col>
+          <el-col :span="12" style="margin-bottom:3px;">
+            <span class="info-title">备注</span>:&nbsp;<span class="info-content">{{ dataView.notes }}</span>
+          </el-col>
+        </el-row>
+      </div>
     </el-dialog>
   </div>
 </template>
