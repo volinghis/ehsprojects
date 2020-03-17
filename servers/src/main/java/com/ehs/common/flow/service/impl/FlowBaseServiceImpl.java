@@ -145,6 +145,8 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			flowProcessInfo.setFlowCurrentPersonName(currentUserName);
 			flowProcessInfo.setFlowCurrentStep(currentStep);
 			flowProcessInfo.setFlowCurrentStepName(currentStepName);
+			flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
+
 			baseCommonService.saveOrUpdate(flowProcessInfo);
 
 
@@ -287,6 +289,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			flowProcessInfo.setFlowProcessName(pi.getProcessDefinitionName());
 			flowProcessInfo.setFlowViewPage( flowBaseEntity.getViewPage());
 			flowProcessInfo.setFlowEditPage(flowBaseEntity.getEditPage());
+			flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
 			FlowProcessInfo fpi = baseCommonService.saveOrUpdate(flowProcessInfo);
 
 			flowBaseEntity.setFlowProcessInfoKey(fpi.getKey());
@@ -378,6 +381,8 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			flowProcessInfo.setFlowCurrentPersonName(currentUserName);
 			flowProcessInfo.setFlowCurrentStep(currentStep);
 			flowProcessInfo.setFlowCurrentStepName(currentStepName);
+			flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
+
 			baseCommonService.saveOrUpdate(flowProcessInfo);
 		} catch (Exception e) {
 
@@ -432,6 +437,8 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			flowProcessInfo.setFlowCurrentPersonName(currentUserName);
 			flowProcessInfo.setFlowCurrentStep(currentStep);
 			flowProcessInfo.setFlowCurrentStepName(currentStepName);
+			flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
+
 			baseCommonService.saveOrUpdate(flowProcessInfo);
 		} catch (Exception e) {
 
@@ -482,6 +489,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 		flowProcessInfo.setFlowCurrentPersonName(currentUserName);
 		flowProcessInfo.setFlowCurrentStep(currentStep);
 		flowProcessInfo.setFlowCurrentStepName(currentStepName);
+		flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
 		baseCommonService.saveOrUpdate(flowProcessInfo);
 
 

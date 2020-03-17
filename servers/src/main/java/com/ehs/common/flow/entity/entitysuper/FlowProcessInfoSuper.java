@@ -28,13 +28,15 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public static final String FLOW_PREV_STEP_NAME = "flowPrevStepName" ;
 	public static final String FLOW_PROCESS_INSTANCE_ID = "flowProcessInstanceId" ;
 	public static final String BUSINESS_ENTITY_KEY = "businessEntityKey" ;
-
+	public static final String FLOW_PERSONS="flowPersons";
 	public static final String FLOW_EDIT_PAGE = "flowEditPage" ;
 	public static final String FLOW_VIEW_PAGE = "flowViewPage" ;
 	public static final String FLOW_PROCESS_NAME = "flowProcessName" ;
 	public static final String FLOW_START_ACTIVITY_ID = "flowStartActivityId" ;
 	public static final String FLOW_SCORE="flowScore";
 	
+	@Column(length = 4000)
+	private String flowPersons;
 	
 	private String flowEditPage;
 	private String flowViewPage;
@@ -45,6 +47,12 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	
 	
 	
+	public String getFlowPersons() {
+		return flowPersons;
+	}
+	public void setFlowPersons(String flowPersons) {
+		this.flowPersons = flowPersons;
+	}
 	public Boolean getFlowScore() {
 		return flowScore;
 	}

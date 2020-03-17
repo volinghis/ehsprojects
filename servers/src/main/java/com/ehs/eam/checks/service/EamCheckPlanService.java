@@ -11,4 +11,6 @@ public interface EamCheckPlanService {
 	public EamCheckPlan changeState(EamCheckPlan plan);
 
 	public void delayDate(String key, String newDate);
+	
+	public void sendTask(EamCheckPlan ecp);
 }
