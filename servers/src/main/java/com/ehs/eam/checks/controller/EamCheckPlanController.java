@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
@@ -17,6 +18,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.eam.checks.bean.CheckPlanQueryBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.service.EamCheckPlanService;
@@ -139,6 +141,67 @@ public class EamCheckPlanController {
 			logger.error(e.getMessage());
 		}
 		return JsonUtils.toJsonString(resultBean.error("保存失败"));
+	}
+	
+	/**
+	 * 
+	* @Function: EamCheckPlanController.java
+	* @Description: 改变计划状态，启用或者停用
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年3月16日 下午2:57:26 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年3月16日     zhaol           v1.0.0               修改原因
+	 */
+	@RequestAuth(menuKeys ={"eamCheckPlan"})
+	@RequestMapping(value = "/eam/checks/plan/changeState")
+	public String changeState(@RequestBody EamCheckPlan plan, HttpServletRequest request) {
+		try {
+			EamCheckPlan checkPlan =eamCheckPlanService.changeState(plan);
+			return JsonUtils.toJsonString(checkPlan);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "[]";
+	}
+	
+	/**
+	 * 
+	* @Function: EamCheckPlanController.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年3月16日 下午6:28:47 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年3月16日     zhaol           v1.0.0               修改原因
+	 */
+	@RequestAuth(menuKeys ={"eamCheckPlan"})
+	@RequestMapping(value = "/eam/checks/plan/delayDate")
+	public String delayDate(@RequestParam String key,@RequestParam String newDate, HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		try {
+			eamCheckPlanService.delayDate(key,newDate);
+			return JsonUtils.toJsonString(resultBean.ok("延期成功"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.toJsonString(resultBean.error("延期失败"));
 	}
 	
 	

@@ -2,10 +2,10 @@
   <div>
     <div class="topleft">
       <div style="float:left;">
-        <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 25px;"></el-image>
+        <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 5px;"></el-image>
       </div>
       <div style="float:right;">
-        <span>东恒快速开发平台</span><br>
+        <span>东恒设备智能管控平台</span><br>
       </div>
     </div>
     <div class="topright">

@@ -3,6 +3,8 @@ export default {
     return {
       plans: [],
       timeNow: '',
+      oldTime: '',
+      dialogVisible: false,
       queryBean: {
         page: 1,
         size: 20,
@@ -11,6 +13,11 @@ export default {
         enable: false,
         query: '',
         totalCount: 0
+      },
+      formDate: {
+        key: '',
+        oldTime: '',
+        newTime: ''
       }
     }
   },
@@ -36,13 +43,32 @@ export default {
       var now = new Date(this.timeNow.date.replace(/-/g, '/'))
       return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && !row.enable
     },
+    changeState: function (e, row, index) {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/changeState', row).then(res => {
+        if (res.data !== [] && res.data.enable === true) {
+          this.$message({
+            message: '已经切换到启用状态',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '已经切换到停用状态',
+            type: 'warning'
+          })
+        }
+      })
+    },
     resetTimeCheck (row) {
       var date = new Date(row.startTime.replace(/-/g, '/'))
       var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
       var now = new Date(this.timeNow.date.replace(/-/g, '/'))
-      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable
+      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable && row.creationName
     },
-
+    delay: function (row) {
+      this.dialogVisible = true
+      this.formDate.oldTime = row.endTime
+      this.formDate.key = row.key
+    },
     sortchange (v) {
       var cl = v.prop
       if (cl === 'enableLabel') {
@@ -56,7 +82,35 @@ export default {
     add () {
       this.$router.push({ name: 'eamCheckPlanEdit' })
     },
-
+    handleSubmit: function () {
+      var old = new Date(this.formDate.oldTime.replace(/-/g, '/'))
+      if (this.formDate.newTime.getTime() <= old.getTime()) {
+        console.log('现在时间比之间时间小')
+        this.$message({
+          message: '您选择的延期时间有误，早于原来时间',
+          type: 'warning'
+        })
+        this.formDate.newTime = ''
+        return
+      }
+      this.dialogVisible = false
+      var d = new Date(this.formDate.newTime)
+      var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/delayDate', { params: { key: this.formDate.key, newDate: datetime } }).then(res => {
+        if (res.data.resultType === 'ok') {
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          })
+          this.flushData()
+        } else {
+          this.$message.error(res.data.message)
+        }
+      })
+    },
+    handleReset: function () {
+      this.dialogVisible = false
+    },
     changePage (v) {
       this.queryBean.page = v
       this.flushData()
@@ -66,6 +120,7 @@ export default {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getAllPlans', this.queryBean)
         .then(res => {
           this.plans = res.data.dataList
+          console.log(this.plans)
           this.queryBean.totalCount = res.data.totalCount
         })
     }

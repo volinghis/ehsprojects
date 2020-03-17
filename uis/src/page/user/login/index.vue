@@ -6,9 +6,8 @@
         <el-col :span="12">
           <p><el-image :src="dhUrl" style="width: 100px; height: 100px"></el-image></p>
           <p>
-            <span>东恒快速开发平台</span><br>
-            <span>DongHeng Rapid Development Platform
-            </span>
+            <span>东恒设备智能管控平台</span><br>
+            <span>Dongheng Equipment Intelligent Management And Control Platform</span>
           </p>
         </el-col>
         <el-col :span="12">

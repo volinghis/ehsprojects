@@ -25,21 +25,26 @@
         <template slot-scope="scope">
           <el-link type="primary">{{scope.row.name}}</el-link>
         </template>
-
       </el-table-column>
-      <el-table-column align="center" prop="year" width="100" sortable="custom" label="计划年度"></el-table-column>
+      <el-table-column align="center" prop="year" width="150" sortable="custom" label="计划年度"></el-table-column>
       <el-table-column align="center" prop="ownerName" width="160" sortable="custom" label="创建人"></el-table-column>
       <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="创建时间">
       </el-table-column>
       <el-table-column align="center" prop="startTime" width="160" sortable="custom" label="开始时间"></el-table-column>
       <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="结束时间"></el-table-column>
-      <el-table-column align="center" prop="enableLabel" width="100" sortable="custom" label="状态">
+      <el-table-column align="center" prop="enable" width="100" sortable="custom" label="状态">
+        <template slot-scope="scope">
+          <el-tooltip :content="scope.row.enable === true ? '启用中':'停用中'" placement="left">
+            <el-switch @change="changeState($event,scope.row,scope.$index)" v-model="scope.row.enable"
+              active-color="#13ce66" inactive-color="#ff4949">
+            </el-switch>
+          </el-tooltip>
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="210" fixed="right" label="操作"><template slot-scope="scope">
-          <el-button type="primary" :size="GlobalCss.buttonSize"  v-if="enableCheck(scope.row)">启用</el-button>
-          <el-button type="primary" :size="GlobalCss.buttonSize"  v-if="!enableCheck(scope.row)">停止</el-button>
-          <el-button type="info" :size="GlobalCss.buttonSize"  v-if="resetTimeCheck(scope.row)">延期</el-button>
-          <el-button type="warning" :size="GlobalCss.buttonSize"  v-if="resetTimeCheck(scope.row)">执行</el-button>
+      <el-table-column align="center" width="210" fixed="right" label="操作">
+        <template slot-scope="scope">
+          <el-button type="info" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="delay(scope.row)">延期</el-button>
+          <el-button type="warning" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)">执行</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,6 +53,23 @@
         :page-size="queryBean.size" layout="total, prev, pager, next" :total="queryBean.totalCount">
       </el-pagination>
     </div>
+
+    <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="30%" :destroy-on-close="true">
+      <div>
+        <el-form :model="formDate" label-width="80px">
+          <el-form-item label="原定时间：">
+              <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small" :disabled="true"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="延期时间：">
+              <el-date-picker v-model="formDate.newTime" type="date" placeholder="选择日期" style="width: 100%;" size="small"></el-date-picker>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleReset" :size="GlobalCss.controlSize">取 消</el-button>
+        <el-button type="primary" @click="handleSubmit" :size="GlobalCss.controlSize">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
