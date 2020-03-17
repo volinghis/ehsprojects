@@ -21,7 +21,7 @@
                         placeholder="请输入账号"><template slot="prepend"><i class="el-icon-user-solid"></i></template></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input v-model="loginForm.password"
+              <el-input v-model="loginForm.password" @keyup.enter.native="login"
                         placeholder="请输入密码" type="password"><template slot="prepend"><i class="fa fa-key"></i></template></el-input>
             </el-form-item>
             <el-form-item>
