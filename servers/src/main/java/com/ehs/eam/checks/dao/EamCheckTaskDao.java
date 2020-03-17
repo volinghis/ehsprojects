@@ -10,13 +10,17 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
 
 @Repository
 public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 
-	@Query(" select t from EamCheckTask t left join FlowProcessInfo fpi on t.key=fpi.businessEntityKey where t."+BaseEntity.DATA_MODEL+" in ?1 "
-			+" and ( (fpi."+FlowProcessInfo.FLOW_PERSONS+"  is null and t."+EamCheckTask.USER+"=?2) or LOCATE(?2,fpi."+FlowProcessInfo.FLOW_PERSONS+")>0) "
+	@Query(" select t from EamCheckTask t join EamCheckPlan eamCheckPlan on t."+EamCheckTask.PLAN_KEY+"=eamCheckPlan."+EamCheckPlan.KEY+" left join FlowProcessInfo flowProcessInfo on t.key=flowProcessInfo.businessEntityKey "
+			+ "where t."+BaseEntity.DATA_MODEL+" in ?1 "
+			+ "and eamCheckPlan."+BaseEntity.DATA_MODEL+" in ?1 "
+			+ "and (flowProcessInfo."+BaseEntity.DATA_MODEL+" in ?1 or flowProcessInfo."+BaseEntity.DATA_MODEL+" is null )"
+			+" and ( (flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+"  is null and t."+EamCheckTask.USER+"=?2) or LOCATE(?2,flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+")>0) "
 			+ "")
 	public Page<EamCheckTask> findAllPlan(@Param("dataModels")  DataModel[] dataModels,
 			String userKey,

@@ -17,7 +17,7 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	private String org;
 	
 	public final static String USER="user";
-	
+	public final static String PLAN_KEY="planKey";
 	
 	public String getUser() {
 		return user;

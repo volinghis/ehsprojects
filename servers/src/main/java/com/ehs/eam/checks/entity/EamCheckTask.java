@@ -26,11 +26,17 @@ public class EamCheckTask extends EamCheckTaskSuper{
 	@Transient
 	private List<EamCheckDefect> eamCheckDefect;
 	
+	@Transient
+	private EamCheckPlan eamCheckPlan;
+	
+	
 	
 	@Transient
 	private FlowProcessInfo flowProcessInfo;
 	
 	
+
+
 	public FlowProcessInfo getFlowProcessInfo() {
 		return flowProcessInfo;
 	}

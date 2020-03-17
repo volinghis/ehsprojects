@@ -63,7 +63,7 @@ export default {
     },
     flushData () {
       this.queryBean.page = 1
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getAllPlans', this.queryBean)
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/task/getAllTasks', this.queryBean)
         .then(res => {
           this.plans = res.data.dataList
           this.queryBean.totalCount = res.data.totalCount
