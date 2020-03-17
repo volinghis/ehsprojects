@@ -85,7 +85,6 @@ export default {
     handleSubmit: function () {
       var old = new Date(this.formDate.oldTime.replace(/-/g, '/'))
       if (this.formDate.newTime.getTime() <= old.getTime()) {
-        console.log('现在时间比之间时间小')
         this.$message({
           message: '您选择的延期时间有误，早于原来时间',
           type: 'warning'
@@ -120,7 +119,6 @@ export default {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getAllPlans', this.queryBean)
         .then(res => {
           this.plans = res.data.dataList
-          console.log(this.plans)
           this.queryBean.totalCount = res.data.totalCount
         })
     }
