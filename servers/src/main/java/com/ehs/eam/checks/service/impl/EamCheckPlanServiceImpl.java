@@ -159,6 +159,7 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 					  ect.setName(ecp.getName()+o.getName()+"的巡检任务");
 					  ect.setUser(o.getKey());
 					  ect.setOrg(oi.getKey());
+					  ect.setPlanKey(ecp.getKey());
 					  baseCommonService.saveOrUpdate(ect);
 				  }
 			  }
