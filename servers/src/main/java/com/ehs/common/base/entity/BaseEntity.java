@@ -235,10 +235,12 @@ public  abstract class BaseEntity implements java.io.Serializable{
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getUserKey())) {
 			this.setCreation(SysAccessUser.get().getUserKey());
 			this.setOwner(SysAccessUser.get().getUserKey());
+			this.setOwnerName(SysAccessUser.get().getUsername());
 		}
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getOrgKey())) {
 			this.setCreationOrg(SysAccessUser.get().getOrgKey());
 			this.setOwnerOrg(SysAccessUser.get().getOrgKey());
+			this.setOwnerOrgName(SysAccessUser.get().getOrgName());
 		}
 	}
 	/**
@@ -263,13 +265,17 @@ public  abstract class BaseEntity implements java.io.Serializable{
 		this.setCreationTime(BaseUtils.getNow());
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getUserKey())) {
 			this.setCreation(SysAccessUser.get().getUserKey());
+			this.setCreationName(SysAccessUser.get().getUsername());
 		}else {
 			this.setCreation("");
+			this.setCreationName("");
 		}
 		if(SysAccessUser.get()!=null&&StringUtils.isNotBlank(SysAccessUser.get().getOrgKey())) {
 			this.setCreationOrg(SysAccessUser.get().getOrgKey());
+			this.setCreationOrgName(SysAccessUser.get().getOrgName());
 		}else {
 			this.setCreationOrg("");
+			this.setCreationOrgName("");
 		}
 	}
 	public String getOwner() {
