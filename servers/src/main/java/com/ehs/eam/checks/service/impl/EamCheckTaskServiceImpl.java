@@ -69,8 +69,8 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 			for(EamCheckDefect d :des) {
 				if(StringUtils.isBlank(d.getTaskKey())) {
 					d.setTaskKey(t.getKey());
-					baseCommonService.saveOrUpdate(d);
 				}
+				baseCommonService.saveOrUpdate(d);
 			}
 		}
 		List<EamCheckRepair> ecr=t.getEamCheckRepair();
@@ -78,8 +78,9 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 			for(EamCheckRepair r:ecr) {
 				if(StringUtils.isBlank(r.getTaskKey())) {
 					r.setTaskKey(t.getKey());
-					baseCommonService.saveOrUpdate(r);
 				}
+				baseCommonService.saveOrUpdate(r);
+
 			}
 		}
 		
@@ -88,8 +89,9 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 			for(EamCheckReserveUsed u:eru) {
 				if(StringUtils.isBlank(u.getTaskKey())) {
 					u.setTaskKey(t.getKey());
-					baseCommonService.saveOrUpdate(u);
 				}
+				baseCommonService.saveOrUpdate(u);
+
 			}
 		}
 		
