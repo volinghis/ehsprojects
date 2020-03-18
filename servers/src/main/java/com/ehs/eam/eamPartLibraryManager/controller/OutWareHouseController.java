@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -110,7 +111,7 @@ public class OutWareHouseController {
 		return ewhFlowBean != null ? JsonUtils.toJsonString(ewhFlowBean) : "{}";
 	}
 	
-	@RequestAuth(menuKeys = {"outWarehouseEdit"})
+	@RequestAuth(menuKeys = {"outWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getOutWareHouseByKey")
 	public String getOutWareHouseByKey(@RequestParam String key) {
 		logger.info("===登录页面查看流程进度===");

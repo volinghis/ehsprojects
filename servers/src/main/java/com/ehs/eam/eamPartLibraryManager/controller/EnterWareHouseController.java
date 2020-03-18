@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -87,7 +88,7 @@ public class EnterWareHouseController {
 		return ewhFlowBean!=null?JsonUtils.toJsonString(ewhFlowBean):"{}";
 	}
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestAuth(menuKeys = {"enterWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getEnterWareHouseByKey")
 	public String getEnterWareHouseByKey(@RequestParam String key) {
 		EnterWareHouse ewh=	ewhService.getEnterWareHouseByKey(key);
