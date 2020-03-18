@@ -54,9 +54,9 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="30%" :destroy-on-close="true">
+    <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="25%" :destroy-on-close="true">
       <div>
-        <el-form :model="formDate" label-width="120px">
+        <el-form :model="formDate" label-width="240px">
           <el-form-item label="原定时间：">
               <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small" :disabled="true"></el-date-picker>
           </el-form-item>
@@ -73,38 +73,48 @@
     <el-dialog title="查看页面" :visible.sync="dialogVisibleView" width="34%" :destroy-on-close="true">
       <el-divider></el-divider>
       <div>
-         <el-row>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">计划名称</span>:&nbsp;<span class="info-content">{{ dataView.name }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">执行频率</span>:&nbsp;<span class="info-content">{{ dataView.rate }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">计划年度</span>:&nbsp;<span class="info-content">{{ dataView.year }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">计划周期</span>:&nbsp;<span class="info-content">{{ dataView.startTime }}至{{dataView.endTime}}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">设备位置</span>:&nbsp;<span class="info-content">{{ dataView.deviceAddress }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">巡检范围</span>:&nbsp;<span class="info-content">{{ dataView.checkScopeStr }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">执行部门</span>:&nbsp;<span class="info-content">{{ dataView.checkor }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">是否启用</span>:&nbsp;<span class="info-content">{{ dataView.enableLabel }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">授权查看</span>:&nbsp;<span class="info-content">{{ dataView.viewType }}</span>
-          </el-col>
-          <el-col :span="12" style="margin-bottom:3px;">
-            <span class="info-title">备注</span>:&nbsp;<span class="info-content">{{ dataView.notes }}</span>
-          </el-col>
-        </el-row>
+        <el-form ref="dataView" :model="dataView" label-width="80px" label-position="right" size="small" :disabled="true">
+          <el-form-item label="计划名称:">
+            <el-input v-model="dataView.name"></el-input>
+          </el-form-item>
+          <el-form-item label="执行频率:">
+            <el-input v-model="dataView.rate"></el-input>
+          </el-form-item>
+          <el-form-item label="计划年度:">
+            <el-input v-model="dataView.year"></el-input>
+          </el-form-item>
+          <el-form-item label="计划周期:">
+            <el-col :span="11">
+              <el-form-item prop="startTime">
+                <el-date-picker type="date" placeholder="开始日期" v-model="dataView.startTime"  style="width: 100%;"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col class="line" :span="2" style="text-align:center">-</el-col>
+            <el-col :span="11">
+              <el-form-item prop="endTime">
+                <el-date-picker placeholder="结束日期" type="date" v-model="dataView.endTime" style="width: 100%;"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="设备位置:">
+            <el-input v-model="dataView.deviceAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="巡检范围:">
+            <el-input v-model="dataView.checkScopeStr"></el-input>
+          </el-form-item>
+          <el-form-item label="执行部门:">
+            <el-input v-model="dataView.checkorName"></el-input>
+          </el-form-item>
+          <el-form-item label="是否启用:">
+            <el-input v-model="dataView.enableLabel"></el-input>
+          </el-form-item>
+          <el-form-item label="授权查看:">
+            <el-input v-model="dataView.viewType"></el-input>
+          </el-form-item>
+          <el-form-item label="备注:">
+            <el-input type="textarea" maxlength="300" show-word-limit v-model="dataView.notes"></el-input>
+          </el-form-item>
+        </el-form>
       </div>
     </el-dialog>
   </div>

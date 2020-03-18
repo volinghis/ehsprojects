@@ -61,13 +61,14 @@ export default {
             type: 'warning'
           })
         }
+        this.flushData()
       })
     },
     resetTimeCheck (row) {
       var date = new Date(row.startTime.replace(/-/g, '/'))
       var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
       var now = new Date(this.timeNow.date.replace(/-/g, '/'))
-      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable
+      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.creation === this.sessionUser.userKey
     },
     delay: function (row) {
       this.dialogVisible = true
@@ -103,9 +104,76 @@ export default {
       this.$router.push({ name: 'eamCheckPlanEdit' })
     },
     handleClick: function (row) {
-      this.dialogVisibleView = true
-      console.log(row)
+      if (row.checkScopeStr) {
+        if (row.checkScopeType === 'BY_SYSTEM') {
+          this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem').then(res => {
+            var checks = []
+            var checkScope = []
+            checks = row.checkScopeStr.split(',')
+            checks.forEach(e => {
+              this.filterByName(res.data, e).forEach(element => {
+                checkScope.push(element.text)
+              })
+            })
+            row.checkScopeStr = checkScope.join(',')
+          })
+        } else {
+          this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
+            var checks = []
+            var checkScope = []
+            checks = row.checkScopeStr.split(',')
+            checks.forEach(e => {
+              this.filterByName(res.data, e).forEach(element => {
+                checkScope.push(element.text)
+              })
+            })
+            row.checkScopeStr = checkScope.join(',')
+          })
+        }
+      }
+
+      if (row.deviceAddress) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress').then(res => {
+          // row.deviceAddress = this.filterByName(res.data, row.deviceAddress)[0].text
+          // checkScope.push(element.text)
+          this.filterByName(res.data, row.deviceAddress).forEach(element => {
+            row.deviceAddress = element.text
+          })
+        })
+      }
+      if (row.rate) {
+        switch (row.rate) {
+          case 'DAY':
+            row.rate = '一天/一次'
+            break
+          case 'WEEK':
+            row.rate = '一周/一次'
+            break
+          case 'MONTH':
+            row.rate = '一月/一次'
+            break
+          case 'YEAR':
+            row.rate = '一年/一次'
+            break
+        }
+      }
+      if (row.viewType) {
+        switch (row.viewType) {
+          case 'ORG':
+            row.viewType = '仅执行部门'
+            break
+          case 'ALL':
+            row.viewType = '所有人'
+            break
+        }
+      }
+      this.dataView = {}
       this.dataView = row
+      this.dialogVisibleView = true
+    },
+    // 根据单个名字筛选
+    filterByName (data, key) {
+      return data.filter(item => item.key === key)
     },
     handleSubmit: function () {
       var old = new Date(this.formDate.oldTime.replace(/-/g, '/'))

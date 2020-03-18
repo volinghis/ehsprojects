@@ -1,9 +1,14 @@
 package com.ehs.eam.checks.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hpsf.Array;
+import org.omg.CORBA.FREE_MEM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -19,6 +24,7 @@ import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.common.organization.entity.OrgUser;
+import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.checks.bean.CheckPlanQueryBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.service.EamCheckPlanService;
@@ -135,6 +141,20 @@ public class EamCheckPlanController {
 	public String savePlan(@RequestBody EamCheckPlan plan, HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		try {
+			StringBuilder sb = new StringBuilder();
+			if(plan.getCheckor() != null) {
+				String[] orgs = plan.getCheckor().split(",");
+				for (String orgKey : orgs) {
+					OrganizationInfo org=baseCommonService.findByKey(OrganizationInfo.class, orgKey);
+					if(org != null) {
+						if (sb.length() > 0) {//该步即不会第一位有逗号，也防止最后一位拼接逗号！
+			                sb.append(",");
+			            }
+						sb.append(org.getName());
+					}
+				}
+			}
+			plan.setCheckorName(sb.toString());
 			baseCommonService.saveOrUpdate(plan);
 			return JsonUtils.toJsonString(resultBean.ok("保存成功"));
 		} catch (Exception e) {
