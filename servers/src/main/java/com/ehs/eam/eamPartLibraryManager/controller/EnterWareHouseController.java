@@ -68,7 +68,7 @@ public class EnterWareHouseController {
 	}
 	
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestAuth(menuKeys = {"enterWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/updateAfterFlow")
 	public String updatePartAccount(@RequestBody FlowProcessInfo flowProcessInfo) {
 		ResultBean resultBean = new ResultBean();

@@ -37,9 +37,16 @@
             <template slot-scope="scope">
               <span v-if="isSet">
                 <el-form-item prop="targetPosition">
-                  <el-input :size="GlobalCss.controlSize"
-                            v-model="result.allocateForm.targetPosition"
-                            placeholder="请输入调入位置"></el-input>
+                  <el-select v-model="result.allocateForm.targetPosition"
+                             :size="GlobalCss.controlSize"
+                             style="width:100%;"
+                             placeholder="请选择">
+                    <el-option v-for="item in deviceAddress"
+                               :key="item.key"
+                               :label="item.text"
+                               :value="item.key">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </span>
               <span v-else>{{scope.row.targetPosition}}</span>
@@ -126,6 +133,7 @@ export default {
       dialogTableVisible: false,
       isSet: true,
       selectRow: {},
+      deviceAddress: [],
       result: {
         tableData: [],
         allocateForm: {
@@ -137,9 +145,6 @@ export default {
       },
       rules: {
         targetPosition: [
-          { required: true, trigger: 'blur' }
-        ],
-        targetDept: [
           { required: true, trigger: 'blur' }
         ],
         amount: [
@@ -161,6 +166,7 @@ export default {
       this.isSet = false
       this.getRefDevice(this.businessKey)
     }
+    this.getDeviceAddress()
   },
   methods: {
     nextStep: function () {
@@ -191,6 +197,11 @@ export default {
     },
     handleDelete (index, row) {
       this.result.tableData.splice(index, 1)
+    },
+    getDeviceAddress () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress').then(res => {
+        this.deviceAddress = res.data
+      })
     },
     getRefDevice (key) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getEamLedgerByAllocateKey', { params: { key: key } }).then(res => {

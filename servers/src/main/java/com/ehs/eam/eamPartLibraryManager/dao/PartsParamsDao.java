@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.config.DataConfig;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsParam;
 
 /**   
@@ -26,6 +25,6 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsParam;
 @Repository
 public interface PartsParamsDao extends JpaRepository<PartsParam, String>{
 
-	@Query(" select p from PartsParam p where p."+PartsParam.PARAM_KEY+"=?1 and p."+PartsParam.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select p from PartsParam p where p."+PartsParam.PARAM_KEY+"=?1 and p."+PartsParam.DELETED+" = 0" )
 	public List<PartsParam> getAllPartsParamByKey(String key);
 }

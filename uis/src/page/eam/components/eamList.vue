@@ -1,15 +1,16 @@
 <template>
   <div class="table-wrapper">
     <div>
-      <el-autocomplete class="inline-input"
-                       v-model="queryParam.query"
-                       :size="GlobalCss.buttonSize"
-                       style="margin-bottom:10px;width:40%;"
-                       placeholder="可查询设备名称设备编号">
-        <el-button slot="append"
-                   type="primary"
-                   icon="el-icon-search">搜索</el-button>
-      </el-autocomplete>
+      <el-input placeholder="根据设备名称查询"
+                    v-model="queryParam.query" :size="GlobalCss.buttonSize" style="width:30%;float:left;margin-bottom:8px;">
+            <template slot="append">
+              <el-button type="primary"
+                         :size="GlobalCss.buttonSize"
+                         icon="el-icon-search"
+                         @click="reloadTable">
+              </el-button>
+            </template>
+          </el-input>
     </div>
     <div class="table-list">
       <el-table :data="tableData"
@@ -112,6 +113,13 @@ export default {
     },
     handleCurrentPageChange: function (val) {
       this.queryParam.page = val
+      if (this.flag === 'child') {
+        this.getLeftChildList()
+      } else {
+        this.getLedgerListNotScrap()
+      }
+    },
+    reloadTable () {
       if (this.flag === 'child') {
         this.getLeftChildList()
       } else {

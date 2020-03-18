@@ -30,15 +30,6 @@ export default {
       }).catch(() => {
       })
     },
-    customColorMethod: function (percentage) {
-      if (percentage < 30) {
-        return '#909399'
-      } else if (percentage < 70) {
-        return '#e6a23c'
-      } else {
-        return '#67c23a'
-      }
-    },
     handleDelete: function () {
       var _this = this.selections
       if (_this.length <= 0) {
@@ -54,16 +45,18 @@ export default {
     onChange: function (row) {
       this.selections = row
     },
-    handlePageChange: function () {
+    handlePageChange: function (v) {
+      this.queryParam.page = v
+      this.this.getAllocateEamList()
     },
     handleViewClick (row) { // 查看
       const currentUser = this.sessionUser.userName
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/getAllocateFlowBean', { params: { key: row.key } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'edit', data: row })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.editPage, { processInstanceId: entityProcessInfo.instanceId, data: row })
         } else {
-          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, flag: 'view', data: row })
+          this.GlobalMethods.openFlowWin(entityProcessInfo.viewPage, { processInstanceId: entityProcessInfo.instanceId, data: row })
         }
       }).catch(error => {
         this.$message({ message: error })

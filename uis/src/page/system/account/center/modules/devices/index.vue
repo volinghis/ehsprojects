@@ -16,6 +16,7 @@
       <el-table-column prop="completePoint"
                         align="center"
                          label="完整度"
+                         sortable
                         >
  <template slot-scope="scope">
             <el-progress

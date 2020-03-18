@@ -117,11 +117,9 @@
                      width="50%"
                      height="100%"
                      destroy-on-close>
-            <embed id="myObj"
-                   :src="pdfSrc"
-                   type="application/pdf"
-                   width="100%"
-                   height="500px;" />
+            <iframe :src="pdfSrc"
+                    width="100%"
+                    height="600px;"></iframe>
           </el-dialog>
         </template>
       </el-col>

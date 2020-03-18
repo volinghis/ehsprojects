@@ -1,19 +1,15 @@
 package com.ehs.eam.scores.service.impl;
 
 import java.sql.Timestamp;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
-import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.slf4j.Logger;
@@ -22,15 +18,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.base.data.DataModel;
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.AccessUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageBody;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.common.organization.entity.entitysuper.OrgUser;
 import com.ehs.eam.scores.bean.UserScoreBean;
 import com.ehs.eam.scores.dao.UserScoreDao;
 import com.ehs.eam.scores.entity.impl.UserScore;
@@ -133,19 +126,19 @@ public class UserScoreServiceImpl implements UserScoreService {
 
 	@Override
 	public UserScoreBean getUserScoresTotal(String userKey) {
-		return userScoreDao.findUserScores(userKey,new DataModel[] {DataModel.CREATE,DataModel.UPDATE} );
+		return userScoreDao.findUserScores(userKey);
 	}
 
 
 	@Override
 	public UserScoreBean getUserScoresByYearAndMonth(String userKey,int[] years, int[] months) {
-		return userScoreDao.findUserScores(years,months,userKey,new DataModel[] {DataModel.CREATE,DataModel.UPDATE} );
+		return userScoreDao.findUserScores(years,months,userKey);
 	}
 
 	@Override
 	public PageInfoBean getAllUserScores(int[] years, int[] months,PageBody pageBody) {
 		PageRequest pageRequest =PageRequest.of(pageBody.getPage()-1, pageBody.getSize());
-		Page<UserScoreBean> infos=userScoreDao.findUserScores(years,months,new DataModel[] {DataModel.CREATE,DataModel.UPDATE} ,pageRequest);
+		Page<UserScoreBean> infos=userScoreDao.findUserScores(years,months,pageRequest);
 		if(infos!=null) {
 			PageInfoBean pi=new PageInfoBean();
 			pi.setDataList(infos.getContent());

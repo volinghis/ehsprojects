@@ -129,12 +129,12 @@ export default {
       }
     }
   },
+  mounted () {
+    this.getInspectorsDataByKey(this.deviceKey)
+  },
   watch: {
     nameLab (value) { // 部门动态赋值
       this.eam_Inspectors.sel['department'] = this.$refs.userSelect.getCheckedNodes()[0].parent.data.label
-    },
-    deviceKey: function (val) {
-      this.getInspectorsDataByKey(val)
     }
   },
   methods: {

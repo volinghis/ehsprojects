@@ -30,8 +30,10 @@
                   size="medium"
                   @select="onChange">
           <el-table-column type="selection"
+                           align="center"
                            width="50"></el-table-column>
           <el-table-column prop="scrapNum"
+                           sortable
                            align="center"
                            width="150"
                            label="报废编号">
@@ -40,26 +42,27 @@
                        @click="handleViewClick(scope.row)">{{ scope.row.scrapNum}}</el-link>
             </template></el-table-column>
           <el-table-column prop="applicationName"
+                           sortable
                            align="center"
                            label="申请名称"></el-table-column>
           <el-table-column prop="applicationTime"
                            align="center"
                            sortable
                            label="申请时间"></el-table-column>
-          <el-table-column prop="scrapDate"
-                           align="center"
-                           sortable
-                           label="报废日期"></el-table-column>
           <el-table-column prop="applicant"
+                           sortable
                            align="center"
                            label="申请人"></el-table-column>
           <el-table-column prop="scrapDept"
+                           sortable
                            align="center"
                            label="报废部门"></el-table-column>
           <el-table-column prop="scrapReason"
+                           sortable
                            align="center"
                            label="报废原因"></el-table-column>
           <el-table-column prop="status"
+                           sortable
                            label="状态"
                            align="center">
             <template slot-scope="scope">
@@ -70,8 +73,13 @@
             </template>
           </el-table-column>
           <el-table-column prop="currentStepPerson"
+                           sortable
                            label="审核人"
                            align="center"></el-table-column>
+          <el-table-column prop="scrapDate"
+                           align="center"
+                           sortable
+                           label="审核日期"></el-table-column>
         </el-table>
         <div class="pagination"
              style="float:right;margin-top:12px;">

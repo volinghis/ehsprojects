@@ -84,10 +84,8 @@ export default {
     deviceKey: String,
     isDisable: Boolean
   },
-  watch: {
-    deviceKey: function (val) {
-      this.getParamsDataByKey(val)
-    }
+  mounted () {
+    this.getParamsDataByKey(this.deviceKey)
   },
   methods: {
     getParamsDataByKey (val) {

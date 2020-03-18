@@ -21,7 +21,7 @@
         <el-col :span="8">审批人:</el-col>
         <el-col :span="16"><user-selector @change="userSelectorChange"></user-selector></el-col>
       </el-row>
-      <el-button type="primary"  :size="GlobalCss.buttonSize" @click="startFlow" v-if="processDefineInfo.start" >提交</el-button>
+      <el-button type="primary"  :size="GlobalCss.buttonSize" @click="startFlow" v-if="processDefineInfo.start" :disabled="isDisable" >提交</el-button>
       <el-button type="success" v-for="step in processInstance.nextStep" :key="step.stepKey" :size="GlobalCss.buttonSize" @click="doneProcess(step.stepKey)">{{step.stepName}}</el-button>
       <el-button type="danger"  :size="GlobalCss.buttonSize" v-if="processInstance.nextStep&&!processInstance.candoCanel" @click="rejectProcess">驳回</el-button>
        <el-button type="warning"  :size="GlobalCss.buttonSize" v-if="processInstance.candoCanel" @click="cancelProcess">撤销</el-button>

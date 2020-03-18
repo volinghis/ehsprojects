@@ -21,9 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -81,7 +81,9 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		EamAllocate reqAllocate = reqBean.getAllocateForm();
 		reqAllocate.setAllocateNum(BaseUtils.getNumberForAll());
 		if (!CollectionUtils.isEmpty(ledgers)) {
-			reqAllocate.setInstallLocation(ledgers.get(0).getInstallLocation());
+			DataDictionary dataDictionary=baseCommonService.findByKey(DataDictionary.class, reqAllocate.getTargetPosition());
+			reqAllocate.setInstallLocation(ledgers.get(0).getInstallLocationName());
+			reqAllocate.setTargetPositionName(dataDictionary==null?"":dataDictionary.getText());
 		}
 		reqAllocate.setDeviceKey(ledgers.get(0).getKey());
 		// 开始流程
@@ -102,8 +104,7 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	public PageInfoBean findEamAllocateList(EamAllocateQueryBean AllocateQueryBean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
-		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(),
-				new DataModel[] { DataModel.CREATE, DataModel.UPDATE }, pageRequest);
+		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(), pageRequest);
 		if (eamAllocateage != null) {
 			List<EamAllocate> resList = eamAllocateage.getContent();
 			for (EamAllocate el : resList) {
@@ -147,15 +148,18 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 		EamAllocate ea = baseCommonService.findByKey(EamAllocate.class, flowProcessInfo.getBusinessEntityKey());
 		if (ea != null) {
 			ea.setAllocateDate(new Timestamp(System.currentTimeMillis()));
+			DataDictionary dataDictionary=baseCommonService.findByKey(DataDictionary.class, ea.getTargetPosition());
+			String locationName=dataDictionary==null?"":dataDictionary.getText();
 			// 设备更新表数据更新
 			EamLedger el = baseCommonService.findByKey(EamLedger.class, ea.getDeviceKey());
 			el.setDeviceStatus("正常");
 			el.setInstallLocation(ea.getTargetPosition());
+			el.setInstallLocationName(locationName);
 			baseCommonService.saveOrUpdate(el);
 			// 设备台账表数据更新
-			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(),
-					new DataModel[] { DataModel.CREATE, DataModel.UPDATE });
+			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey());
 			ell.setInstallLocation(ea.getTargetPosition());
+			ell.setInstallLocationName(locationName);
 			baseCommonService.saveOrUpdate(ell);
 		}
 	}

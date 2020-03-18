@@ -2,7 +2,7 @@
   <div>
     <el-steps class="steps"
               :active="active"
-               simple
+              simple
               align-center
               finish-status="success">
       <el-step title="申请信息" />
@@ -13,15 +13,15 @@
       <keep-alive>
         <step1 v-if="active === 1"
                @nextStep="nextStep"
-               @handleCancel="handleCancel" :businessKey=businessKey />
+               @handleCancel="handleCancel"
+               :businessKey=businessKey />
         <step2 v-if="active === 2"
                @nextStep="nextStep"
-               @prevStep="prevStep" :businessKey=businessKey />
+               @prevStep="prevStep"
+               :businessKey=businessKey />
       </keep-alive>
       <step3 v-if="active === 3"
-             @prevStep="prevStep"
-             @finish="finish"
-             @keepAdd="keepAdd" />
+             @prevStep="prevStep" />
 
     </div>
   </div>
@@ -77,15 +77,16 @@ export default {
         this.active -= 1
       }
     },
-    finish: function (val) {
-      this.$router.push({ name: 'eamAllocate' })
-      window.close()
-    },
     handerSubmit (process) {
       this.reqBean.flowProcessInfo = process
+      console.log(this.reqBean)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {
-          this.active += 1
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+          window.close()
         } else {
           this.$message({
             message: '提交失败',
@@ -95,9 +96,6 @@ export default {
       }).catch(error => {
         this.$message({ message: error })
       })
-    },
-    keepAdd () { // 继续添加
-      this.active = 1
     },
     handleCancel () { // 撤销
       this.$router.push({ name: 'eamAllocate' })

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -96,7 +97,7 @@ public class EamLedgerLastController {
 	*---------------------------------------------------------*
 	* 2020年1月17日     qjj        v1.0.0            修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedgerLast" })
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getListNotPage")
 	public String getEamLedgerListNotPage( HttpServletRequest request) {
 		List<EamLedgerLast>  eamLedgers= (List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);

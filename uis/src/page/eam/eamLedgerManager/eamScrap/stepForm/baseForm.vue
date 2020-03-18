@@ -19,7 +19,6 @@
                @nextStep="nextStep"
                @prevStep="prevStep" :businessKey=businessKey />
       <step3 v-if="active === 3"
-             @nextStep="nextStep"
              @prevStep="prevStep" />
     </div>
   </div>
@@ -73,17 +72,17 @@ export default {
         this.active -= 1
       }
     },
-    finish: function (val) {
-      window.close()
-      this.$router.push({ name: 'eamScrap' })
-    },
     handerSubmit (process) {
       // 提交数据 准备开始流程
       this.reqBean.flowProcessInfo = process
       var current = this
       current.$axios.post(current.GlobalVars.globalServiceServlet + '/eam/eamScrap/addEamScrap', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {
-          this.active += 1
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+          window.close()
         } else {
           this.$message({
             message: '提交失败',

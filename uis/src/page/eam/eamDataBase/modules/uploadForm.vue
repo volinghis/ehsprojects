@@ -39,6 +39,9 @@ export default {
   },
   methods: {
     openForm (nodeKey, nodeLabel) { // 打开弹窗
+      if (this.$refs.myUpload !== undefined) {
+        this.$refs.myUpload.$children[0].clearFiles()// 清理文件列表暂时的处理
+      }
       this.form.category = nodeKey
       this.paramData.categories = nodeKey
       this.paramData.categoriesName = nodeLabel
@@ -48,13 +51,11 @@ export default {
       this.form.fileId = val
     },
     handleSubmit () {
-      console.log(this.paramData)
       var fileId = this.form.fileId
       if (fileId) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/dataBase/saveDataFileInfo', { params: { fileId: fileId } }).then(res => {
           if (res.data.resultType === 'ok') {
             this.dialogFormVisible = false
-            this.$refs.myUpload.$children[0].clearFiles()// 清理文件列表
             this.$emit('flushData')
           }
         }).catch(error => {

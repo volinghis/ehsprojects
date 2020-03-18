@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 
@@ -36,9 +35,9 @@ import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 @Repository
 public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 
-	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1% and el."+BaseEntity.DATA_MODEL+" in ?2  order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<EamLedger> findEamLedgerList(String query,DataModel[] dataModels,Pageable pageable);
+	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1% and el."+BaseEntity.DELETED+"= 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public Page<EamLedger> findEamLedgerList(String query,Pageable pageable);
 	
-	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+BaseEntity.DATA_MODEL+" in ?2  order by "+BaseEntity.BASE_SORT_NUM+" desc")
-    public EamLedger findEamLedgerByKey(String key,DataModel[] dataModels);
+	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
+    public EamLedger findEamLedgerByKey(String key);
 }

@@ -33,35 +33,38 @@
           <el-table-column prop="allocateNum"
                            width="150"
                            align="center"
+                           sortable
                            label="调拨编号">
             <template slot-scope="scope">
               <el-link type="primary"
                        @click="handleViewClick(scope.row)">{{ scope.row.allocateNum}}</el-link>
             </template></el-table-column>
           <el-table-column prop="applicationName"
+                           sortable
                            align="center"
                            label="申请名称"></el-table-column>
           <el-table-column prop="applicationTime"
-                           align="center"
                            sortable
+                           align="center"
                            label="申请时间"></el-table-column>
-          <el-table-column prop="allocateDate"
-                           align="center"
-                           sortable
-                           label="调拨日期"></el-table-column>
           <el-table-column prop="applicant"
+                           sortable
                            align="center"
                            label="申请人"></el-table-column>
           <el-table-column prop="installLocation"
+                           sortable
                            align="center"
                            label="调出位置"></el-table-column>
-          <el-table-column prop="targetPosition"
+          <el-table-column prop="targetPositionName"
+                           sortable
                            align="center"
                            label="调入位置"></el-table-column>
           <el-table-column prop="allocateReason"
+                           sortable
                            align="center"
                            label="调拨原因"></el-table-column>
           <el-table-column prop="status"
+                           sortable
                            align="center"
                            label="申请状态">
             <template slot-scope="scope">
@@ -72,8 +75,13 @@
             </template>
           </el-table-column>
           <el-table-column prop="currentStepPerson"
+                           sortable
                            label="审核人"
                            align="center"></el-table-column>
+          <el-table-column prop="allocateDate"
+                           sortable
+                           align="center"
+                           label="审核日期"></el-table-column>
         </el-table>
         <div class="pagination"
              style="float:right;margin-top:12px;">

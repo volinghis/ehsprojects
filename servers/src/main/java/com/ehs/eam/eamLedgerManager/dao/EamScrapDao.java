@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 
@@ -36,6 +35,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamScrap;
 @Repository
 public interface EamScrapDao extends JpaRepository<EamScrap, String>{
 
-	@Query(" select el from EamScrap el where el."+EamScrap.SCRAP_NUM+" like %?1%  and el."+BaseEntity.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<EamScrap> findEamScrapList(String query,DataModel[] dataModels,Pageable pageable);
+	@Query(" select el from EamScrap el where el."+EamScrap.SCRAP_NUM+" like %?1%  and el."+BaseEntity.DELETED+" =0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public Page<EamScrap> findEamScrapList(String query,Pageable pageable);
 }

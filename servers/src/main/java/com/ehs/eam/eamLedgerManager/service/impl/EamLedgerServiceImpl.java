@@ -24,7 +24,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
@@ -43,7 +42,6 @@ import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.entity.EamParameters;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
 
-
 /**
  * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
  * 
@@ -54,9 +52,9 @@ import com.ehs.eam.eamLedgerManager.service.EamLedgerService;
  * @author: qjj
  * @date: 2019年12月30日 下午4:06:57
  *
- * Modification History: Date Author Version Description
- * ---------------------------------------------------------* 2019年12月30日
- * qjj v1.0.0 修改原因
+ *        Modification History: Date Author Version Description
+ *        ---------------------------------------------------------* 2019年12月30日
+ *        qjj v1.0.0 修改原因
  */
 @Service
 public class EamLedgerServiceImpl implements EamLedgerService {
@@ -66,7 +64,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 
 	@Resource
 	private EamLedgerDao eamLedgerDao;
-	
+
 	@Resource
 	private EamLedgerLastDao eamLedgerLastDao;
 
@@ -86,7 +84,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	public PageInfoBean findEamLedgerList(EamLedgerQueryBean querybean) {
 		// TODO Auto-generated method stub
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
+		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(eamLedgers.getContent());
@@ -104,7 +102,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
 		String newKeys = "";
-		String fileId="";
+		String fileId = "";
 		String oldKeys = reqEamLedger.getRefDeviceKey();
 		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
 			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
@@ -112,16 +110,18 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			newKeys = eamRequestBean.getDeviceKeys();
 		}
 		if (StringUtils.isNotBlank(reqEamLedger.getFileId())) {// 关联文件的保存
-			fileId = new StringBuffer(reqEamLedger.getFileId()).append(",").append(eamRequestBean.getFileIds()).toString();
+			fileId = new StringBuffer(reqEamLedger.getFileId()).append(",").append(eamRequestBean.getFileIds())
+					.toString();
 		} else {
 			fileId = eamRequestBean.getFileIds();
 		}
-		DataDictionary dataDictionary=baseCommonService.findByKey(DataDictionary.class, reqEamLedger.getInstallLocation());
-		reqEamLedger.setInstallLocationName(dataDictionary==null?"":dataDictionary.getText());
+		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,
+				reqEamLedger.getInstallLocation());
+		reqEamLedger.setInstallLocationName(dataDictionary == null ? "" : dataDictionary.getText());
 		reqEamLedger.setFileId(fileId);
 		reqEamLedger.setRefDeviceKey(newKeys);
 		// 设备新建的时候初始化的值
-		String deviceNum=BaseUtils.getNumberForAll();
+		String deviceNum = BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
 			reqEamLedger.setDeviceStatus("正常");
 			reqEamLedger.setDeviceNum(deviceNum);
@@ -147,18 +147,18 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 				}
 			}
 			// 同步数据eamLedgerLast表中
-			EamLedgerLast eLast=eamRequestBean.getEamLedgerLast();
-			if(StringUtils.isNotBlank(eLast.getKey())) {
-			    EamLedgerLast eLastOld=	eamLedgerLastDao.findEamLedgerLastByRefKey(entityKey, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
-				BeanUtils.copyProperties(eLast,eLastOld,BaseEntity.ID,BaseEntity.KEY,EamLedgerLast.REF_KEY);
-			    baseCommonService.saveOrUpdate(eLastOld);
+			EamLedgerLast eLast = eamRequestBean.getEamLedgerLast();
+			if (StringUtils.isNotBlank(eLast.getKey())) {
+				EamLedgerLast eLastOld = eamLedgerLastDao.findEamLedgerLastByRefKey(entityKey);
+				BeanUtils.copyProperties(eLast, eLastOld, BaseEntity.ID, BaseEntity.KEY, EamLedgerLast.REF_KEY);
+				baseCommonService.saveOrUpdate(eLastOld);
 			} else {
-				eLast.setDeviceStatus("正常");
-				eLast.setDeviceNum(deviceNum);
+				EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
+				BeanUtils.copyProperties(eamLedger, eLast);
 				eLast.setRefKey(entityKey);
 				baseCommonService.saveOrUpdate(eLast);
 			}
-			
+
 		}
 
 	}
@@ -169,7 +169,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public List<EamParameters> getEamParametersByKey(String key) {
 		// TODO Auto-generated method stub
-		return eamParametersDao.findEamParametersByDeviceKey(key,new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		return eamParametersDao.findEamParametersByDeviceKey(key);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public List<EamInspectors> getInspectorsByKey(String key) {
 		// TODO Auto-generated method stub
-		return eamInspectorsDao.findEamInspectorsByDeviceKey(key,new DataModel[] { DataModel.CREATE, DataModel.UPDATE });
+		return eamInspectorsDao.findEamInspectorsByDeviceKey(key);
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		if (StringUtils.isNotBlank(refKeys)) {
 			String[] keysArr = refKeys.split(",");
 			for (int i = 0; i < keysArr.length; i++) {
-				EamLedger el = eamLedgerDao.findEamLedgerByKey(keysArr[i],new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+				EamLedger el = eamLedgerDao.findEamLedgerByKey(keysArr[i]);
 				if (el != null) {
 					resEamLedgers.add(el);
 				}
@@ -251,11 +251,12 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public PageInfoBean findEamLedgersNotInFlow(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
+		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
-			List<EamLedger> resultList=new ArrayList<EamLedger>();
-			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(),"已报废")&&!StringUtils.contains(s.getDeviceStatus(), "申请中"))).collect(Collectors.toList());
+			List<EamLedger> resultList = new ArrayList<EamLedger>();
+			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(), "已报废")
+					&& !StringUtils.contains(s.getDeviceStatus(), "申请中"))).collect(Collectors.toList());
 			pb.setDataList(resultList);
 			pb.setTotalCount(eamLedgers.getTotalElements());
 			return pb;
@@ -263,30 +264,32 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		return null;
 	}
 
-	/** 
-	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#deleteEamLedger(java.lang.String)  
-	*/
+	/**
+	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#deleteEamLedger(java.lang.String)
+	 */
 	@Override
 	@Transactional
 	public void deleteEamLedger(String key) {
-		EamLedgerLast eLast=eamLedgerLastDao.findEamLedgerLastByRefKey(key, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
-		if (eLast!=null) {
+		EamLedgerLast eLast = eamLedgerLastDao.findEamLedgerLastByRefKey(key);
+		if (eLast != null) {
 			baseCommonService.deleteByKey(EamLedgerLast.class, eLast.getKey());
 		}
 		baseCommonService.deleteByKey(EamLedger.class, key);
 	}
 
-	/** 
-	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#removeRelatedFile(java.lang.String, java.lang.String)  
-	*/
+	/**
+	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#removeRelatedFile(java.lang.String,
+	 *      java.lang.String)
+	 */
 	@Override
 	@Transactional
 	public void removeRelatedFile(String deviceKey, String key) {
-		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, deviceKey);
-		StringBuffer newKeys=new StringBuffer();
-		if (eamLedger!=null) {
+		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, deviceKey);
+		StringBuffer newKeys = new StringBuffer();
+		String lastFileId = "";
+		if (eamLedger != null) {
 			if (StringUtils.isNotBlank(eamLedger.getFileId())) {
-				String[] files=StringUtils.split(eamLedger.getFileId(), ",");
+				String[] files = StringUtils.split(eamLedger.getFileId(), ",");
 				for (int i = 0; i < files.length; i++) {
 					if (StringUtils.equals(key, files[i])) {
 						continue;
@@ -294,7 +297,12 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 					newKeys.append(files[i]).append(",");
 				}
 			}
-			eamLedger.setFileId((newKeys.deleteCharAt(newKeys.length() - 1)).toString());
+			if (newKeys.length() > 0) {
+				lastFileId = newKeys.deleteCharAt(newKeys.length() - 1).toString();
+				eamLedger.setFileId(lastFileId);
+			} else {
+				eamLedger.setFileId(lastFileId);
+			}
 			baseCommonService.saveOrUpdate(eamLedger);
 		}
 	}
