@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
@@ -17,6 +18,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
+import com.ehs.eam.eamLedgerManager.bean.TreeDataBean;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerLastService;
 
@@ -104,4 +106,25 @@ public class EamLedgerLastController {
 		return eamLedgers == null ? "[]" : JsonUtils.toJsonString(eamLedgers);
 	}
 	
+	/**
+	 * 
+	* @Function:getProfessionTreeForDevice 
+	* @Description: 获取专业的树结构数据
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月17日 下午1:37:47 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月17日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/getTreeForDevice")
+	public String getTreeForDevice(@RequestParam String parentKey,@RequestParam String subKey) {
+		List<TreeDataBean> dataTreeList=eamLedgerLastService.findTreeForDevice(parentKey,subKey);
+		return JsonUtils.toJsonString(dataTreeList);
+	}
 }

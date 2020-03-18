@@ -15,11 +15,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.data.dao.DataDictionaryDao;
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
+import com.ehs.eam.eamLedgerManager.bean.TreeDataBean;
 import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerLastService;
@@ -36,6 +41,9 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Resource
 	private FlowProcessInfoService flowService;
 
+	@Resource
+	private DataDictionaryDao dataDictionaryDao;
+	
 	@Override
 	public PageInfoBean findEamLedgerLastList(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
@@ -105,5 +113,35 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 			}
 		}
 		return resEamLedgers;
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findTreeForDevice(java.lang.String, java.lang.String)  
+	*/
+	@Override
+	public List<TreeDataBean> findTreeForDevice(String parentKey, String subKey) {
+		List<TreeDataBean> resulList=new ArrayList<TreeDataBean>();//最终返回的数据
+		List<DataDictionary> addressList=dataDictionaryDao.findDataDictByParentKey(parentKey);//机组地址信息
+		List<DataDictionary> subList=dataDictionaryDao.findDataDictByParentKey(subKey);//专业信息
+		if (!CollectionUtils.isEmpty(addressList)) {
+			for (DataDictionary address : addressList) {
+				TreeDataBean treedata=new TreeDataBean();
+				treedata.setId(address.getKey());
+				treedata.setLabel(address.getText());
+				resulList.add(treedata);
+			}
+			
+			for (TreeDataBean result : resulList) {
+				List<TreeDataBean> children=new ArrayList<TreeDataBean>();
+				for (DataDictionary pro : subList) {
+					TreeDataBean treedata=new TreeDataBean();
+					treedata.setId(pro.getKey());
+					treedata.setLabel(pro.getText());
+					children.add(treedata);
+				}
+				result.setChildren(children);
+			}
+		}
+		return resulList;
 	}
 }

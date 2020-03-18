@@ -63,11 +63,11 @@ export default {
     },
     inintTree () {
       if (this.activeName === 'first') {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
           this.dataFirst = res.data
         })
       } else {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
           this.dataSecond = res.data
         })
       }

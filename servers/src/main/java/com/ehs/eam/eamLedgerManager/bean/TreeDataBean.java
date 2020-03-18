@@ -6,7 +6,7 @@
  * @author: qjj   
  * @date: 2020年3月17日 下午2:37:13 
  */
-package com.ehs.common.data.bean;
+package com.ehs.eam.eamLedgerManager.bean;
 
 import java.util.List;
 
