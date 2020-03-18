@@ -14,11 +14,42 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	private String result;
 	private String description;
 	private String user;
+	private String userName;
 	private String org;
-	
+	private boolean repairs=false;
+	private boolean defects=false;
+	private boolean reserves=false;
 	public final static String USER="user";
 	public final static String PLAN_KEY="planKey";
 	
+	
+	
+	
+	
+	public boolean isRepairs() {
+		return repairs;
+	}
+	public void setRepairs(boolean repairs) {
+		this.repairs = repairs;
+	}
+	public boolean isDefects() {
+		return defects;
+	}
+	public void setDefects(boolean defects) {
+		this.defects = defects;
+	}
+	public boolean isReserves() {
+		return reserves;
+	}
+	public void setReserves(boolean reserves) {
+		this.reserves = reserves;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getUser() {
 		return user;
 	}

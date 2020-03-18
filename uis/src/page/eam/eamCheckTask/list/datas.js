@@ -1,22 +1,24 @@
 export default {
   data () {
     return {
-      plans: [],
+      tasks: [],
       timeNow: '',
       queryBean: {
         page: 1,
         size: 20,
-        byowner: false,
-        effective: false,
-        enable: false,
-        query: '',
+        times: 'ALL',
+        owners: 'ALL',
+        checks: 'ALL',
+        defects: 'ALL',
+        revers: 'ALL',
+        flowstatus: 'ALL',
         totalCount: 0
       }
     }
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 350// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 450// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted () {
@@ -30,26 +32,16 @@ export default {
     }))
   },
   methods: {
-    enableCheck (row) {
-      var date = new Date(row.startTime.replace(/-/g, '/'))
-      var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
-      var now = new Date(this.timeNow.date.replace(/-/g, '/'))
-      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && !row.enable
-    },
-    resetTimeCheck (row) {
-      var date = new Date(row.startTime.replace(/-/g, '/'))
-      var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
-      var now = new Date(this.timeNow.date.replace(/-/g, '/'))
-      return date.getTime() <= now.getTime() && now.getTime() <= dateEnd.getTime() && row.enable
+    transFlow (row) {
+      if ((!row.flowProcessInfo) || !row.flowProcessInfo.flowCurrentStep) {
+        return '未开始'
+      }
+      return row.flowProcessInfo.flowCurrentStepName
     },
 
     sortchange (v) {
       var cl = v.prop
-      if (cl === 'enableLabel') {
-        cl = 'enable'
-      } else if (cl === 'ownerName') {
-        cl = 'owner'
-      }
+
       this.queryBean.sort = { prop: cl, order: v.order }
       this.flushData()
     },
@@ -65,7 +57,22 @@ export default {
       this.queryBean.page = 1
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/task/getAllTasks', this.queryBean)
         .then(res => {
-          this.plans = res.data.dataList
+          this.tasks = res.data.dataList
+          if (this.tasks) {
+            for (var i = 0; i < this.tasks.length; i++) {
+              var t = this.tasks[i]
+              if (t.planKey) {
+                this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getPlan?key=' + t.planKey).then(res => {
+                  t.eamCheckPlan = res.data
+                })
+              }
+              if (t.flowProcessInfoKey) {
+                this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowProcessInfo/findFlowProcessInfoByKey?key=' + t.flowProcessInfoKey).then(res => {
+                  t.flowProcessInfo = res.data
+                })
+              }
+            }
+          }
           this.queryBean.totalCount = res.data.totalCount
         })
     }

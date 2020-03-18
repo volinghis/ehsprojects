@@ -11,10 +11,11 @@ export default {
       queryBean: {
         page: 1,
         size: 20,
-        byowner: false,
-        effective: false,
-        enable: false,
-        query: '',
+        rates: 'ALL',
+        types: 'ALL',
+        status: 'ALL',
+        executes: 'ALL',
+
         totalCount: 0
       },
       formDate: {
@@ -26,7 +27,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 350// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 400// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted () {

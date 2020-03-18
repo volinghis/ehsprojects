@@ -1,19 +1,46 @@
 <template>
   <div>
     <div class="topPanel">
-      <div class="ehs_form_item_message">
-        1)列表显示本人创建的，需要本人执行的，以及开放给所有人的计划。<br>2)非被人创建的的计划仅能查看。<br>3)对于有效期(当前时间小于等于结束时间)内的计划可以进行启动停止或延期操作。<br>4)立即执行功能可以快捷执行计划，如计划没有达到执行频率点，需要执行计划可采用此方法。<br>5)通常计划创建之后，我们不建议您再进行延期变动，如有此需求，建议重新建立计划。
-      </div>
+
       <div class="queryBodys">
-        <el-input placeholder="请输入计划名称" v-model="queryBean.query">
-          <template slot="append">
-            <el-button type="primary" :size="GlobalCss.buttonSize" icon="el-icon-search" @click="flushData()">
-            </el-button>
-          </template>
-        </el-input>
-        <el-checkbox v-model="queryBean.byowner" @change="flushData()" class="ehs-note-span">我创建的计划</el-checkbox>
-        <el-checkbox v-model="queryBean.effective" @change="flushData()" class="ehs-note-span">处于有效期的计划</el-checkbox>
-        <el-checkbox v-model="queryBean.enable" @change="flushData()" class="ehs-note-span">处于启用状态的计划</el-checkbox>
+        <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
+          class="demo-ruleForm">
+          <el-form-item label="执行频率">
+            <el-radio-group v-model="queryBean.rates" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="DAY">天</el-radio>
+              <el-radio border label="WEEK">周</el-radio>
+              <el-radio border label="MONTH">月</el-radio>
+              <el-radio border label="YEAR">年</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+             <el-form-item label="计划分类">
+            <el-radio-group v-model="queryBean.types" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="OWNER">我创建的</el-radio>
+              <el-radio border label="NEEDEXECUTE">需要我执行的</el-radio>
+            </el-radio-group>
+          </el-form-item>
+           <el-form-item label="计划状态">
+            <el-radio-group v-model="queryBean.status" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="ENABLE">启用</el-radio>
+              <el-radio border label="DISABLE">停止</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="执行状况" >
+            <el-radio-group v-model="queryBean.executes" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="EFFECTIVE">有效</el-radio>
+              <el-radio border label="INVALID">过期</el-radio>
+              <el-radio border label="EVERSTART">未开始  </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+      </div>
+         <div class="ehs_form_item_message">
+        1)列表显示本人创建的，需要本人执行的，以及开放给所有人的计划。<br>2)非被人创建的的计划仅能查看。<br>3)对于有效期(当前时间小于等于结束时间)内的计划可以进行启动停止或延期操作。<br>4)立即执行功能可以快捷执行计划，如计划没有达到执行频率点，需要执行计划可采用此方法。<br>5)通常计划创建之后，我们不建议您再进行延期变动，如有此需求，建议重新建立计划。
       </div>
       <div class="rightButtons">
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">新增</el-button>
@@ -43,8 +70,10 @@
       </el-table-column>
       <el-table-column align="center" width="210" fixed="right" label="操作">
         <template slot-scope="scope">
+
           <el-button type="info" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="delay(scope.row)">延期</el-button>
           <el-button type="warning" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="comply(scope.row)">执行</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -58,10 +87,12 @@
       <div>
         <el-form :model="formDate" label-width="240px">
           <el-form-item label="原定时间：">
-              <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small" :disabled="true"></el-date-picker>
+            <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small"
+              :disabled="true"></el-date-picker>
           </el-form-item>
           <el-form-item label="延期时间：">
-              <el-date-picker v-model="formDate.newTime" type="date" placeholder="选择日期" style="width: 100%;" size="small"></el-date-picker>
+            <el-date-picker v-model="formDate.newTime" type="date" placeholder="选择日期" style="width: 100%;" size="small">
+            </el-date-picker>
           </el-form-item>
         </el-form>
       </div>

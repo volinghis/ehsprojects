@@ -37,6 +37,14 @@ public class EamCheckTask extends EamCheckTaskSuper{
 	
 
 
+	public EamCheckPlan getEamCheckPlan() {
+		return eamCheckPlan;
+	}
+
+	public void setEamCheckPlan(EamCheckPlan eamCheckPlan) {
+		this.eamCheckPlan = eamCheckPlan;
+	}
+
 	public FlowProcessInfo getFlowProcessInfo() {
 		return flowProcessInfo;
 	}

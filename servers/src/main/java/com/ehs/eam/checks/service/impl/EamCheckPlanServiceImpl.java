@@ -66,12 +66,13 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 		Pageable pb = PageRequest.of(query.getPage() - 1, query.getSize(), query.getSortForJpaQuery());
 		Page<EamCheckPlan> plans= eamCheckPlanDao.findAllPlan(
 				new DataModel[] {DataModel.CREATE,DataModel.UPDATE},
-				query.getQuery(),
+				query.getRates(),
+				query.getTypes(),
+				query.getStatus(),
+				query.getExecutes(),
 				SysAccessUser.get().getUserKey(),
 				SysAccessUser.get().getOrgKey(),
-				query.isByowner(),
-				query.isEffective(),
-				query.isEnable(),
+		
 				pb);
 		if(plans!=null) {
 			PageInfoBean pib=new PageInfoBean();
@@ -158,6 +159,7 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 					  EamCheckTask ect=new EamCheckTask();
 					  ect.setName(ecp.getName()+o.getName()+"的巡检任务");
 					  ect.setUser(o.getKey());
+					  ect.setUserName(o.getName());
 					  ect.setOrg(oi.getKey());
 					  ect.setPlanKey(ecp.getKey());
 					  baseCommonService.saveOrUpdate(ect);

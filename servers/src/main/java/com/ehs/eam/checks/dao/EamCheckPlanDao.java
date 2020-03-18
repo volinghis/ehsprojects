@@ -14,23 +14,31 @@ import com.ehs.eam.checks.entity.EamCheckPlan;
 @Repository
 public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
 
-	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DATA_MODEL+" in ?1 "
-			+" and t."+EamCheckPlan.NAME +" like %?2% "
-			+ " and (t."+EamCheckPlan.VIEW_TYPE+"='ALL' "
-			+ "or t."+BaseEntity.OWNER+"= ?3"
-			+ "or (t."+EamCheckPlan.VIEW_TYPE+"='ORG' and LOCATE(?4,t."+EamCheckPlan.CHECKOR+")>0 ) "
-			+ " )  "
-			+" and (case when true=?5 then t."+BaseEntity.OWNER+" else  ?3 end ) = ?3 "
-			+" and (case when true=?6 then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())-1) end ) <= to_days(current_date()) "
-			+" and (case when true=?6 then to_days(t."+EamCheckPlan.END_TIME+") else  (to_days(current_date())+1) end ) >= to_days(current_date()) "
-			+" and (case when true=?7 then t."+EamCheckPlan.ENABLE+" else  1 end ) = 1 "
+
+	
+	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DATA_MODEL+" in :dataModels "
+			+" and (case when 'ALL'=:rates then :rates else  t."+EamCheckPlan.RATE+" end ) = :rates"
+			+" and ((case when 'ALL'=:types then 1 else  0 end ) = 1"
+			+" or (case when 'OWNER'=:types then t."+BaseEntity.OWNER+" else  1 end ) = :userKey "
+			+" or (case when 'NEEDEXECUTE'=:types then LOCATE(:orgKey,t."+EamCheckPlan.CHECKOR+") else  0 end ) >0 "
+			+ " ) "
+			+" and ((case when 'ALL'=:status then 1 else  0 end ) = 1"
+			+" or (case when 'ENABLE'=:status then t."+EamCheckPlan.ENABLE+" else  0 end ) = 1"
+			+" or (case when 'DISABLE'=:status then  t."+EamCheckPlan.ENABLE+" else  1 end ) = 0"
+			+ ") "
+			+" and ((case when 'ALL'=:executes then 1 else  0 end ) = 1"
+			+" or ((case when 'EFFECTIVE'=:executes then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())+1) end ) <= to_days(current_date()) "
+			+" and (case when 'EFFECTIVE'=:executes then to_days(t."+EamCheckPlan.END_TIME+") else  (to_days(current_date())-1) end ) >= to_days(current_date()) )"
+			+" or (case when 'INVALID'=:executes then to_days(t."+EamCheckPlan.END_TIME+") else  (to_days(current_date())+1) end ) < to_days(current_date()) "
+			+" or (case when 'EVERSTART'=:executes then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())-1) end ) > to_days(current_date()) "
+			+ ") "
 			+ "")
 	public Page<EamCheckPlan> findAllPlan(@Param("dataModels")  DataModel[] dataModels,
-			@Param("query") String query,
+			@Param("rates") String rates,
+			@Param("types") String types,
+			@Param("status") String status,
+			@Param("executes") String executes,
 			@Param("userKey") String userKey,
 			@Param("orgKey") String orgKey,
-			@Param("byowner") boolean byowner,
-			@Param("effective") boolean effective,
-			@Param("enable") boolean enable,
 			Pageable pageable);
 }

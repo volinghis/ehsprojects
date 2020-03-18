@@ -1,23 +1,64 @@
 <template>
   <div>
     <div class="topPanel">
+
+      <div class="queryBodys">
+        <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
+          class="demo-ruleForm">
+          <el-form-item label="任务时间">
+            <el-radio-group v-model="queryBean.times" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="TODAY">今天</el-radio>
+              <el-radio border label="THREE">最近三天</el-radio>
+              <el-radio border label="SEVEN">最近七天</el-radio>
+            </el-radio-group>
+          </el-form-item>
+            <el-form-item label="任务分类">
+            <el-radio-group v-model="queryBean.owners" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="EXECUTE">我执行的任务</el-radio>
+              <el-radio border label="APPROVE">我审批的任务</el-radio>
+            </el-radio-group>
+          </el-form-item>
+           <el-form-item label="检修记录">
+            <el-radio-group v-model="queryBean.checks" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+              <el-radio border label="INCLUDE">有</el-radio>
+              <el-radio border label="EXCLUDE">无</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="缺陷申报" >
+            <el-radio-group v-model="queryBean.defects" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+             <el-radio border label="INCLUDE">有</el-radio>
+              <el-radio border label="EXCLUDE">无</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="备件使用" >
+            <el-radio-group v-model="queryBean.revers" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+             <el-radio border label="INCLUDE">有</el-radio>
+              <el-radio border label="EXCLUDE">无</el-radio>
+            </el-radio-group>
+          </el-form-item>
+           <el-form-item label="审批状态" >
+            <el-radio-group v-model="queryBean.flowstatus" @change="flushData()">
+               <el-radio border label="ALL">全部</el-radio>
+               <el-radio border label="DRAFT">未开始</el-radio>
+              <el-radio border label="APPROVE">审批中</el-radio>
+               <el-radio border label="END">已结束</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+      </div>
       <div class="ehs_form_item_message">
         1)列表显示本人需要执行的和审批过的。<br>2)支持手动添加工作，如发现缺陷或处理检修等可以进行添加。<br>3)工作情况一旦提交，除非被驳回否则不允许修改。
-      </div>
-     <div class="queryBodys" >
-        <el-input placeholder="请输入任务名称或者计划名称" v-model="queryBean.query">
-          <template slot="append">
-            <el-button type="primary" :size="GlobalCss.buttonSize" icon="el-icon-search" @click="flushData()">
-            </el-button>
-          </template>
-        </el-input>
-
       </div>
       <div class="rightButtons">
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
       </div>
     </div>
-    <el-table :data="plans" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange">
+    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange">
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">
@@ -25,13 +66,20 @@
         </template>
 
       </el-table-column>
-      <el-table-column align="center" prop="year" width="200" sortable="custom" label="计划名称"></el-table-column>
-      <el-table-column align="center" prop="ownerName" width="120" sortable="custom" label="计划创建人"></el-table-column>
-      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="计划创建时间">
+      <el-table-column align="center" prop="eamCheckPlan.name" width="200" sortable="custom" label="计划名称">
       </el-table-column>
-      <el-table-column align="center" prop="startTime" width="100" sortable="custom" label="审批状态"></el-table-column>
-      <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="提交人"></el-table-column>
-      <el-table-column align="center" prop="enableLabel" width="160" sortable="custom" label="任务创建时间">
+      <el-table-column align="center" prop="eamCheckPlan.ownerName" width="120" sortable="custom" label="计划创建人">
+      </el-table-column>
+      <el-table-column align="center" prop="eamCheckPlan.ownerCreationTime" width="160" sortable="custom"
+        label="计划创建时间">
+      </el-table-column>
+      <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" width="100" sortable="custom" label="审批状态">
+         <template slot-scope="scope">
+          <span>{{transFlow(scope.row)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="userName" width="160" sortable="custom" label="提交人"></el-table-column>
+      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="任务创建时间">
       </el-table-column>
       <el-table-column align="center" width="60" fixed="right" label="操作">
       </el-table-column>
