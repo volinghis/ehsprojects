@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataDictionaryDao;
 import com.ehs.common.data.entity.DataDictionary;
@@ -47,7 +46,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService{
 	
 	@Override
 	public List<DataDictionary> findDataDictByParentKey(String key) {
-		return dataDictionaryDao.findDataDictByParentKey(key, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		return dataDictionaryDao.findDataDictByParentKey(key);
 	}
 
 	

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.data.dao.DataFileInfoDao;
 import com.ehs.common.data.entity.DataFileInfo;
 import com.ehs.common.data.service.DataFileInfoService;
@@ -19,7 +18,7 @@ public class DataFileInfoServiceImpl implements DataFileInfoService {
 	
 	@Override
 	public List<DataFileInfo> findDataFilesByFileIds(String[] fileIds) {
-		return dataFileInfoDao.find(fileIds, new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		return dataFileInfoDao.find(fileIds);
 	}
 
 }

@@ -8,7 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.base.data.DataModel;
+import com.ehs.common.data.entity.DataDictionary;
+
 import com.ehs.common.flow.bean.ApplysQueryBean;
 import com.ehs.common.flow.dao.FlowProcessInfoDao;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -31,7 +32,7 @@ public class FlowProcessInfoServiceImpl implements FlowProcessInfoService {
 	@Override
 	public PageInfoBean findProcessInfo(ApplysQueryBean applysQueryBean) {
 		PageRequest pageRequest =PageRequest.of(applysQueryBean.getPage()-1, applysQueryBean.getSize());
-		Page<FlowProcessInfo> infos=flowProcessInfoDao.findInfos(applysQueryBean.getUserKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
+		Page<FlowProcessInfo> infos=flowProcessInfoDao.findInfos(applysQueryBean.getUserKey(), pageRequest);
 		if(infos!=null) {
 			PageInfoBean pi=new PageInfoBean();
 			pi.setDataList(infos.getContent());

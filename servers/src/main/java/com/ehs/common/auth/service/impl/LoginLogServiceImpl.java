@@ -21,7 +21,6 @@ import com.ehs.common.auth.dao.LoginLogDao;
 import com.ehs.common.auth.entity.SysLoginLog;
 import com.ehs.common.auth.entity.SysUser;
 import com.ehs.common.auth.service.LoginLogService;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -59,7 +58,7 @@ public class LoginLogServiceImpl implements LoginLogService {
 	@Override
 	public PageInfoBean findLoginLogList(LoginLogBean loginLogBean) {
 		PageRequest pageRequest = PageRequest.of(loginLogBean.getPage() - 1, loginLogBean.getSize());
-		Page<SysLoginLog> loginLog =loginLogDao.findAlLoginLogs(loginLogBean.getQuery(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
+		Page<SysLoginLog> loginLog =loginLogDao.findAlLoginLogs(loginLogBean.getQuery(), pageRequest);
 		if (loginLog != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(loginLog.getContent());

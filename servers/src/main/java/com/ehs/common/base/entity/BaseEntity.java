@@ -1,30 +1,18 @@
 package com.ehs.common.base.entity;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ehs.common.auth.local.SysAccessUser;
-import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.utils.BaseUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -63,7 +51,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public static final String CREATION = "creation" ;
 	public static final String CREATION_ORG = "creationOrg" ;
 	public static final String CREATION_TIME = "creationTime" ;
-	public static final String DATA_MODEL = "dataModel" ;
+	public static final String DELETED = "deleted" ;
 	public static final String BASE_SORT_NUM="baseSortNum";
 	
 	
@@ -125,9 +113,8 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	/**
 	 * CREATE,UPDATE,REMOVE
 	 */
-	@Enumerated(EnumType.STRING)
-	private DataModel dataModel;
-	
+    
+    private boolean deleted=false;
 	
 	
 	
@@ -141,6 +128,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	
 	
 	
+
 
 	public Byte getCompletePoint() {
 		return completePoint;
@@ -153,6 +141,13 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	}
 	public void setReCompletePoint(Boolean reCompletePoint) {
 		this.reCompletePoint = reCompletePoint;
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+
 	}
 	public Long getBaseSortNum() {
 		return baseSortNum;
@@ -243,7 +238,6 @@ public  abstract class BaseEntity implements java.io.Serializable{
 		Timestamp _ts=com.ehs.common.base.utils.BaseUtils.getNow();
 		this.setCreationTime(_ts);
 		this.setOwnerCreationTime(_ts);
-		this.setDataModel(DataModel.CREATE);
 		if(StringUtils.isBlank(this.getKey())){
 			this.setKey(UUID.randomUUID().toString());
 		}
@@ -317,12 +311,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public void setCreationOrg(String creationOrg) {
 		this.creationOrg = creationOrg;
 	}
-	public DataModel getDataModel() {
-		return dataModel;
-	}
-	public void setDataModel(DataModel dataModel) {
-		this.dataModel = dataModel;
-	}	
+
 	
 
 }

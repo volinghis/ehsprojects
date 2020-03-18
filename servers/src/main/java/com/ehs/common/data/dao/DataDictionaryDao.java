@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.data.entity.DataDictionary;
 
@@ -33,16 +32,16 @@ import com.ehs.common.data.entity.DataDictionary;
 @Repository
 public interface DataDictionaryDao extends JpaRepository<DataDictionary, String> {
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" = ?1 and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+DataDictionary.SORT+" asc" )
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" = ?1 and d."+DataDictionary.DELETED+"=0 order by "+DataDictionary.SORT+" asc" )
 	public List<DataDictionary> getFirstNode(String parentKey);
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" =?1 and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+DataDictionary.SORT+" asc" )
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" =?1 and d."+DataDictionary.DELETED+"=0 order by "+DataDictionary.SORT+" asc" )
 	public Page<DataDictionary> findDatasByParentCode(String parentKey, String query, PageRequest pageRequest);
 
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" = ?1 and d."+BaseEntity.DATA_MODEL+" in ?2  order by "+DataDictionary.SORT+" asc")
-	public List<DataDictionary> findDataDictByParentKey(String key,DataModel[] dataModels);
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" = ?1 and d."+BaseEntity.DELETED+" =0  order by "+DataDictionary.SORT+" asc")
+	public List<DataDictionary> findDataDictByParentKey(String key);
 	
-	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" <> 'null' and d."+DataDictionary.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+DataDictionary.SORT+" asc" )
+	@Query(" select d from DataDictionary d where d."+DataDictionary.PARENT_KEY+" <> 'null' and d."+DataDictionary.DELETED+" =0  order by "+DataDictionary.SORT+" asc" )
 	public Page<DataDictionary> findAllDatas(String query, PageRequest pageRequest);
 
 
