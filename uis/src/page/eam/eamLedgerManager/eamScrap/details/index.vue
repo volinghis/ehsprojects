@@ -43,7 +43,7 @@
                          label="设备名称"> </el-table-column>
         <el-table-column prop="deviceModel"
                          label="规格型号"> </el-table-column>
-        <el-table-column prop="installLocation"
+        <el-table-column prop="installLocationName"
                          label="安装位置"> </el-table-column>
         <el-table-column prop="personName"
                          label="负责人"> </el-table-column>

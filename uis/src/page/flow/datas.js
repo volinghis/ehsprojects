@@ -6,23 +6,23 @@ export default {
     doneProcess (stepKey) {
       this.processInfo.vars = this.vars
       this.processInfo.vars.taskId = this.processInstance.activeTaskId
+      debugger
       if (this.processInfo.flowStartActivityId === this.processInfo.flowCurrentStep) {
         this.startFlow()
       } else {
         var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
         if (stepKey === 'END') {
           url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
+          this.$refs.flowContent.handlerAfterFlow(this.processInfo)
         } else {
           if (!this.vars.taskAssignee) {
             this.$message.error('请选择流程处理人！')
-            return
           }
         }
         this.$axios.post(url, this.processInfo)
           .then(res => {
             // 成功了, 更新数据(成功)
             this.$message.success('提交成功')
-            this.$refs.flowContent.handlerAfterFlow(this.processInfo)
             window.close()
           }).catch(function () {
             this.$message.error('提交异常')
@@ -66,9 +66,6 @@ export default {
     userSelectorChange (v) {
       this.vars.taskAssignee = v
     },
-    prevStep () { // 返回上一步
-      this.$refs.flowContent.prevStep()
-    },
     show () {
       this.isShow = false
     }
@@ -100,7 +97,8 @@ export default {
       processDefineInfo: { start: false, currentStepNum: 0 },
       processInstance: {},
       comments: [],
-      isShow: true
+      isShow: true,
+      isDisable: false
     }
   }
 }

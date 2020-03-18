@@ -22,6 +22,7 @@ export default {
     var resData = this.$route.params.data
     this.getDevicePicture(resData.deviceImg)
     this.eamInfos = resData
+    console.log(this.eamInfos)
     this.deviceKey = resData.refKey
   },
   methods: {

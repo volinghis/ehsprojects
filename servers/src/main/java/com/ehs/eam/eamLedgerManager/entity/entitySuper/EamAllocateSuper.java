@@ -42,7 +42,6 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	public static final String ALLOCATE_DATE = "allocateDate" ;
 	public static final String APPLICANT = "applicant" ;
 	public static final String ALLOCATE_DEPT = "allocateDept" ;
-	public static final String TARGET_DEPT = "targetDept" ;
 	public static final String ALLOCATE_REASON = "allocateReason" ;
 	public static final String STATUS = "status" ;
 	public static final String INSTALL_LOCATION = "installLocation" ;
@@ -109,6 +108,8 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 * 调入位置
 	 */
 	private String targetPosition;
+	
+	private String targetPositionName;
 	
 	/**
 	 * 调拨数量
@@ -322,6 +323,20 @@ public abstract class EamAllocateSuper extends FlowBaseEntity {
 	 */
 	public void setDeviceKey(String deviceKey) {
 		this.deviceKey = deviceKey;
+	}
+
+	/**
+	 * @return the targetPositionName
+	 */
+	public String getTargetPositionName() {
+		return targetPositionName;
+	}
+
+	/**
+	 * @param targetPositionName the targetPositionName to set
+	 */
+	public void setTargetPositionName(String targetPositionName) {
+		this.targetPositionName = targetPositionName;
 	}
 	
 }

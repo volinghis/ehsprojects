@@ -22,18 +22,21 @@ export default {
       deviceKey: '',
       fileIds: '',
       imgUrl: '',
-      options: '',
+      deviceAddress: [],
+      deviceSystem: [],
+      deviceProfession: [],
       form: {
         deviceName: '',
         deviceNum: '',
         runDate: '',
         factoryName: '',
-        switchVal: true,
         installLocation: '',
         installLocationName: '',
         completePoint: 0,
         person: '',
         personName: '',
+        deviceSystem: '',
+        profession: '',
         fileId: '',
         remarks: '',
         deviceImg: ''
@@ -53,6 +56,15 @@ export default {
         ],
         installLocation: [
           { required: true, message: '请选择设备位置', trigger: 'blur' }
+        ],
+        profession: [
+          { required: true, message: '请选择设备专业', trigger: 'blur' }
+        ],
+        deviceSystem: [
+          { required: true, message: '请选择设备系统', trigger: 'blur' }
+        ],
+        factoryName: [
+          { required: true, message: '请输入生产厂家', trigger: 'blur' }
         ]
       }
     }
@@ -65,7 +77,9 @@ export default {
       this.getDevicePicture(resData.deviceImg)
       this.form = resData
     }
-    this.handleSwitchChange(this.form.switchVal)
+    this.getDeviceAddress()
+    this.getDeviceSystem()
+    this.getDevciceProfession()
   },
   methods: {
     handleAvatarSuccess  (res, file) {
@@ -73,16 +87,16 @@ export default {
       this.form.deviceImg = res.entityKey
     },
     beforeAvatarUpload (file) {
+      const isPNG = file.type === 'image/png'
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      return (isJPG || isPNG) && isLt2M
     },
     getParamsTable (data) { // 获取参数表中的数据
       this.paramsTableDatas.push(data)
@@ -108,16 +122,23 @@ export default {
       var node = this.$refs.userSelect.getCheckedNodes()
       this.form.personName = node[0].label // 用户名称
     },
-    handleSwitchChange (v) {
-      if (v) {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
-          this.options = res.data
-        })
-      } else {
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem').then(res => {
-          this.options = res.data
-        })
-      }
+    getDeviceAddress () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress').then(res => {
+        this.deviceAddress = res.data
+      })
+    },
+    getDeviceSystem () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem').then(res => {
+        this.deviceSystem = res.data
+      })
+    },
+    getDevciceProfession () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
+        this.deviceProfession = res.data
+      })
+    },
+    systemChang (v) {
+      console.log(this.form.deviceSystem)
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {

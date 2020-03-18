@@ -45,17 +45,15 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	public static final String RUN_DATE = "runDate";
 	public static final String INSTALL_LOCATION = "installLocation";
 	public static final String INSTALL_LOCATION_NAME = "installLocationName";
-	public static final String WARRANTY = "warranty";
-	public static final String SERVICE_LIFE = "serviceLife";
-	public static final String REPAIR_FREQUENCY = "repairFrequency";
 	public static final String PERSON = "person";
 	public static final String PERSON_NAME = "personName";
 	public static final String FILE_ID = "fileId";
 	public static final String DEVICE_IMG = "deviceImg";
-	public static final String REPAIR_NUMBER = "repairNumber";
 	public static final String REMARKS = "remarks";
 	public static final String LEAVE_NUM = "leaveNum";
 	public static final String LEAVE_DATE = "leaveDate";
+	public static final String PROFESSION = "profession";
+	public static final String DEVICE_SYSTEM = "deviceSystem";
 
 	public static final String REF_DEVICE_KEY = "refDeviceKey";
 
@@ -99,34 +97,24 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 * 安装位置
 	 */
 	private String installLocation;
-	
+
 	private String installLocationName;
 
 	/**
-	 * 安装位置是否默认按照专业来选择
+	 * 设备专业
 	 */
-	private Boolean switchVal;
+	private String profession;
+	
+	/**
+	 * 设备系统
+	 */
+	private String deviceSystem;
 
 	/**
 	 * 出厂日期
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Timestamp leaveDate;
-
-	/**
-	 * 保修期
-	 */
-	private String warranty;
-
-	/**
-	 * 使用寿命
-	 */
-	private String serviceLife;
-
-	/**
-	 * 检修频率
-	 */
-	private Byte repairFrequency;
 
 	/**
 	 * 负责人
@@ -138,18 +126,13 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	/**
 	 * 设备关联文件
 	 */
-	@Column(length = 4000)
+	@Column(length = 3000)
 	private String fileId;
 
 	/**
 	 * 设备图片
 	 */
 	private String deviceImg;
-
-	/**
-	 * 检修数量
-	 */
-	private Integer repairNumber;
 
 	/**
 	 * 备注
@@ -162,7 +145,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	/**
 	 * 关联子设备Key
 	 */
-	@Column(length = 4000)
+	@Column(length = 3000)
 	private String refDeviceKey;
 
 	/**
@@ -278,48 +261,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the warranty
-	 */
-	public String getWarranty() {
-		return warranty;
-	}
-
-	/**
-	 * @param warranty the warranty to set
-	 */
-	public void setWarranty(String warranty) {
-		this.warranty = warranty;
-	}
-
-	/**
-	 * @return the serviceLife
-	 */
-	public String getServiceLife() {
-		return serviceLife;
-	}
-
-	/**
-	 * @param serviceLife the serviceLife to set
-	 */
-	public void setServiceLife(String serviceLife) {
-		this.serviceLife = serviceLife;
-	}
-
-	/**
-	 * @return the repairFrequency
-	 */
-	public Byte getRepairFrequency() {
-		return repairFrequency;
-	}
-
-	/**
-	 * @param repairFrequency the repairFrequency to set
-	 */
-	public void setRepairFrequency(Byte repairFrequency) {
-		this.repairFrequency = repairFrequency;
-	}
-
-	/**
 	 * @return the person
 	 */
 	public String getPerson() {
@@ -345,20 +286,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	public void setFileId(String fileId) {
 		this.fileId = fileId;
-	}
-
-	/**
-	 * @return the repairNumber
-	 */
-	public Integer getRepairNumber() {
-		return repairNumber;
-	}
-
-	/**
-	 * @param repairNumber the repairNumber to set
-	 */
-	public void setRepairNumber(Integer repairNumber) {
-		this.repairNumber = repairNumber;
 	}
 
 	/**
@@ -446,20 +373,6 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	}
 
 	/**
-	 * @return the switchVal
-	 */
-	public Boolean getSwitchVal() {
-		return switchVal;
-	}
-
-	/**
-	 * @param switchVal the switchVal to set
-	 */
-	public void setSwitchVal(Boolean switchVal) {
-		this.switchVal = switchVal;
-	}
-
-	/**
 	 * @return the installLocationName
 	 */
 	public String getInstallLocationName() {
@@ -471,6 +384,34 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	 */
 	public void setInstallLocationName(String installLocationName) {
 		this.installLocationName = installLocationName;
+	}
+
+	/**
+	 * @return the profession
+	 */
+	public String getProfession() {
+		return profession;
+	}
+
+	/**
+	 * @param profession the profession to set
+	 */
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	/**
+	 * @return the deviceSystem
+	 */
+	public String getDeviceSystem() {
+		return deviceSystem;
+	}
+
+	/**
+	 * @param deviceSystem the deviceSystem to set
+	 */
+	public void setDeviceSystem(String deviceSystem) {
+		this.deviceSystem = deviceSystem;
 	}
 
 }

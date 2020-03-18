@@ -64,10 +64,10 @@
           <el-table-column prop="deviceModel"
                            label="规格型号">
           </el-table-column>
-          <el-table-column prop="installLocation"
+          <el-table-column prop="installLocationName"
                            align="center"
                            label="调出位置"></el-table-column>
-          <el-table-column prop="targetPosition"
+          <el-table-column prop="targetPositionName"
                            align="center"
                            label="调入位置">
           </el-table-column>

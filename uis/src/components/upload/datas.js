@@ -61,6 +61,10 @@ export default {
       this.change(temp)
     },
     beforeUpload (file) {
+      const isLt2M = file.size / 1024 / 1024 < 200
+      if (!isLt2M) {
+        this.$message.error('上传文件大小不能超过 200MB!')
+      }
       for (var i = 0; i < this.tempFiles.length; i++) {
         if (this.tempFiles[i].name === file.name) {
           this.$message({
@@ -70,7 +74,7 @@ export default {
           return false
         }
       }
-      return true
+      return true && isLt2M
     },
     uploadRemove (file, fileList) {
       var temp = ''

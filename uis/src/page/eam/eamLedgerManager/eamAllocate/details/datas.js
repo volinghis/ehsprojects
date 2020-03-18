@@ -47,6 +47,7 @@ export default {
       })
     },
     handlerAfterFlow (v) { // 流程结束数据处理
+      console.log('调拨流程结束后数据处理')
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/updateAfterAllocateFlow', v).then(res => {
         if (res.data.resultType === 'ok') {
           window.close()

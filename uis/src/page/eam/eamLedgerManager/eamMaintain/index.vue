@@ -4,7 +4,7 @@
       1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。
     </div>
     <div class="table-search-wrapper">
-      <el-input placeholder="请输入设备名称或编号"
+      <el-input placeholder="根据设备名称查询"
                 v-model="queryParam.query">
         <template slot="append">
           <el-button type="primary"
@@ -50,16 +50,19 @@
                 </template>
               </el-table-column> -->
         <el-table-column prop="deviceNum"
+                         sortable
                          align="center"
                          label="设备编号"
                          width="150"></el-table-column>
         <el-table-column prop="deviceName"
+                         sortable
                          align="center"
                          label="设备名称"></el-table-column>
         <el-table-column prop="deviceModel"
+                         sortable
                          align="center"
                          label="规格型号"></el-table-column>
-        <el-table-column prop="completePoint"
+        <!-- <el-table-column prop="completePoint"
                          label="资料完整度"
                          align="center"
                          width="150"
@@ -68,27 +71,41 @@
             <el-progress :percentage="scope.row.completePoint"
                          :color="customColorMethod"></el-progress>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="factoryName"
                          label="生产厂家"
+                         sortable
                          align="center"
                          :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="installLocationName"
                          label="安装位置"
+                         sortable
+                         align="center"></el-table-column>
+        <el-table-column prop="deviceSystem"
+                         label="设备系统"
+                         sortable
+                         align="center"></el-table-column>
+        <el-table-column prop="profession"
+                         label="设备专业"
+                         sortable
                          align="center"></el-table-column>
         <el-table-column prop="leaveDate"
                          label="出厂日期"
+                         sortable
                          align="center"></el-table-column>
         <el-table-column prop="runDate"
                          label="启用日期"
+                         sortable
                          align="center"></el-table-column>
         <el-table-column prop="person"
                          v-if="show"></el-table-column>
         <el-table-column prop="personName"
                          label="负责人"
+                         sortable
                          align="center"></el-table-column>
         <el-table-column prop="deviceStatus"
                          label="设备状态"
+                         sortable
                          align="center">
           <template slot-scope="scope">
             <el-tag :type="scope.row.deviceStatus === '正常' ? 'success' : 'warning'"

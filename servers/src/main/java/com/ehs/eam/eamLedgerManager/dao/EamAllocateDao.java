@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
 
@@ -36,9 +35,9 @@ import com.ehs.eam.eamLedgerManager.entity.EamAllocate;
 @Repository
 public interface EamAllocateDao extends JpaRepository<EamAllocate, String>{
 
-	@Query(" select el from EamAllocate el where el."+EamAllocate.ALLOCATE_NUM+" like %?1% and el."+BaseEntity.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<EamAllocate> findEamAllocateList(String query,DataModel[] dataModels,Pageable pageable);
+	@Query(" select el from EamAllocate el where el."+EamAllocate.ALLOCATE_NUM+" like %?1% and el."+BaseEntity.DELETED+" =0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	public Page<EamAllocate> findEamAllocateList(String query,Pageable pageable);
 	
-	@Query(" select el from EamAllocate el where el."+EamAllocate.DEVICE_KEY+" =?1  and el."+BaseEntity.DATA_MODEL+" in ?2")
-	public EamAllocate findByDeviceKey(String key,DataModel[] dataModels);
+	@Query(" select el from EamAllocate el where el."+EamAllocate.DEVICE_KEY+" =?1  and el."+BaseEntity.DELETED+"=0")
+	public EamAllocate findByDeviceKey(String key);
 }

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataFileInfoDao;
@@ -57,7 +56,7 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
         		
 				ps.add(cb.equal(root.get(DataFileInfoCopy.CATEGORIES), querybean.getNodeKey()));
 			}
-        	ps.add(cb.or(cb.equal(root.get(BaseEntity.DATA_MODEL),DataModel.UPDATE), cb.equal(root.get(BaseEntity.DATA_MODEL), DataModel.CREATE)));
+        	ps.add(cb.equal(root.get(BaseEntity.DELETED),0));
         	return cb.and(ps.toArray(new Predicate[0]));
         };
         Page<DataFileInfoCopy> fileInfos= dataFileCopyDao.findAll(sf, pageRequest);
@@ -67,7 +66,7 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 			List<DataFileInfoCopy> tempList=fileInfos.getContent();
 			if(!CollectionUtils.isEmpty(tempList)) {
 				for (DataFileInfoCopy df : tempList) {
-					DataFileInfo di=dataFileInfoDao.findDataFileInfoById(df.getFileId(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+					DataFileInfo di=dataFileInfoDao.findDataFileInfoById(df.getFileId());
 					resultList.add(di);
 				}
 			}
@@ -86,7 +85,7 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 	public void saveDataFileInfo(String  fileId) {
 		Assert.notNull(fileId, "fileId is required");
 		String[] fileIds=StringUtils.split(fileId, ",");
-	    List<DataFileInfo> fileInfos=dataFileInfoDao.find(fileIds,  new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+	    List<DataFileInfo> fileInfos=dataFileInfoDao.find(fileIds);
 		for (DataFileInfo fileInfo : fileInfos) {
 			DataFileInfoCopy dc=new DataFileInfoCopy();
 			dc.setFileId(fileInfo.getFileId());

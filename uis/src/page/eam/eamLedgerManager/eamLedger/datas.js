@@ -8,18 +8,27 @@ export default {
       queryParam: {
         size: 10,
         page: 1,
-        query: ''
+        query: '',
+        profession: '',
+        deviceSystem: ''
+      },
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       },
       imgUrl: '',
       form: {},
       activeName: 'first',
       total: 0,
       tableData: [],
-      tableId: ''
+      tableId: '',
+      dataFirst: [],
+      dataSecond: []
     }
   },
   created: function () {
     this.initTable()
+    this.inintTree(this.activeName)
   },
   methods: {
     initTable () {
@@ -39,7 +48,29 @@ export default {
         return '#67c23a'
       }
     },
-    handleClick: function (tab, event) {
+    handleClick (tab) {
+      this.activeName = tab.name
+      this.inintTree()
+      this.initTable()
+    },
+    handleFirstNodeClick (v) {
+      this.queryParam.profession = v.label
+      this.initTable()
+    },
+    handleSecondNodeClick (v) {
+      this.queryParam.deviceSystem = v.label
+      this.initTable()
+    },
+    inintTree () {
+      if (this.activeName === 'first') {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
+          this.dataFirst = res.data
+        })
+      } else {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
+          this.dataSecond = res.data
+        })
+      }
     },
     handleLink (row) {
       this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })

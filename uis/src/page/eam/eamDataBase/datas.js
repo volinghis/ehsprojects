@@ -36,8 +36,7 @@ export default {
   },
   methods: {
     handleViewClick: function (scope) {
-      var url = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
-      this.pdfSrc = url
+      this.pdfSrc = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
       this.viewVisible = true
     },
     handleDownLoadClick: function (scope) {

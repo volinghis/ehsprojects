@@ -100,6 +100,7 @@ public class EamAllocateController {
 			eamAllocateService.saveEamAllocate(reqBean);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return JsonUtils.toJsonString(resultBean.error("保存失败"));
 		}
 		return JsonUtils.toJsonString(resultBean.ok("保存成功"));

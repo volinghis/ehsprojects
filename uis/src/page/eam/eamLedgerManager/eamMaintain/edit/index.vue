@@ -11,6 +11,7 @@
           <el-upload class="avatar-uploader"
                      :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                      :show-file-list="false"
+                      accept=""
                      :on-success="handleAvatarSuccess"
                      :before-upload="beforeAvatarUpload">
             <img v-if="imgUrl"
@@ -58,20 +59,14 @@
               <el-form-item label="安装位置:"
                             prop="installLocation">
                 <el-select v-model="form.installLocation"
-                           style="width:55%;"
+                           style="width:100%;"
                            placeholder="请选择">
-                  <el-option v-for="item in options"
+                  <el-option v-for="item in deviceAddress"
                              :key="item.key"
                              :label="item.text"
                              :value="item.key">
                   </el-option>
                 </el-select>
-                <el-switch v-model="form.switchVal"
-                           style="margin-left:10px;"
-                           @change="handleSwitchChange"
-                           active-text="按专业"
-                           inactive-text="按系统">
-                </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -83,9 +78,30 @@
                               ref="userSelect"
                               style="width:100%;"></UserSelector>
               </el-form-item>
-              <el-form-item label="出厂编号:"
-                            prop="leaveNum">
-                <el-input v-model="form.leaveNum"></el-input>
+              <el-form-item label="设备专业:"
+                            prop="profession">
+                 <el-select v-model="form.profession"
+                           style="width:100%;"
+                           placeholder="请选择">
+                  <el-option v-for="item in deviceProfession"
+                             :key="item.key"
+                             :label="item.text"
+                             :value="item.text">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="设备系统:"
+                            prop="deviceSystem">
+                 <el-select v-model="form.deviceSystem"
+                           style="width:100%;"
+                           @change="systemChang"
+                           placeholder="请选择">
+                  <el-option v-for="item in deviceSystem"
+                             :key="item.key"
+                             :label="item.text"
+                             :value="item.text">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>

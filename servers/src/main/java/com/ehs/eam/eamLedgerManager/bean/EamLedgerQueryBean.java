@@ -20,15 +20,20 @@ import com.ehs.common.oper.bean.PageBody;
  * @author: qjj
  * @date: 2019年12月30日 下午4:00:18
  *
- *        Modification History: Date Author Version Description
- *        ---------------------------------------------------------* 2019年12月30日
- *        qjj v1.0.0 修改原因
+ *  Modification History: Date Author Version Description
+ *  ---------------------------------------------------------* 2019年12月30日
+ *  qjj v1.0.0 修改原因
  */
 public class EamLedgerQueryBean extends PageBody {
 
 	private String query;
-
 	
+	private String profession;
+	
+	
+	private String deviceSystem;
+	
+
 	private String deviceKey;
 	/**
 	 * @return the query
@@ -57,7 +62,33 @@ public class EamLedgerQueryBean extends PageBody {
 	public void setDeviceKey(String deviceKey) {
 		this.deviceKey = deviceKey;
 	}
-	
-	
 
+	/**
+	 * @return the profession
+	 */
+	public String getProfession() {
+		return profession;
+	}
+
+	/**
+	 * @param profession the profession to set
+	 */
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	/**
+	 * @return the deviceSystem
+	 */
+	public String getDeviceSystem() {
+		return deviceSystem;
+	}
+
+	/**
+	 * @param deviceSystem the deviceSystem to set
+	 */
+	public void setDeviceSystem(String deviceSystem) {
+		this.deviceSystem = deviceSystem;
+	}
+	
 }

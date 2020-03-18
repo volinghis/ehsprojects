@@ -21,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -98,7 +97,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 	@Override
 	public PageInfoBean findEamScrapList(EamScrapQueryBean scrapQueryBean) {
 		PageRequest pageRequest = PageRequest.of(scrapQueryBean.getPage() - 1, scrapQueryBean.getSize());
-		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE}, pageRequest);
+		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), pageRequest);
 		if (eamScraPage != null) {
 			List<EamScrap> resList = eamScraPage.getContent();
 			for (EamScrap ep : resList) {
@@ -169,7 +168,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 			baseCommonService.saveOrUpdate(el);
 			
 			//设备台账表数据更新
-			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey(), new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey());
 			ell.setDeviceStatus(status);
 			baseCommonService.saveOrUpdate(ell);
 		}
