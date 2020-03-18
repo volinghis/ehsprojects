@@ -18,11 +18,13 @@ public interface FlowProcessInfoDao extends JpaRepository<FlowProcessInfo, Strin
 
 	public FlowProcessInfo findByFlowProcessInstanceId(String flowProcessInstanceId);
 	
+	@Query(" select u from FlowProcessInfo u where u."+BaseEntity.DELETED+" =0 and u."+FlowProcessInfo.FLOW_CURRENT_STEP+"=?1 and (u."+FlowProcessInfo.FLOW_SCORE+"=0 or u."+FlowProcessInfo.FLOW_SCORE+" is null) order by "+BaseEntity.OWNER_CREATION_TIME+" desc ")
+	public  List<FlowProcessInfo> findInfos(String flowStatus);
 
 	@Query(" select u from FlowProcessInfo u where u."+BaseEntity.OWNER+"=?1 and  u."+BaseEntity.DELETED+" =0 order by "+BaseEntity.BASE_SORT_NUM+" desc ")
 	public  Page<FlowProcessInfo> findInfos(String userKey,Pageable pageable);
 
 
-	@Query(" select u from FlowProcessInfo u where u."+FlowProcessInfo.BUSINESS_ENTITY_KEY+"=?1 and  u."+BaseEntity.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'")
+	@Query(" select u from FlowProcessInfo u where u."+FlowProcessInfo.BUSINESS_ENTITY_KEY+"=?1 and  u."+BaseEntity.DELETED+"=0 ")
 	public  FlowProcessInfo findProcessInfoByEntityKey(String appKey);
 }

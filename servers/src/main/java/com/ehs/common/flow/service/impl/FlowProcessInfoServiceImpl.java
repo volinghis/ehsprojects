@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.data.entity.DataDictionary;
 
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.bean.ApplysQueryBean;
 import com.ehs.common.flow.dao.FlowProcessInfoDao;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
@@ -45,7 +45,7 @@ public class FlowProcessInfoServiceImpl implements FlowProcessInfoService {
 
 	@Override
 	public List<FlowProcessInfo> findProcessInfoNotScore() {
-		return flowProcessInfoDao.findInfos( new DataModel[] {DataModel.CREATE,DataModel.UPDATE},FlowStatus.END.name());
+		return flowProcessInfoDao.findInfos(FlowStatus.END.name());
 	}
 
 

@@ -13,6 +13,13 @@ import com.ehs.common.data.entity.DataFileInfo;
 public interface DataFileInfoDao extends JpaRepository<DataFileInfo, String>{
 
 
+	
+	@Query(" select d from DataFileInfo d where d."+DataFileInfo.CATEGORIES+"= ?1 and d."+BaseEntity.DELETED+" =0  order by "+BaseEntity.BASE_SORT_NUM)
+	public List<DataFileInfo> findFileInfosByCategoriy(String key);
+	
+	@Query(" select d from DataFileInfo d where d."+DataFileInfo.FILE_ID+"=?1 and d."+BaseEntity.DELETED+" =0 ")
+	public DataFileInfo findDataFileInfoById(String fileId);
+
 	@Query(" select d from DataFileInfo d where d."+DataFileInfo.FILE_ID+" in ?1 and d."+BaseEntity.DELETED+" =0  order by "+BaseEntity.BASE_SORT_NUM)
 	public List<DataFileInfo> find(String[] fileIds);
 
