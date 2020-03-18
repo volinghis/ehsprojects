@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.enums.FlowStatus;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
 

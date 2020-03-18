@@ -13,8 +13,8 @@ import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.bean.ApplysQueryBean;
 import com.ehs.common.flow.dao.FlowProcessInfoDao;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.enums.FlowStatus;
 import com.ehs.common.flow.service.FlowProcessInfoService;
+import com.ehs.common.flow.utils.FlowConstans;
 import com.ehs.common.oper.bean.PageInfoBean;
 
 @Service
@@ -45,7 +45,7 @@ public class FlowProcessInfoServiceImpl implements FlowProcessInfoService {
 
 	@Override
 	public List<FlowProcessInfo> findProcessInfoNotScore() {
-		return flowProcessInfoDao.findInfos(FlowStatus.END.name());
+		return flowProcessInfoDao.findInfos(FlowConstans.FLOW_STATUS_END);
 	}
 
 
