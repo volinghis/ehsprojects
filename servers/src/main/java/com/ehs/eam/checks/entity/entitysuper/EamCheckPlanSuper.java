@@ -72,7 +72,7 @@ public abstract class EamCheckPlanSuper extends BaseEntity {
 	
 	
 	private String checkor;
-	@Transient
+	
 	private String checkorName;
 	@JsonFormat(pattern = "yyyy-MM-dd",  timezone="GMT+8")
 	private Timestamp startTime;
