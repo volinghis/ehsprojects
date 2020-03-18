@@ -65,17 +65,31 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 			t.setKey(key);
 		}
 		List<EamCheckDefect> des= t.getEamCheckDefect();
+		int desCount=0;
 		if(des!=null&&!des.isEmpty()) {
 			for(EamCheckDefect d :des) {
+				if(!d.isDeleted()) {
+					desCount=0;
+				}
 				if(StringUtils.isBlank(d.getTaskKey())) {
 					d.setTaskKey(t.getKey());
 				}
 				baseCommonService.saveOrUpdate(d);
 			}
 		}
+		if(desCount>0) {
+			t.setDefects(true);
+		}else {
+			t.setDefects(false);
+		}
+		
+		int ecrCount=0;
 		List<EamCheckRepair> ecr=t.getEamCheckRepair();
 		if(ecr!=null&&!ecr.isEmpty()) {
 			for(EamCheckRepair r:ecr) {
+				if(!r.isDeleted()) {
+					ecrCount=0;
+				}
 				if(StringUtils.isBlank(r.getTaskKey())) {
 					r.setTaskKey(t.getKey());
 				}
@@ -83,16 +97,31 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 
 			}
 		}
+		if(ecrCount>0) {
+			t.setRepairs(true);
+		}else {
+			t.setRepairs(false);
+		}
 		
+		
+		int eruCount=0;
 		List<EamCheckReserveUsed> eru=t.getEamCheckReserveUsed();
 		if(eru!=null&&!eru.isEmpty()) {
 			for(EamCheckReserveUsed u:eru) {
+				if(!u.isDeleted()) {
+					eruCount=0;
+				}
 				if(StringUtils.isBlank(u.getTaskKey())) {
 					u.setTaskKey(t.getKey());
 				}
 				baseCommonService.saveOrUpdate(u);
 
 			}
+		}
+		if(eruCount>0) {
+			t.setReserves(true);
+		}else {
+			t.setReserves(false);
 		}
 		
 		flowBaseService.startProcess(t, t.getFlowProcessInfo());

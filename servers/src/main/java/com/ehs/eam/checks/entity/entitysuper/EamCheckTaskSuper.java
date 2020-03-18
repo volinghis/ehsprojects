@@ -21,7 +21,9 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	private boolean reserves=false;
 	public final static String USER="user";
 	public final static String PLAN_KEY="planKey";
-	
+	public final static String REPAIRS="repairs";
+	public final static String DEFECTS="defects";
+	public final static String RESERVES="reserves";
 	
 	
 	
