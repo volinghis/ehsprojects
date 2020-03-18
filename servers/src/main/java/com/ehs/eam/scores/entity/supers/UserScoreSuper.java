@@ -1,8 +1,6 @@
 package com.ehs.eam.scores.entity.supers;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
 import javax.persistence.MappedSuperclass;
 
 import com.ehs.common.base.entity.BaseEntity;
@@ -40,11 +38,6 @@ public abstract class UserScoreSuper extends BaseEntity {
 	 * 加分项操作时间
 	 */
 	private Timestamp itemCreateDate;
-
-	
-	
-
-
 
 	public Integer getRate() {
 		return rate;

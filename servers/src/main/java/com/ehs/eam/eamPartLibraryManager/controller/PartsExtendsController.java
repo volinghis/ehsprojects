@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -39,7 +40,7 @@ public class PartsExtendsController {
 	@Resource
 	private PartsExtendsService partsExtendsService;	
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestAuth(menuKeys = {"enterWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getExtendsByKey")
 	public String getExtendsByKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getExtendsByKey方法=============");

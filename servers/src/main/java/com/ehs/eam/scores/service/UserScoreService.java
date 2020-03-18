@@ -1,9 +1,5 @@
 package com.ehs.eam.scores.service;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-
 import com.ehs.common.oper.bean.PageBody;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.scores.bean.UserScoreBean;

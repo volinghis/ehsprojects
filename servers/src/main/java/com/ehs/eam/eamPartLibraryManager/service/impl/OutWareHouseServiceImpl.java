@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -109,7 +108,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 						partsExtends.setWareHouseKey(pi.getBusinessKey());
 						PartsExtends oldExtends = baseCommonService.findByKey(partsExtends.getClass(), partsExtends.getKey());
 						PartsExtends newExtends = baseCommonService.saveOrUpdate(partsExtends);
-						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode());
 						if (!CollectionUtils.isEmpty(pAccounts)) {
 							for (PartsAccount partsAccount : pAccounts) {
 								if (partsAccount != null) {
@@ -139,7 +138,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 						partsExtends.setWareHouseKey(pi.getBusinessKey());
 						logger.info("准备保存备件信息");
 						PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
-						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());
 						if (!CollectionUtils.isEmpty(pAccounts)) {
 							for (PartsAccount partsAccount : pAccounts) {
 								if (partsAccount != null) {
@@ -179,10 +178,10 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			baseCommonService.saveOrUpdate(owh);
 		}
 		logger.info("==========开始更新备件台账数据=============");
-		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey());
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
-				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
 				if (CollectionUtils.isEmpty(pAccounts)) {
 					for (PartsAccount partsAccount : pAccounts) {
 						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());

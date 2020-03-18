@@ -14,9 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -61,7 +59,7 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	@Override
 	public PageInfoBean findAll(QueryBean queryBean) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		Page<EnterWareHouse> enterWareHouses = ewhDao.findAll(pageRequest,new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		Page<EnterWareHouse> enterWareHouses = ewhDao.findAll(pageRequest);
 		if (enterWareHouses!=null) {
 			List<EnterWareHouse> enterWareHouseList  = enterWareHouses.getContent();
 			for (EnterWareHouse ew : enterWareHouseList) {
@@ -108,10 +106,10 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 			baseCommonService.saveOrUpdate(ewh);
 		}
 		logger.info("==========开始更新备件台账数据=============");
-		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(flowProcessInfo.getBusinessEntityKey());
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
-				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode(),new DataModel[] {DataModel.CREATE,DataModel.UPDATE});
+				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
 				if(!CollectionUtils.isEmpty(pAccounts)){
 					for (PartsAccount partsAccount : pAccounts) {
 						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());

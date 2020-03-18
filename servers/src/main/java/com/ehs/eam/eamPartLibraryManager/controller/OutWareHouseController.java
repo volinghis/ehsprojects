@@ -89,12 +89,14 @@ public class OutWareHouseController {
 //		return JsonUtils.toJsonString(String.valueOf(amountNew));
 //	}
 	
-	@RequestAuth(menuKeys = {"outWarehouseEdit"})
+	@RequestAuth(menuKeys = {"outWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/updateAfterFlow")
 	public String updatePartAccount(@RequestBody FlowProcessInfo flowProcessInfo) {
+		logger.info("========出库回调开始==========");
 		ResultBean resultBean = new ResultBean();
 		try {
 			owhService.updatePartsAccount(flowProcessInfo);
+			logger.info("========出库回调结束==========");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));

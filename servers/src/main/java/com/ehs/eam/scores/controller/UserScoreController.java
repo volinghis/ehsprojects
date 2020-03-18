@@ -2,14 +2,11 @@ package com.ehs.eam.scores.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.auth.local.SysAccessUser;
-import com.ehs.common.base.utils.AccessUtils;
 import com.ehs.common.base.utils.JsonUtils;
-import com.ehs.common.flow.bean.FlowSampleBean;
 import com.ehs.common.oper.bean.PageBody;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.scores.bean.UserScoreBean;
