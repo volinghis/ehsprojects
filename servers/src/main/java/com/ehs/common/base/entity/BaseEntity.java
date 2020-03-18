@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
@@ -141,7 +142,7 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	}
 	public void setReCompletePoint(Boolean reCompletePoint) {
 		this.reCompletePoint = reCompletePoint;
-
+	}
 	public boolean isDeleted() {
 		return deleted;
 	}
