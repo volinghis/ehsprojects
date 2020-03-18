@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 
@@ -16,7 +15,7 @@ public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
 
 
 	
-	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DATA_MODEL+" in :dataModels "
+	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DELETED+" =0 "
 			+" and (case when 'ALL'=:rates then :rates else  t."+EamCheckPlan.RATE+" end ) = :rates"
 			+" and ((case when 'ALL'=:types then 1 else  0 end ) = 1"
 			+" or (case when 'OWNER'=:types then t."+BaseEntity.OWNER+" else  1 end ) = :userKey "
@@ -33,7 +32,7 @@ public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
 			+" or (case when 'EVERSTART'=:executes then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())-1) end ) > to_days(current_date()) "
 			+ ") "
 			+ "")
-	public Page<EamCheckPlan> findAllPlan(@Param("dataModels")  DataModel[] dataModels,
+	public Page<EamCheckPlan> findAllPlan(
 			@Param("rates") String rates,
 			@Param("types") String types,
 			@Param("status") String status,

@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ehs.common.auth.local.SysAccessUser;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.entity.OrgUser;
@@ -65,7 +64,6 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 	public PageInfoBean findPlans(CheckPlanQueryBean query) {
 		Pageable pb = PageRequest.of(query.getPage() - 1, query.getSize(), query.getSortForJpaQuery());
 		Page<EamCheckPlan> plans= eamCheckPlanDao.findAllPlan(
-				new DataModel[] {DataModel.CREATE,DataModel.UPDATE},
 				query.getRates(),
 				query.getTypes(),
 				query.getStatus(),
