@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.organization.entity.OrgUser;
 
@@ -48,7 +47,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' and (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) order by  "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+"=0 and (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) order by  "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<OrgUser> findUsers(String query, PageRequest pageRequest);
 
 	/**
@@ -69,7 +68,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?2% or u."+OrgUser.NAME+" like %?2% ) and u.orgKey=?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?2% or u."+OrgUser.NAME+" like %?2% ) and u.orgKey=?1 and u."+OrgUser.DELETED+"=0 " )
 	public Page<OrgUser> findUserByOrgKey(String orgKey, String query, PageRequest pageRequest);
 
 	/**
@@ -90,7 +89,7 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+"=0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<OrgUser> findUsers(PageRequest pageRequest);
 
 
@@ -113,16 +112,16 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	*---------------------------------------------------------*
 	* 2019年12月26日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DELETED+"=0 " )
 	public Page<OrgUser> findUserByOrgKey(String orgKey, PageRequest pageRequest);
-	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DELETED+"=0 " )
 	public List<OrgUser> findUserByOrgKey(String orgKey);
 
 	public OrgUser findOrgUserBySysUserKey(String sysUserKey);
 	
-	public List<OrgUser> findOrgUserByOrgKeyAndDataModelIn(String orgKey,DataModel[] dataModel);
+	public List<OrgUser> findOrgUserByOrgKeyAndDeleted(String orgKey,boolean deleted);
 
-	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) and u."+OrgUser.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) and u."+OrgUser.DELETED+"=0 " )
 	public List<OrgUser> findUserByQuery(String query);
 
 }

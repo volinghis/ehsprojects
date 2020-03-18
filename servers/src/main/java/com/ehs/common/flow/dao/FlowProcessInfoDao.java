@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 
@@ -15,7 +14,7 @@ public interface FlowProcessInfoDao extends JpaRepository<FlowProcessInfo, Strin
 
 	public FlowProcessInfo findByFlowProcessInstanceId(String flowProcessInstanceId);
 	
-	@Query(" select u from FlowProcessInfo u where u."+BaseEntity.OWNER+"=?1 and  u."+BaseEntity.DATA_MODEL+" in ?2 order by "+BaseEntity.BASE_SORT_NUM+" desc ")
-	public  Page<FlowProcessInfo> findInfos(String userKey,DataModel[] dataModels,Pageable pageable);
+	@Query(" select u from FlowProcessInfo u where u."+BaseEntity.OWNER+"=?1 and  u."+BaseEntity.DELETED+" =0 order by "+BaseEntity.BASE_SORT_NUM+" desc ")
+	public  Page<FlowProcessInfo> findInfos(String userKey,Pageable pageable);
 
 }

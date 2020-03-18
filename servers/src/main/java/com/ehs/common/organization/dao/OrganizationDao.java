@@ -47,7 +47,7 @@ public interface OrganizationDao extends JpaRepository<OrganizationInfo, String>
 	*---------------------------------------------------------*
 	* 2019年12月20日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select org from OrganizationInfo org where org.parentKey=?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"' order by "+DataDictionary.SORT+" asc" )
+	@Query(" select org from OrganizationInfo org where org.parentKey=?1 and org."+OrganizationInfo.DELETED+"=0 order by "+DataDictionary.SORT+" asc" )
 	public Page<OrganizationInfo> findOrgsByParentKey(String parentKey, String query, PageRequest pageRequest);
 
 	/**
@@ -68,12 +68,12 @@ public interface OrganizationDao extends JpaRepository<OrganizationInfo, String>
 	*---------------------------------------------------------*
 	* 2019年12月20日     zhaol           v1.0.0               修改原因
 	 */
-	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.KEY+" <> 'rootOrg' and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+DataDictionary.SORT+" asc" )
+	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.KEY+" <> 'rootOrg' and org."+OrganizationInfo.DELETED+"=0 order by "+DataDictionary.SORT+" asc" )
 	public Page<OrganizationInfo> findAllOrgs(String query, PageRequest pageRequest);
 
-	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = null and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'order by "+DataDictionary.SORT+" asc" )
+	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = null and org."+OrganizationInfo.DELETED+"=0 order by "+DataDictionary.SORT+" asc" )
 	public OrganizationInfo getFirstNode();
 
-	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = ?1 and org."+OrganizationInfo.DATA_MODEL+"<>'"+DataConfig.UNSHOW_DATA_STATE+"'" )
+	@Query(" select org from OrganizationInfo org where org."+OrganizationInfo.PARENT_KEY+" = ?1 and org."+OrganizationInfo.DELETED+"=0 " )
 	public List<OrganizationInfo> findIdByChildren(String key);
 }

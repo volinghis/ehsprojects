@@ -24,7 +24,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.config.DataConfig;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 
 

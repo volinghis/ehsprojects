@@ -30,7 +30,6 @@ import org.springframework.util.Assert;
 
 import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.dao.BaseCommonDao;
-import com.ehs.common.base.data.DataModel;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -109,7 +108,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 			t.setBaseSortNum(object==null?1:Long.parseLong(object.toString())+1);
 			baseCommonDao.save(t);
 		} else {
-			if (old.getDataModel() == DataModel.REMOVE) {
+			if (old.isDeleted()) {
 				throw new RuntimeException("错误的尝试更新一个已经被删除的实例");
 			}
 			T his = null;
@@ -121,7 +120,6 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 			BeanUtils.copyProperties(old, his, BaseEntity.ID);
 			baseCommonDao.save(his);
 			t.initUpdate();
-			t.setDataModel(DataModel.UPDATE);
 			baseCommonDao.save(t);
 		}
 		return t;
@@ -135,7 +133,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		logger.debug("deleteByKey:Class="+tc.getName()+",key="+key);
 		T t = findByKey(tc, key);
 		Assert.notNull(t, "将要删除的实例不存在");
-		if (DataModel.REMOVE.equals(t.getDataModel())) {
+		if (t.isDeleted()) {
 			throw new RuntimeException("错误的尝试删除一个已经被删除的实例");
 		}
 		T t1 = null;
@@ -147,7 +145,7 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		BeanUtils.copyProperties(t, t1, BaseEntity.ID);
 		baseCommonDao.save(t1);
 		t.initUpdate();
-		t.setDataModel(DataModel.REMOVE);
+		t.setDeleted(true);
 		baseCommonDao.save(t);
 		return t;
 	}
@@ -181,15 +179,12 @@ public class BaseCommonServiceImpl implements BaseCommonService {
 		StringBuilder builder = new StringBuilder(" select be from  ");
 		builder.append(clazz.getSimpleName());
 		builder.append(" be where be.");
-		builder.append(BaseEntity.DATA_MODEL);
-		builder.append(" in ?0 order by ");
+		builder.append(BaseEntity.DELETED);
+		builder.append(" = ?0 order by ");
 		builder.append(BaseEntity.BASE_SORT_NUM);
 		builder.append(" desc");
 		List<Object> params = new LinkedList<Object>();
-		List<DataModel> ll = new LinkedList<DataModel>();
-		ll.add(DataModel.CREATE);
-		ll.add(DataModel.UPDATE);
-		params.add(0, ll);
+		params.add(0, Boolean.FALSE);
 		return baseCommonDao.find(builder.toString(), params);
 	}
 
