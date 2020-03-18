@@ -28,7 +28,16 @@ public class FlowConstans {
 	
 	public static final String TASK_ID="taskId";
 	public static final String TASK_COMMENT="taskComment";
-
+	public static final String FLOW_STATUS_END="END";
+	public static final String FLOW_STATUS_APPROVING="APPROVING";
+	public static final String FLOW_STATUS_DRAFT="DRAFT";
+	public static final String FLOW_STATUS_CANCELED="CANCELED";
 	
+	
+	public static final String FLOW_TASKOPER_COMMIT="COMMIT";
+	public static final String FLOW_TASKOPER_REJECT="REJECT";
+	public static final String FLOW_TASKOPER_AGREE="AGREE";
+	public static final String FLOW_TASKOPER_CANCELD="CANCELD";
+
 	
 }

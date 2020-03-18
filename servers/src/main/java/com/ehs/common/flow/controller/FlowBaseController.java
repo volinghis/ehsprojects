@@ -49,9 +49,8 @@ import com.ehs.common.flow.bean.ProcessInstanceBean;
 import com.ehs.common.flow.bean.ProcessQueryBody;
 import com.ehs.common.flow.bean.ProcessStepBean;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.enums.FlowStatus;
-import com.ehs.common.flow.enums.FlowTaskOper;
 import com.ehs.common.flow.service.FlowProcessInfoService;
+import com.ehs.common.flow.utils.FlowConstans;
 import com.ehs.common.organization.entity.OrgUser;
 
 @RestController
@@ -182,7 +181,7 @@ public class FlowBaseController {
 		if (StringUtils.isNotBlank(processInstanceId)) {
 			int num = 0;
 			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(processInstanceId);
-			if(StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.END.name())||StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.CANCELED.name())) {
+			if(StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(),FlowConstans.FLOW_STATUS_END)||StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowConstans.FLOW_STATUS_CANCELED)) {
 				num=steps.size()-1;
 				pdb.setCurrentStepNum(num);
 			}else {
@@ -239,13 +238,13 @@ public class FlowBaseController {
 				}
 
 				String oper = "";
-				if (StringUtils.equals(FlowTaskOper.AGREE.name(), c.getType())) {
+				if (StringUtils.equals(FlowConstans.FLOW_TASKOPER_AGREE, c.getType())) {
 					oper = "同意";
-				} else if (StringUtils.equals(FlowTaskOper.COMMIT.name(), c.getType())) {
+				} else if (StringUtils.equals(FlowConstans.FLOW_TASKOPER_COMMIT, c.getType())) {
 					oper = "提交";
-				} else if (StringUtils.equals(FlowTaskOper.REJECT.name(), c.getType())) {
+				} else if (StringUtils.equals(FlowConstans.FLOW_TASKOPER_REJECT, c.getType())) {
 					oper = "驳回";
-				}else if (StringUtils.equals(FlowTaskOper.CANCELD.name(), c.getType())) {
+				}else if (StringUtils.equals(FlowConstans.FLOW_TASKOPER_CANCELD, c.getType())) {
 					oper = "撤回";
 
 				}
@@ -310,7 +309,7 @@ public class FlowBaseController {
 		}
 		
 		FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByProcessInstanceId(processInstanceId);
-		if(StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.CANCELED.name())||StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowStatus.END.name())) {
+		if(StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(), FlowConstans.FLOW_STATUS_CANCELED)||StringUtils.equalsIgnoreCase(fpi.getFlowCurrentStep(),FlowConstans.FLOW_STATUS_END)) {
 			return JsonUtils.toJsonString(pib);
 		}
 		
@@ -334,7 +333,7 @@ public class FlowBaseController {
 				// 用户任务
 				if (targetFlowElement instanceof EndEvent) {
 					ProcessStepBean p = new ProcessStepBean();
-					p.setStepKey(FlowStatus.END.name());
+					p.setStepKey(FlowConstans.FLOW_STATUS_END);
 					p.setStepName("通过");
 					psblist.add(p);
 				} else {
