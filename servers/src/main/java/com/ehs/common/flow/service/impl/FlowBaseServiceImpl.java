@@ -62,8 +62,6 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.AccessUtils;
 import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.flow.enums.FlowStatus;
-import com.ehs.common.flow.enums.FlowTaskOper;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.utils.FlowConstans;
 
@@ -108,7 +106,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			
 			Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
 			taskService.addComment(flowProcessInfo.getVars().get(FlowConstans.TASK_ID).toString(),flowProcessInfo.getFlowProcessInstanceId(),
-					FlowTaskOper.REJECT.name(),
+					FlowConstans.FLOW_TASKOPER_REJECT,
 					StringUtils.defaultIfBlank((String) flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT), ""));
 			Authentication.setAuthenticatedUserId(null);
 
@@ -244,7 +242,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			}
 
 			Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-			taskService.addComment(task.getId(), pi.getId(), FlowTaskOper.COMMIT.name(),
+			taskService.addComment(task.getId(), pi.getId(),FlowConstans.FLOW_TASKOPER_COMMIT,
 					StringUtils.defaultIfBlank((String) flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT), ""));
 			Authentication.setAuthenticatedUserId(null);
 			taskService.complete(task.getId(), taskMap);
@@ -264,7 +262,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			}else {
 				 currentUser = "";
 				 currentUserName = "";
-				 currentStep = FlowStatus.END.name();
+				 currentStep = FlowConstans.FLOW_STATUS_END;
 				 currentStepName = "已结束";
 			}
 
@@ -335,7 +333,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				}
 			}
 			Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-			taskService.addComment(task.getId(), flowProcessInfo.getFlowProcessInstanceId(), FlowTaskOper.AGREE.name(),
+			taskService.addComment(task.getId(), flowProcessInfo.getFlowProcessInstanceId(),FlowConstans.FLOW_TASKOPER_AGREE,
 					StringUtils.defaultIfBlank((String) flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT), ""));
 			Authentication.setAuthenticatedUserId(null);
 
@@ -399,7 +397,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 					.taskId(flowProcessInfo.getVars().get(FlowConstans.TASK_ID).toString()).singleResult();
 
 			Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-			taskService.addComment(task.getId(), flowProcessInfo.getFlowProcessInstanceId(), FlowTaskOper.AGREE.name(),
+			taskService.addComment(task.getId(), flowProcessInfo.getFlowProcessInstanceId(), FlowConstans.FLOW_TASKOPER_AGREE,
 					StringUtils.defaultIfBlank((String) flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT), ""));
 			Authentication.setAuthenticatedUserId(null);
 
@@ -407,7 +405,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 
 			String currentUser = "";
 			String currentUserName = "";
-			String currentStep = FlowStatus.END.name();
+			String currentStep = FlowConstans.FLOW_STATUS_END;
 			String currentStepName = "已结束";
 			flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
 			flowProcessInfo.setFlowPrevPersonName(flowProcessInfo.getFlowCurrentPersonName());
@@ -436,7 +434,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				.active().list();
 
 		Authentication.setAuthenticatedUserId(SysAccessUser.get().getUserKey());
-		taskService.addComment(tasks.get(0).getId(), pi.getId(), FlowTaskOper.CANCELD.name(),
+		taskService.addComment(tasks.get(0).getId(), pi.getId(), FlowConstans.FLOW_TASKOPER_CANCELD,
 				StringUtils.defaultIfBlank((String) flowProcessInfo.getVars().get(FlowConstans.TASK_COMMENT), ""));
 		Authentication.setAuthenticatedUserId(null);
 
@@ -455,7 +453,7 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 
 		String currentUser = "";
 		String currentUserName = "";
-		String currentStep = FlowStatus.CANCELED.name();
+		String currentStep = FlowConstans.FLOW_STATUS_CANCELED;
 		String currentStepName = "已撤销";
 		flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
 		flowProcessInfo.setFlowPrevPersonName(flowProcessInfo.getFlowCurrentPersonName());
