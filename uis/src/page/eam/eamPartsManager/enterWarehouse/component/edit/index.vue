@@ -9,7 +9,7 @@
             </el-form-item>
             <el-form-item label="入库类型：" prop="inboundType">
               <!-- <el-input v-model="form.inboundType" :disabled="show"></el-input> -->
-              <el-select v-model="form.inboundType" style="width:100%" placeholder="请选择所在仓库">
+              <el-select v-model="form.inboundType" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
                 <el-option v-for="item in inType" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -17,7 +17,7 @@
           <el-col :span="8">
             <el-form-item label="入库仓库：" prop="warehouse">
               <!-- <el-input v-model="form.warehouseName" :disabled="show"></el-input> -->
-                 <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库">
+                 <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
                 <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>

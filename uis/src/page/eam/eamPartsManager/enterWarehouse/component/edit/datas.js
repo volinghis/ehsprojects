@@ -61,6 +61,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
         this.show = true
         this.showButton = false
@@ -71,6 +72,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
         this.show = false
         this.showButton = true
@@ -83,6 +85,7 @@ export default {
           this.showFlag = 'view'
           this.showButton = false
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
       }
     }
