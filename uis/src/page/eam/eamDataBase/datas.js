@@ -8,7 +8,7 @@ export default {
   data () {
     return {
       queryParam: {
-        size: 10,
+        size: 20,
         page: 1,
         query: '',
         nodeKey: ''
@@ -65,6 +65,8 @@ export default {
         return require('@/assets/images/fileType/img.png')
       } else if (fileType === 'pdf') {
         return require('@/assets/images/fileType/pdf.png')
+      } else if (fileType === 'pptx') {
+        return require('@/assets/images/fileType/ppt.png')
       }
     },
     handlePageChange: function (v) {

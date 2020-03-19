@@ -54,22 +54,21 @@
                                align="center"
                                width="50"
                                fixed="left"></el-table-column>
-              <!-- <el-table-column prop="deviceImg"
+              <el-table-column prop="deviceImg"
                                label="图片"
                                align="center"
                                width="60">
                 <template slot-scope="scope">
                   <el-image class="table-td-deviceImg"
                             style="width: 36px; height: 36px"
-                            :src="scope.row.imgUrl"
-                            :preview-src-list="[scope.row.imgUrl]">
+                            :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
                     <div slot="error"
                          class="image-slot">
                       <i class="fa fa-file-picture-o fa-3x"></i>
                     </div>
                   </el-image>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
               <el-table-column prop="deviceNum"
                                align="center"
                                label="设备编号"

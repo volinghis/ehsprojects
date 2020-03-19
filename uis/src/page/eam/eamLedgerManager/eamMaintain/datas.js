@@ -39,6 +39,13 @@ export default {
     },
     // 编辑
     handleEditClick: function (scope) {
+      if (scope.deviceStatus !== '正常') {
+        this.$message({
+          type: 'warning',
+          message: '流程中的设备或已报废设备不可编辑'
+        })
+        return
+      }
       var _this = this
       this.GlobalMethods.openFlowWin('eamLedgerEdit', { processDefineKey: 'EamLedgerUpdateFlow', data: scope }, function () {
         _this.initTable()

@@ -14,5 +14,17 @@ export default {
       keys = keys.substr(0, keys.length - 1)
     }
     return keys
+  },
+
+  /**
+   * 计算输入的时间和当前时间差
+   * @param {*} curTime
+   * @param {*} oldTime
+   */
+  getDiffDays (oldTime, curTime) {
+    var s1 = new Date(oldTime.replace(/-/g, '/'))
+    var days = curTime - s1.getTime()
+    var time = parseInt(days / (1000 * 60 * 60 * 24))
+    return time
   }
 }

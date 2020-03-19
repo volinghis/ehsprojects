@@ -44,6 +44,15 @@ export default {
         this.$message({ message: error })
       })
     },
+    tableRowClassName ({ row, rowIndex }) {
+      console.log(row, rowIndex)
+      if (rowIndex === 0) {
+        return 'warning-row'
+      } else if (rowIndex === 1) {
+        return 'danger-row'
+      }
+      return ''
+    },
     handleDelete: function () {
       var _this = this.selections
       if (_this.length <= 0) {

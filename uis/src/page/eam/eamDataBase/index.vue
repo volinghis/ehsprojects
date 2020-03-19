@@ -117,9 +117,11 @@
                      width="50%"
                      height="100%"
                      destroy-on-close>
-            <iframe :src="pdfSrc"
+
+            <iframe id="MyIframe"
+                    :src="pdfSrc"
                     width="100%"
-                    height="600px;"></iframe>
+                    height="600px;" />
           </el-dialog>
         </template>
       </el-col>

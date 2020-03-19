@@ -185,20 +185,28 @@ public class DataFileInfoController {
 	  		  return ;
 	  	  }
 	  	  String fileName = gridFSFile.getFilename().replace(",", "");
-	  	  String subFileName=fileName.substring(fileName.indexOf(".")+1);
-	  	  String outFileName=fileName.substring(0,fileName.indexOf("."))+".pdf";
+	  	  String subFileName=fileName.substring(fileName.lastIndexOf(".")+1);
+	  	  String outFileName=fileName.substring(0,fileName.lastIndexOf("."))+".pdf";
 	  	  try {
 	  		  OutputStream out = response.getOutputStream();
 				if(gridFSFile!=null) {
 					GridFsResource gridFsResource=new GridFsResource(gridFSFile,GridFSBuckets.create(mongoDbFactory.getDb()).openDownloadStream(gridFSFile.getObjectId()));
 					 InputStream in=gridFsResource.getInputStream();
-				  	  if("docx".equals(subFileName)||"doc".equals(subFileName)) {//判断文件类型
-				  		  OfficeToPDF.docTopdf(in, out);
-				  	  }else if("xls".equals(subFileName)||"xlsx".equals(subFileName)){
-				  		  OfficeToPDF.excelTopdf(in, out);
-				  	  }else{
-				  		  IOUtils.copy(in,out);
-				  	  }
+					 switch(subFileName) {
+					 	case "docx":
+					 	case "doc":
+					 		OfficeToPDF.docTopdf(in, out);
+					 		break;
+					 	case "xls":
+					 	case "xlsx":
+					 		OfficeToPDF.excelTopdf(in, out);
+					 		break;
+					 	case "pptx":
+					 		OfficeToPDF.pptToPdf(in, out);
+					 		break;
+					 	default:	
+					 		IOUtils.copy(in,out);
+					 }
 				  	  response.setHeader("Content-Disposition", "inline;filename=\"" + outFileName + "\"");
 				}
 				out.close();

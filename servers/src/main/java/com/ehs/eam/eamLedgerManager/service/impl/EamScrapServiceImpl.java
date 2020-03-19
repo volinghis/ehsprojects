@@ -157,19 +157,17 @@ public class EamScrapServiceImpl implements EamScrapService {
 	@Override
 	@Transactional
 	public void updateRelatedAfterFlow(FlowProcessInfo flowProcessInfo) {
-		String status="已报废";
 		//更新设备报废流程信息表数据
 		EamScrap es=baseCommonService.findByKey(EamScrap.class, flowProcessInfo.getBusinessEntityKey());
 		if(es!=null) {
 			es.setScrapDate(new Timestamp(System.currentTimeMillis())); 
 			//设备更新表数据更新
 			EamLedger el = baseCommonService.findByKey(EamLedger.class, es.getDeviceKey());
-			el.setDeviceStatus(status);
 			baseCommonService.saveOrUpdate(el);
 			
 			//设备台账表数据更新
 			EamLedgerLast ell = eamLastDao.findEamLedgerLastByRefKey(el.getKey());
-			ell.setDeviceStatus(status);
+			ell.setDeviceStatus("已报废");
 			baseCommonService.saveOrUpdate(ell);
 		}
 		

@@ -1,7 +1,7 @@
-import constructKeys from '../../commom/utils.js'
+import utils from '../../commom/utils.js'
 export default {
   components: {
-    constructKeys
+    utils
   },
   data () {
     return {
@@ -15,12 +15,16 @@ export default {
       selections: [],
       tableData: [],
       totalCount: 0,
-      sessionUser: {}
+      sessionUser: {},
+      curTime: ''
     }
   },
   mounted: function () {
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.getAllocateEamList()
+    this.$axios.get(this.GlobalVars.globalServiceServlet + '/oper/time/getNow').then(res => {
+      this.curTime = res.data.time
+    })
   },
   methods: {
     getAllocateEamList () {
@@ -38,7 +42,7 @@ export default {
           type: 'warning'
         })
       } else {
-        var keys = constructKeys.handlerArrayDatas(_this)
+        var keys = utils.handlerArrayDatas(_this)
         this.handleDeleteFun(keys)
       }
     },
@@ -48,6 +52,15 @@ export default {
     handlePageChange: function (v) {
       this.queryParam.page = v
       this.this.getAllocateEamList()
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      var time = utils.getDiffDays(row.applicationTime, this.curTime)
+      if (row.status === '填写单据') {
+        return 'ehs-message-info-yellow'
+      } else if (time >= 7) {
+        return 'danger-row'
+      }
+      return ''
     },
     handleViewClick (row) { // 查看
       const currentUser = this.sessionUser.userName

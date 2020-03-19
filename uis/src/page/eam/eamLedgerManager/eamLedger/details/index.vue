@@ -90,8 +90,8 @@
         <el-button :size="GlobalCss.buttonSize"
                    type="primary"
                    @click="back">返回</el-button>
-        <el-button :size="GlobalCss.buttonSize"
-                   @click="handlePrint">打印</el-button>
+        <!-- <el-button :size="GlobalCss.buttonSize"
+                   @click="handlePrint">打印</el-button> -->
       </el-form-item>
     </el-form>
   </div>

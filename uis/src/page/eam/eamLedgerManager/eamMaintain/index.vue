@@ -20,10 +20,10 @@
                  :size="GlobalCss.buttonSize"
                  @click="handleAdd"
                  icon="fa fa-plus pull-left">新增</el-button>
-      <el-button type="success"
+      <!-- <el-button type="success"
                  :size="GlobalCss.buttonSize"
                  @click="handleExport"
-                 icon="fa fa-download pull-left">导出</el-button>
+                 icon="fa fa-download pull-left">导出</el-button> -->
     </div>
     <div class="table-list">
       <el-table :data="tableData"
@@ -34,21 +34,21 @@
                          align="center"
                          width="50"
                          fixed="left"></el-table-column>
-        <!-- <el-table-column prop="deviceImg"
-                               label="图片"
-                               align="center"
-                               width="60">
-                <template slot-scope="scope">
-                  <el-image class="table-td-deviceImg"
-                            style="width: 36px; height: 36px"
-                            :src="findUrl(scope.row.deviceImg,callback)">
-                    <div slot="error"
-                         class="image-slot">
-                      <i class="fa fa-file-picture-o fa-3x"></i>
-                    </div>
-                  </el-image>
-                </template>
-              </el-table-column> -->
+        <el-table-column prop="deviceImg"
+                         label="图片"
+                         align="center"
+                         width="60">
+          <template slot-scope="scope">
+            <el-image class="table-td-deviceImg"
+                      style="width: 36px; height: 36px"
+                      :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
+              <div slot="error"
+                   class="image-slot">
+                <i class="fa fa-file-picture-o fa-3x"></i>
+              </div>
+            </el-image>
+          </template>
+        </el-table-column>
         <el-table-column prop="deviceNum"
                          sortable
                          align="center"
@@ -103,7 +103,7 @@
                          label="负责人"
                          sortable
                          align="center"></el-table-column>
-        <el-table-column prop="deviceStatus"
+        <!-- <el-table-column prop="deviceStatus"
                          label="设备状态"
                          sortable
                          align="center">
@@ -112,7 +112,7 @@
                     disable-transitions
                     :size="GlobalCss.buttonSize">{{scope.row.deviceStatus}}</el-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column fixed="right"
                          align="center"
                          label="操作"

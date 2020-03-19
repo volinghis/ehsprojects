@@ -8,40 +8,38 @@
  */
 package com.ehs.common.data.utils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.aspose.cells.PdfSaveOptions;
 import com.aspose.cells.Workbook;
+import com.aspose.slides.Presentation;
 import com.aspose.words.Document;
-import com.aspose.words.License;
 import com.aspose.words.SaveFormat;
 
-/**   
-* Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
-* @ClassName: WordToPDF.java
-* @Description: MS office文档转换为PDF
-*
-* @version: v1.0.0
-* @author: qjj
-* @date: 2019年9月5日 上午9:25:29 
-*
-* Modification History:
-* Date         Author          Version            Description
-*---------------------------------------------------------*
-* 2019年9月5日     qjj           v1.0.0               修改原因
-*/
+/**
+ * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
+ * 
+ * @ClassName: WordToPDF.java
+ * @Description: MS office文档转换为PDF
+ *
+ * @version: v1.0.0
+ * @author: qjj
+ * @date: 2019年9月5日 上午9:25:29
+ *
+ * Modification History: Date Author Version Description
+ * ---------------------------------------------------------* 2019年9月5日
+ * qjj v1.0.0 修改原因
+ */
 public class OfficeToPDF {
- 
-	public boolean getLicense() throws Exception {
+
+	public boolean getWordLicense() throws Exception {
 		boolean result = false;
 		try {
-			InputStream is =this.getClass().getResourceAsStream("/templates/license.xml");
-			License aposeLic = new License();
+			InputStream is = this.getClass().getResourceAsStream("/templates/license.xml");
+			com.aspose.words.License aposeLic = new com.aspose.words.License();
 			aposeLic.setLicense(is);
 			result = true;
 			is.close();
@@ -51,77 +49,98 @@ public class OfficeToPDF {
 		}
 		return result;
 	}
- 
-	// ==========暂时无用=============
-	public static void excelTopdf(InputStream source, OutputStream os) throws Exception {
 
-		OfficeToPDF d=new OfficeToPDF();
-		boolean flag = false;
-		File file = null;
-		try
-		{
+	public boolean getPPtLicense() throws Exception {
+		boolean result = false;
+		try {
+			InputStream is = this.getClass().getResourceAsStream("/templates/license.xml");
+			com.aspose.slides.License aposeLic = new com.aspose.slides.License();
+			aposeLic.setLicense(is);
+			result = true;
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
+	}
+	
+	public boolean getExcelLicense() throws Exception {
+		boolean result = false;
+		try {
+			InputStream is = this.getClass().getResourceAsStream("/templates/license.xml");
+			 com.aspose.cells.License aposeLic = new com.aspose.cells.License();
+			aposeLic.setLicense(is);
+			result = true;
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
+	}
+	/**
+	 * 
+	 * @Function:excelTopdf
+	 * @Description: 该函数的功能描述
+	 * @param source
+	 * @param os
+	 * @throws Exception
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年3月18日 下午5:38:29
+	 *
+	 *        Modification History: Date Author Version Description
+	 *        ---------------------------------------------------------* 2020年3月18日
+	 *        qjj v1.0.0 修改原因
+	 */
+	public static void excelTopdf(InputStream source, OutputStream os) throws Exception {
+		OfficeToPDF d = new OfficeToPDF();
+		try {
 			// 验证License
-			if (!d.getLicense())
-			{
+			if (!d.getExcelLicense()) {
 				return;
 			}
 
 			long old = System.currentTimeMillis();
 			// InPath是将要被转化的文档
 			Workbook wb = new Workbook(source);
-			PdfSaveOptions option = new PdfSaveOptions();
-			option.setOnePagePerSheet(true);
-			wb.save(os, option);
-			flag = true;
+			wb.save(os, com.aspose.cells.SaveFormat.PDF);
 			long now = System.currentTimeMillis();
 			System.out.println("共耗时：" + ((now - old) / 1000.0) + "秒"); // 转化用时
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if (os != null)
-				{
+		} finally {
+			try {
+				if (os != null) {
 					os.close();
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
-			}
-			if (!flag)
-			{
-				file.deleteOnExit();
 			}
 		}
 	}
-	// ==========暂时无用=============
+
 	/**
 	 * 
-	* @Function: OfficeToPDF.java
-	* @Description: office转pdf
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年10月10日 下午4:07:51 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年10月10日     zhaol           v1.0.0               修改原因
+	 * @Function:docTopdf
+	 * @Description: word 文档转pdf
+	 * @param source
+	 * @param os
+	 * @throws Exception
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年3月18日 下午5:38:50
+	 *
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年3月18日
+	 * qjj v1.0.0 修改原因
 	 */
 	public static void docTopdf(InputStream source, OutputStream os) throws Exception {
-		OfficeToPDF d=new OfficeToPDF();
-		System.out.println("=======================进入docToPdf方法===================");
-		if (!d.getLicense()) { // 验证License 若不验证则转化出的pdf文档有水印
+		OfficeToPDF d = new OfficeToPDF();
+		if (!d.getWordLicense()) { // 验证License 若不验证则转化出的pdf文档有水印
 			throw new Exception("com.aspose.words lic ERROR!");
 		}
 		try {
@@ -135,26 +154,44 @@ public class OfficeToPDF {
 			e.printStackTrace();
 		}
 	}
-    public static void main(String[] args) {
-        //String filepath = "D:\\jiudian.doc";  
-        String filepath = "D:\\ccc.xls";  
-        String outpath = "D:\\ps.pdf";   
-           
-        InputStream source;
+
+	public static void pptToPdf(InputStream source, OutputStream os)throws Exception  {
+		OfficeToPDF d = new OfficeToPDF();
+		if (!d.getPPtLicense()) { // 验证License 若不验证则转化出的pdf文档有水印
+			throw new Exception("com.aspose.ppt lic ERROR!");
+		}
+		try {
+			long old = System.currentTimeMillis();
+			Presentation pres = new Presentation(source);
+			pres.save(os, com.aspose.slides.SaveFormat.Pdf);
+			long now = System.currentTimeMillis();
+			System.out.println("convert OK! " + ((now - old) / 1000.0) + "秒");
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		String filepath = "D:\\test2.xlsx";
+		String outpath = "D:\\t4.pdf";
+
+		InputStream source;
 		OutputStream target;
 		try {
-			source = new FileInputStream(filepath);  
+			source = new FileInputStream(filepath);
 			target = new FileOutputStream(outpath);
 			excelTopdf(source, target);
-		    //docTopdf(source,target);
+			//pptToPdf(source, target);
+			//docTopdf(source,target);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
- 
+		}
+
 	}
 
 }
