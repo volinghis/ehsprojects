@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -182,9 +183,11 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
 				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
-				if (CollectionUtils.isEmpty(pAccounts)) {
+				logger.info("pAccounts.length========"+pAccounts.size());
+				if (!CollectionUtils.isEmpty(pAccounts)) {
 					for (PartsAccount partsAccount : pAccounts) {
 						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
+						logger.info("pa==========="+JsonUtils.toJsonString(pa));
 						if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
 							logger.info("编码相同，价格相同的时候");
 							pa.setAmount(new Integer(pa.getAmount().intValue() - pExtends.getAmount().intValue()));
