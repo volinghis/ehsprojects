@@ -6,7 +6,6 @@ export default {
     doneProcess (stepKey) {
       this.processInfo.vars = this.vars
       this.processInfo.vars.taskId = this.processInstance.activeTaskId
-      debugger
       if (this.processInfo.flowStartActivityId === this.processInfo.flowCurrentStep) {
         this.startFlow()
       } else {
