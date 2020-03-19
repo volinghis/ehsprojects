@@ -11,6 +11,22 @@ span{
 .ehs-note-span{
   @include font-styles;
 }
+.ehs-message-info-yellow{
+  background-color: yellow;
+  color: black;
+}
+.ehs-message-info-error{
+  background-color: red;
+  color: white;
+}
+.ehs-message-info-waring{
+  background-color: orange;
+  color: black;
+}
+.ehs-message-info-success{
+  background-color: green;
+  color: white;
+}
 .el-button:not(.el-button--default):not(.el-button--text) span{
   @include font-styles;
   color: white;
