@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.checks.entity.EamCheckPlan;
+import com.ehs.eam.checks.entity.EamCheckTask;
 
 @Repository
 public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
@@ -16,20 +17,21 @@ public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
 
 	
 	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DELETED+" =0 "
-			+" and (case when 'ALL'=:rates then :rates else  t."+EamCheckPlan.RATE+" end ) = :rates"
-			+" and ((case when 'ALL'=:types then 1 else  0 end ) = 1"
-			+" or (case when 'OWNER'=:types then t."+BaseEntity.OWNER+" else  1 end ) = :userKey "
-			+" or (case when 'NEEDEXECUTE'=:types then LOCATE(:orgKey,t."+EamCheckPlan.CHECKOR+") else  0 end ) >0 "
+			+" and ( 'ALL'=:rates or   t."+EamCheckPlan.RATE+"  = :rates)"
+			+" and ('ALL'=:types "
+			+" or ('OWNER'=:types and t."+BaseEntity.OWNER+"  = :userKey )"
+			+" or ('NEEDEXECUTE'=:types and LOCATE(:orgKey,t."+EamCheckPlan.CHECKOR+") >0) "
 			+ " ) "
-			+" and ((case when 'ALL'=:status then 1 else  0 end ) = 1"
-			+" or (case when 'ENABLE'=:status then t."+EamCheckPlan.ENABLE+" else  0 end ) = 1"
-			+" or (case when 'DISABLE'=:status then  t."+EamCheckPlan.ENABLE+" else  1 end ) = 0"
-			+ ") "
-			+" and ((case when 'ALL'=:executes then 1 else  0 end ) = 1"
-			+" or ((case when 'EFFECTIVE'=:executes then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())+1) end ) <= to_days(current_date()) "
-			+" and (case when 'EFFECTIVE'=:executes then to_days(t."+EamCheckPlan.END_TIME+") else  (to_days(current_date())-1) end ) >= to_days(current_date()) )"
-			+" or (case when 'INVALID'=:executes then to_days(t."+EamCheckPlan.END_TIME+") else  (to_days(current_date())+1) end ) < to_days(current_date()) "
-			+" or (case when 'EVERSTART'=:executes then to_days(t."+EamCheckPlan.START_TIME+") else  (to_days(current_date())-1) end ) > to_days(current_date()) "
+
+			+" and ( 'ALL'=:status "
+			+" or ('ENABLE'=:status and t."+EamCheckPlan.ENABLE+" = 1)"
+			+" or ('DISABLE'=:status and t."+EamCheckPlan.ENABLE+" = 0)"
+			+ " ) "
+			+" and ('ALL'=:executes "
+			+" or ('EFFECTIVE'=:executes and to_days(t."+EamCheckPlan.START_TIME+")  <= to_days(current_date()) "
+			+" and to_days(t."+EamCheckPlan.END_TIME+")  >= to_days(current_date()) )"
+			+" or ('INVALID'=:executes and to_days(t."+EamCheckPlan.END_TIME+")  < to_days(current_date())) "
+			+" or ('EVERSTART'=:executes and to_days(t."+EamCheckPlan.START_TIME+")  > to_days(current_date())) "
 			+ ") "
 			+ "")
 	public Page<EamCheckPlan> findAllPlan(

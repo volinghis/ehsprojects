@@ -9,54 +9,51 @@ import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.common.flow.utils.FlowConstans;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
 
 @Repository
 public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 
-//	@Query(" select t from EamCheckTask t left join EamCheckPlan eamCheckPlan on t."+EamCheckTask.PLAN_KEY+"=eamCheckPlan."+EamCheckPlan.KEY+" left join FlowProcessInfo flowProcessInfo on t.key=flowProcessInfo.businessEntityKey "
-//			+ "where t."+BaseEntity.DELETED+" =0 "
-//			+" and ((case when 'ALL'=:times then 1 else  0 end ) = 1"
-//			+" or (case when 'TODAY'=:times then to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") else  0 end ) = to_days(current_date()) "
-//			+" or (case when 'THREE'=:times then to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") else  0 end ) > (to_days(current_date())-3)  "
-//			+" or (case when 'SEVEN'=:times then to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") else  0 end ) > (to_days(current_date())-7)  "
-//			+ ") "
-//			+" and ((case when 'ALL'=:owners then 1 else  0 end ) = 1"
-//			+" or (case when 'EXECUTE'=:owners then :userKey else  0 end ) = t."+EamCheckTask.USER
-//			+" or ((case when 'APPROVE'=:owners then :userKey else  t."+EamCheckTask.USER+" end ) <> t."+EamCheckTask.USER
-//			+" and  (case when 'APPROVE'=:owners then LOCATE(:userKey,t."+FlowProcessInfo.FLOW_PERSONS+") else  0 end )>0 )"
-//			+ ") "
-//			+" and ((case when 'ALL'=:checks then 1 else  0 end ) = 1"
-//			+" or (case when 'INCLUDE'=:checks then t."+EamCheckTask.REPAIRS+" else  0 end ) = 1"
-//			+" or (case when 'EXCLUDE'=:checks then  t."+EamCheckTask.REPAIRS+" else  1 end ) = 0"
-//			+ ") "
-//			+" and ((case when 'ALL'=:defects then 1 else  0 end ) = 1"
-//			+" or (case when 'INCLUDE'=:defects then t."+EamCheckTask.DEFECTS+" else  0 end ) = 1"
-//			+" or (case when 'EXCLUDE'=:defects then  t."+EamCheckTask.DEFECTS+" else  1 end ) = 0"
-//			+ ") "
-//			+" and ((case when 'ALL'=:revers then 1 else  0 end ) = 1"
-//			+" or (case when 'INCLUDE'=:revers then t."+EamCheckTask.RESERVES+" else  0 end ) = 1"
-//			+" or (case when 'EXCLUDE'=:revers then  t."+EamCheckTask.RESERVES+" else  1 end ) = 0"
-//			+ ") "
-//			+" and ( 'ALL'=:flowstatus "
-//			+" or ('DRAFT'=:flowstatus and (isnull(flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+") )) "
-//			+" or (case when 'EXCLUDE'=:revers then  t."+EamCheckTask.RESERVES+" else  1 end ) = 0"
-//			+ ") "
-//			
-//			
-//			
-//			+ "and (eamCheckPlan."+BaseEntity.DELETED+" =0 or eamCheckPlan."+BaseEntity.DELETED+" is null )"
-//			+ "and (flowProcessInfo."+BaseEntity.DELETED+" =0 or flowProcessInfo."+BaseEntity.DELETED+" is null )"
-//			+" and ( (flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+"  is null and t."+EamCheckTask.USER+"=:userKey) or LOCATE(:userKey,flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+")>0) "
-//			+ "")
-//	public Page<EamCheckTask> findAllPlan(
-//			@Param("userKey") String userKey,
-//			@Param("times") String times,
-//			@Param("owners")  String owners,
-//			@Param("checks") String checks,
-//			@Param("defects") String defects,
-//			@Param("revers") String revers,
-//			@Param("flowstatus") String flowstatus,
-//			Pageable pageable);
+	@Query(" select t from EamCheckTask t left join EamCheckPlan eamCheckPlan on t."+EamCheckTask.PLAN_KEY+"=eamCheckPlan."+BaseEntity.KEY+" left join FlowProcessInfo flowProcessInfo on t."+BaseEntity.KEY+"=flowProcessInfo."+FlowProcessInfo.BUSINESS_ENTITY_KEY
+			+" where t."+BaseEntity.DELETED+" =0 "
+			+" and ( 'ALL'=:times "
+			+" or ( 'TODAY'=:times and to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") = to_days(current_date())) "
+			+" or ( 'THREE'=:times and to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") > (to_days(current_date())-3))  "
+			+" or ( 'SEVEN'=:times and to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") > (to_days(current_date())-7))  "
+			+ " ) "
+			+" and ( 'ALL'=:owners"
+			+" or ( 'EXECUTE'=:owners and :userKey  = t."+EamCheckTask.USER+") "
+			+" or ( 'APPROVE'=:owners and :userKey <>  t."+EamCheckTask.USER+" and LOCATE(:userKey,flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+")>0 )"
+			+ " ) "
+			+" and ( 'ALL'=:checks "
+			+" or ('INCLUDE'=:checks and t."+EamCheckTask.REPAIRS+" = 1)"
+			+" or ('EXCLUDE'=:checks and t."+EamCheckTask.REPAIRS+" = 0)"
+			+ " ) "
+			+" and ( 'ALL'=:defects "
+			+" or ('INCLUDE'=:defects and t."+EamCheckTask.DEFECTS+" = 1)"
+			+" or ('EXCLUDE'=:defects and t."+EamCheckTask.DEFECTS+" = 0)"
+			+ " ) "
+			+" and ( 'ALL'=:revers "
+			+" or ('INCLUDE'=:revers and t."+EamCheckTask.RESERVES+" = 1)"
+			+" or ('EXCLUDE'=:revers and t."+EamCheckTask.RESERVES+" = 0)"
+			+ " ) "
+			+" and ( 'ALL'=:flowstatus "
+			+" or ( 'DRAFT'=:flowstatus and (( ISNULL(flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+")=1 OR LENGTH(TRIM(flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+")) <=0) or flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_DRAFT+"' )  ) "
+			+" or ('END'=:flowstatus and (flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_CANCELED+"' or flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_END+"')  ) "
+			+" or flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+" = :flowstatus "
+			+ " ) "
+			+ " and (eamCheckPlan."+BaseEntity.DELETED+" =0 or eamCheckPlan."+BaseEntity.DELETED+" is null )"
+			+ " and (flowProcessInfo."+BaseEntity.DELETED+" =0 or flowProcessInfo."+BaseEntity.DELETED+" is null )"
+			+ "")
+	public Page<EamCheckTask> findAllPlan(
+			@Param("userKey") String userKey,
+			@Param("times") String times,
+			@Param("owners")  String owners,
+			@Param("checks") String checks,
+			@Param("defects") String defects,
+			@Param("revers") String revers,
+			@Param("flowstatus") String flowstatus,
+			Pageable pageable);
 }

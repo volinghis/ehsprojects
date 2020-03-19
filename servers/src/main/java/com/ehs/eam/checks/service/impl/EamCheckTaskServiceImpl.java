@@ -149,22 +149,21 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 	@Override
 	public PageInfoBean findAll(CheckTaskQueryBean query) {
 		Pageable pb = PageRequest.of(query.getPage() - 1, query.getSize(), query.getSortForJpaQuery());
-//		Page<EamCheckTask> plans= eamCheckTaskDao.findAllPlan(
-//				new DataModel[] {DataModel.CREATE,DataModel.UPDATE},
-//				SysAccessUser.get().getUserKey(),
-//				query.getTimes(),
-//				query.getOwners(),
-//				query.getChecks(),
-//				query.getDefects(),
-//				query.getRevers(),
-//				query.getFlowstatus(),
-//				pb);
-//		if(plans!=null) {
-//			PageInfoBean pib=new PageInfoBean();
-//			pib.setDataList(plans.getContent());
-//			pib.setTotalCount(plans.getTotalElements());
-//			return pib;
-//		}
+		Page<EamCheckTask> plans= eamCheckTaskDao.findAllPlan(
+				SysAccessUser.get().getUserKey(),
+				query.getTimes(),
+				query.getOwners(),
+				query.getChecks(),
+				query.getDefects(),
+				query.getRevers(),
+				query.getFlowstatus(),
+				pb);
+		if(plans!=null) {
+			PageInfoBean pib=new PageInfoBean();
+			pib.setDataList(plans.getContent());
+			pib.setTotalCount(plans.getTotalElements());
+			return pib;
+		}
 		return null;
 	}
 
