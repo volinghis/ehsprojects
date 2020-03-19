@@ -1,7 +1,9 @@
 import FileUpload from '@components/upload/index'
+import FilesTable from '../../../../components/filesTable'
 export default {
   components: {
-    FileUpload
+    FileUpload,
+    FilesTable
   },
   props: {
     partsForm: Object,
@@ -35,6 +37,7 @@ export default {
           this.getLaveAmount()
         }
         this.form = val
+        this.deviceKey = this.form.key
         this.getLaveAmount()
         this.oldAmount = this.form.dummyAmount
         this.oldWarningValue = this.form.warningValue
@@ -53,6 +56,9 @@ export default {
     // this.form.founder = user.username
   },
   methods: {
+    allFileId (v) {
+      this.fileIds = v
+    },
     amountBlur: function (e) {
       if (e.target.value <= this.oldAmount) {
         let a = this.oldAmount - e.target.value
@@ -94,6 +100,7 @@ export default {
   data () {
     return {
       key: 0,
+      deviceKey: '',
       amountFlag: false,
       oldAmount: '',
       oldWarningValue: '',
@@ -104,10 +111,11 @@ export default {
       totalPriceNew: 0,
       imageUrl: '',
       form: {
+        fileId: '',
         partsImg: '',
-        maintenancesStandard: '',
-        synopsis: '',
-        operationManual: '',
+        // maintenancesStandard: '',
+        // synopsis: '',
+        // operationManual: '',
         deviceName: '',
         deviceCode: '',
         norm: '',

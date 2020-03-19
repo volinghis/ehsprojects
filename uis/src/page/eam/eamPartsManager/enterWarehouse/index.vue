@@ -2,15 +2,6 @@
   <div class="cardHeight">
     <div class="fromHeight" style="margin: 0px 0px;">
       <div style="width:20%;float:left;">
-        <!-- <el-autocomplete class="inline-input"
-                         :size="GlobalCss.controlSize"
-                         style="width:100%;"
-                         v-model="form.query"
-                         :fetch-suggestions="querySearch"
-                         placeholder="可搜索编号，名称，类型"
-                         @select="handleSelect">
-          <el-button slot="append" icon="el-icon-search" @click="() => (queryParam = {})"></el-button>
-        </el-autocomplete> -->
         <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入备件名称或者备件编号">
           <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
         </el-input>
@@ -21,7 +12,7 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" resizable  highlight-current-row border :span-method="objectSpanMethod" :size="GlobalCss.buttonSize" style="width: 100%;">
+      <el-table :data="tableData" resizable :height="tableHeight" highlight-current-row border :row-class-name="tableRowClassName" :size="GlobalCss.buttonSize" style="width: 100%;">
         <el-table-column prop="wareHouseName" label="所在仓库" sortable align="center"></el-table-column>
         <el-table-column prop="wareHouseCode" label="入库编号" sortable align="center">
           <template slot-scope="scope">
@@ -43,7 +34,7 @@
             <div slot="reference">
               <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>
               <el-tag size="mini" v-else-if="(scope.row.status  === '已结束')" type="success">{{ scope.row.status}}</el-tag>
-              <el-tag size="mini" v-else-if="(scope.row.status  === '填写单据')" type="danger">{{'已驳回'}}</el-tag>
+              <el-tag size="mini" v-else-if="(scope.row.status  === '填写单据')" type="warning">{{'已驳回'}}</el-tag>
             </div>
           </template>
         </el-table-column>

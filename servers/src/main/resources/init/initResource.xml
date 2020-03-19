@@ -127,6 +127,9 @@
 		</DataDictionary>
 		<DataDictionary dataCode ="deviceSystem" key="deviceSystem" text="设备系统" parentKey="dataDict" systemCode="dataDict" sort="10"></DataDictionary>
 		<DataDictionary dataCode ="deviceProfessiona" key="deviceProfessiona" text="设备专业" parentKey="dataDict" systemCode="dataDict" sort="20"></DataDictionary>
-			<DataDictionary dataCode ="deviceAddress" key="deviceAddress" text="设备位置" parentKey="dataDict" systemCode="dataDict" sort="30"></DataDictionary>
+		<DataDictionary dataCode ="deviceAddress" key="deviceAddress" text="设备位置" parentKey="dataDict" systemCode="dataDict" sort="30"></DataDictionary>
+		<DataDictionary dataCode ="wareHouse" key="wareHouse" text="所在仓库" parentKey="dataDict" systemCode="dataDict" sort="40"></DataDictionary>
+		<DataDictionary dataCode ="outBoundType" key="outBoundType" text="出库类型" parentKey="dataDict" systemCode="dataDict" sort="50"></DataDictionary>
+		<DataDictionary dataCode ="inBoundType" key="inBoundType" text="入库类型" parentKey="dataDict" systemCode="dataDict" sort="60"></DataDictionary>
 	</DataDictionarys>
 </root>

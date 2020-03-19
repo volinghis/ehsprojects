@@ -28,9 +28,7 @@ public abstract class PartsExtends extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final String MAINTENANCES_STANDARD="maintenancesStandard";
-	public static final String SYNOPSIS="synopsis";
-	public static final String OPERATION_MANUAL="operationManual";
+	public static final String FILE_ID="fileId";
 	public static final String PARTS_IMG="partsImg";
 	public static final String WAREHOUSE_KEY="wareHouseKey";
 	public static final String WAREHOUSE_CODE="wareHouseCode";
@@ -92,22 +90,10 @@ public abstract class PartsExtends extends BaseEntity{
 	private String status;
 	
 	/**
-	 * 检修质量标准
+	 * 设备关联文件
 	 */
-	@Column(length = 1000)
-	private String maintenancesStandard;
-	
-	/**
-	 * 说明书
-	 */
-	@Column(length = 1000)
-	private String synopsis;
-	
-	/**
-	 * 操作手册
-	 */
-	@Column(length = 1000)
-	private String operationManual;
+	@Column(length = 3000)
+	private String fileId;
 	
 	/**
 	 * 备件图片关联id
@@ -195,28 +181,12 @@ public abstract class PartsExtends extends BaseEntity{
 	@Column(length = 2000)
 	private String remark;
 	
-	public String getMaintenancesStandard() {
-		return maintenancesStandard;
+	public String getFileId() {
+		return fileId;
 	}
 
-	public void setMaintenancesStandard(String maintenancesStandard) {
-		this.maintenancesStandard = maintenancesStandard;
-	}
-
-	public String getSynopsis() {
-		return synopsis;
-	}
-
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
-	}
-
-	public String getOperationManual() {
-		return operationManual;
-	}
-
-	public void setOperationManual(String operationManual) {
-		this.operationManual = operationManual;
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
 	}
 
 	public String getPartsImg() {

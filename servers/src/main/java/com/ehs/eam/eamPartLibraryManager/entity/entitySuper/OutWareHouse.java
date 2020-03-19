@@ -28,8 +28,10 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String OUT_WAREHOUSE_CODE = "outWarehouseCode";
+	public static final String OUT_WAREHOUSE = "outWarehouse";
 	public static final String OUT_WAREHOUSE_NAME = "outWarehouseName";
 	public static final String OUTBOUND_TYPE = "outBoundType";
+	public static final String OUTBOUND_TYPE_NAME = "outBoundTypeName";
 	public static final String OUTBOUND_DATE = "outBoundDate";
 	public static final String RECEIVE_EMP_CODE = "receiveEmpCode";
 	public static final String RECEIVE_EMP = "receiveEmp";
@@ -47,10 +49,12 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	 * 出库类型
 	 */
 	private String outBoundType;
+	private String outBoundTypeName;
 	
 	/**
 	 * 所在仓库
 	 */
+	private String outWarehouse;
 	private String outWarehouseName;
 	
 	/**
@@ -109,6 +113,22 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 
 	public void setOutBoundType(String outBoundType) {
 		this.outBoundType = outBoundType;
+	}
+	
+	public String getOutBoundTypeName() {
+		return outBoundTypeName;
+	}
+
+	public void setOutBoundTypeName(String outBoundTypeName) {
+		this.outBoundTypeName = outBoundTypeName;
+	}
+	
+	public String getOutWarehouse() {
+		return outWarehouse;
+	}
+
+	public void setOutWarehouse(String outWarehouse) {
+		this.outWarehouse = outWarehouse;
 	}
 
 	public String getOutWarehouseName() {

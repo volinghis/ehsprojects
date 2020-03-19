@@ -8,6 +8,8 @@ export default {
   data () {
     return {
       obj: {},
+      wareHouse: [],
+      inType: [],
       showButton: false,
       show: false,
       showFlag: '',
@@ -19,9 +21,11 @@ export default {
       dialogVisible: false,
       totalCount: 0,
       form: {
+        warehouse: '',
         warehouseName: '',
         warehouseCode: '',
         inboundType: '',
+        inboundTypeName: '',
         inboundDate: '',
         founder: '',
         remark: ''
@@ -51,6 +55,7 @@ export default {
       this.show = false
       this.showButton = true
       this.showFlag = 'add'
+      this.getWareHouseAndUseType()
     } else if (this.flag === 'view') {
       if (processObj.key != null) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
@@ -83,6 +88,17 @@ export default {
     }
   },
   methods: {
+    getWareHouseAndUseType: function () {
+      var that = this
+      this.$axios.all([
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=wareHouse'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=inBoundType')
+      ]).then(this.$axios.spread(function (wareHouse, inBoundType) {
+        // 上面两个请求都完成后，才执行这个回调方法
+        that.wareHouse = wareHouse.data
+        that.inType = inBoundType.data
+      }))
+    },
     handleClose: function (done) {
       this.$confirm('确认关闭？').then(_ => {
         done()
@@ -116,6 +132,7 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
+          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/saveEnterWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
@@ -158,11 +175,11 @@ export default {
         manufacturer: '',
         leaveFactoryCode: '',
         leaveFactoryDate: '',
-        warningValue: 0,
+        warningValue: '',
         founder: '',
         supplier: '',
-        price: 0,
-        amount: 0,
+        price: '',
+        amount: '',
         unit: '',
         totalPrice: 0
       }

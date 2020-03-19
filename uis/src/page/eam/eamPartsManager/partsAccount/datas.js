@@ -105,8 +105,11 @@ export default {
         this.totalCount = res.data.totalCount
       })
     }
-    // handleSelect: function (item) {
-    // }
+  },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 400// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+    }
   },
   mounted: function () {
     this.getTableData()

@@ -11,6 +11,8 @@ export default {
   },
   data () {
     return {
+      wareHouse: [],
+      outType: [],
       show: false,
       showButton: false,
       tableHeight: ' ',
@@ -23,10 +25,12 @@ export default {
       totalCount: 0,
       dialogVisible: false,
       form: {
+        outWarehouse: '',
         outWarehouseName: '',
         outWarehouseCode: '',
         outBoundDate: '',
         outBoundType: '',
+        outBoundTypeName: '',
         receiveEmpCode: '',
         receiveDepartCode: '',
         remark: ''
@@ -62,6 +66,7 @@ export default {
       this.show = false
       this.showButton = true
       this.showFlag = 'add'
+      this.getWareHouseAndUseType()
     } else if (this.flag === 'view') {
       if (processObj.key) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
@@ -94,6 +99,17 @@ export default {
     }
   },
   methods: {
+    getWareHouseAndUseType: function () {
+      var that = this
+      this.$axios.all([
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=wareHouse'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=outBoundType')
+      ]).then(this.$axios.spread(function (wareHouse, outBoundType) {
+        // 上面两个请求都完成后，才执行这个回调方法
+        that.wareHouse = wareHouse.data
+        that.outType = outBoundType.data
+      }))
+    },
     getPartsAccounts: function () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getExtendsByKey', { params: { key: this.form.key } }).then(res => {
         if (res.data.totalCount > 0) {
@@ -135,19 +151,20 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
-            if (res.data.resultType === 'ok') {
-              this.$message({
-                message: res.data.message,
-                type: 'success'
-              })
-              setTimeout(() => {
-                window.close()
-              }, 1000)
-            } else {
-              this.$message.error(res.data.message)
-            }
-          })
+          console.log(requestParam)
+        //   this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
+        //     if (res.data.resultType === 'ok') {
+        //       this.$message({
+        //         message: res.data.message,
+        //         type: 'success'
+        //       })
+        //       setTimeout(() => {
+        //         window.close()
+        //       }, 1000)
+        //     } else {
+        //       this.$message.error(res.data.message)
+        //     }
+        //   })
         } else {
           this.$message.error('验证数据失败，请重新确认数据填写')
           return false

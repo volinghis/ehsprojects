@@ -1,7 +1,10 @@
 import FileUpload from '@components/upload/index'
+import FilesTable from '../../../../components/filesTable'
 export default {
   components: {
-    FileUpload
+    FileUpload,
+    FilesTable
+
   },
   props: {
     partsForm: Object,
@@ -33,6 +36,8 @@ export default {
     partsForm: {
       handler (val) {
         this.form = val
+        this.deviceKey = this.form.key
+        console.log(this.form)
         this.form.totalPrice = this.form.amount * this.form.price
         if (this.form.partsImg) {
           this.getDevicePicture(this.form.partsImg)
@@ -48,6 +53,9 @@ export default {
   mounted: function () {
   },
   methods: {
+    allFileId (v) {
+      this.form.fileId = v
+    },
     amountBlur: function (e) {
       this.amountNew = e.target.value
     },
@@ -93,6 +101,8 @@ export default {
   data () {
     return {
       key: 0,
+      fileIds: '',
+      deviceKey: '',
       partFlag: false,
       buttonFlag: true,
       paramsData: [],
@@ -101,10 +111,8 @@ export default {
       totalPriceNew: 0,
       imageUrl: '',
       form: {
+        fileId: '',
         partsImg: '',
-        maintenancesStandard: '',
-        synopsis: '',
-        operationManual: '',
         deviceName: '',
         deviceCode: '',
         norm: '',
@@ -113,13 +121,13 @@ export default {
         manufacturer: '',
         leaveFactoryCode: '',
         leaveFactoryDate: '',
-        warningValue: 0,
+        warningValue: '',
         founder: '',
         supplier: '',
-        price: 0,
-        amount: 0,
+        price: '',
+        amount: '',
         unit: '',
-        totalPrice: 0
+        totalPrice: ''
       },
       customColors: [
         { color: '#f56c6c', percentage: 20 },

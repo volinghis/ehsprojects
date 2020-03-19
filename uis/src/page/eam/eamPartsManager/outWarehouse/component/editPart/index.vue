@@ -1,33 +1,24 @@
 <template>
   <div style="margin-right:20px;">
     <el-form ref="form" :model="form" :rules="rules" label-position="right" label-width="80px" :size="GlobalCss.controlSize">
-      <el-row :gutter="20" style="margin-left:10px;">
-        <el-col :span="4">
-          <div class="item-block">
-            <div class="item-title">设备图片</div>
+      <el-row style="margin-left:20px;">
+        <el-col :span="6">
+          <div class="el-upload avatar-uploader">
+            <!-- <div class="item-title">设备图片</div> -->
             <img style="width: 150px; height: 150px" v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </div>
-          <!--检修质量标准-->
-          <div class="item-block">
-            <div class="item-title">检修质量标准</div>
-            <file-upload :propUploadValue="form.maintenancesStandard" :key="key"></file-upload>
-          </div>
-          <!--设备说明书-->
-          <div class="item-block">
-            <div class="item-title">设备说明书</div>
-            <file-upload :propUploadValue="form.synopsis" :key="key"></file-upload>
-          </div>
-          <!--设备操作手册-->
-          <div class="item-block">
-            <div class="item-title">设备操作手册</div>
-            <file-upload :propUploadValue="form.operationManual" :key="key"></file-upload>
-          </div>
+          <!-- <div class="item-block">
+            <el-upload class="avatar-uploader"
+              :show-file-list="false">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </!-->
         </el-col>
-        <el-col :span="20">
+        <el-col :span="18">
           <div class="item-block">
-            <div class="item-title">备件基本信息</div>
-            <el-divider></el-divider>
-            <el-row :gutter="10">
+            <el-row>
               <el-col :span="8">
                 <el-form-item label="备件编码:" prop="deviceCode">
                   <el-input v-model="form.deviceCode" placeholder="系统自动生成" :disabled="partFlag"></el-input>
@@ -35,13 +26,13 @@
                 <el-form-item label="物资编码:" prop="materialCode">
                   <el-input  v-model="form.materialCode" placeholder="请填写物资编码" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="单价：" prop="price">
+                <el-form-item label="单价:" prop="price">
                   <el-input v-model="form.price" @blur="priceBlur($event)" placeholder="请输入单价" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="预警值:" prop="warningValue">
                   <el-input v-model="form.warningValue" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="供应商：">
+                <el-form-item label="供应商:">
                   <el-input v-model="form.supplier" placeholder="请填写供应商" :disabled="partFlag"></el-input>
                 </el-form-item>
               </el-col>
@@ -52,13 +43,13 @@
                 <el-form-item label="物资类别:" prop="materialType">
                   <el-input v-model="form.materialType" placeholder="请填写物资类别" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="单位：" prop="unit">
+                <el-form-item label="单位:" prop="unit">
                   <el-input v-model="form.unit" placeholder="请输入单位" :disabled="partFlag"></el-input>
                 </el-form-item>
-                <el-form-item label="数量：" prop="amount">
+                <el-form-item label="数量:" prop="amount">
                   <el-input v-model="form.amount" placeholder="请输入数量" @blur="amountBlur($event)" :disabled="amountFlag"></el-input>
                   <template v-if="amountFlag">
-                    <div class="ehs_form_item_message">剩余库存数量为：{{oldAmount}}</div>
+                    <div class="ehs_form_item_message">剩余库存数量为:{{oldAmount}}</div>
                   </template>
                 </el-form-item>
               </el-col>
@@ -74,13 +65,6 @@
                 </el-form-item>
                 <el-form-item label="出厂日期:" prop="leaveFactoryDate">
                   <el-date-picker v-model="form.leaveFactoryDate" type="date" style="width:100%;" placeholder="选择日期" :disabled="partFlag"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <el-form-item label="备 注:" prop="remark">
-                  <el-input  v-model="form.remark" style="width:100%;" type="textarea" :rows="2" maxlength="300" show-word-limit placeholder="请输入内容" :disabled="partFlag"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -114,7 +98,19 @@
           </el-row> -->
         </el-col>
       </el-row>
-      <el-divider></el-divider>
+      <el-row>
+        <el-col>
+          <el-form-item label="备 注:" prop="remark">
+            <el-input  v-model="form.remark" style="width:100%;" type="textarea" :rows="2" maxlength="300" show-word-limit placeholder="请输入内容" :disabled="partFlag"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <div class="item-block right"  style="margin-left:20px;">
+          <FilesTable :fileId="form.fileId" :deviceKey="deviceKey" @getFileId="allFileId" :isDisable="false"></FilesTable>
+        </div>
+      </el-row>
+      <!-- <el-divider></el-divider> -->
     </el-form>
   </div>
 </template>

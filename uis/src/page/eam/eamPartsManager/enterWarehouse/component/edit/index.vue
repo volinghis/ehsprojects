@@ -4,16 +4,22 @@
       <div class="searchHeight">
         <el-row :gutter="24">
           <el-col :span="8">
-            <el-form-item label="入库编码："  prop="warehouseCode">
+            <el-form-item label="入库编码："  prop="warehouse">
               <el-input v-model="form.warehouseCode" placeholder="请输入入库编码"  :disabled="show"></el-input>
             </el-form-item>
             <el-form-item label="入库类型：" prop="inboundType">
-              <el-input v-model="form.inboundType" :disabled="show"></el-input>
+              <!-- <el-input v-model="form.inboundType" :disabled="show"></el-input> -->
+              <el-select v-model="form.inboundType" style="width:100%" placeholder="请选择所在仓库">
+                <el-option v-for="item in inType" :key="item.key" :label="item.text" :value="item.key"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="入库仓库：" prop="warehouseName">
-              <el-input v-model="form.warehouseName" :disabled="show"></el-input>
+            <el-form-item label="入库仓库：" prop="warehouse">
+              <!-- <el-input v-model="form.warehouseName" :disabled="show"></el-input> -->
+                 <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库">
+                <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="入库日期：" prop="inboundDate">
               <el-date-picker v-model="form.inboundDate" type="date" placeholder="请选择入库日期" style="width:100%" :disabled="show"></el-date-picker>

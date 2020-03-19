@@ -15,7 +15,7 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" ref="multipleTable" resizable border highlight-current-row class="tableHeight" :max-height="htable" :size="GlobalCss.buttonSize">
+      <el-table :data="tableData" ref="multipleTable" :height="tableHeight" resizable border highlight-current-row :max-height="htable" :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
         <!-- <el-table-column prop="partsImg" label="图片" width="70" sortable align="center">
           <template slot-scope="scope">

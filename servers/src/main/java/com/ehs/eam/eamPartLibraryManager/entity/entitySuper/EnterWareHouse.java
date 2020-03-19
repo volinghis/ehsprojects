@@ -27,8 +27,10 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String WAREHOUSE_CODE = "warehouseCode";
+	public static final String WAREHOUSE = "warehouse";
 	public static final String WAREHOUSE_NAME = "warehouseName";
 	public static final String INBOUND_TYPE = "inboundType";
+	public static final String INBOUND_TYPE_NAME = "inboundTypeName";
 	public static final String INBOUND_DATE = "inboundDate";
 	public static final String STATUS = "status";
 	public static final String FOUNDER = "founder";
@@ -44,9 +46,12 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 	 */
 	private String inboundType;
 	
+	private String inboundTypeName;
+	
 	/**
 	 * 所在仓库
 	 */
+	private String warehouse;
 	private String warehouseName;
 	
 	/**
@@ -85,6 +90,22 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 
 	public void setInboundType(String inboundType) {
 		this.inboundType = inboundType;
+	}
+
+	public String getInboundTypeName() {
+		return inboundTypeName;
+	}
+
+	public void setInboundTypeName(String inboundTypeName) {
+		this.inboundTypeName = inboundTypeName;
+	}
+	
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
 	}
 
 	public String getWarehouseName() {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -81,6 +82,15 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	public void saveEnterWareHouse(EnterWareHouserBean wareHouserBean) {
 		logger.info("============准备开始入库流程==========");
 		if(wareHouserBean.getEnterWareHouse() != null) {
+			EnterWareHouse eHouse = wareHouserBean.getEnterWareHouse();
+			DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,eHouse.getWarehouse());
+			if (dataDictionary != null) {
+				eHouse.setWarehouseName(dataDictionary == null ? "" : dataDictionary.getText());
+			}
+			DataDictionary dd = baseCommonService.findByKey(DataDictionary.class,eHouse.getInboundType());
+			if (dd != null) {
+				eHouse.setInboundTypeName(dd == null ? "" : dd.getText());
+			}
 			ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getEnterWareHouse(), wareHouserBean.getFlowProcessInfo());
 			if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 				logger.info("备件信息不为空");
@@ -117,7 +127,7 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 							//相同编号下相同价格
 							logger.info("编码相同，价格相同的时候");
 							pa.setAmount(new Integer(pa.getAmount().intValue() + pExtends.getAmount().intValue()));
-							pa.setDummyAmount(new Integer(pa.getAmount().intValue() + pExtends.getAmount().intValue()));
+							pa.setDummyAmount(new Integer(pa.getDummyAmount().intValue() + pExtends.getAmount().intValue()));
 							logger.info("总数量为========="+pa.getAmount());
 							logger.info("虚拟总数量为========="+pa.getDummyAmount());
 							baseCommonService.saveOrUpdate(pa);
@@ -143,9 +153,7 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 			account.setInboundType(eHouse.getInboundType());
 			account.setInboundDate(eHouse.getInboundDate());
 			//备件扩展表存入备件台账
-			account.setMaintenancesStandard(pExtends.getMaintenancesStandard());
-			account.setSynopsis(pExtends.getSynopsis());
-			account.setOperationManual(pExtends.getOperationManual());
+			account.setFileId(pExtends.getFileId());
 			account.setDeviceCode(pExtends.getDeviceCode());
 			account.setDeviceName(pExtends.getDeviceName());
 			account.setNorm(pExtends.getNorm());

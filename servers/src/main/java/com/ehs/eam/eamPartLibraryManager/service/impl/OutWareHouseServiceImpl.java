@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
@@ -95,6 +96,14 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean) {
 		logger.info("=======准备开始出库流程========");
 		if (wareHouserBean.getOutWareHouse() != null) {
+			DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,wareHouserBean.getOutWareHouse().getOutWarehouse());
+			if (dataDictionary != null) {
+				wareHouserBean.getOutWareHouse().setOutWarehouseName(dataDictionary == null ? "" : dataDictionary.getText());
+			}
+			DataDictionary dd = baseCommonService.findByKey(DataDictionary.class,wareHouserBean.getOutWareHouse().getOutBoundType());
+			if (dd != null) {
+				wareHouserBean.getOutWareHouse().setOutBoundTypeName(dd == null ? "" : dd.getText());
+			}
 			OrgUser user = baseCommonService.findByKey(OrgUser.class, wareHouserBean.getOutWareHouse().getReceiveEmpCode());
 			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
 			wareHouserBean.getOutWareHouse().setReceiveDepart(org.getName());
