@@ -138,6 +138,7 @@
     <div class="item-block right">
       <FilesTable :fileId="form.fileId"
                   :deviceKey="deviceKey"
+                  @removedFileId="removedFileId"
                   @getFileId="allFileId"
                   :isDisable="false"></FilesTable>
     </div>

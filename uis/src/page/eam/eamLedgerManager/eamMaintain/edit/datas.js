@@ -20,7 +20,6 @@ export default {
       inspectorsDatas: [],
       relatedKyes: '',
       deviceKey: '',
-      fileIds: '',
       imgUrl: '',
       deviceAddress: [],
       deviceSystem: [],
@@ -108,7 +107,23 @@ export default {
       this.relatedKyes = data
     },
     allFileId (v) {
-      this.fileIds = v
+      if (this.form.fileId !== '') {
+        this.form.fileId += ',' + v
+      } else {
+        this.form.fileId = v
+      }
+    },
+    removedFileId (v) {
+      var temp = this.form.fileId
+      if (temp !== '') {
+        var l = temp.split(',').filter(t => {
+          return t !== v
+        })
+        this.form.fileId = l.join(',')
+      } else {
+        this.form.fileId = ''
+      }
+      console.log(this.form.fileId)
     },
     getDevicePicture (deviceImg) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + deviceImg, { responseType: 'blob' }).then(res => {
@@ -146,12 +161,12 @@ export default {
           const reqBean = {
             eamLedgerLast: this.form,
             eamLedger: this.form,
-            fileIds: this.fileIds,
             deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas,
             flowProcessInfo: process
           }
+          console.log(reqBean)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/saveEamLedger', reqBean).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

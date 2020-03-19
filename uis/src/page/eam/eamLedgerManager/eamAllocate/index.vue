@@ -26,6 +26,7 @@
         <el-table :data="tableData"
                   style="width: 100%"
                   border
+                  :row-class-name="tableRowClassName"
                   @select="onChange"
                   size="medium">
           <el-table-column type="selection"

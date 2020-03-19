@@ -102,30 +102,26 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
 		String newKeys = "";
-		String fileId = "";
 		String oldKeys = reqEamLedger.getRefDeviceKey();
-		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
-			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
-		} else {
-			newKeys = eamRequestBean.getDeviceKeys();
-		}
-		if (StringUtils.isNotBlank(reqEamLedger.getFileId())) {// 关联文件的保存
-			fileId = new StringBuffer(reqEamLedger.getFileId()).append(",").append(eamRequestBean.getFileIds())
-					.toString();
-		} else {
-			fileId = eamRequestBean.getFileIds();
-		}
-		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,
-				reqEamLedger.getInstallLocation());
-		reqEamLedger.setInstallLocationName(dataDictionary == null ? "" : dataDictionary.getText());
-		reqEamLedger.setFileId(fileId);
-		reqEamLedger.setRefDeviceKey(newKeys);
 		// 设备新建的时候初始化的值
 		String deviceNum = BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
 			reqEamLedger.setDeviceStatus("正常");
 			reqEamLedger.setDeviceNum(deviceNum);
+		} else {
+			EamLedger eLedger = baseCommonService.findByKey(EamLedger.class, reqEamLedger.getKey());
+			BeanUtils.copyProperties(reqEamLedger, eLedger);
+			reqEamLedger=eLedger;
 		}
+		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
+			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
+		} else {
+			newKeys = eamRequestBean.getDeviceKeys();
+		}
+		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,reqEamLedger.getInstallLocation());
+		reqEamLedger.setInstallLocationName(dataDictionary == null ? "" : dataDictionary.getText());
+		reqEamLedger.setRefDeviceKey(newKeys);
+
 		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqEamLedger, eamRequestBean.getFlowProcessInfo());
 		String entityKey = "";

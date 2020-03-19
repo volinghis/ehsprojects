@@ -57,7 +57,7 @@ export default {
       var time = utils.getDiffDays(row.applicationTime, this.curTime)
       if (row.status === '填写单据') {
         return 'ehs-message-info-yellow'
-      } else if (time >= 7) {
+      } else if (time >= 7 && row.status !== '已结束') {
         return 'danger-row'
       }
       return ''

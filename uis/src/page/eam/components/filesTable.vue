@@ -184,12 +184,11 @@ export default {
         d = d.length > 0 ? d.substring(1) : ''
         this.$emit('getFileId', d)
       } else {
-        console.log('第一步')
         if (this.deviceKey !== '') {
-          console.log('第二步')
           this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeRefFile', { params: { deviceKey: this.deviceKey, key: row.fileId } }).then(res => {
             if (res.data.resultType === 'ok') {
               this.filesTableData.splice(index, 1)
+              this.$emit('removedFileId', row.fileId)
               this.$message({
                 message: res.data.message,
                 type: 'success'
