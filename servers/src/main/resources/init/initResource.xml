@@ -94,6 +94,9 @@
 		
 		<menu dataCode="personJob" key="personJob" name="个人工作台" url="" icon="fa-wrench" leaf="false" sort="9994">
 			<menu dataCode="eamCheckTask" key="eamCheckTask" name="巡检任务" url="/eam/eamCheckTask/list/index" icon="fa-tasks" parentKey="personJob" sort="1"></menu>
+			<menu dataCode="eamCheckTaskEdit" key="eamCheckTaskEdit" name="巡检任务编辑" url="/eam/eamCheckTask/edit/index" icon="fa-tasks" parentKey="personJob" sort="1" business="true"></menu>
+			<menu dataCode="eamCheckTaskView" key="eamCheckTaskView" name="巡检任务查看" url="/eam/eamCheckTask/view/index" icon="fa-tasks" parentKey="personJob" sort="2" business="true"></menu>
+			
 			
 		</menu>
 		

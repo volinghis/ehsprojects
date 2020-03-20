@@ -71,10 +71,16 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 				if(!d.isDeleted()) {
 					desCount=0;
 				}
-				if(StringUtils.isBlank(d.getTaskKey())) {
-					d.setTaskKey(t.getKey());
+				if(StringUtils.isNotBlank(d.getId())&&d.isDeleted()) {
+					baseCommonService.deleteByKey(EamCheckDefect.class,d.getKey());
 				}
-				baseCommonService.saveOrUpdate(d);
+				if(!d.isDeleted()) {
+					if(StringUtils.isBlank(d.getTaskKey())) {
+						d.setTaskKey(t.getKey());
+					}
+					baseCommonService.saveOrUpdate(d);
+				}
+				
 			}
 		}
 		if(desCount>0) {
@@ -90,10 +96,15 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 				if(!r.isDeleted()) {
 					ecrCount=0;
 				}
-				if(StringUtils.isBlank(r.getTaskKey())) {
-					r.setTaskKey(t.getKey());
+				if(StringUtils.isNotBlank(r.getId())&&r.isDeleted()) {
+					baseCommonService.deleteByKey(EamCheckRepair.class,r.getKey());
 				}
-				baseCommonService.saveOrUpdate(r);
+				if(!r.isDeleted()) {
+					if(StringUtils.isBlank(r.getTaskKey())) {
+						r.setTaskKey(t.getKey());
+					}
+					baseCommonService.saveOrUpdate(r);
+				}
 
 			}
 		}

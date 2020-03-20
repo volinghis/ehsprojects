@@ -108,6 +108,7 @@ public class EamCheckPlanController {
 	public String getPlan(HttpServletRequest request) {
 		try {
 			String key=request.getParameter("key");
+			System.out.println(key);
 			if(StringUtils.isBlank(key)) {
 				return "{}";
 			}
@@ -228,6 +229,7 @@ public class EamCheckPlanController {
 	@RequestAuth(menuKeys ={"eamCheckPlan"})
 	@RequestMapping(value = "/eam/checks/plan/sendTask")
 	public String sendTask(@RequestBody EamCheckPlan eamCheckPlan, HttpServletRequest request) {
+
 		ResultBean resultBean=new ResultBean();
 		try {
 			eamCheckPlanService.sendTask(eamCheckPlan);

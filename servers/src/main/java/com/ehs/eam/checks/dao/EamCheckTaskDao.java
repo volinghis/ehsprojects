@@ -23,10 +23,11 @@ public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 			+" or ( 'THREE'=:times and to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") > (to_days(current_date())-3))  "
 			+" or ( 'SEVEN'=:times and to_days(t."+EamCheckTask.OWNER_CREATION_TIME+") > (to_days(current_date())-7))  "
 			+ " ) "
-			+" and ( 'ALL'=:owners"
+			+" and ( 'ALL'=:owners and (:userKey  = t."+EamCheckTask.USER+" or LOCATE(:userKey,flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+")>0 )"
 			+" or ( 'EXECUTE'=:owners and :userKey  = t."+EamCheckTask.USER+") "
 			+" or ( 'APPROVE'=:owners and :userKey <>  t."+EamCheckTask.USER+" and LOCATE(:userKey,flowProcessInfo."+FlowProcessInfo.FLOW_PERSONS+")>0 )"
 			+ " ) "
+
 			+" and ( 'ALL'=:checks "
 			+" or ('INCLUDE'=:checks and t."+EamCheckTask.REPAIRS+" = 1)"
 			+" or ('EXCLUDE'=:checks and t."+EamCheckTask.REPAIRS+" = 0)"

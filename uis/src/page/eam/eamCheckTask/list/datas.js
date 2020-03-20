@@ -1,3 +1,4 @@
+
 export default {
   data () {
     return {
@@ -33,20 +34,60 @@ export default {
   },
   methods: {
     transFlow (row) {
-      if ((!row.flowProcessInfo) || !row.flowProcessInfo.flowCurrentStep) {
+      if ((!row.flowProcessInfo) || (!row.flowProcessInfo.flowCurrentStep) || row.flowProcessInfo.flowCurrentStep === 'DRAFT') {
         return '未开始'
       }
       return row.flowProcessInfo.flowCurrentStepName
     },
-
+    viewEnable (row) {
+      return !!row.flowProcessInfo
+    },
+    approve (row) {
+      var that = this
+      if (row.flowProcessInfo.flowStartActivityId === row.flowProcessInfo.flowCurrentStep) {
+        this.GlobalMethods.openFlowWin(row.flowProcessInfo.flowEditPage, row.flowProcessInfo, function () {
+          that.flushData()
+        })
+      } else {
+        this.GlobalMethods.openFlowWin(row.flowProcessInfo.flowViewPage, row.flowProcessInfo, function () {
+          that.flushData()
+        })
+      }
+    },
+    view (row) {
+      var that = this
+      this.GlobalMethods.openFlowWin(row.flowProcessInfo.flowViewPage, row.flowProcessInfo, function () {
+        that.flushData()
+      })
+    },
+    execute (row) {
+      var that = this
+      var processInfo = {}
+      processInfo.processDefineKey = 'EamCheckTask'
+      processInfo.businessEntityKey = row ? row.key : ''
+      this.GlobalMethods.openFlowWin('eamCheckTaskEdit', processInfo, function () {
+        that.flushData()
+      })
+    },
+    executeEnable (row) {
+      if (((!row.flowProcessInfo) || row.flowProcessInfo.flowCurrentStep === 'DRAFT') && row.user === JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).userKey) {
+        return true
+      }
+      return false
+    },
+    approveEnable (row) {
+      if (row.flowProcessInfo && row.flowProcessInfo.flowCurrentStep !== 'DRAFT' && row.flowProcessInfo.flowCurrentUser === JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).userKey) {
+        return true
+      }
+      return false
+    },
     sortchange (v) {
       var cl = v.prop
-
       this.queryBean.sort = { prop: cl, order: v.order }
       this.flushData()
     },
     add () {
-      this.$router.push({ name: 'eamCheckPlanEdit' })
+      this.execute()
     },
 
     changePage (v) {
@@ -59,19 +100,35 @@ export default {
         .then(res => {
           this.tasks = res.data.dataList
           if (this.tasks) {
+            var applyList = []
+            var flowInfoApplyList = []
             for (var i = 0; i < this.tasks.length; i++) {
               var t = this.tasks[i]
               if (t.planKey) {
-                this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getPlan?key=' + t.planKey).then(res => {
-                  t.eamCheckPlan = res.data
-                })
+                applyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getPlan?key=' + t.planKey)])
               }
               if (t.flowProcessInfoKey) {
-                this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowProcessInfo/findFlowProcessInfoByKey?key=' + t.flowProcessInfoKey).then(res => {
-                  t.flowProcessInfo = res.data
-                })
+                flowInfoApplyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowProcessInfo/findFlowProcessInfoByKey?key=' + t.flowProcessInfoKey)])
               }
             }
+            this.$axios.all(
+              applyList.map(e => {
+                return e[1]
+              })
+            ).then(function (resArr) {
+              resArr.forEach(function (ress, k) {
+                applyList[k][0].eamCheckPlan = ress.data
+              })
+            })
+            this.$axios.all(
+              flowInfoApplyList.map(e => {
+                return e[1]
+              })
+            ).then(function (resArr) {
+              resArr.forEach(function (ress, k) {
+                flowInfoApplyList[k][0].flowProcessInfo = ress.data
+              })
+            })
           }
           this.queryBean.totalCount = res.data.totalCount
         })

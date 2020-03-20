@@ -3,6 +3,7 @@ package com.ehs.eam.checks.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
+import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.checks.bean.CheckTaskQueryBean;
+import com.ehs.eam.checks.entity.EamCheckPlan;
+import com.ehs.eam.checks.entity.EamCheckTask;
 import com.ehs.eam.checks.service.EamCheckTaskService;
 
 @RestController
@@ -23,6 +27,9 @@ public class EamCheckTaskController {
 	
 	@Resource
 	private EamCheckTaskService eamCheckTaskService;
+	
+	@Resource
+	private BaseCommonService baseCommonService;
 	
 	/**
 	 * 
@@ -52,5 +59,20 @@ public class EamCheckTaskController {
 			logger.error(ex.getMessage());
 		}
 		return "[]";
+	}
+	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/eam/checks/plan/getTask")
+	public String getTask(HttpServletRequest request) {
+		try {
+			String key=request.getParameter("key");
+			if(StringUtils.isBlank(key)) {
+				return "{}";
+			}
+			EamCheckTask task=baseCommonService.findByKey(EamCheckTask.class, key);
+			return (task==null?"{}":JsonUtils.toJsonString(task));
+		}catch(Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return "{}";
 	}
 }

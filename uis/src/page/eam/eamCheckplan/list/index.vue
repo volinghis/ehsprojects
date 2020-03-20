@@ -29,7 +29,7 @@
               <el-radio border label="DISABLE">停止</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="执行状况" >
+          <el-form-item label="计划时效" >
             <el-radio-group v-model="queryBean.executes" @change="flushData()">
                <el-radio border label="ALL">全部</el-radio>
               <el-radio border label="EFFECTIVE">有效</el-radio>

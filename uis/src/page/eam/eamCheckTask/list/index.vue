@@ -62,7 +62,8 @@
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">
-          <el-link type="primary">{{scope.row.name}}</el-link>
+          <el-link type="primary" v-if="viewEnable(scope.row)">{{scope.row.name}}</el-link>
+          <span v-if="!viewEnable(scope.row)">{{scope.row.name}}</span>
         </template>
 
       </el-table-column>
@@ -81,7 +82,11 @@
       <el-table-column align="center" prop="userName" width="160" sortable="custom" label="提交人"></el-table-column>
       <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="任务创建时间">
       </el-table-column>
-      <el-table-column align="center" width="60" fixed="right" label="操作">
+      <el-table-column align="center" width="80" fixed="right" label="操作">
+         <template slot-scope="scope">
+             <el-button type="primary"  @click="execute(scope.row)" size="mini" title="执行" v-if="executeEnable(scope.row)" icon="el-icon-edit" circle></el-button>
+             <el-button type="primary"  @click="approve(scope.row)" size="mini" title="处理" v-if="approveEnable(scope.row)" icon="el-icon-check" circle></el-button>
+        </template>
       </el-table-column>
     </el-table>
     <div class="bottomPanel">

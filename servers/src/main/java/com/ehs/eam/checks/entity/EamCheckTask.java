@@ -79,17 +79,17 @@ public class EamCheckTask extends EamCheckTaskSuper{
 
 	@Override
 	public String getFlow() {
-		return null;
+		return "EamCheckTask";
 	}
 
 	@Override
 	public String getEditPage() {
-		return null;
+		return "eamCheckTaskEdit";
 	}
 
 	@Override
 	public String getViewPage() {
-		return null;
+		return "eamCheckTaskView";
 	}
 
 }
