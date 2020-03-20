@@ -56,17 +56,19 @@ export default {
     },
     findTypeUrl (fileType) {
       if (fileType === 'txt') {
-        return require('@/assets/images/fileType/txt.png')
+        return require('@/assets/images/fileType/txt.svg')
       } else if (fileType === 'doc' || fileType === 'docx') {
-        return require('@/assets/images/fileType/word.png')
+        return require('@/assets/images/fileType/word.svg')
       } else if (fileType === 'xls' || fileType === 'xlsx') {
-        return require('@/assets/images/fileType/excle.png')
+        return require('@/assets/images/fileType/excel.svg')
       } else if (fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg') {
-        return require('@/assets/images/fileType/img.png')
+        return require('@/assets/images/fileType/img.svg')
       } else if (fileType === 'pdf') {
-        return require('@/assets/images/fileType/pdf.png')
+        return require('@/assets/images/fileType/pdf.svg')
       } else if (fileType === 'pptx') {
-        return require('@/assets/images/fileType/ppt.png')
+        return require('@/assets/images/fileType/ppt.svg')
+      } else {
+        return require('@/assets/images/fileType/unknow.svg')
       }
     },
     handlePageChange: function (v) {
