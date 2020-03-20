@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -19,7 +22,6 @@ import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.dao.EnterWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.OutWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
-import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService;
@@ -71,57 +73,73 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 
 	@Override
 	public PageInfoBean getAllEnterWareHouseParts(QueryBean queryBean) {
-		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		List<EnterWareHouse> enterWareHouses = ewhDao.findAll();
-		List<PartsExtends> list = new ArrayList();
-		if(enterWareHouses != null) {
-			for (EnterWareHouse enterWareHouse : enterWareHouses) {
-				List<PartsExtends> partsExtends = partsExtendsDao.getExtendsByKey(enterWareHouse.getKey());
-				if (partsExtends != null) {
-					for (PartsExtends partsExtends2 : partsExtends) {
-						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
-						if(fpi!=null && enterWareHouse !=null) {
-							switch (fpi.getFlowCurrentStep()) {
-							case "END":
-								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								
-								break;
-							case "usertask2":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								break;
-							case "usertask1":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								break;
-							default:
-								break;
-							}
-						}
-					}
-				}
-				list.addAll(partsExtends);
-			}
-			if(StringUtils.isNotBlank(queryBean.getQuery())) {
-				List<PartsExtends> ppExtends =list.stream().filter(s -> StringUtils.contains(s.getDeviceCode(), queryBean.getQuery()) || StringUtils.contains(s.getDeviceName(), queryBean.getQuery())).collect(Collectors.toList());
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(ppExtends);
-				pb.setTotalCount(ppExtends.size());
-				return pb;
-			}else {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(list);
-				pb.setTotalCount(list.size());
-				return pb;
-			}
+		Pageable pb = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize(), queryBean.getSortForJpaQuery());
+		Page<PartsExtends> partsExtends = partsExtendsDao.findAll(queryBean.getQuery(),
+				queryBean.getWarehouses(),
+				queryBean.getInBoundTypes(),
+				queryBean.getStatusAll(),
+				pb);
+		System.out.println("partsExtends====="+JsonUtils.toJsonString(partsExtends));
+		System.out.println("partsExtends====="+JsonUtils.toJsonString(partsExtends.getContent()));
+		if(partsExtends != null) {
+			PageInfoBean pib=new PageInfoBean();
+			pib.setDataList(partsExtends.getContent());
+			pib.setTotalCount(partsExtends.getTotalElements());
+			System.out.println("pib.getTotalCount()====="+pib.getTotalCount());
+			return pib;
 		}
+		
+//		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
+//		List<EnterWareHouse> enterWareHouses = ewhDao.findAll();
+//		List<PartsExtends> list = new ArrayList();
+//		if(enterWareHouses != null) {
+//			for (EnterWareHouse enterWareHouse : enterWareHouses) {
+//				List<PartsExtends> partsExtends = partsExtendsDao.getExtendsByKey(enterWareHouse.getKey());
+//				if (partsExtends != null) {
+//					for (PartsExtends partsExtends2 : partsExtends) {
+//						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
+//						if(fpi!=null && enterWareHouse !=null) {
+//							switch (fpi.getFlowCurrentStep()) {
+//							case "END":
+//								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
+//								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+//								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+//								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+//								
+//								break;
+//							case "usertask2":
+//								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+//								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+//								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+//								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+//								break;
+//							case "usertask1":
+//								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+//								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+//								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+//								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+//								break;
+//							default:
+//								break;
+//							}
+//						}
+//					}
+//				}
+//				list.addAll(partsExtends);
+//			}
+//			if(StringUtils.isNotBlank(queryBean.getQuery())) {
+//				List<PartsExtends> ppExtends =list.stream().filter(s -> StringUtils.contains(s.getDeviceCode(), queryBean.getQuery()) || StringUtils.contains(s.getDeviceName(), queryBean.getQuery())).collect(Collectors.toList());
+//				PageInfoBean pb=new PageInfoBean();
+//				pb.setDataList(ppExtends);
+//				pb.setTotalCount(ppExtends.size());
+//				return pb;
+//			}else {
+//				PageInfoBean pb=new PageInfoBean();
+//				pb.setDataList(list);
+//				pb.setTotalCount(list.size());
+//				return pb;
+//			}
+//		}
 		return null;
 	}
 	
@@ -176,6 +194,15 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				pb.setTotalCount(list.size());
 				return pb;
 			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<PartsExtends> findByWareHouseKey(String wareHoseKey) {
+		List<PartsExtends> partsExtends = partsExtendsDao.getAllByWareHouseKey(wareHoseKey);
+		if(!CollectionUtils.isEmpty(partsExtends)) {
+			return partsExtends;
 		}
 		return null;
 	}

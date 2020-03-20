@@ -20,10 +20,67 @@ export default {
       })
     },
     getTableData: function () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.form).then(res => {
-        this.tableData = res.data.dataList
-        this.totalCount = this.tableData.length
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.queryBean).then(res => {
+        // console.log(res.data)
+        // console.log(res.data.dataList)
+        this.parts = res.data.dataList
+        this.queryBean.totalCount = res.data.totalCount
+        if (this.parts) {
+          var applyList = []
+          var flowInfoApplyList = []
+          for (var i = 0; i < this.parts.length; i++) {
+            var t = this.parts[i]
+            if (t.wareHouseKey) {
+              applyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey?key=' + t.wareHouseKey)])
+            }
+            console.log(t.flowProcessInfoKey)
+            if (t.flowProcessInfoKey) {
+              flowInfoApplyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowProcessInfo/findFlowProcessInfoByKey?key=' + t.flowProcessInfoKey)])
+            }
+          }
+          this.$axios.all(
+            applyList.map(e => {
+              return e[1]
+            })
+          ).then(function (resArr) {
+            resArr.forEach(function (ress, k) {
+              console.log(ress.data)
+              applyList[k][0].enterWareHouse = ress.data
+            })
+          })
+          this.$axios.all(
+            flowInfoApplyList.map(e => {
+              return e[1]
+            })
+          ).then(function (resArr) {
+            resArr.forEach(function (ress, k) {
+              console.log(ress.data)
+              flowInfoApplyList[k][0].flowProcessInfo = ress.data
+            })
+          })
+        }
       })
+    },
+    changePage (v) {
+      this.queryBean.page = v
+      this.getTableData()
+    },
+    transFlow (row) {
+      if ((!row.flowProcessInfo) || (!row.flowProcessInfo.flowCurrentStep) || row.flowProcessInfo.flowCurrentStep === 'DRAFT') {
+        return '未开始'
+      }
+      return row.flowProcessInfo.flowCurrentStepName
+    },
+    getWareHouseAndUseType: function () {
+      var that = this
+      this.$axios.all([
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=wareHouse'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=inBoundType')
+      ]).then(this.$axios.spread(function (wareHouse, inBoundType) {
+        // 上面两个请求都完成后，才执行这个回调方法
+        that.wareHouses = wareHouse.data
+        that.inTypes = inBoundType.data
+      }))
     },
     exportExcel: function (row) {
       this.$message({
@@ -33,7 +90,7 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       var date = new Date(row.creationTime.replace(/-/g, '/'))
-      if (this.nowTime <= (date.getTime() + 604800) && row.status !== '已结束') {
+      if (this.nowTime >= (date.getTime() + 604800) && row.status !== '已结束') {
         return 'ehs-message-info-error'
       } else if (row.status === '填写单据') {
         return 'ehs-message-info-yellow'
@@ -94,34 +151,30 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 400// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 300// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted: function () {
     this.getTableData()
+    this.getWareHouseAndUseType()
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
   },
   data () {
     return {
+      parts: [],
+      wareHouses: [],
+      inTypes: [],
       nowTime: '',
       state: '',
-      htable: ' ',
-      activeName: 'one',
-      queryParam: {},
-      totalCount: 0,
       tableData: [],
-      tableDataInfo: [],
-      customColors: [
-        { color: '#f56c6c', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 },
-        { color: '#6f7ad3', percentage: 100 }
-      ],
-      form: {
-        query: '',
+      queryBean: {
         page: 1,
-        size: 20
+        size: 20,
+        query: '',
+        wareHouses: 'ALL',
+        inBoundTypes: 'ALL',
+        statusAll: 'ALL',
+        totalCount: 0
       }
     }
   }

@@ -3,6 +3,7 @@ package com.ehs.eam.eamPartLibraryManager.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
+import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -44,6 +46,9 @@ public class EnterWareHouseController {
 	
 	@Resource
 	private EnterWareHouseService ewhService;
+	
+	@Resource
+	private BaseCommonService baseCommonService;
 	
 	@RequestAuth(menuKeys = {"enterWarehouse"})
 	@RequestMapping(value = "/getAll")
@@ -88,13 +93,19 @@ public class EnterWareHouseController {
 		return ewhFlowBean!=null?JsonUtils.toJsonString(ewhFlowBean):"{}";
 	}
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getEnterWareHouseByKey")
 	public String getEnterWareHouseByKey(@RequestParam String key) {
-		EnterWareHouse ewh=	ewhService.getEnterWareHouseByKey(key);
-		return ewh!=null?JsonUtils.toJsonString(ewh):"{}";
+		try {
+			if(StringUtils.isBlank(key)) {
+				return "{}";
+			}
+			EnterWareHouse enterWareHouse=baseCommonService.findByKey(EnterWareHouse.class, key);
+			return (enterWareHouse==null?"{}":JsonUtils.toJsonString(enterWareHouse));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return "{}";
 	}
-	
-	
 	
 }

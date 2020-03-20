@@ -38,6 +38,7 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	public static final String RECEIVE_DEPART_CODE = "receiveDepartCode";
 	public static final String RECEIVE_DEPART = "receiveDepart";
 	public static final String STATUS = "status";
+	public static final String STATUS_NAME = "statusName";
 	public static final String FOUNDER = "founder";
 
 	/**
@@ -87,6 +88,7 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 	 *申请状态
 	 */
 	private String status;
+	private String statusName;
 	
 	/**
 	 * 创建人
@@ -185,6 +187,14 @@ public abstract class OutWareHouse extends FlowBaseEntity {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
 
 	public String getFounder() {

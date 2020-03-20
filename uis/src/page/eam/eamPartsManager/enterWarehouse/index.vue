@@ -2,9 +2,43 @@
   <div class="cardHeight">
     <div class="fromHeight" style="margin: 0px 0px;">
       <div style="width:20%;float:left;">
-        <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入备件名称或者备件编号">
+        <!-- <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入备件名称或者备件编号">
           <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
-        </el-input>
+        </el-input> -->
+        <div class="queryBodys">
+          <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini"
+            label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+            <el-form-item label="仓库">
+              <el-radio-group v-model="queryBean.warehouse" @change="getTableData()">
+                <el-radio border label="ALL">全部</el-radio>
+                <el-radio border :key="item.key" :label="item.text" :value="item.key" v-for="item in wareHouses">{{item.text}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="入库类型">
+              <el-radio-group v-model="queryBean.inBoundType" @change="getTableData()">
+                <el-radio border label="ALL">全部</el-radio>
+                <el-radio border :key="item.key" :label="item.text" :value="item.key" v-for="item in inTypes">{{item.text}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="审批状态">
+              <el-radio-group v-model="queryBean.status" @change="getTableData()">
+                <el-radio border label="ALL">全部</el-radio>
+                <el-radio border label="userTask2">负责人审核</el-radio>
+                <el-radio border label="userTask1">已驳回</el-radio>
+                <el-radio border label="END">已结束</el-radio>
+                <el-radio border label="DISABLE">已超时</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-input v-model="queryBean.query" placeholder="请输入备件名称或者备件编号" style="width:61%;">
+              <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
+            </el-input>
+          </el-form>
+        <div class="ehs_form_item_message">
+          1)该列表显示展示所有设备信息。<br />
+          2)在该页面可以进行查询和设备更新操作。<br />
+          3)黄色代表已经驳回的任务，<span style="color:red;">红色</span>代表超过7天未处理的任务
+        </div>
+      </div>
       </div>
       <div class="operatorHeight" style="float:right;">
         <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>
@@ -12,9 +46,9 @@
       </div>
     </div>
     <template>
-      <el-table :data="tableData" resizable :height="tableHeight" highlight-current-row border :row-class-name="tableRowClassName" :size="GlobalCss.buttonSize" style="width: 100%;">
-        <el-table-column prop="wareHouseName" label="所在仓库" sortable align="center"></el-table-column>
-        <el-table-column prop="wareHouseCode" label="入库编号" sortable align="center">
+      <el-table :data="parts" resizable :height="tableHeight" border :row-class-name="tableRowClassName" :size="GlobalCss.buttonSize" style="width: 100%;">
+        <el-table-column prop="enterWareHouse.warehouseName" label="所在仓库" sortable align="center"></el-table-column>
+        <el-table-column prop="enterWareHouse.warehouseCode" label="入库编号" sortable align="center">
           <template slot-scope="scope">
             <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.wareHouseCode}}</el-link>
           </template>
@@ -29,7 +63,17 @@
         <el-table-column prop="price" label="单价" sortable align="center" width="90"></el-table-column>
         <el-table-column prop="unit" label="单位" sortable align="center" width="90"></el-table-column>
         <el-table-column prop="totalPrice" label="总价" sortable align="center" width="90"></el-table-column>
-        <el-table-column prop="status" label="任务状态" sortable align="center" width="110">
+        <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" width="100" sortable="custom" label="审批状态">
+          <template slot-scope="scope">
+            <span>{{transFlow(scope.row)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="flowProcessInfo.flowfCurrentStepName" width="100" sortable="custom" label="审批人">
+          <!-- <template slot-scope="scope">
+            <span>{{transFlow(scope.row)}}</span>
+          </template> -->
+        </el-table-column>
+        <!-- <el-table-column prop="status" label="任务状态" sortable align="center" width="110">
           <template slot-scope="scope">
             <div slot="reference">
               <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>
@@ -37,11 +81,11 @@
               <el-tag size="mini" v-else-if="(scope.row.status  === '填写单据')" type="warning">{{'已驳回'}}</el-tag>
             </div>
           </template>
-        </el-table-column>
-      <el-table-column prop="reviewer" label="审核人" sortable align="center"></el-table-column>
+        </el-table-column> -->
+      <!-- <el-table-column prop="reviewer" label="审核人" sortable align="center"></el-table-column> -->
     </el-table>
       <div style="text-align:right;">
-        <el-pagination class="pageHeight" background :current-page.sync="form.page" :page-size="form.size" layout="total, prev, pager, next" :total="totalCount"></el-pagination>
+        <el-pagination class="pageHeight" background :current-page.sync="queryBean.page" @current-change="changePage" :page-size="queryBean.size" layout="total, prev, pager, next" :total="queryBean.totalCount"></el-pagination>
       </div>
     </template>
   </div>

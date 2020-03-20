@@ -33,6 +33,7 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 	public static final String INBOUND_TYPE_NAME = "inboundTypeName";
 	public static final String INBOUND_DATE = "inboundDate";
 	public static final String STATUS = "status";
+	public static final String STATUS_NAME = "statusName";
 	public static final String FOUNDER = "founder";
 	public static final String REMARK = "remark";
 	
@@ -64,6 +65,7 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 	 *申请状态
 	 */
 	private String status;
+	private String statusName;
 	
 	/**
 	 * 创建人
@@ -146,6 +148,14 @@ public abstract class EnterWareHouse extends FlowBaseEntity {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
 
 	@Override

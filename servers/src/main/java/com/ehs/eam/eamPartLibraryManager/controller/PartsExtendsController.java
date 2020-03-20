@@ -1,9 +1,12 @@
 package com.ehs.eam.eamPartLibraryManager.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +17,9 @@ import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
+import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService;
 
 /**   
@@ -53,6 +58,8 @@ public class PartsExtendsController {
 	public String getAllEnterWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getAllEnterWareHouseParts方法=============");
 		PageInfoBean pb = partsExtendsService.getAllEnterWareHouseParts(queryBean);
+		System.out.println("pb====="+JsonUtils.toJsonString(pb));
+		logger.info("pb====="+JsonUtils.toJsonString(pb));
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
@@ -63,4 +70,5 @@ public class PartsExtendsController {
 		PageInfoBean pb = partsExtendsService.getAllOutWareHouseParts(queryBean);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
+	
 }

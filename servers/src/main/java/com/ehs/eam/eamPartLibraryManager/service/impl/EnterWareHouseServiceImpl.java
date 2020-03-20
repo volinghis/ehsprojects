@@ -198,13 +198,4 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 		return ewhFlowBean;
 	}
 
-	@Override
-	public EnterWareHouse getEnterWareHouseByKey(String key) {
-		EnterWareHouse  enterWareHouse=baseCommonService.findByKey(EnterWareHouse.class, key);
-		if (enterWareHouse != null) {
-			return enterWareHouse;
-		}
-		return null;
-	}
-		
 }

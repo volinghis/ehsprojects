@@ -17,6 +17,4 @@ public interface EnterWareHouseService {
 
 	public EnterWareHouseFlowBean getEnterWareHouseFlowBean(String key);
 
-	public EnterWareHouse getEnterWareHouseByKey(String key);
-
 }

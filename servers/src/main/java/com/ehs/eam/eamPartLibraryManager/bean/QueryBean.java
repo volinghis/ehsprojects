@@ -22,6 +22,21 @@ public class QueryBean extends PageBody {
 	 * 查询条件
 	 */
 	private  String query;
+	
+	/**
+	 * 所在仓库
+	 */
+	private String warehouses;
+	
+	/**
+	 * 入库类型
+	 */
+	private String inBoundTypes;
+	
+	/**
+	 * 任务状态
+	 */
+	private String statusAll;
 
 	public String getQuery() {
 		return query;
@@ -29,6 +44,30 @@ public class QueryBean extends PageBody {
 
 	public void setQuery(String query) {
 		this.query = query;
+	}
+
+	public String getWarehouses() {
+		return warehouses;
+	}
+
+	public void setWarehouses(String warehouses) {
+		this.warehouses = warehouses;
+	}
+
+	public String getInBoundTypes() {
+		return inBoundTypes;
+	}
+
+	public void setInBoundTypes(String inBoundTypes) {
+		this.inBoundTypes = inBoundTypes;
+	}
+
+	public String getStatusAll() {
+		return statusAll;
+	}
+
+	public void setStatusAll(String statusAll) {
+		this.statusAll = statusAll;
 	}
 	
 }
