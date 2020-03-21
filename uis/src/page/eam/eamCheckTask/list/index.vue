@@ -3,7 +3,7 @@
     <div class="topPanel">
 
       <div class="queryBodys">
-        <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
+        <el-form ref="ruleForm" style="width:800px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
           class="demo-ruleForm">
           <el-form-item label="任务时间">
             <el-radio-group v-model="queryBean.times" @change="flushData()">
@@ -16,10 +16,10 @@
            <el-form-item label="执行结果" >
             <el-radio-group v-model="queryBean.executeResult" @change="flushData()">
                  <el-radio border label="ALL">全部</el-radio>
-                <el-radio label="NORMAL">正常执行</el-radio>
-                <el-radio label="NOTEXECUTE_NOWORK">不执行-缺工</el-radio>
-                <el-radio label="NOTEXECUTE_PERSON_CHANGE">不执行-人员调离</el-radio>
-                <el-radio label="NOTEXECUTE_OTHER">不执行-其他</el-radio>
+                <el-radio border label="NORMAL">正常执行</el-radio>
+                <el-radio border label="NOTEXECUTE_NOWORK">不执行-缺工</el-radio>
+                <el-radio border label="NOTEXECUTE_PERSON_CHANGE">不执行-人员调离</el-radio>
+                <el-radio border label="NOTEXECUTE_OTHER">不执行-其他</el-radio>
             </el-radio-group>
           </el-form-item>
             <el-form-item label="任务分类">
@@ -71,18 +71,18 @@
     </div>
     <el-table :data="tasks" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange">
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
-      <el-table-column align="center" prop="name" sortable="custom" label="任务名称">
+      <el-table-column align="center" show-overflow-tooltip prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">
           <el-link type="primary" v-if="viewEnable(scope.row)">{{scope.row.name}}</el-link>
           <span v-if="!viewEnable(scope.row)">{{scope.row.name}}</span>
         </template>
 
       </el-table-column>
-      <el-table-column align="center" prop="eamCheckPlan.name" width="200" sortable="custom" label="计划名称">
+      <el-table-column align="center" show-overflow-tooltip  prop="eamCheckPlan.name" width="140" sortable="custom" label="计划名称">
       </el-table-column>
       <el-table-column align="center" prop="eamCheckPlan.ownerName" width="120" sortable="custom" label="计划创建人">
       </el-table-column>
-      <el-table-column align="center" prop="eamCheckPlan.ownerCreationTime" width="160" sortable="custom"
+      <el-table-column align="center" prop="eamCheckPlan.ownerCreationTime" width="140" sortable="custom"
         label="计划创建时间">
       </el-table-column>
       <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" width="100" sortable="custom" label="审批状态">
@@ -91,7 +91,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="userName" width="160" sortable="custom" label="提交人"></el-table-column>
-      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="任务创建时间">
+      <el-table-column align="center" prop="ownerCreationTime" width="140" sortable="custom" label="任务创建时间">
       </el-table-column>
       <el-table-column align="center" width="80" fixed="right" label="操作">
          <template slot-scope="scope">

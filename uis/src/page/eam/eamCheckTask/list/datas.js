@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 500// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 420// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted () {

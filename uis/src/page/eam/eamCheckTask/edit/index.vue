@@ -8,10 +8,10 @@
   </el-form-item>
   <el-form-item label="执行结果" >
     <el-radio-group v-model="ruleForm.result">
-      <el-radio label="NORMAL">正常执行</el-radio>
-      <el-radio label="NOTEXECUTE_NOWORK">不执行-缺工</el-radio>
-      <el-radio label="NOTEXECUTE_PERSON_CHANGE">不执行-人员调离</el-radio>
-      <el-radio label="NOTEXECUTE_OTHER">不执行-其他</el-radio>
+      <el-radio border label="NORMAL">正常执行</el-radio>
+      <el-radio border label="NOTEXECUTE_NOWORK">不执行-缺工</el-radio>
+      <el-radio border label="NOTEXECUTE_PERSON_CHANGE">不执行-人员调离</el-radio>
+      <el-radio border label="NOTEXECUTE_OTHER">不执行-其他</el-radio>
     </el-radio-group>
      <div class="ehs_form_item_message">请根据实际情况填写，正常执行的情况下，可以填写检修记录，缺陷，备件使用等信息</div>
   </el-form-item>
