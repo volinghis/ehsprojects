@@ -40,7 +40,7 @@ public class PageBody {
 				s = new Sort(Sort.Direction.ASC, sort.getProp());
 			}
 		}else {
-			s = new Sort(Sort.Direction.DESC, BaseEntity.CREATION_TIME);
+			s = new Sort(Sort.Direction.DESC, BaseEntity.BASE_SORT_NUM);
 		}
 		return s;
 
