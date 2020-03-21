@@ -16,6 +16,7 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	private String user;
 	private String userName;
 	private String org;
+	private String orgName;
 	private boolean repairs=false;
 	private boolean defects=false;
 	private boolean reserves=false;
@@ -24,10 +25,16 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	public final static String REPAIRS="repairs";
 	public final static String DEFECTS="defects";
 	public final static String RESERVES="reserves";
+	public final static String RESULT="result";
 	
 	
 	
-	
+	public String getOrgName() {
+		return orgName;
+	}
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
 	public boolean isRepairs() {
 		return repairs;
 	}

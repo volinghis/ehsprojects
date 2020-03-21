@@ -9,6 +9,16 @@ public class CheckTaskQueryBean extends PageBody{
     private String defects;
     private String revers;
     private String flowstatus;
+    private String executeResult;
+    
+    
+    
+	public String getExecuteResult() {
+		return executeResult;
+	}
+	public void setExecuteResult(String executeResult) {
+		this.executeResult = executeResult;
+	}
 	public String getTimes() {
 		return times;
 	}

@@ -4,7 +4,10 @@ export default {
       ruleForm: {
         result: '',
         name: '',
-        description: ''
+        description: '',
+        eamCheckRepair: [],
+        eamCheckDefect: [],
+        eamCheckReserveUsed: []
       },
       activeNames: ['rep', 'def', 'rev'],
       rules: {
@@ -21,7 +24,11 @@ export default {
   methods: {
     normalExecute () {
       return this.ruleForm.result === 'NORMAL'
+    },
+    init () {
+      this.ruleForm.result = 'NORMAL'
     }
+
   },
 
   mounted () {
@@ -33,8 +40,12 @@ export default {
       ]).then(this.$axios.spread(function (res) {
         // 上面两个请求都完成后，才执行这个回调方法
         that.ruleForm = Object.assign(that.ruleForm, res.data)
-        that.ruleForm.result = 'NORMAL'
+        if (!that.ruleForm.result) {
+          that.init()
+        }
       }))
+    } else {
+      this.init()
     }
   }
 }

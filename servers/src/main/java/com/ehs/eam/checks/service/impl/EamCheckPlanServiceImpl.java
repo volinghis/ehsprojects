@@ -159,6 +159,7 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 					  ect.setUser(o.getKey());
 					  ect.setUserName(o.getName());
 					  ect.setOrg(oi.getKey());
+					  ect.setOrgName(oi.getName());
 					  ect.setPlanKey(ecp.getKey());
 					  baseCommonService.saveOrUpdate(ect);
 				  }

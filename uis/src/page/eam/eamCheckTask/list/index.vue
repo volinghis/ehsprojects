@@ -13,6 +13,15 @@
               <el-radio border label="SEVEN">最近七天</el-radio>
             </el-radio-group>
           </el-form-item>
+           <el-form-item label="执行结果" >
+            <el-radio-group v-model="queryBean.executeResult" @change="flushData()">
+                 <el-radio border label="ALL">全部</el-radio>
+                <el-radio label="NORMAL">正常执行</el-radio>
+                <el-radio label="NOTEXECUTE_NOWORK">不执行-缺工</el-radio>
+                <el-radio label="NOTEXECUTE_PERSON_CHANGE">不执行-人员调离</el-radio>
+                <el-radio label="NOTEXECUTE_OTHER">不执行-其他</el-radio>
+            </el-radio-group>
+          </el-form-item>
             <el-form-item label="任务分类">
             <el-radio-group v-model="queryBean.owners" @change="flushData()">
                <el-radio border label="ALL">全部</el-radio>
@@ -41,6 +50,7 @@
               <el-radio border label="EXCLUDE">无</el-radio>
             </el-radio-group>
           </el-form-item>
+
            <el-form-item label="审批状态" >
             <el-radio-group v-model="queryBean.flowstatus" @change="flushData()">
                <el-radio border label="ALL">全部</el-radio>
@@ -49,6 +59,7 @@
                <el-radio border label="END">已结束</el-radio>
             </el-radio-group>
           </el-form-item>
+
         </el-form>
       </div>
       <div class="ehs_form_item_message">

@@ -9,6 +9,7 @@ export default {
         size: 20,
         times: 'ALL',
         owners: 'ALL',
+        executeResult: 'ALL',
         checks: 'ALL',
         defects: 'ALL',
         revers: 'ALL',
@@ -19,7 +20,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 450// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 500// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted () {

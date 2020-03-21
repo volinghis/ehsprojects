@@ -40,6 +40,7 @@ public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 			+" or ('INCLUDE'=:revers and t."+EamCheckTask.RESERVES+" = 1)"
 			+" or ('EXCLUDE'=:revers and t."+EamCheckTask.RESERVES+" = 0)"
 			+ " ) "
+			+" and ( 'ALL'=:executeResult  or t."+EamCheckTask.RESULT+" = :executeResult ) "
 			+" and ( 'ALL'=:flowstatus "
 			+" or ( 'DRAFT'=:flowstatus and (( ISNULL(flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+")=1 OR LENGTH(TRIM(flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+")) <=0) or flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_DRAFT+"' )  ) "
 			+" or ('END'=:flowstatus and (flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_CANCELED+"' or flowProcessInfo."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_END+"')  ) "
@@ -56,5 +57,6 @@ public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 			@Param("defects") String defects,
 			@Param("revers") String revers,
 			@Param("flowstatus") String flowstatus,
+			@Param("executeResult") String executeResult,
 			Pageable pageable);
 }
