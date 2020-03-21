@@ -6,10 +6,11 @@
   </el-steps></el-header>
       <el-container>
     <el-container>
-      <el-main> <router-view ref="flowContent"></router-view></el-main>
+      <el-main :style="pageHeight()"> <router-view ref="flowContent"></router-view></el-main>
     </el-container>
 
-    <div style="width:200px" class="ehs-flows-right" v-if="$store.state.showFlowEl">
+    <div :style="pageHeightWithWidth()"  class="ehs-flows-right" >
+
       <el-input
         type="textarea"
         v-model="vars.taskComment"

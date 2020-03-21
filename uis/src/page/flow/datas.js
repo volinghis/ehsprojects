@@ -3,6 +3,14 @@ export default {
 
   methods: {
 
+    pageHeight () {
+      return { height: ((document.body.offsetHeight > parseInt(this.GlobalCss.bodyMinHight) ? document.body.offsetHeight : parseInt(this.GlobalCss.bodyMinHight)) - 70) + 'px' }
+    },
+    pageHeightWithWidth () {
+      var h = this.pageHeight()
+      h.width = '200px'
+    },
+
     doneProcess (stepKey) {
       this.processInfo.vars = this.vars
       this.processInfo.vars.taskId = this.processInstance.activeTaskId
