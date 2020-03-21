@@ -54,6 +54,8 @@ public  abstract class BaseEntity implements java.io.Serializable{
 	public static final String CREATION_TIME = "creationTime" ;
 	public static final String DELETED = "deleted" ;
 	public static final String BASE_SORT_NUM="baseSortNum";
+	public static final String COMPLETE_POINT="completePoint";
+	
 	
 	
 

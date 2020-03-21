@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5"
+      <el-col :span="4"
               style="border-right:1px solid #DCDFE6;"
               :style="{height:(this.$store.state.contentHeight-10)+'px'}">
         <el-tabs v-model="activeName"
@@ -20,13 +20,57 @@
           </el-tab-pane>
         </el-tabs>
       </el-col>
-      <el-col :span="19">
-        <div class="ehs_form_item_message">
-          1)该列表显示展示所有设备信息。<br />2)在该页面只能进行查询和查看设备详情操作。
+      <el-col :span="20">
+        <div class="queryBodys">
+          <el-form ref="ruleForm"
+                   style="width:700px;"
+                   label-suffix="："
+                   label-position="left"
+                   size="mini"
+                   label-width="100px"
+                   :inline-message="true"
+                   :status-icon="true"
+                   class="demo-ruleForm">
+            <el-form-item label="投运时长">
+              <el-radio-group v-model="queryParam.time"
+                              @change="initTable()">
+                <el-radio border
+                          label="ALL">全部</el-radio>
+                <el-radio border
+                          label="Y">&lt; 1年</el-radio>
+                <el-radio border
+                          label="LTY">&lt; 3年</el-radio>
+                <el-radio border
+                          label="GTY">&gt;= 3年</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="设备状态">
+              <el-radio-group v-model="queryParam.status"
+                              @change="initTable()">
+                <el-radio border
+                          label="ALL">全部</el-radio>
+                <el-radio border
+                          label="正常">正常</el-radio>
+                <el-radio border
+                          label="已报废">已报废</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="资料完整度">
+              <el-radio-group v-model="queryParam.complete"
+                              @change="initTable()">
+                <el-radio border
+                          label="ALL">全部</el-radio>
+                <el-radio border
+                          label="LTHALF">&lt;50%</el-radio>
+                <el-radio border
+                          label="GTHALF">&gt;50%</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
         </div>
         <div class="table-search-wrapper">
           <el-input placeholder="根据设备名称查询"
-                    v-model="queryParam.query">
+                    v-model="queryParam.name">
             <template slot="append">
               <el-button type="primary"
                          :size="GlobalCss.buttonSize"
@@ -35,6 +79,9 @@
               </el-button>
             </template>
           </el-input>
+          <div class="ehs_form_item_message">
+            1)该列表显示展示所有设备信息;<br />2)可以点击左侧树结构，选择条件来查询;<br />3)也可以根据设备的投运时长，设备状态和资料完整度详情操作。
+          </div>
         </div>
         <!-- <div class="operate">
       <el-button type="success"
@@ -48,7 +95,6 @@
                       style="width: 100%"
                       border
                       highlight-current-row
-                      @current-change="handleCurrentChange"
                       :size="GlobalCss.buttonSize">
               <el-table-column type="index"
                                align="center"

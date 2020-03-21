@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.aspose.slides.internal.a.a;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.data.entity.DataDictionary;
@@ -101,19 +102,24 @@ public class EamAllocateServiceImpl implements EamAllocateService {
 	 * @see com.ehs.eam.eamLedgerManager.service.EamAllocateService#findEamAllocateList(com.ehs.eam.eamLedgerManager.bean.EamAllocateQueryBean)
 	 */
 	@Override
-	public PageInfoBean findEamAllocateList(EamAllocateQueryBean AllocateQueryBean) {
+	public PageInfoBean findEamAllocateList(EamAllocateQueryBean allocateQueryBean) {
 		// TODO Auto-generated method stub
-		PageRequest pageRequest = PageRequest.of(AllocateQueryBean.getPage() - 1, AllocateQueryBean.getSize());
-		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(AllocateQueryBean.getQuery(), pageRequest);
+		PageRequest pageRequest = PageRequest.of(allocateQueryBean.getPage() - 1, allocateQueryBean.getSize(),allocateQueryBean.getSortForJpaQuery());
+		Page<EamAllocate> eamAllocateage = eamAllocateDao.findEamAllocateList(allocateQueryBean.getQuery(),allocateQueryBean.getStatus(), pageRequest);
 		if (eamAllocateage != null) {
 			List<EamAllocate> resList = eamAllocateage.getContent();
 			for (EamAllocate el : resList) {
 				FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(el.getKey());
 				if (fpi != null) {
-					el.setStatus(fpi.getFlowCurrentStepName());
 					if (StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
 						el.setCurrentStepPerson(fpi.getFlowPrevPersonName());
-					} else {
+						el.setStatus(fpi.getFlowCurrentStepName());
+					} else if (StringUtils.equals(fpi.getFlowCurrentStep(), "usertask1")){
+						el.setStatus("已驳回");
+						el.setAllocateDate(fpi.getCreationTime());
+						el.setCurrentStepPerson(fpi.getFlowPrevPersonName());
+					}else {
+						el.setStatus(fpi.getFlowCurrentStepName());
 						el.setCurrentStepPerson(fpi.getFlowCurrentPersonName());
 					}
 				}

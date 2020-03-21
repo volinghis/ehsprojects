@@ -10,6 +10,8 @@ package com.ehs.eam.eamLedgerManager.bean;
 
 import java.util.List;
 
+
+
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
 * @ClassName: TreeDataBean.java
@@ -28,6 +30,8 @@ public class TreeDataBean {
 
 	private String id;
 	
+	private String pid;
+	
 	private String label;
 	
 	private List<TreeDataBean> children;
@@ -42,8 +46,9 @@ public class TreeDataBean {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public TreeDataBean setId(String id) {
 		this.id = id;
+		return this;
 	}
 
 	/**
@@ -56,8 +61,9 @@ public class TreeDataBean {
 	/**
 	 * @param label the label to set
 	 */
-	public void setLabel(String label) {
+	public TreeDataBean setLabel(String label) {
 		this.label = label;
+		return this;
 	}
 
 	/**
@@ -70,8 +76,24 @@ public class TreeDataBean {
 	/**
 	 * @param children the children to set
 	 */
-	public void setChildren(List<TreeDataBean> children) {
+	public TreeDataBean setChildren(List<TreeDataBean> children) {
 		this.children = children;
+		return this;
+	}
+
+	/**
+	 * @return the pid
+	 */
+	public String getPid() {
+		return pid;
+	}
+
+	/**
+	 * @param pid the pid to set
+	 */
+	public TreeDataBean setPid(String pid) {
+		this.pid = pid;
+		return this;
 	}
 	
 }

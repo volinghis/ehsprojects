@@ -27,7 +27,9 @@ import com.ehs.common.oper.bean.PageBody;
 public class EamAllocateQueryBean extends PageBody {
 
 	private String query;
-
+	
+	private String status;
+	
 	/**
 	 * @return the query
 	 */
@@ -40,6 +42,20 @@ public class EamAllocateQueryBean extends PageBody {
 	 */
 	public void setQuery(String query) {
 		this.query = query;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

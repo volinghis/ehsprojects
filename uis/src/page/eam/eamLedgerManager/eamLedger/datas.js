@@ -8,9 +8,13 @@ export default {
       queryParam: {
         size: 10,
         page: 1,
-        query: '',
-        profession: '',
-        deviceSystem: ''
+        name: '',
+        address: 'ALL',
+        profession: 'ALL',
+        deviceSystem: 'ALL',
+        complete: 'ALL',
+        status: 'ALL',
+        time: 'ALL'
       },
       defaultProps: {
         children: 'children',
@@ -54,11 +58,23 @@ export default {
       this.initTable()
     },
     handleFirstNodeClick (v) {
-      this.queryParam.profession = v.label
+      if (v.children !== null) {
+        this.queryParam.address = v.id
+        this.queryParam.profession = 'ALL'
+      } else {
+        this.queryParam.profession = v.label
+        this.queryParam.address = v.pid
+      }
       this.initTable()
     },
     handleSecondNodeClick (v) {
-      this.queryParam.deviceSystem = v.label
+      if (v.children !== null) {
+        this.queryParam.address = v.id
+        this.queryParam.deviceSystem = 'ALL'
+      } else {
+        this.queryParam.deviceSystem = v.label
+        this.queryParam.address = v.pid
+      }
       this.initTable()
     },
     inintTree () {
@@ -74,9 +90,6 @@ export default {
     },
     handleLink (row) {
       this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })
-    },
-    handleCurrentChange (val) { // 联动检修记录
-      this.tableId = val.id
     },
     handleExport () {
       this.$message({

@@ -8,8 +8,8 @@ export default {
       queryParam: {
         page: 1,
         size: 10,
-        query: ''
-
+        query: '',
+        status: 'ALL'
       },
       form: {},
       selections: [],

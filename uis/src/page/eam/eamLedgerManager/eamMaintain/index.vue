@@ -1,11 +1,33 @@
 <template>
   <div>
-    <div class="ehs_form_item_message">
-      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。
+    <div class="queryBodys">
+      <el-form ref="ruleForm"
+               style="width:700px;"
+               label-suffix="："
+               label-position="left"
+               size="mini"
+               label-width="100px"
+               :inline-message="true"
+               :status-icon="true"
+               class="demo-ruleForm">
+        <el-form-item label="投运时长">
+          <el-radio-group v-model="queryParam.time"
+                          @change="initTable()">
+            <el-radio border
+                      label="ALL">全部</el-radio>
+            <el-radio border
+                      label="Y">&lt; 1年</el-radio>
+            <el-radio border
+                      label="LTY">&lt; 3年</el-radio>
+            <el-radio border
+                      label="GTY">&gt;= 3年</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="table-search-wrapper">
       <el-input placeholder="根据设备名称查询"
-                v-model="queryParam.query">
+                v-model="queryParam.name">
         <template slot="append">
           <el-button type="primary"
                      :size="GlobalCss.buttonSize"
@@ -14,6 +36,9 @@
           </el-button>
         </template>
       </el-input>
+    </div>
+    <div class="ehs_form_item_message">
+      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。
     </div>
     <div class="operate">
       <el-button type="primary"

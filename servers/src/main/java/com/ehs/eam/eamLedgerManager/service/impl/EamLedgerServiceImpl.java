@@ -83,8 +83,8 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public PageInfoBean findEamLedgerList(EamLedgerQueryBean querybean) {
 		// TODO Auto-generated method stub
-		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		PageRequest pr = PageRequest.of(querybean.getPage() - 1, querybean.getSize(),querybean.getSortForJpaQuery());
+		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getName(),querybean.getAddress(),querybean.getProfession(),querybean.getDeviceSystem(),querybean.getTime(), pr);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(eamLedgers.getContent());
@@ -247,7 +247,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public PageInfoBean findEamLedgersNotInFlow(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		Page<EamLedger> eamLedgers = eamLedgerDao.findListSingleQuery(querybean.getName(), pageRequest);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			List<EamLedger> resultList = new ArrayList<EamLedger>();

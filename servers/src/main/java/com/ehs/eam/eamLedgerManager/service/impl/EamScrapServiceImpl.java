@@ -96,17 +96,22 @@ public class EamScrapServiceImpl implements EamScrapService {
 	 */
 	@Override
 	public PageInfoBean findEamScrapList(EamScrapQueryBean scrapQueryBean) {
-		PageRequest pageRequest = PageRequest.of(scrapQueryBean.getPage() - 1, scrapQueryBean.getSize());
-		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), pageRequest);
+		PageRequest pr = PageRequest.of(scrapQueryBean.getPage() - 1, scrapQueryBean.getSize(),scrapQueryBean.getSortForJpaQuery());
+		Page<EamScrap> eamScraPage = eamScrapDao.findEamScrapList(scrapQueryBean.getQuery(), scrapQueryBean.getStatus(),pr);
 		if (eamScraPage != null) {
 			List<EamScrap> resList = eamScraPage.getContent();
 			for (EamScrap ep : resList) {
 				FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(ep.getKey());
 				if (fpi != null) {
-					ep.setStatus(fpi.getFlowCurrentStepName());
-					if(StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+					if (StringUtils.equals(fpi.getFlowCurrentStep(), "END")) {
+						ep.setCurrentStepPerson(fpi.getFlowPrevPersonName());
+						ep.setStatus(fpi.getFlowCurrentStepName());
+					} else if (StringUtils.equals(fpi.getFlowCurrentStep(), "usertask1")){
+						ep.setStatus("已驳回");
+						ep.setScrapDate(fpi.getCreationTime());
 						ep.setCurrentStepPerson(fpi.getFlowPrevPersonName());
 					}else {
+						ep.setStatus(fpi.getFlowCurrentStepName());
 						ep.setCurrentStepPerson(fpi.getFlowCurrentPersonName());
 					}
 				}

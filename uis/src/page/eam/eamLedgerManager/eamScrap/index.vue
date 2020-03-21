@@ -1,15 +1,42 @@
 <template>
   <div>
-    <div class="ehs_form_item_message">
-      1)该列表展示所有设备报废信息。<br />2)可以根据报废名称或报废编号进行查询。<br />3)点击报废编号可以查看详情。
+     <div class="queryBodys">
+      <el-form ref="ruleForm"
+               style="width:700px;"
+               label-suffix="："
+               label-position="left"
+               size="mini"
+               label-width="100px"
+               :inline-message="true"
+               :status-icon="true"
+               class="demo-ruleForm">
+        <el-form-item label="设备状态">
+          <el-radio-group v-model="queryParam.status"
+                          @change="getScrapEamList()">
+            <el-radio border
+                      label="ALL">全部</el-radio>
+            <el-radio border
+                      label="APPROVL">审批中</el-radio>
+            <el-radio border
+                      label="END">已结束</el-radio>
+            <el-radio border
+                      label="REJECT">已驳回</el-radio>
+            <el-radio border
+                      label="OVERDUE">已逾期</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="table-search-wrapper">
-      <el-input placeholder="请输入报废编号"
+      <el-input placeholder="请输入报废名称"
                 size="small"
                 v-model="queryParam.query">
         <el-button slot="append"
                    icon="el-icon-search"></el-button>
       </el-input>
+    </div>
+    <div class="ehs_form_item_message">
+      1)该列表展示所有设备报废信息。<br />2)可以根据报废名称进行模糊查询。<br />3)点击报废编号可以查看详情。<br />4)申请日期起超过7天未处理为逾期。
     </div>
     <div class="operate">
       <el-button type="primary"

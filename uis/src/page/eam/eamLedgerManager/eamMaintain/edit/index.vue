@@ -4,6 +4,7 @@
              :size="GlobalCss.buttonSize"
              :model="form"
              :rules="rules"
+             label-suffix="："
              label-width="100px">
       <el-row>
         <el-col :span="4"
@@ -25,15 +26,15 @@
                 :lg="20">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="设备名称:"
+              <el-form-item label="设备名称"
                             prop="deviceName">
                 <el-input v-model="form.deviceName"></el-input>
               </el-form-item>
-              <el-form-item label="设备型号:"
+              <el-form-item label="设备型号"
                             prop="deviceModel">
                 <el-input v-model="form.deviceModel"></el-input>
               </el-form-item>
-              <el-form-item label="出厂日期:"
+              <el-form-item label="出厂日期"
                             prop="leaveDate">
                 <el-date-picker v-model="form.leaveDate"
                                 type="date"
@@ -43,7 +44,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="投运日期:"
+              <el-form-item label="投运日期"
                             prop="runDate">
                 <el-date-picker v-model="form.runDate"
                                 type="date"
@@ -51,12 +52,12 @@
                                 placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="生产厂家:"
+              <el-form-item label="生产厂家"
                             prop="factoryName">
                 <el-input v-model="form.factoryName">
                 </el-input>
               </el-form-item>
-              <el-form-item label="安装位置:"
+              <el-form-item label="安装位置"
                             prop="installLocation">
                 <el-select v-model="form.installLocation"
                            style="width:100%;"
@@ -70,7 +71,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="负责人:"
+              <el-form-item label="负责人"
                             prop="person">
                 <UserSelector v-model="form.person"
                               :propOrgValue="form.person"
@@ -78,7 +79,7 @@
                               ref="userSelect"
                               style="width:100%;"></UserSelector>
               </el-form-item>
-              <el-form-item label="设备专业:"
+              <el-form-item label="设备专业"
                             prop="profession">
                  <el-select v-model="form.profession"
                            style="width:100%;"
@@ -90,7 +91,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备系统:"
+              <el-form-item label="设备系统"
                             prop="deviceSystem">
                  <el-select v-model="form.deviceSystem"
                            style="width:100%;"
@@ -105,7 +106,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="定期工作标准:">
+          <el-form-item label="定期工作标准">
             <el-input type="textarea"
                       :rows="5"
                       maxlength="300"

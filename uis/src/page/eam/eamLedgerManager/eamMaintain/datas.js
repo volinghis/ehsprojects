@@ -6,7 +6,11 @@ export default {
       queryParam: {
         size: 10,
         page: 1,
-        query: ''
+        name: '',
+        address: 'ALL',
+        profession: 'ALL',
+        deviceSystem: 'ALL',
+        time: 'ALL'
       },
       show: false,
       form: {},

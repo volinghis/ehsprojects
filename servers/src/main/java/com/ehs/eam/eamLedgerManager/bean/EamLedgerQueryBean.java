@@ -26,27 +26,77 @@ import com.ehs.common.oper.bean.PageBody;
  */
 public class EamLedgerQueryBean extends PageBody {
 
-	private String query;
+	private String name;
 	
 	private String profession;
 	
-	
 	private String deviceSystem;
 	
-
 	private String deviceKey;
+	
+	private String complete;
+	
+	private String status;
+	
+	private String time;
+
+	private String address;
+	
+	
 	/**
-	 * @return the query
+	 * @return the address
 	 */
-	public String getQuery() {
-		return query;
+	public String getAddress() {
+		return address;
 	}
 
 	/**
-	 * @param query the query to set
+	 * @param address the address to set
 	 */
-	public void setQuery(String query) {
-		this.query = query;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the complete
+	 */
+	public String getComplete() {
+		return complete;
+	}
+
+	/**
+	 * @param complete the complete to set
+	 */
+	public void setComplete(String complete) {
+		this.complete = complete;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public String getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	/**
@@ -54,6 +104,20 @@ public class EamLedgerQueryBean extends PageBody {
 	 */
 	public String getDeviceKey() {
 		return deviceKey;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

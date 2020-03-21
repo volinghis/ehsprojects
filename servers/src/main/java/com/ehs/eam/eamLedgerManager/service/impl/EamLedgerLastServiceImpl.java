@@ -5,19 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.dao.DataDictionaryDao;
 import com.ehs.common.data.entity.DataDictionary;
@@ -43,25 +36,13 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 
 	@Resource
 	private DataDictionaryDao dataDictionaryDao;
-	
+
 	@Override
 	public PageInfoBean findEamLedgerLastList(EamLedgerQueryBean querybean) {
-		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-        List<Predicate> ps=new ArrayList<Predicate>();
-        Specification<EamLedgerLast> sf=(Root<EamLedgerLast> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
-        	if(StringUtils.isNotBlank(querybean.getQuery())) {
-        		ps.add(cb.like(root.get(EamLedgerLast.DEVICE_NAME), "%"+querybean.getQuery().trim()+"%"));
-        	}
-        	if (StringUtils.isNotBlank(querybean.getProfession())) {
-				ps.add(cb.equal(root.get(EamLedgerLast.PROFESSION), querybean.getProfession()));
-			}
-        	if (StringUtils.isNotBlank(querybean.getDeviceSystem())) {
-        		ps.add(cb.equal(root.get(EamLedgerLast.DEVICE_SYSTEM), querybean.getDeviceSystem()));
-        	}
-        	ps.add(cb.equal(root.get(BaseEntity.DELETED), 0));
-        	return cb.and(ps.toArray(new Predicate[0]));
-        };
-        Page<EamLedgerLast> eamLedgers= eamLastDao.findAll(sf, pageRequest);
+		PageRequest pr = PageRequest.of(querybean.getPage() - 1, querybean.getSize(),querybean.getSortForJpaQuery());
+		Page<EamLedgerLast> eamLedgers = eamLastDao.findEamLedgerLastList(querybean.getName(), querybean.getAddress(),
+				querybean.getProfession(), querybean.getDeviceSystem(), querybean.getStatus(), querybean.getComplete(),
+				querybean.getTime(), pr);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(eamLedgers.getContent());
@@ -74,7 +55,7 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Override
 	public PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedgerLast> allLedgers = eamLastDao.findEamLedgerList(querybean.getQuery(), pageRequest);
+		Page<EamLedgerLast> allLedgers = eamLastDao.findListOnlyNameQuery(querybean.getName(), pageRequest);
 		List<EamLedgerLast> resultList = new ArrayList<EamLedgerLast>();
 		EamLedgerLast curLedger = eamLastDao.findEamLedgerLastByRefKey(querybean.getDeviceKey());
 		List<EamLedgerLast> currentLedgers = getCurrentList(curLedger);
@@ -82,11 +63,12 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 			resultList = allLedgers.getContent().stream()
 					.filter(s -> (!StringUtils.equals(s.getRefKey(), querybean.getDeviceKey())))
 					.collect(Collectors.toList());
-		}else {
+		} else {
 			resultList = allLedgers.getContent().stream()
 					.filter(s -> currentLedgers.stream()
 							.allMatch(ss -> (!StringUtils.equals(s.getKey(), ss.getKey()))
-									&& (!StringUtils.equals(s.getKey(), querybean.getDeviceKey())))).collect(Collectors.toList());
+									&& (!StringUtils.equals(s.getKey(), querybean.getDeviceKey()))))
+					.collect(Collectors.toList());
 		}
 		PageInfoBean pb = new PageInfoBean();
 		pb.setDataList(resultList);
@@ -115,29 +97,24 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 		return resEamLedgers;
 	}
 
-	/** 
-	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findTreeForDevice(java.lang.String, java.lang.String)  
-	*/
+	/**
+	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findTreeForDevice(java.lang.String,
+	 *      java.lang.String)
+	 */
 	@Override
 	public List<TreeDataBean> findTreeForDevice(String parentKey, String subKey) {
-		List<TreeDataBean> resulList=new ArrayList<TreeDataBean>();//最终返回的数据
-		List<DataDictionary> addressList=dataDictionaryDao.findDataDictByParentKey(parentKey);//机组地址信息
-		List<DataDictionary> subList=dataDictionaryDao.findDataDictByParentKey(subKey);//专业信息
+		List<TreeDataBean> resulList = new ArrayList<TreeDataBean>();// 最终返回的数据
+		List<DataDictionary> addressList = dataDictionaryDao.findDataDictByParentKey(parentKey);// 机组地址信息
+		List<DataDictionary> subList = dataDictionaryDao.findDataDictByParentKey(subKey);// 专业信息
 		if (!CollectionUtils.isEmpty(addressList)) {
 			for (DataDictionary address : addressList) {
-				TreeDataBean treedata=new TreeDataBean();
-				treedata.setId(address.getKey());
-				treedata.setLabel(address.getText());
-				resulList.add(treedata);
+				resulList.add(new TreeDataBean().setId(address.getKey()).setLabel(address.getText()));
 			}
-			
+
 			for (TreeDataBean result : resulList) {
-				List<TreeDataBean> children=new ArrayList<TreeDataBean>();
+				List<TreeDataBean> children = new ArrayList<TreeDataBean>();
 				for (DataDictionary pro : subList) {
-					TreeDataBean treedata=new TreeDataBean();
-					treedata.setId(pro.getKey());
-					treedata.setLabel(pro.getText());
-					children.add(treedata);
+					children.add(new TreeDataBean().setId(pro.getKey()).setLabel(pro.getText()).setPid(result.getId()));
 				}
 				result.setChildren(children);
 			}
