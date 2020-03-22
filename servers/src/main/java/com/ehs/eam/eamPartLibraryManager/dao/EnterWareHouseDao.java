@@ -1,16 +1,9 @@
 package com.ehs.eam.eamPartLibraryManager.dao;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
-import com.ehs.eam.eamPartLibraryManager.entity.entitySuper.PartsExtends;
 
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
@@ -29,33 +22,35 @@ import com.ehs.eam.eamPartLibraryManager.entity.entitySuper.PartsExtends;
 @Repository
 public interface EnterWareHouseDao extends JpaRepository<EnterWareHouse, String>{
 
-//	@Query("select * FROM EnterWareHouse e left join PartsExtends p on p."+PartsExtends.WAREHOUSE_KEY+"=e."+EnterWareHouse.KEY
-//			+ " where e."+BaseEntity.DELETED+" =0 "
-//			+ "and e."+EnterWareHouse.WAREHOUSE_CODE+" = like %?1%"
-//			+ "and e."+EnterWareHouse.INBOUND_TYPE_NAME+" = like %?1%"
-//			+ "and e."+PartsExtends.DEVICE_CODE+" = like %?1%"
-//			+ "and e."+PartsExtends.DEVICE_NAME+" = like %?1%"
-//			+ "and e."+PartsExtends.NORM+" = like %?1%"
-//			+ "and e."+PartsExtends.MANUFACTURER+" = like %?1%"
-//			+ "and e."+PartsExtends.MATERIAL_CODE+" = like %?1%"
-//			+ "and e."+PartsExtends.MATERIAL_TYPE+" = like %?1%"
-//			+" and ( 'ALL'=:warehouses or e."+EnterWareHouse.WAREHOUSE+" = :warehouses)"
-//			+" and ('ALL'=:inBoundTypes or e."+EnterWareHouse.INBOUND_TYPE+" = :inBoundTypes)"
-//
-//			+" and ( 'ALL'=:status "
-//			+" or ('userTask1'=:status and e."+EnterWareHouse.STATUS+" = 'userTask1')"
-//			+" or ('userTask2'=:status and e."+EnterWareHouse.STATUS+" = 'userTask2')"
-//			+" or ('END'=:status and e."+EnterWareHouse.STATUS+" = 'END')"
+//	@Query("select e from EnterWareHouse e left join PartsExtends p on p."+PartsExtends.WAREHOUSE_KEY+"=e."+BaseEntity.KEY+" left join FlowProcessInfo fi on e."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
+//			+ " where e."+BaseEntity.DELETED+" = 0 "
+//			+ "and ( e."+EnterWareHouse.WAREHOUSE_CODE+" like %:query% "
+//			+ "or e."+EnterWareHouse.INBOUND_TYPE_NAME+" like %:query% "
+//			+ "or p."+PartsExtends.DEVICE_CODE+" like %:query% "
+//			+ "or p."+PartsExtends.DEVICE_NAME+" like %:query% "
+//			+ "or p."+PartsExtends.NORM+" like %:query% "
+//			+ "or p."+PartsExtends.MANUFACTURER+" like %:query% "
+//			+ "or p."+PartsExtends.MATERIAL_CODE+" like %:query% "
+//			+ "or p."+PartsExtends.MATERIAL_TYPE+" like %:query% "
 //			+ " ) "
+//			+ " and ('ALL'=:wareHouseNames  or e."+EnterWareHouse.WAREHOUSE+" = :wareHouseNames)"
+//			+ " and ('ALL'=:inBoundTypes or e."+EnterWareHouse.INBOUND_TYPE+" = :inBoundTypes)"
+//			+ " and ('ALL'=:status "
+//			+ " or ('APPROVL'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask2' ) "
+//			+ " or ('END'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"=:status )"
+//			+ " or ('REJECT'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask1' ) "
+//			+ " or ('OVERDUE'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<>:status and (TO_DAYS(current_date())-TO_DAYS(e."+ EnterWareHouse.CREATION_TIME + "))>7) "
+//			+ " )"
 //			+ "")
-//	public Page<EnterWareHouse> findAll(String query, @Param("warehouses") String warehouse, 
-//								 @Param("inBoundTypes") String inBoundType, 
-//								 @Param("status") String status, 
-//								 Pageable pb);
+//	public Page<EnterWareHouse> findAllTask(@Param("query") String query, 
+//									  @Param("wareHouseNames") String wareHouseNames, 
+//									  @Param("inBoundTypes") String inBoundTypes, 
+//									  @Param("status") String status,
+//									  Pageable pb);
 
 
-	
-	@Query(" select ewh from EnterWareHouse ewh where ewh."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	Page<EnterWareHouse> findAll(PageRequest pageRequest);
+//	
+//	@Query(" select ewh from EnterWareHouse ewh where ewh."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
+//	Page<EnterWareHouse> findAll(PageRequest pageRequest);
 
 }

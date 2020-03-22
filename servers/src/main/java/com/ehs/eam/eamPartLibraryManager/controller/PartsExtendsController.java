@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +16,10 @@ import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.eam.checks.entity.EamCheckPlan;
+import com.ehs.eam.eamPartLibraryManager.bean.EnterWarehouseQueryBean;
+import com.ehs.eam.eamPartLibraryManager.bean.OutWarehouseQueryBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
+import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService;
 
@@ -43,9 +44,12 @@ public class PartsExtendsController {
 	private static final Logger logger = LoggerFactory.getLogger(PartsExtendsController.class);
 	
 	@Resource
-	private PartsExtendsService partsExtendsService;	
+	private PartsExtendsService partsExtendsService;
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
+	@Resource
+	private PartsExtendsDao partsDao;
+	
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getExtendsByKey")
 	public String getExtendsByKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getExtendsByKey方法=============");
@@ -53,22 +57,49 @@ public class PartsExtendsController {
 		PageInfoBean pb = partsExtendsService.getExtendsByKey(queryBean,key);
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
+	
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/getExtendsByWarehouseKey")
+	public String getExtendsByWarehouseKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+		logger.info("===========进入---getExtendsByWarehouseKey方法=============");
+		try {
+			String key=request.getParameter("key");
+			List<PartsExtends> parts = partsDao.getAllByWareHouseKey(key);
+			logger.info("===========退出---getExtendsByWarehouseKey方法=============");
+			return (parts==null?"[]":JsonUtils.toJsonString(parts));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return "[]";
+	}
+	
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllEnterWareHouseParts")
-	public String getAllEnterWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getAllEnterWareHouseParts方法=============");
-		PageInfoBean pb = partsExtendsService.getAllEnterWareHouseParts(queryBean);
-		System.out.println("pb====="+JsonUtils.toJsonString(pb));
-		logger.info("pb====="+JsonUtils.toJsonString(pb));
-		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+	public String getAllEnterWareHouseParts(@RequestBody EnterWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+		logger.info("===========进入---getAllEnterWareHouseParts方法=============");
+		PageInfoBean pb;
+		try {
+			pb = partsExtendsService.getAllEnterWareHouseParts(queryBean);
+			logger.info("===========退出---getAllEnterWareHouseParts方法=============");
+			return (pb==null?"[]":JsonUtils.toJsonString(pb));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return "[]";
 	}
+	
 	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
 	@RequestMapping(value = "/getAllOutWareHouseParts")
-	public String getAllOutWareHouseParts(@RequestBody QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
-		logger.info("===========进入getAllOutWareHouseParts方法=============");
-//		String key=request.getParameter("key");
-		PageInfoBean pb = partsExtendsService.getAllOutWareHouseParts(queryBean);
-		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+	public String getAllOutWareHouseParts(@RequestBody OutWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+		logger.info("===========进入---getAllOutWareHouseParts方法=============");
+		try {
+			PageInfoBean pb = partsExtendsService.getAllOutWareHouseParts(queryBean);
+			logger.info("===========退出---getAllOutWareHouseParts方法=============");
+			return (pb==null?"[]":JsonUtils.toJsonString(pb));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return "[]";
 	}
 	
 }

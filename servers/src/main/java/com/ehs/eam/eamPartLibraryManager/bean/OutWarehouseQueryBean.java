@@ -26,48 +26,48 @@ public class OutWarehouseQueryBean extends PageBody{
 	/**
 	 * 所在仓库
 	 */
-	private String warehouse;
+	private String warehouseNames;
 	
 	/**
 	 * 入库类型
 	 */
-	private String outBoundType;
+	private String outBoundTypes;
 	
 	/**
 	 * 任务状态
 	 */
-	private String status;
+	private String flowstatus;
 
 	public String getQuery() {
 		return query;
 	}
 
-	public String getWarehouse() {
-		return warehouse;
+	public String getWarehouseNames() {
+		return warehouseNames;
 	}
 
-	public void setWarehouse(String warehouse) {
-		this.warehouse = warehouse;
+	public void setWarehouseNames(String warehouseNames) {
+		this.warehouseNames = warehouseNames;
 	}
 
-	public String getOutBoundType() {
-		return outBoundType;
+	public String getOutBoundTypes() {
+		return outBoundTypes;
 	}
 
-	public void setOutBoundType(String outBoundType) {
-		this.outBoundType = outBoundType;
+	public void setOutBoundTypes(String outBoundTypes) {
+		this.outBoundTypes = outBoundTypes;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getFlowstatus() {
+		return flowstatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setFlowstatus(String flowstatus) {
+		this.flowstatus = flowstatus;
 	}
 
 	public void setQuery(String query) {
 		this.query = query;
 	}
-
+	
 }

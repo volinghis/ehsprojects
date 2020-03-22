@@ -1,9 +1,39 @@
 export default {
+  data () {
+    return {
+      tasks: [],
+      warehouses: [],
+      inTypes: [],
+      nowTime: '',
+      tableData: [],
+      queryBean: {
+        page: 1,
+        size: 20,
+        query: '',
+        totalCount: 0,
+        wareHouseNames: 'ALL',
+        inBoundTypes: 'ALL',
+        flowstatus: 'ALL'
+      }
+    }
+  },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 355
+    }
+  },
+  mounted: function () {
+    var that = this
+    that.getTableData()
+    that.getWareHouseAndUseType()
+    that.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+  },
   methods: {
     handleAdd: function () {
       var that = this
       this.GlobalMethods.openFlowWin('enterWarehouseEdit', { processDefineKey: 'EamEnterWareHouseFlow', flag: 'add' }, function () {
-        that.getTableData()
+        this.getTableData()
+        that.getWareHouseAndUseType()
       })
     },
     handleClick (row) { // 查看
@@ -21,55 +51,13 @@ export default {
     },
     getTableData: function () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamPartsExtends/getAllEnterWareHouseParts', this.queryBean).then(res => {
-        // console.log(res.data)
-        // console.log(res.data.dataList)
-        this.parts = res.data.dataList
+        this.tableData = res.data.dataList
         this.queryBean.totalCount = res.data.totalCount
-        if (this.parts) {
-          var applyList = []
-          var flowInfoApplyList = []
-          for (var i = 0; i < this.parts.length; i++) {
-            var t = this.parts[i]
-            if (t.wareHouseKey) {
-              applyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey?key=' + t.wareHouseKey)])
-            }
-            console.log(t.flowProcessInfoKey)
-            if (t.flowProcessInfoKey) {
-              flowInfoApplyList.push([t, this.$axios.get(this.GlobalVars.globalServiceServlet + '/flow/flowProcessInfo/findFlowProcessInfoByKey?key=' + t.flowProcessInfoKey)])
-            }
-          }
-          this.$axios.all(
-            applyList.map(e => {
-              return e[1]
-            })
-          ).then(function (resArr) {
-            resArr.forEach(function (ress, k) {
-              console.log(ress.data)
-              applyList[k][0].enterWareHouse = ress.data
-            })
-          })
-          this.$axios.all(
-            flowInfoApplyList.map(e => {
-              return e[1]
-            })
-          ).then(function (resArr) {
-            resArr.forEach(function (ress, k) {
-              console.log(ress.data)
-              flowInfoApplyList[k][0].flowProcessInfo = ress.data
-            })
-          })
-        }
       })
     },
     changePage (v) {
       this.queryBean.page = v
       this.getTableData()
-    },
-    transFlow (row) {
-      if ((!row.flowProcessInfo) || (!row.flowProcessInfo.flowCurrentStep) || row.flowProcessInfo.flowCurrentStep === 'DRAFT') {
-        return '未开始'
-      }
-      return row.flowProcessInfo.flowCurrentStepName
     },
     getWareHouseAndUseType: function () {
       var that = this
@@ -78,7 +66,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=inBoundType')
       ]).then(this.$axios.spread(function (wareHouse, inBoundType) {
         // 上面两个请求都完成后，才执行这个回调方法
-        that.wareHouses = wareHouse.data
+        that.warehouses = wareHouse.data
         that.inTypes = inBoundType.data
       }))
     },
@@ -96,86 +84,6 @@ export default {
         return 'ehs-message-info-yellow'
       }
       return ''
-    }
-    // objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-    //   if (columnIndex === 0) {
-    //     const _row = this.setTable(this.tableData).one[rowIndex]
-    //     const _col = _row > 0 ? 1 : 0
-    //     return {
-    //       rowspan: _row,
-    //       colspan: _col
-    //     }
-    //   }
-    //   if (columnIndex === 1) {
-    //     const _row = this.setTable(this.tableData).two[rowIndex]
-    //     const _col = _row > 0 ? 1 : 0
-    //     return {
-    //       rowspan: _row,
-    //       colspan: _col
-    //     }
-    //   }
-    // },
-    // setTable (tableData) {
-    //   let spanOneArr = []
-    //   let spanTwoArr = []
-    //   let concatOne = 0
-    //   let concatTwo = 0
-    //   this.tableData.forEach((item, index) => {
-    //     if (index === 0) {
-    //       spanOneArr.push(1)
-    //       spanTwoArr.push(1)
-    //     } else {
-    //       if (item.wareHouseName === tableData[index - 1].wareHouseName) {
-    //         // 第一列需合并相同内容的判断条件
-    //         spanOneArr[concatOne] += 1
-    //         spanOneArr.push(0)
-    //       } else {
-    //         spanOneArr.push(1)
-    //         concatOne = index
-    //       }
-    //       if (item.wareHouseCode === tableData[index - 1].wareHouseCode) {
-    //         // 第二列和需合并相同内容的判断条件
-    //         spanTwoArr[concatTwo] += 1
-    //         spanTwoArr.push(0)
-    //       } else {
-    //         spanTwoArr.push(1)
-    //         concatTwo = index
-    //       }
-    //     }
-    //   })
-    //   return {
-    //     one: spanOneArr,
-    //     two: spanTwoArr
-    //   }
-    // }
-  },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 300// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
-    }
-  },
-  mounted: function () {
-    this.getTableData()
-    this.getWareHouseAndUseType()
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-  },
-  data () {
-    return {
-      parts: [],
-      wareHouses: [],
-      inTypes: [],
-      nowTime: '',
-      state: '',
-      tableData: [],
-      queryBean: {
-        page: 1,
-        size: 20,
-        query: '',
-        wareHouses: 'ALL',
-        inBoundTypes: 'ALL',
-        statusAll: 'ALL',
-        totalCount: 0
-      }
     }
   }
 }

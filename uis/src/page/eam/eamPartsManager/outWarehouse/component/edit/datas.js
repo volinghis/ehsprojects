@@ -72,6 +72,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
       }
       this.show = true
@@ -82,6 +83,7 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
       }
       this.show = false
@@ -94,6 +96,7 @@ export default {
           this.showFlag = 'view'
           this.showButton = false
           this.getPartsAccounts()
+          this.getWareHouseAndUseType()
         })
       }
     }
@@ -152,19 +155,19 @@ export default {
             flowProcessInfo: processInfo
           }
           console.log(requestParam)
-        //   this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
-        //     if (res.data.resultType === 'ok') {
-        //       this.$message({
-        //         message: res.data.message,
-        //         type: 'success'
-        //       })
-        //       setTimeout(() => {
-        //         window.close()
-        //       }, 1000)
-        //     } else {
-        //       this.$message.error(res.data.message)
-        //     }
-        //   })
+          this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
+            if (res.data.resultType === 'ok') {
+              this.$message({
+                message: res.data.message,
+                type: 'success'
+              })
+              setTimeout(() => {
+                window.close()
+              }, 1000)
+            } else {
+              this.$message.error(res.data.message)
+            }
+          })
         } else {
           this.$message.error('验证数据失败，请重新确认数据填写')
           return false

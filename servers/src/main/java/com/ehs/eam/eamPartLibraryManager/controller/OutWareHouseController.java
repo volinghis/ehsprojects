@@ -1,8 +1,5 @@
 package com.ehs.eam.eamPartLibraryManager.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,14 +16,10 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
-import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouseFlowBean;
+import com.ehs.eam.eamPartLibraryManager.bean.WareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
-import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
-import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
-import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService;
 
 /**   
@@ -55,12 +48,12 @@ public class OutWareHouseController {
 	@Resource
 	private BaseCommonService baseCommonService;
 	
-	@RequestAuth(menuKeys = {"outWarehouse"})
-	@RequestMapping(value = "/getList")
-	public String getList(@RequestBody QueryBean queryBean ,HttpServletRequest request) {
-		PageInfoBean pb = owhService.findAll(queryBean);
-		return (pb==null?"[]":JsonUtils.toJsonString(pb));
-	}
+//	@RequestAuth(menuKeys = {"outWarehouse"})
+//	@RequestMapping(value = "/getList")
+//	public String getList(@RequestBody QueryBean queryBean ,HttpServletRequest request) {
+//		PageInfoBean pb = owhService.findAll(queryBean);
+//		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+//	}
 	
 	@RequestAuth(menuKeys = {"outWarehouseEdit"})
 	@RequestMapping(value = "/saveOutWareHouse")
@@ -69,11 +62,11 @@ public class OutWareHouseController {
 		ResultBean resultBean=new ResultBean();
 		try {
 			owhService.saveOutWareHouse(wareHouserBean);
-			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件出库成功 ！"));
+			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件出库流程创建成功 ！"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件出库失败！"));
+		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件出库流程创建失败！"));
 	}
 
 //	@RequestAuth(menuKeys = {"outWarehouseEdit"})
@@ -109,36 +102,24 @@ public class OutWareHouseController {
 	@RequestMapping(value = "/getOutWareHouseFlowBean")
 	public String getOutWareHouseFlowBean(@RequestParam String key) {
 		logger.info("======出库流程查看======");
-		EnterWareHouseFlowBean ewhFlowBean=	owhService.getOutWareHouseFlowBean(key);
+		WareHouseFlowBean ewhFlowBean=	owhService.getOutWareHouseFlowBean(key);
 		return ewhFlowBean != null ? JsonUtils.toJsonString(ewhFlowBean) : "{}";
 	}
 	
-	@RequestAuth(menuKeys = {"outWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getOutWareHouseByKey")
 	public String getOutWareHouseByKey(@RequestParam String key) {
-		logger.info("===登录页面查看流程进度===");
-		OutWareHouse ewh= owhService.getOutWareHouseByKey(key);
-		return ewh !=null ? JsonUtils.toJsonString(ewh) : "{}";
-	}
-	
-	@RequestAuth(menuKeys = {"outWarehouseEdit"})
-	@RequestMapping(value = "/getLaveAmount")
-	public String getLaveAmount(@RequestBody PartsExtends partsAccount) {
-		logger.info("===查询剩余库存===");
+		logger.info("===首页查看出库流程===");
 		try {
-			List<PartsAccount> partsAccounts = (List<PartsAccount>) baseCommonService.findAll(PartsAccount.class);
-			List<PartsAccount> accounts =partsAccounts.stream().filter(s -> StringUtils.equals(s.getDeviceCode(), partsAccount.getDeviceCode())).collect(Collectors.toList());
-			System.out.println(JsonUtils.toJsonString(accounts));
-			if (accounts != null && accounts.size() > 0) {
-				for (PartsAccount account : accounts) {
-					if(account.getPrice().compareTo(partsAccount.getPrice()) == 0) {
-						return JsonUtils.toJsonString(account);
-					}
-				}
+			if(StringUtils.isBlank(key)) {
+				return "{}";
 			}
+			OutWareHouse outWareHouse=baseCommonService.findByKey(OutWareHouse.class, key);
+			return (outWareHouse==null?"{}":JsonUtils.toJsonString(outWareHouse));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return "{}";
 	}
+	
 }

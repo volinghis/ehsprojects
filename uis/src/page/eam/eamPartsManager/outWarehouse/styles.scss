@@ -1,15 +1,15 @@
 /deep/.el-pagination__sizes {
   margin-right: 30px;
 }
-.el-card__body{
-  padding: 10px;
-}
-.buttonHeight{
-  float:left;
-  margin-bottom: 5px;
-}
 .pageHeight{
   margin-top: 5px;
+}
+.el-form-item{
+  margin-bottom: 10px !important;
+}
+.operate {
+  margin-bottom: 5px;
+  float: right;
 }
 /deep/.el-input-group__append {
   background-color: #409EFF;
@@ -19,8 +19,8 @@
   color: #ffffff;
 }
 /deep/.el-table  .ehs-message-info-yellow{
-  // background-color: yellow;
-  color: orange;
+  background-color: yellow;
+  color: black;
 }
 /deep/.el-table  .ehs-message-info-error{
   background-color: red;

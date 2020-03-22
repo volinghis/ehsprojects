@@ -1,21 +1,35 @@
 <template>
-    <div class="cardHeight">
-    <div class="fromHeight" style="margin: 0px 0px;">
-      <div style="width:20%;float:left;">
-        <!-- <el-autocomplete class="inline-input" style="width:100%;" :size="GlobalCss.controlSize" :fetch-suggestions="querySearch"
-                         placeholder="可搜索编号，名称，类型" @select="handleSelect">
-          <el-button slot="append" icon="el-icon-search" @click="() => (queryParam = {})"></el-button>
-        </el-autocomplete> -->
-        <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入备件名称或者备件编号">
+  <div>
+    <div class="queryBodys">
+      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="100px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+        <el-form-item label="仓库">
+          <el-radio-group v-model="queryBean.warehouseNames" @change="getTableData()">
+            <el-radio border label="ALL">全部</el-radio>
+            <el-radio border :key="item.key" :label="item.text" :value="item.key" v-for="item in wareHouses">{{item.text}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="库存是否充足" >
+          <el-radio-group v-model="queryBean.reserve" @change="getTableData()">
+            <el-radio border label="ALL">全部</el-radio>
+            <el-radio border label="ENOUGH">充足</el-radio>
+            <el-radio border label="NOENOUGH">预警</el-radio>
+          </el-radio-group>
+        </el-form-item>
+         <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
           <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
         </el-input>
-      </div>
-      <div class="operatorHeight" style="float:right;">
-        <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button>
-      </div>
+      </el-form>
     </div>
+    <div class="ehs_form_item_message">
+      1)该列表显示展示所有备件信息。<br />
+      2)在该页面可以根据各种条件进行查询。<br />
+    </div>
+    <!-- <div class="operate">
+       <el-button type="primary" icon="el-icon-plus" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>
+       <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button>
+    </div> -->
     <template>
-      <el-table :data="tableData" ref="multipleTable" :height="tableHeight" resizable border highlight-current-row :max-height="htable" :size="GlobalCss.buttonSize">
+      <el-table :data="tableData" ref="multipleTable" :height="tableHeight" resizable border highlight-current-row :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
         <!-- <el-table-column prop="partsImg" label="图片" width="70" sortable align="center">
           <template slot-scope="scope">
@@ -45,8 +59,8 @@
       </el-table>
       <div>
         <div style="text-align:right;">
-          <el-pagination class="pageHeight"  background :current-page.sync="form.page" :page-size="form.size"
-                         layout="total, prev, pager, next" :total="totalCount">
+          <el-pagination class="pageHeight" background :current-page.sync="queryBean.page" :page-size="queryBean.size"
+                         layout="total, prev, pager, next" :total="queryBean.totalCount">
           </el-pagination>
         </div>
       </div>

@@ -4,15 +4,11 @@
 .el-table td div {
   text-align: center;
 }
-.el-card__body{
-  padding: 10px;
-}
-.buttonHeight{
-  float:left;
-  margin-bottom: 5px;
-}
 .pageHeight{
   text-align:right;
+}
+.el-form-item{
+  margin-bottom: 10px !important;
 }
 /deep/.el-pagination__sizes {
   margin-right: 30px;
@@ -20,6 +16,10 @@
 /deep/.el-input-group__append {
   background-color: #409EFF;
   border: 1px solid #409EFF;
+}
+.operate {
+  margin-bottom: 5px;
+  float: right;
 }
 /deep/.el-icon-search{
   color: #ffffff;

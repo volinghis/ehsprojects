@@ -1,9 +1,37 @@
 export default {
+  data () {
+    return {
+      wareHouses: [],
+      outTypes: [],
+      nowTime: '',
+      state: '',
+      tableData: [],
+      queryBean: {
+        page: 1,
+        size: 20,
+        query: '',
+        warehouseNames: 'ALL',
+        outBoundTypes: 'ALL',
+        flowstatus: 'ALL',
+        totalCount: 0
+      }
+    }
+  },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 315
+    }
+  },
+  mounted: function () {
+    this.getTableData()
+    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+    this.getWareHouseAndUseType()
+  },
   methods: {
     handleAdd: function () {
-      var that = this
       this.GlobalMethods.openFlowWin('outWarehouseEdit', { processDefineKey: 'EamOutWareHouseFlow', flag: 'add' }, function () {
-        that.getTableData()
+        this.getTableData()
+        this.getWareHouseAndUseType()
       })
     },
     handleClick: function (row) {
@@ -53,86 +81,6 @@ export default {
     changePage (v) {
       this.queryBean.page = v
       this.getTableData()
-    }
-    // objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-    //   if (columnIndex === 0) {
-    //     const _row = this.setTable(this.tableData).one[rowIndex]
-    //     const _col = _row > 0 ? 1 : 0
-    //     return {
-    //       rowspan: _row,
-    //       colspan: _col
-    //     }
-    //   }
-    //   if (columnIndex === 1) {
-    //     const _row = this.setTable(this.tableData).two[rowIndex]
-    //     const _col = _row > 0 ? 1 : 0
-    //     return {
-    //       rowspan: _row,
-    //       colspan: _col
-    //     }
-    //   }
-    // }
-    // setTable (tableData) {
-    //   let spanOneArr = []
-    //   let spanTwoArr = []
-    //   let concatOne = 0
-    //   let concatTwo = 0
-    //   this.tableData.forEach((item, index) => {
-    //     if (index === 0) {
-    //       spanOneArr.push(1)
-    //       spanTwoArr.push(1)
-    //     } else {
-    //       if (item.wareHouseName === tableData[index - 1].wareHouseName) {
-    //         // 第一列需合并相同内容的判断条件
-    //         spanOneArr[concatOne] += 1
-    //         spanOneArr.push(0)
-    //       } else {
-    //         spanOneArr.push(1)
-    //         concatOne = index
-    //       }
-    //       if (item.wareHouseCode === tableData[index - 1].wareHouseCode) {
-    //         // 第二列和需合并相同内容的判断条件
-    //         spanTwoArr[concatTwo] += 1
-    //         spanTwoArr.push(0)
-    //       } else {
-    //         spanTwoArr.push(1)
-    //         concatTwo = index
-    //       }
-    //     }
-    //   })
-    //   return {
-    //     one: spanOneArr,
-    //     two: spanTwoArr
-    //   }
-    // }
-  },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 300// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
-    }
-  },
-  mounted: function () {
-    this.getTableData()
-    // this.getNowTime()
-    this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.getWareHouseAndUseType()
-  },
-  data () {
-    return {
-      wareHouses: [],
-      outTypes: [],
-      nowTime: '',
-      state: '',
-      tableData: [],
-      queryBean: {
-        page: 1,
-        size: 20,
-        query: '',
-        warehouse: 'ALL',
-        outBoundType: 'ALL',
-        status: 'ALL',
-        totalCount: 0
-      }
     }
   }
 }

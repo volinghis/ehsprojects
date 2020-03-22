@@ -32,7 +32,10 @@ public abstract class PartsExtends extends BaseEntity{
 	public static final String PARTS_IMG="partsImg";
 	public static final String WAREHOUSE_KEY="wareHouseKey";
 	public static final String WAREHOUSE_CODE="wareHouseCode";
+	public static final String WAREHOUSE="wareHouse";
 	public static final String WAREHOUSE_NAME="wareHouseName";
+	public static final String ENTER_OUT_TYPE="enterOutType";
+	public static final String ENTER_OUT_TYPE_NAME="enterOutTypeName";
 	public static final String REVIEWER="reviewer";
 	public static final String STATUS="status";
 	public static final String SUPPLIER="supplier";
@@ -66,18 +69,20 @@ public abstract class PartsExtends extends BaseEntity{
 	/**
 	 * 入库名称
 	 */
+	private String wareHouse;
 	private String wareHouseName;
-	
-	/**
-	 * 入库日期
-	 */
-	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
-	private Timestamp inboundDate;
-	
+//	
+//	/**
+//	 * 入库日期
+//	 */
+//	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+//	private Timestamp inboundDate;
+//	
 	/**
 	 * 入库类型
 	 */
-	private String inboundType;
+	private String enterOutType;
+	private String enterOutTypeName;
 	
 	/**
 	 * 审核人
@@ -340,6 +345,14 @@ public abstract class PartsExtends extends BaseEntity{
 	public void setWareHouseCode(String wareHouseCode) {
 		this.wareHouseCode = wareHouseCode;
 	}
+	
+	public String getWareHouse() {
+		return wareHouse;
+	}
+
+	public void setWareHouse(String wareHouse) {
+		this.wareHouse = wareHouse;
+	}
 
 	public String getWareHouseName() {
 		return wareHouseName;
@@ -364,19 +377,28 @@ public abstract class PartsExtends extends BaseEntity{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getInboundType() {
-		return inboundType;
+
+	public String getEnterOutType() {
+		return enterOutType;
 	}
 
-	public void setInboundType(String inboundType) {
-		this.inboundType = inboundType;
+	public void setEnterOutType(String enterOutType) {
+		this.enterOutType = enterOutType;
 	}
 
-	public Timestamp getInboundDate() {
-		return inboundDate;
+	public String getEnterOutTypeName() {
+		return enterOutTypeName;
 	}
 
-	public void setInboundDate(Timestamp inboundDate) {
-		this.inboundDate = inboundDate;
+	public void setEnterOutTypeName(String enterOutTypeName) {
+		this.enterOutTypeName = enterOutTypeName;
 	}
+	
+//	public Timestamp getInboundDate() {
+//		return inboundDate;
+//	}
+//
+//	public void setInboundDate(Timestamp inboundDate) {
+//		this.inboundDate = inboundDate;
+//	}
 }

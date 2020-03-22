@@ -16,13 +16,28 @@ import com.ehs.common.oper.bean.PageBody;
 *---------------------------------------------------------*
 * 2019年12月30日     zhaol           v1.0.0               修改原因
 */
-public class QueryBean extends PageBody {
+public class EnterWarehouseQueryBean extends PageBody {
 
 	/**
 	 * 查询条件
 	 */
 	private  String query;
 	
+	/**
+	 * 所在仓库
+	 */
+	private String wareHouseNames;
+	
+	/**
+	 * 入库类型
+	 */
+	private String inBoundTypes;
+	
+	/**
+	 * 任务状态
+	 */
+	private String flowstatus;
+
 	public String getQuery() {
 		return query;
 	}
@@ -31,4 +46,28 @@ public class QueryBean extends PageBody {
 		this.query = query;
 	}
 
+	public String getWareHouseNames() {
+		return wareHouseNames;
+	}
+
+	public void setWareHouseNames(String wareHouseNames) {
+		this.wareHouseNames = wareHouseNames;
+	}
+
+	public String getInBoundTypes() {
+		return inBoundTypes;
+	}
+
+	public void setInBoundTypes(String inBoundTypes) {
+		this.inBoundTypes = inBoundTypes;
+	}
+
+	public String getFlowstatus() {
+		return flowstatus;
+	}
+
+	public void setFlowstatus(String flowstatus) {
+		this.flowstatus = flowstatus;
+	}
+	
 }

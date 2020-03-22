@@ -9,8 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -20,12 +18,10 @@ import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
-import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
-import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouseFlowBean;
+import com.ehs.eam.eamPartLibraryManager.bean.WareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
-import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.dao.OutWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
@@ -71,38 +67,40 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 	
-	@Override
-	public PageInfoBean findAll(QueryBean queryBean) {
-		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-		Page<OutWareHouse> outWareHouses = owhDao.findAll(pageRequest);
-		if (outWareHouses!=null) {
-			List<OutWareHouse> outWareHouseList  = outWareHouses.getContent();
-			for (OutWareHouse owh : outWareHouseList) {
-				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(owh.getKey());
-				if(fpi!=null) {
-					owh.setStatus(fpi.getFlowCurrentStepName());
-				}
-			}
-			PageInfoBean pb=new PageInfoBean();
-			pb.setDataList(outWareHouseList);
-			pb.setTotalCount(outWareHouses.getTotalElements());
-			return pb;
-		}
-		return null;
-	}
+//	@Override
+//	public PageInfoBean findAll(QueryBean queryBean) {
+//		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
+//		Page<OutWareHouse> outWareHouses = owhDao.findAll(pageRequest);
+//		if (outWareHouses!=null) {
+//			List<OutWareHouse> outWareHouseList  = outWareHouses.getContent();
+//			for (OutWareHouse owh : outWareHouseList) {
+//				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(owh.getKey());
+//				if(fpi!=null) {
+//					owh.setStatus(fpi.getFlowCurrentStepName());
+//				}
+//			}
+//			PageInfoBean pb=new PageInfoBean();
+//			pb.setDataList(outWareHouseList);
+//			pb.setTotalCount(outWareHouses.getTotalElements());
+//			return pb;
+//		}
+//		return null;
+//	}
 	
 	@Override
 	@Transactional
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean) {
 		logger.info("=======准备开始出库流程========");
 		if (wareHouserBean.getOutWareHouse() != null) {
-			DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,wareHouserBean.getOutWareHouse().getOutWarehouse());
+			OutWareHouse outWareHouse = wareHouserBean.getOutWareHouse();
+			
+			DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,outWareHouse.getOutWarehouse());
 			if (dataDictionary != null) {
-				wareHouserBean.getOutWareHouse().setOutWarehouseName(dataDictionary == null ? "" : dataDictionary.getText());
+				outWareHouse.setOutWarehouseName(dataDictionary == null ? "" : dataDictionary.getText());
 			}
-			DataDictionary dd = baseCommonService.findByKey(DataDictionary.class,wareHouserBean.getOutWareHouse().getOutBoundType());
+			DataDictionary dd = baseCommonService.findByKey(DataDictionary.class,outWareHouse.getOutBoundType());
 			if (dd != null) {
-				wareHouserBean.getOutWareHouse().setOutBoundTypeName(dd == null ? "" : dd.getText());
+				outWareHouse.setOutBoundTypeName(dd == null ? "" : dd.getText());
 			}
 			OrgUser user = baseCommonService.findByKey(OrgUser.class, wareHouserBean.getOutWareHouse().getReceiveEmpCode());
 			OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, wareHouserBean.getOutWareHouse().getReceiveDepartCode());
@@ -159,7 +157,6 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 											partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
 											logger.info("hhhh==="+partsAccount.getDummyAmount());
 										}else {
-											logger.info("jjjjjjjj======"+String.valueOf(partsAccount.getDummyAmount()));
 											partsAccount.setDummyAmount(partsAccount.getDummyAmount().intValue() - pp.getAmount().intValue());
 										}
 										logger.info("真实数量为================"+partsAccount.getAmount());
@@ -210,34 +207,34 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		}
 	}
 	
-	public void savePartAccount(OutWareHouse eHouse, PartsExtends pExtends) {
-		try {
-			PartsAccount account = new PartsAccount();
-			//仓库信息存入备件台账表
-			account.setWareHouseCode(eHouse.getOutWarehouseCode());
-			account.setWareHouseName(eHouse.getOutWarehouseName());
-			account.setInboundType(eHouse.getOutBoundType());
-			account.setInboundDate(eHouse.getOutBoundDate());
-			//备件扩展表存入备件台账
-			account.setDeviceCode(pExtends.getDeviceCode());
-			account.setDeviceName(pExtends.getDeviceName());
-			account.setNorm(pExtends.getNorm());
-			account.setMaterialCode(pExtends.getMaterialCode());
-			account.setMaterialType(pExtends.getMaterialType());
-			account.setWarningValue(pExtends.getWarningValue());
-			account.setManufacturer(pExtends.getManufacturer());
-			account.setLeaveFactoryCode(pExtends.getLeaveFactoryCode());
-			account.setLeaveFactoryDate(pExtends.getLeaveFactoryDate());
-			account.setSupplier(pExtends.getSupplier());
-			account.setUnit(pExtends.getUnit());
-			account.setPrice(pExtends.getPrice());
-			account.setAmount(pExtends.getAmount());
-			account.setTotalPrice(pExtends.getTotalPrice());
-			baseCommonService.saveOrUpdate(account);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void savePartAccount(OutWareHouse eHouse, PartsExtends pExtends) {
+//		try {
+//			PartsAccount account = new PartsAccount();
+//			//仓库信息存入备件台账表
+//			account.setWareHouseCode(eHouse.getOutWarehouseCode());
+//			account.setWareHouseName(eHouse.getOutWarehouseName());
+//			account.setInboundType(eHouse.getOutBoundType());
+//			account.setInboundDate(eHouse.getOutBoundDate());
+//			//备件扩展表存入备件台账
+//			account.setDeviceCode(pExtends.getDeviceCode());
+//			account.setDeviceName(pExtends.getDeviceName());
+//			account.setNorm(pExtends.getNorm());
+//			account.setMaterialCode(pExtends.getMaterialCode());
+//			account.setMaterialType(pExtends.getMaterialType());
+//			account.setWarningValue(pExtends.getWarningValue());
+//			account.setManufacturer(pExtends.getManufacturer());
+//			account.setLeaveFactoryCode(pExtends.getLeaveFactoryCode());
+//			account.setLeaveFactoryDate(pExtends.getLeaveFactoryDate());
+//			account.setSupplier(pExtends.getSupplier());
+//			account.setUnit(pExtends.getUnit());
+//			account.setPrice(pExtends.getPrice());
+//			account.setAmount(pExtends.getAmount());
+//			account.setTotalPrice(pExtends.getTotalPrice());
+//			baseCommonService.saveOrUpdate(account);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 //	@Override
 //	public int validAmount(String amount, String deviceCode, String price) {
@@ -252,9 +249,9 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 //	}
 
 	@Override
-	public EnterWareHouseFlowBean getOutWareHouseFlowBean(String key) {
+	public WareHouseFlowBean getOutWareHouseFlowBean(String key) {
 		OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, key);
-		EnterWareHouseFlowBean ewhFlowBean = new EnterWareHouseFlowBean();
+		WareHouseFlowBean ewhFlowBean = new WareHouseFlowBean();
 		if (ewhFlowBean != null) {
 			FlowProcessInfo fpi = flowProcessInfoService.findProcessInfoByEntityKey(outWareHouse.getKey());
 			if (fpi != null) {
@@ -273,15 +270,6 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 			}
 		}
 		return ewhFlowBean;
-	}
-
-	@Override
-	public OutWareHouse getOutWareHouseByKey(String key) {
-		OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, key);
-		if (outWareHouse != null) {
-			return outWareHouse;
-		}
-		return null;
 	}
 
 }

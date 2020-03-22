@@ -22,7 +22,7 @@ package com.ehs.eam.eamPartLibraryManager.bean;
 *---------------------------------------------------------*
 * 2020年2月9日     Administrator           v1.0.0               修改原因
 */
-public class EnterWareHouseFlowBean {
+public class WareHouseFlowBean {
 	
 	private String currentStep;
 	
