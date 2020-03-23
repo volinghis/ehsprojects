@@ -73,24 +73,6 @@ public interface EamLedgerService {
 	*/
 	List<EamInspectors> getInspectorsByKey(String key);
 
-
-	/**   
-	* @Function:getChildDevByKey 
-	* @Description: 该函数的功能描述
-	* @param deviceKey
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	 * @return 
-	* @date: 2020年1月6日 下午8:47:11 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月6日     qjj        v1.0.0            修改原因
-	*/
-	List<EamLedger> getChildDevByKey(String deviceKey);
-
 	/**   
 	* @Function:saveRelatedDevices 
 	* @Description: 该函数的功能描述

@@ -168,6 +168,7 @@ public class EamScrapServiceImpl implements EamScrapService {
 			es.setScrapDate(new Timestamp(System.currentTimeMillis())); 
 			//设备更新表数据更新
 			EamLedger el = baseCommonService.findByKey(EamLedger.class, es.getDeviceKey());
+			el.setDeviceStatus("已报废");
 			baseCommonService.saveOrUpdate(el);
 			
 			//设备台账表数据更新

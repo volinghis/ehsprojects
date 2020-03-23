@@ -1,5 +1,18 @@
 <template>
   <div>
+    <span style="margin-left:10px;">查询：</span>
+    <div class="table-search-wrapper">
+      <el-input placeholder="根据设备名称查询"
+                v-model="queryParam.name">
+        <template slot="append">
+          <el-button type="primary"
+                     :size="GlobalCss.buttonSize"
+                     icon="el-icon-search"
+                     @click="initTable()">
+          </el-button>
+        </template>
+      </el-input>
+    </div>
     <div class="queryBodys">
       <el-form ref="ruleForm"
                style="width:700px;"
@@ -23,22 +36,43 @@
                       label="GTY">&gt;= 3年</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="设备位置">
+          <el-select v-model="form.addresse"
+                     clearable
+                     style="width:60%"
+                     @clear="initTable"
+                     @change="addressChange"
+                     placeholder="请选择设备位置">
+            <el-option v-for="item in deviceAddresses"
+                       :key="item.key"
+                       :label="item.text"
+                       :value="item.key">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="系统/专业"
+                      prop="checkScope">
+          <el-radio-group v-model="checkScope"
+                          @change="selectChange">
+            <el-radio v-for="item in checkScopes"
+                      :key="item.key"
+                      :label="item.text"
+                      :value="item.key"
+                      border
+                      size="mini">{{item.text}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item prop="checkScopeType">
+          <el-radio-group v-model="checkScopeType"
+                          @change="checkScopeTypeChange">
+            <el-radio label="BY_SYSTEM">按系统</el-radio>
+            <el-radio label="BY_PROFESSIONA">按专业</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
     </div>
-    <div class="table-search-wrapper">
-      <el-input placeholder="根据设备名称查询"
-                v-model="queryParam.name">
-        <template slot="append">
-          <el-button type="primary"
-                     :size="GlobalCss.buttonSize"
-                     icon="el-icon-search"
-                     @click="initTable()">
-          </el-button>
-        </template>
-      </el-input>
-    </div>
     <div class="ehs_form_item_message">
-      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。
+      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。<br />3)可以根据设备位置，系统和专业快捷查询。
     </div>
     <div class="operate">
       <el-button type="primary"

@@ -7,20 +7,15 @@
                    icon="fa fa-plus pull-left"
                    @click="dialogTableVisible = true"
                    :size="GlobalCss.buttonSize">选择设备</el-button>
-        <el-button type="danger"
-                   icon="el-icon-delete"
-                   @click="handleDeleteClick"
-                   :size="GlobalCss.buttonSize">移除</el-button>
       </template>
     </div>
     <div class="tableContainer">
       <el-table :data="tableData"
-                @selection-change="handleSelectionChange"
+                ref="table"
                 border
                 size="small"
                 style="width: 100%">
-        <el-table-column type="selection"
-                         width="55">
+        <el-table-column type="index"  align="center">
         </el-table-column>
         <el-table-column prop="deviceNum"
                          align="center"
@@ -34,11 +29,22 @@
         <el-table-column prop="deviceModel"
                          align="center"
                          label="型号"></el-table-column>
+                         <el-table-column fixed="right"
+                         align="center"
+                         width="160"
+                         label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger"
+                       v-if="!isDisable"
+                       :size="GlobalCss.buttonSize"
+                       @click="handleDeleteClick(scope.row,scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <!--设备选择弹窗-->
     <el-dialog title="设备台账"
-               :visible.sync="dialogTableVisible">
+               :visible.sync="dialogTableVisible" destroy-on-close>
       <eam-list @handlerSelect="handlerSelect"
                 :deviceKey="deviceKey"
                 flag="child"></eam-list>
@@ -54,7 +60,6 @@
   </div>
 </template>
 <script>
-import ConstructKeys from '../commom/utils.js'
 import EamList from './eamList'
 export default {
   components: {
@@ -72,33 +77,20 @@ export default {
     deviceKey: String,
     isDisable: Boolean
   },
-  watch: {
-    deviceKey: function (val) {
-      this.getRelatedDeviceByKey(val)
-    }
+  mounted () {
+    this.getRelatedDeviceByKey()
   },
   methods: {
     // 移除
-    handleDeleteClick () {
-      const checked = this.checkedDatas
-      if (!checked.length > 0) {
-        this.$message({
-          message: '请选择要移除的子设备',
-          type: 'warning'
-        })
-      } else {
-        let keys = ConstructKeys.handlerArrayDatas(checked)
-        this.handlerRemove(keys)
-      }
-    },
-    handlerRemove (keys) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeEamLedger', { params: { deviceKey: this.deviceKey, keys: keys } }).then(res => {
+    handleDeleteClick (row, index) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeEamLedger', { params: { deviceKey: this.deviceKey, keys: row.key } }).then(res => {
         if (res.data.resultType === 'ok') {
           this.$message({
             message: res.data.message,
             type: 'success'
           })
-          this.getRelatedDeviceByKey(this.deviceKey)
+          this.tableData.splice(index, 1)
+          this.$emit('removedEamKey', row.key)
         } else {
           this.$message({
             message: res.data.message,
@@ -110,22 +102,25 @@ export default {
       })
     },
     getRelatedDeviceByKey () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getChildDevByKey', { params: { key: this.deviceKey } }).then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getChildDevByKey', { params: { key: this.deviceKey } }).then(res => {
         this.tableData = res.data
       }).catch(error => {
         this.$message({ message: error })
       })
     },
     handlerConfirm (val) {
-      this.tableData = this.selectDatas
+      var d = this.tableData
+      d.push.apply(d, this.selectDatas)
+      console.log(d)
+      var keysStr = ''
+      d.forEach(e => {
+        keysStr += e.refKey + ','
+      })
       this.dialogTableVisible = false
-      this.$emit('getRelatedKeys', ConstructKeys.handlerArrayDatas(this.selectDatas))
+      this.$emit('getRelatedKeys', keysStr.substring(0, keysStr.length - 1))
     },
-    handlerSelect (data) { // 传递给子组件的方法
+    handlerSelect (data) { // 获取子组件eamList传递的参数
       this.selectDatas = data
-    },
-    handleSelectionChange (val) {
-      this.checkedDatas = val
     }
   }
 }

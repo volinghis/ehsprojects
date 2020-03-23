@@ -1,6 +1,6 @@
 <template>
   <div class="filesTable">
-     <span style="display:inline-block;float:left">关联文件</span>
+    <span style="display:inline-block;float:left">关联文件</span>
     <div class="operate"
          v-if="!isDisable">
       <div class="select-wrap">
@@ -44,6 +44,7 @@
         </el-table-column>
         <el-table-column prop="type"
                          align="center"
+                         width="80"
                          label="文件类型">
         </el-table-column>
         <el-table-column prop="fileSize"
@@ -56,6 +57,7 @@
         </el-table-column>
         <el-table-column fixed="right"
                          align="center"
+                         width="210"
                          label="操作">
           <template slot-scope="scope">
             <el-button @click="handleViewClick(scope.row)"
@@ -75,6 +77,7 @@
 
     <template>
       <el-dialog title="文件预览"
+                 :modal="false"
                  :visible.sync="viewVisible"
                  width="50%"
                  height="100%"
@@ -236,7 +239,7 @@ export default {
 .select-wrap {
   float: left;
 }
-.upload-wrap{
+.upload-wrap {
   margin-left: 8px;
   margin-bottom: 8px;
   float: right;

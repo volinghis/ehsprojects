@@ -57,6 +57,6 @@ public interface EamLedgerDao extends JpaRepository<EamLedger, String>  {
 	@Query(" select el from EamLedger el where el."+EamLedger.DEVICE_NAME+" like %?1% and el."+BaseEntity.DELETED+"= 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<EamLedger> findListSingleQuery(String query,Pageable pageable);
 	
-	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select el from EamLedger el where el."+BaseEntity.KEY+"=?1 and el."+BaseEntity.DELETED+" = 0 ")
     public EamLedger findEamLedgerByKey(String key);
 }

@@ -221,28 +221,6 @@ public class EamLedgerController {
 		return JsonUtils.toJsonString(resultBean.ok("删除成功"));
 	}
 
-	/**
-	 * 
-	 * @Function:getChildDevByKey
-	 * @Description:获取当前设备的子设备
-	 * @param key     当前设备的主键
-	 * @param request
-	 * @return 所有子设备的json格式数据
-	 * @throws：异常描述
-	 * @version: v1.0.0
-	 * @author: qjj
-	 * @date: 2020年1月7日 上午9:44:42
-	 *
-	 * Modification History: Date Author Version Description
-	 * ---------------------------------------------------------* 2020年1月7日
-	 * qjj v1.0.0 修改原因
-	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
-	@RequestMapping(value = "/getChildDevByKey")
-	public String getChildDevByKey(@RequestParam String key, HttpServletRequest request) {
-		List<EamLedger> eamLedgers = eamLedgerService.getChildDevByKey(key);
-		return eamLedgers != null ? JsonUtils.toJsonString(eamLedgers) : "[]";
-	}
 
 	/**
 	 * 

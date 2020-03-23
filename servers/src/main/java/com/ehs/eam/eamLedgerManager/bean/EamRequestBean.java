@@ -35,8 +35,6 @@ public class EamRequestBean {
 	private EamLedger eamLedger;
 	
 	private EamLedgerLast eamLedgerLast;
-
-	private String deviceKeys;
 	
 	private List<EamParameters> paramsList;
 
@@ -56,20 +54,6 @@ public class EamRequestBean {
 	 */
 	public void setEamLedger(EamLedger eamLedger) {
 		this.eamLedger = eamLedger;
-	}
-
-	/**
-	 * @return the deviceKeys
-	 */
-	public String getDeviceKeys() {
-		return deviceKeys;
-	}
-
-	/**
-	 * @param deviceKeys the deviceKeys to set
-	 */
-	public void setDeviceKeys(String deviceKeys) {
-		this.deviceKeys = deviceKeys;
 	}
 
 	/**

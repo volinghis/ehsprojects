@@ -1,5 +1,14 @@
 <template>
   <div>
+    <span style="margin-left:10px;">查询：</span>
+    <div class="table-search-wrapper">
+      <el-input placeholder="请输入报废编号"
+                size="small"
+                v-model="queryParam.query">
+        <el-button slot="append"
+                   icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
     <div class="queryBodys">
       <el-form ref="ruleForm"
                style="width:700px;"
@@ -26,14 +35,6 @@
           </el-radio-group>
         </el-form-item>
       </el-form>
-    </div>
-    <div class="table-search-wrapper">
-      <el-input placeholder="请输入报废编号"
-                size="small"
-                v-model="queryParam.query">
-        <el-button slot="append"
-                   icon="el-icon-search"></el-button>
-      </el-input>
     </div>
     <div class="ehs_form_item_message">
       1)该列表展示所有设备调拨信息。<br />2)可以根据调拨名称进行模糊查询。<br />3)点击调拨编号可以查看详情。<br />4)申请日期起超过7天未处理为逾期。
@@ -98,7 +99,7 @@
             <template slot-scope="scope">
               <div slot="reference">
                 <el-tag :size="GlobalCss.buttonSize"
-                        :type="scope.row.status === '已结束' ? 'danger' : 'success'">{{ scope.row.status }}</el-tag>
+                        :type="scope.row.status === '已结束' ? 'danger' : (scope.row.status==='已驳回'? 'warning' :'primary' )">{{ scope.row.status}}</el-tag>
               </div>
             </template>
           </el-table-column>

@@ -2,7 +2,7 @@
   <div class="table-wrapper">
     <div>
       <el-input placeholder="根据设备名称查询"
-                    v-model="queryParam.query" :size="GlobalCss.buttonSize" style="width:30%;float:left;margin-bottom:8px;">
+                    v-model="queryParam.name" :size="GlobalCss.buttonSize" style="width:30%;float:left;margin-bottom:8px;">
             <template slot="append">
               <el-button type="primary"
                          :size="GlobalCss.buttonSize"
@@ -17,7 +17,6 @@
                 style="width: 100%"
                 highlight-current-row
                 ref="leftTable"
-                @current-change="handleCurrentChange"
                 @selection-change="handleSelectionChange"
                 border
                 :size="GlobalCss.controlSize">
@@ -72,7 +71,7 @@ export default {
       queryParam: {
         size: 5,
         page: 1,
-        query: ''
+        name: ''
       },
       tableRadio: {},
       form: {},
@@ -125,11 +124,6 @@ export default {
       } else {
         this.getLedgerListNotScrap()
       }
-    },
-    handleEditClick: function () {
-    },
-    handleCurrentChange (val) {
-      this.$emit('handlerSelect', val)
     },
     handleSelectionChange (val) {
       this.$emit('handlerSelect', val)

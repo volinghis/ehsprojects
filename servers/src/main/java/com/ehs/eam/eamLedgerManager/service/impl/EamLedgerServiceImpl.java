@@ -27,6 +27,7 @@ import org.springframework.util.CollectionUtils;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
+import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -83,8 +84,9 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Override
 	public PageInfoBean findEamLedgerList(EamLedgerQueryBean querybean) {
 		// TODO Auto-generated method stub
-		PageRequest pr = PageRequest.of(querybean.getPage() - 1, querybean.getSize(),querybean.getSortForJpaQuery());
-		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getName(),querybean.getAddress(),querybean.getProfession(),querybean.getDeviceSystem(),querybean.getTime(), pr);
+		PageRequest pr = PageRequest.of(querybean.getPage() - 1, querybean.getSize(), querybean.getSortForJpaQuery());
+		Page<EamLedger> eamLedgers = eamLedgerDao.findEamLedgerList(querybean.getName(), querybean.getAddress(),
+				querybean.getProfession(), querybean.getDeviceSystem(), querybean.getTime(), pr);
 		if (eamLedgers != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(eamLedgers.getContent());
@@ -101,8 +103,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Transactional
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
-		String newKeys = "";
-		String oldKeys = reqEamLedger.getRefDeviceKey();
+		System.out.println("---------------------------" + JsonUtils.toJsonString(reqEamLedger));
 		// 设备新建的时候初始化的值
 		String deviceNum = BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
@@ -111,16 +112,11 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		} else {
 			EamLedger eLedger = baseCommonService.findByKey(EamLedger.class, reqEamLedger.getKey());
 			BeanUtils.copyProperties(reqEamLedger, eLedger);
-			reqEamLedger=eLedger;
+			reqEamLedger = eLedger;
 		}
-		if (StringUtils.isNotBlank(oldKeys)) {// 关联子设备的保存
-			newKeys = new StringBuffer(oldKeys).append(",").append(eamRequestBean.getDeviceKeys()).toString();
-		} else {
-			newKeys = eamRequestBean.getDeviceKeys();
-		}
-		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,reqEamLedger.getInstallLocation());
+		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,
+				reqEamLedger.getInstallLocation());
 		reqEamLedger.setInstallLocationName(dataDictionary == null ? "" : dataDictionary.getText());
-		reqEamLedger.setRefDeviceKey(newKeys);
 
 		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqEamLedger, eamRequestBean.getFlowProcessInfo());
@@ -178,37 +174,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	}
 
 	/**
-	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#getChildDevByKey(java.lang.String)
-	 */
-	@Override
-	public List<EamLedger> getChildDevByKey(String deviceKey) {
-		// TODO Auto-generated method stub
-		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, deviceKey);
-		return getCurrentList(eamLedger);
-	}
-
-	/*
-	 * 获取当前设备的已有子设备
-	 */
-	private List<EamLedger> getCurrentList(EamLedger eamLedger) {
-		String refKeys = "";
-		if (eamLedger != null) {
-			refKeys = eamLedger.getRefDeviceKey();
-		}
-		List<EamLedger> resEamLedgers = new ArrayList<EamLedger>();
-		if (StringUtils.isNotBlank(refKeys)) {
-			String[] keysArr = refKeys.split(",");
-			for (int i = 0; i < keysArr.length; i++) {
-				EamLedger el = eamLedgerDao.findEamLedgerByKey(keysArr[i]);
-				if (el != null) {
-					resEamLedgers.add(el);
-				}
-			}
-		}
-		return resEamLedgers;
-	}
-
-	/**
 	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#saveRelatedDevices(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -233,14 +198,18 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	public void removeRelatedEamLedgers(String devicekey, String keys) {
 		// TODO Auto-generated method stub
 		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, devicekey);
+		EamLedgerLast eLast = eamLedgerLastDao.findEamLedgerLastByRefKey(devicekey);
 		String hadKeys = "";
 		if (eamLedger != null) {
 			hadKeys = eamLedger.getRefDeviceKey();
 			List<String> arr1 = new ArrayList<String>(Arrays.asList(hadKeys.split(",")));
 			List<String> arr2 = new ArrayList<String>(Arrays.asList(keys.split(",")));
 			arr1.removeAll(arr2);
-			eamLedger.setRefDeviceKey(StringUtils.join(arr1.toArray(), ","));
+			String ref = StringUtils.join(arr1.toArray(), ",");
+			eamLedger.setRefDeviceKey(ref);
+			eLast.setRefDeviceKey(ref);
 			baseCommonService.saveOrUpdate(eamLedger);
+			baseCommonService.saveOrUpdate(eLast);
 		}
 	}
 

@@ -18,7 +18,6 @@ export default {
     return {
       paramsTableDatas: [],
       inspectorsDatas: [],
-      relatedKyes: '',
       deviceKey: '',
       imgUrl: '',
       deviceAddress: [],
@@ -28,8 +27,8 @@ export default {
         deviceName: '',
         deviceNum: '',
         runDate: '',
-        factoryName: '',
-        installLocation: '',
+        actoryName: '',
+        ifnstallLocation: '',
         installLocationName: '',
         completePoint: 0,
         person: '',
@@ -38,7 +37,8 @@ export default {
         profession: '',
         fileId: '',
         remarks: '',
-        deviceImg: ''
+        deviceImg: '',
+        refDeviceKey: ''
       },
       rules: {
         deviceName: [
@@ -104,7 +104,8 @@ export default {
       this.inspectorsDatas.push(data)
     },
     getRelatedKeys (data) {
-      this.relatedKyes = data
+      console.log(data)
+      this.form.refDeviceKey = data
     },
     allFileId (v) {
       if (this.form.fileId !== '') {
@@ -123,7 +124,17 @@ export default {
       } else {
         this.form.fileId = ''
       }
-      console.log(this.form.fileId)
+    },
+    removedEamKey (v) {
+      var t = this.form.refDeviceKey
+      if (t !== '') {
+        var r = t.split(',').filter(t => {
+          return t !== v
+        })
+        this.form.refDeviceKey = r.join(',')
+      } else {
+        this.form.refDeviceKey = ''
+      }
     },
     getDevicePicture (deviceImg) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + deviceImg, { responseType: 'blob' }).then(res => {
@@ -161,7 +172,6 @@ export default {
           const reqBean = {
             eamLedgerLast: this.form,
             eamLedger: this.form,
-            deviceKeys: this.relatedKyes,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas,
             flowProcessInfo: process

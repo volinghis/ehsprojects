@@ -19,6 +19,7 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.TreeDataBean;
 import com.ehs.eam.eamLedgerManager.dao.EamLedgerLastDao;
+import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerLastService;
 
@@ -55,24 +56,25 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Override
 	public PageInfoBean findLeftEamLedgerList(EamLedgerQueryBean querybean) {
 		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
-		Page<EamLedgerLast> allLedgers = eamLastDao.findListOnlyNameQuery(querybean.getName(), pageRequest);
+		Page<EamLedgerLast> allLedgers = eamLastDao.findListByDeviceName(querybean.getName(), pageRequest);
 		List<EamLedgerLast> resultList = new ArrayList<EamLedgerLast>();
 		EamLedgerLast curLedger = eamLastDao.findEamLedgerLastByRefKey(querybean.getDeviceKey());
 		List<EamLedgerLast> currentLedgers = getCurrentList(curLedger);
 		if (currentLedgers == null || currentLedgers.isEmpty()) {
 			resultList = allLedgers.getContent().stream()
-					.filter(s -> (!StringUtils.equals(s.getRefKey(), querybean.getDeviceKey())))
+					.filter(s -> ((!StringUtils.equals(s.getRefKey(), querybean.getDeviceKey()))&&(!StringUtils.equals(s.getDeviceStatus(), "已报废"))))
 					.collect(Collectors.toList());
 		} else {
 			resultList = allLedgers.getContent().stream()
 					.filter(s -> currentLedgers.stream()
 							.allMatch(ss -> (!StringUtils.equals(s.getKey(), ss.getKey()))
-									&& (!StringUtils.equals(s.getKey(), querybean.getDeviceKey()))))
+									&& (!StringUtils.equals(s.getRefKey() ,querybean.getDeviceKey()))
+									&&(!StringUtils.equals(s.getDeviceStatus(), "已报废"))))
 					.collect(Collectors.toList());
 		}
 		PageInfoBean pb = new PageInfoBean();
 		pb.setDataList(resultList);
-		pb.setTotalCount(allLedgers.getTotalElements());
+		pb.setTotalCount(resultList.size());
 		return pb;
 	}
 
@@ -88,9 +90,10 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 		if (StringUtils.isNotBlank(refKeys)) {
 			String[] keysArr = refKeys.split(",");
 			for (int i = 0; i < keysArr.length; i++) {
-				EamLedgerLast el = eamLastDao.findEamLedgerLastByKey(keysArr[i]);
+				EamLedger el=baseCommonService.findByKey(EamLedger.class, keysArr[i]);
 				if (el != null) {
-					resEamLedgers.add(el);
+					EamLedgerLast elast = eamLastDao.findEamLedgerLastByRefKey(el.getKey());
+					resEamLedgers.add(elast);
 				}
 			}
 		}
@@ -120,5 +123,15 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 			}
 		}
 		return resulList;
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#getChildDevByKey(java.lang.String)  
+	*/
+	@Override
+	public List<EamLedgerLast> getChildDevByKey(String key) {
+		// TODO Auto-generated method stub
+		EamLedgerLast curLedger = eamLastDao.findEamLedgerLastByRefKey(key);
+		return getCurrentList(curLedger);
 	}
 }

@@ -19,6 +19,7 @@ import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.TreeDataBean;
+import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerLastService;
 
@@ -126,5 +127,29 @@ public class EamLedgerLastController {
 	public String getTreeForDevice(@RequestParam String parentKey,@RequestParam String subKey) {
 		List<TreeDataBean> dataTreeList=eamLedgerLastService.findTreeForDevice(parentKey,subKey);
 		return JsonUtils.toJsonString(dataTreeList);
+	}
+	
+	
+	/**
+	 * 
+	 * @Function:getChildDevByKey
+	 * @Description:获取当前设备的子设备
+	 * @param key     当前设备的主键
+	 * @param request
+	 * @return 所有子设备的json格式数据
+	 * @throws：异常描述
+	 * @version: v1.0.0
+	 * @author: qjj
+	 * @date: 2020年1月7日 上午9:44:42
+	 *
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月7日
+	 * qjj v1.0.0 修改原因
+	 */
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/getChildDevByKey")
+	public String getChildDevByKey(@RequestParam String key, HttpServletRequest request) {
+		List<EamLedgerLast> eamLedgers = eamLedgerLastService.getChildDevByKey(key);
+		return eamLedgers != null ? JsonUtils.toJsonString(eamLedgers) : "[]";
 	}
 }

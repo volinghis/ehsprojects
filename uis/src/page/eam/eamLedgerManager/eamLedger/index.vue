@@ -21,6 +21,19 @@
         </el-tabs>
       </el-col>
       <el-col :span="20">
+        <span style="margin-left:10px;">查询：</span>
+        <div class="table-search-wrapper">
+          <el-input placeholder="根据设备名称查询"
+                    v-model="queryParam.name">
+            <template slot="append">
+              <el-button type="primary"
+                         :size="GlobalCss.buttonSize"
+                         icon="el-icon-search"
+                         @click="initTable()">
+              </el-button>
+            </template>
+          </el-input>
+        </div>
         <div class="queryBodys">
           <el-form ref="ruleForm"
                    style="width:700px;"
@@ -68,21 +81,9 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="table-search-wrapper">
-          <el-input placeholder="根据设备名称查询"
-                    v-model="queryParam.name">
-            <template slot="append">
-              <el-button type="primary"
-                         :size="GlobalCss.buttonSize"
-                         icon="el-icon-search"
-                         @click="initTable()">
-              </el-button>
-            </template>
-          </el-input>
-          <div class="ehs_form_item_message">
+         <div class="ehs_form_item_message">
             1)该列表显示展示所有设备信息;<br />2)可以点击左侧树结构，选择条件来查询;<br />3)也可以根据设备的投运时长，设备状态和资料完整度详情操作。
           </div>
-        </div>
         <!-- <div class="operate">
       <el-button type="success"
                  :size="GlobalCss.buttonSize"

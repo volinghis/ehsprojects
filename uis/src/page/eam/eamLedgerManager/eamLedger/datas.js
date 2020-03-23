@@ -54,6 +54,9 @@ export default {
     },
     handleClick (tab) {
       this.activeName = tab.name
+      this.form.address = ''
+      this.queryParam.deviceSystem = 'ALL'
+      this.queryParam.profession = 'ALL'
       this.inintTree()
       this.initTable()
     },

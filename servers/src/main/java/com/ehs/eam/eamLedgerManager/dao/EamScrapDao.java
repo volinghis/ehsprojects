@@ -45,7 +45,7 @@ public interface EamScrapDao extends JpaRepository<EamScrap, String>{
 			+ " or('APPROVL'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask2' ) "
 			+ " or('END'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"=:status )"
 			+ " or('REJECT'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask1' ) "
-			+ " or('OVERDUE'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<>:status and (TO_DAYS(current_date())-TO_DAYS(el."+ EamScrap.APPLICATION_TIME + "))>7) "
+			+ " or('OVERDUE'=:status and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<>'END' and (TO_DAYS(current_date())-TO_DAYS(el."+ EamScrap.APPLICATION_TIME + "))>7) "
 			+ " )"
 			+ "")
 	public Page<EamScrap> findEamScrapList(@Param("query")String query,@Param("status") String status,Pageable pageable);

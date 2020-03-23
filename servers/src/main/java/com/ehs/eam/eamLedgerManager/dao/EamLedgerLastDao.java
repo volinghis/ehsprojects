@@ -13,7 +13,7 @@ import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 
 @Repository
 public interface EamLedgerLastDao
-		extends JpaRepository<EamLedgerLast, String>, JpaSpecificationExecutor<EamLedgerLast> {
+		extends JpaRepository<EamLedgerLast, String> {
 	/**
 	 * 
 	 * @Function:findEamLedgerByScrapKey
@@ -55,9 +55,8 @@ public interface EamLedgerLastDao
 			@Param("time") String time, 
 			Pageable pageable);
 
-	@Query(" select el from EamLedgerLast el where el." + EamLedgerLast.DEVICE_NAME + " like %?1% and el."
-			+ BaseEntity.DELETED + "=0 order by " + BaseEntity.BASE_SORT_NUM + " desc")
-	public Page<EamLedgerLast> findListOnlyNameQuery(String query, Pageable pageable);
+	@Query(" select el from EamLedgerLast el where el."+ BaseEntity.DELETED + "=0  and  el."+ EamLedgerLast.DEVICE_NAME + " like %:name%")
+	public Page<EamLedgerLast> findListByDeviceName(String name, Pageable pageable);
 
 	@Query(" select el from EamLedgerLast el where el." + BaseEntity.KEY + "=?1 and el." + BaseEntity.DELETED
 			+ "=0 order by " + BaseEntity.BASE_SORT_NUM + " desc")

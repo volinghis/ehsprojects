@@ -133,6 +133,7 @@
     <!--子设备-->
     <div class="item-block right">
       <ChildEamTable @getRelatedKeys="getRelatedKeys"
+      @removedEamKey='removedEamKey'
                      :deviceKey="deviceKey" />
     </div>
     <!--关联文件-->

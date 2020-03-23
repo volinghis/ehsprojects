@@ -17,11 +17,17 @@ export default {
       activeName: 'first',
       total: 0,
       tableData: [],
-      tableId: ''
+      tableId: '',
+      deviceAddresses: [],
+      checkScopeType: 'BY_SYSTEM',
+      checkScope: '',
+      checkScopes: ''
     }
   },
   created: function () {
     this.initTable()
+    this.getDeviceAddress()
+    this.checkScopeTypeChange()
   },
   methods: {
     initTable () {
@@ -31,6 +37,38 @@ export default {
       }).catch(error => {
         this.$message({ message: error })
       })
+    },
+    getDeviceAddress () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress').then(res => {
+        this.deviceAddresses = res.data
+      })
+    },
+    selectChange () {
+      if (this.checkScopeType === 'BY_SYSTEM') {
+        this.queryParam.deviceSystem = this.checkScope
+      } else {
+        this.queryParam.profession = this.checkScope
+      }
+      this.initTable()
+    },
+    addressChange (v) {
+      this.queryParam.address = v
+      this.initTable()
+    },
+    checkScopeTypeChange (v) {
+      if (v === 'BY_PROFESSIONA') {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
+          this.checkScopes = res.data
+        })
+      } else {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem').then(res => {
+          this.checkScopes = res.data
+        })
+      }
+      this.checkScope = ''
+      this.queryParam.deviceSystem = 'ALL'
+      this.queryParam.profession = 'ALL'
+      this.initTable()
     },
     customColorMethod: function (percentage) { // 资料完整度颜色
       if (percentage < 40) {
