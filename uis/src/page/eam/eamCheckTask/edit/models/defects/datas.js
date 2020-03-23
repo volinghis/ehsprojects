@@ -5,44 +5,38 @@ export default {
 
   data () {
     return {
-      repair: {
-        result: '',
-        note: '',
+      defect: {
+        status: '',
+        files: '',
         question: '',
         objectKey: '',
         objectType: '',
         deleted: false,
         deviceAddress: '',
         key: '',
-        userType: '',
-        userName: '',
-        orgName: ''
+        level: '',
+        devices: ''
       },
       objects: [],
       deviceAddresses: [],
       pros: [],
       syss: [],
-      activeNames: ['rep', 'def', 'rev'],
-      repaiRules: {
+      defectRules: {
         deviceAddress: [
           { required: true, message: '请选择设备位置', trigger: 'change' }
         ],
-        userName: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
+        question: [
+          { required: true, message: '请输入缺陷描述', trigger: 'blur' }
         ],
-        orgName: [
-          { required: true, message: '请输入公司', trigger: 'blur' }
-        ],
-
-        userType: [
-          { required: true, message: '请选择检修执行人', trigger: 'change' }
+        level: [
+          { required: true, message: '请选择缺陷等级', trigger: 'change' }
         ],
         objectKey: [
           { required: true, message: '请选择检修对象', trigger: 'change' }
         ],
 
-        result: [
-          { required: true, message: '请选择检修结论', trigger: 'change' }
+        status: [
+          { required: true, message: '请选择缺陷状态', trigger: 'change' }
         ]
       }
     }
@@ -51,9 +45,7 @@ export default {
 
   },
   methods: {
-    outerInfoShow () {
-      return this.repair.userType === 'OUTER'
-    },
+
     randomString (len) {
       len = len || 64
       var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678' /** **默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
@@ -66,45 +58,45 @@ export default {
     },
     cancelForm () {
       if (this.dataRow) {
-        this.$parent.$parent.$parent.$parent.$parent.$refs['repairTable'].toggleRowExpansion(this.dataRow)
+        this.$parent.$parent.$parent.$parent.$parent.$refs['defectTable'].toggleRowExpansion(this.dataRow)
       }
-      this.$parent.$parent.$parent.repairsAdd = false
+      this.$parent.$parent.$parent.defectsAdd = false
     },
     addressNameGet (vId) { // 这个vId也就是value值
       let obj = {}
       obj = this.deviceAddresses.find((item) => { // 这里的userList就是上面遍历的数据源
         return item.key === vId// 筛选出匹配数据
       })
-      this.repair.deviceAddressName = obj.text
+      this.defect.deviceAddressName = obj.text
     },
     objectNameGet (vId) { // 这个vId也就是value值
       let obj = {}
       obj = this.objects.find((item) => { // 这里的userList就是上面遍历的数据源
         return item.key === vId// 筛选出匹配数据
       })
-      this.repair.objectName = obj.text
+      this.defect.objectName = obj.text
     },
     submitForm () {
-      this.$refs['repair'].validate((valid) => {
+      this.$refs['defect'].validate((valid) => {
         if (valid) {
-          if (this.repair.userType === 'OWNER') {
-            this.repair.userName = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).username
-            this.repair.orgName = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).orgName
+          if (this.defect.userType === 'OWNER') {
+            this.defect.userName = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).username
+            this.defect.orgName = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).orgName
           }
           if (!this.dataRow) {
-            this.repair.key = this.randomString()
-            this.$parent.$parent.$parent.repairInner(this.repair)
-            this.$parent.$parent.$parent.repairsAdd = false
+            this.defect.key = this.randomString()
+            this.$parent.$parent.$parent.defectInner(this.defect)
+            this.$parent.$parent.$parent.defectsAdd = false
           } else {
-            this.$parent.$parent.$parent.$parent.$parent.repairUpdate(this.repair)
-            this.$parent.$parent.$parent.$parent.$parent.$refs['repairTable'].toggleRowExpansion(this.dataRow)
+            this.$parent.$parent.$parent.$parent.$parent.defectUpdate(this.defect)
+            this.$parent.$parent.$parent.$parent.$parent.$refs['defectTable'].toggleRowExpansion(this.dataRow)
           }
         }
       })
     },
     objectTypeChange (v) {
-      this.repair.objectKey = ''
-      this.repair.objectName = ''
+      this.defect.objectKey = ''
+      this.defect.objectName = ''
       if (v === 'BY_PROFESSIONA') {
         this.objects = this.pros
       } else {
@@ -126,7 +118,7 @@ export default {
       that.deviceAddresses = deviceAddress.data
       if (that.dataRow) {
         that.objectTypeChange(that.dataRow.objectType)
-        that.repair = Object.assign(that.repair, that.dataRow)
+        that.defect = Object.assign(that.defect, that.dataRow)
       }
     }))
   }

@@ -22,24 +22,79 @@
     </el-form>
     <el-collapse v-model="activeNames" v-if="normalExecute()">
       <el-collapse-item title="检修记录" name="rep">
-        <el-table :data="this.ruleForm.eamCheckRepair" border :size="GlobalCss.buttonSize">
-          <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="address" width="140" label="设备位置"></el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="objectKey" width="140" label="检修对象"></el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="question"  label="问题描述"></el-table-column>
-           <el-table-column align="center" show-overflow-tooltip prop="user"  label="检修执行人"></el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="result" width="140" label="检修结论"></el-table-column>
-          <el-table-column align="center" show-overflow-tooltip   width="100"  label="操作"></el-table-column>
+        <el-button type="primary" size="mini" style="float:right" @click="repairsMethod()">添加</el-button>
+        <repairs v-if="repairsAdd"></repairs>
+        <el-table :data="handlesearch(this.ruleForm.eamCheckRepair)" ref="repairTable" border
+          :size="GlobalCss.buttonSize">
+          <el-table-column width="40" type="expand">
+            <template slot-scope="props">
+              <repairs :dataRow="props.row"></repairs>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
+
+          <el-table-column align="center" show-overflow-tooltip prop="deviceAddressName" width="140" label="设备位置">
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="objectName" width="140" label="检修对象">
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="question" label="问题描述"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="userName" label="检修执行人">
+            <template slot-scope="scope">
+              <span>{{transExecutor(scope.row)}}</span>
+            </template>
+
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="result" width="140" label="检修结论">
+            <template slot-scope="scope">
+              <span>{{transResult(scope.row)}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip width="100" label="操作">
+            <template slot-scope="scope">
+              <el-button type="danger" @click="remove(scope)" size="mini" title="删除" icon="el-icon-delete" circle>
+              </el-button>
+            </template>
+
+          </el-table-column>
         </el-table>
       </el-collapse-item>
       <el-collapse-item title="缺陷记录" name="def">
-        <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-      </el-collapse-item>
-      <el-collapse-item title="备件使用情况" name="rev">
-        <div>简化流程：设计简洁直观的操作流程；</div>
-        <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-        <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+        <el-button type="primary" size="mini" style="float:right" @click="defectsMethod()">添加</el-button>
+        <defects v-if="defectsAdd"></defects>
+        <el-table :data="handlesearch(this.ruleForm.eamCheckDefect)" ref="defectTable" border
+          :size="GlobalCss.buttonSize">
+          <el-table-column width="40" type="expand">
+            <template slot-scope="props">
+              <defects :dataRow="props.row"></defects>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
+
+          <el-table-column align="center" show-overflow-tooltip prop="deviceAddressName" width="140" label="设备位置">
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="objectName" width="140" label="缺陷对象">
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="question" label="缺陷描述"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="devices" label="问题设备">
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="level" width="140" label="缺陷等级">
+                  <template slot-scope="scope">
+             <span>{{transDefectLevel(scope)}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="status" width="140" label="缺陷状态">
+             <template slot-scope="scope">
+             <span>{{transDefectStatus(scope)}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" show-overflow-tooltip width="100" label="操作">
+            <template slot-scope="scope">
+              <el-button type="danger" @click="remove(scope)" size="mini" title="删除" icon="el-icon-delete" circle>
+              </el-button>
+            </template>
+
+          </el-table-column>
+        </el-table>
       </el-collapse-item>
 
     </el-collapse>
@@ -47,8 +102,14 @@
 </template>
 <script>
 import datas from './datas'
+import defects from './models/defects/index.vue'
 export default datas
+datas.components = {
+  'defects': defects
+}
+
 </script>
 <style lang="scss" scoped>
   @import "./styles.scss";
+
 </style>
