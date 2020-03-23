@@ -60,32 +60,45 @@ export default {
       if (processObj.key != null) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
-          this.getPartsAccounts()
-          this.getWareHouseAndUseType()
         })
-        this.show = true
-        this.showButton = false
-        this.showFlag = 'view'
       }
+      this.getPartsAccounts()
+      this.getWareHouseAndUseType()
+      this.show = true
+      this.showButton = false
+      this.showFlag = 'view'
     } else if (this.flag === 'edit') {
       if (processObj.key != null) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
-          this.getPartsAccounts()
-          this.getWareHouseAndUseType()
         })
-        this.show = false
-        this.showButton = true
-        this.showFlag = 'edit'
       }
+      this.getPartsAccounts()
+      this.getWareHouseAndUseType()
+      this.show = false
+      this.showButton = true
+      this.showFlag = 'edit'
     } else {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
-          this.showFlag = 'view'
-          this.showButton = false
+          if (processObj.currentStep === '填写单据') {
+            this.showFlag = 'edit'
+            this.show = false
+            this.showButton = true
+          } else {
+            this.show = true
+            this.showFlag = 'view'
+            this.showButton = false
+          }
           this.getPartsAccounts()
           this.getWareHouseAndUseType()
+          // this.form = res.data
+          // this.show = true
+          // this.showFlag = 'view'
+          // this.showButton = false
+          // this.getPartsAccounts()
+          // this.getWareHouseAndUseType()
         })
       }
     }
@@ -135,7 +148,6 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/saveEnterWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
@@ -169,7 +181,10 @@ export default {
         return v.toString(16)
       })
       let partObj = {
+        id: '',
         key: str,
+        fileId: '',
+        partsImg: '',
         deviceName: '',
         deviceCode: '',
         norm: '',
@@ -179,12 +194,12 @@ export default {
         leaveFactoryCode: '',
         leaveFactoryDate: '',
         warningValue: '',
-        founder: '',
         supplier: '',
         price: '',
         amount: '',
         unit: '',
-        totalPrice: 0
+        totalPrice: 0,
+        remark: ''
       }
       this.obj = partObj
     },

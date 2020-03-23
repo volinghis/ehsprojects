@@ -56,6 +56,8 @@ export default {
   },
   created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
+    console.log(processObj)
+    console.log(processObj.currentStep)
     this.flag = processObj.flag
     if (this.flag === 'add') {
       const d = new Date()
@@ -93,8 +95,15 @@ export default {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/getOutWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
-          this.showFlag = 'view'
-          this.showButton = false
+          if (processObj.currentStep === '填写单据') {
+            this.showFlag = 'edit'
+            this.show = false
+            this.showButton = true
+          } else {
+            this.show = true
+            this.showFlag = 'view'
+            this.showButton = false
+          }
           this.getPartsAccounts()
           this.getWareHouseAndUseType()
         })

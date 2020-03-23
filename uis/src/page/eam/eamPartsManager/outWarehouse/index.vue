@@ -1,7 +1,12 @@
 <template>
   <div class="cardHeight">
      <div class="queryBodys">
-      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini" label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+        <el-form-item label="查询" >
+          <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
+            <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-form-item>
         <el-form-item label="仓库">
           <el-radio-group v-model="queryBean.warehouseNames" @change="getTableData()">
             <el-radio border label="ALL">全部</el-radio>
@@ -23,9 +28,6 @@
             <el-radio border label="OVERDUE">已逾期</el-radio>
           </el-radio-group>
         </el-form-item>
-         <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
-          <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
-        </el-input>
       </el-form>
     </div>
     <div class="ehs_form_item_message">
@@ -49,14 +51,14 @@
         <el-table-column prop="deviceCode" label="备件编号" sortable align="center"></el-table-column>
         <el-table-column prop="deviceName" label="备件名称" sortable align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" sortable align="center"></el-table-column>
-        <el-table-column prop="leaveFactoryCode" label="出厂编号" sortable align="center"></el-table-column>
-        <el-table-column prop="leaveFactoryDate" label="出厂日期" sortable align="center"></el-table-column>
-        <el-table-column prop="supplier" label="供应商" sortable align="center"></el-table-column>
-        <el-table-column prop="amount" label="数量" sortable align="center" width="90"></el-table-column>
-        <el-table-column prop="price" label="单价" sortable align="center" width="90"></el-table-column>
-        <el-table-column prop="unit" label="单位" sortable align="center" width="90"></el-table-column>
+        <!-- <el-table-column prop="leaveFactoryCode" label="出厂编号" sortable align="center"></el-table-column>
+        <el-table-column prop="leaveFactoryDate" label="出厂日期" sortable align="center"></el-table-column> -->
+        <!-- <el-table-column prop="supplier" label="供应商" sortable align="center"></el-table-column> -->
+        <el-table-column prop="amount" label="数量" sortable align="center" width="80"></el-table-column>
+        <el-table-column prop="price" label="单价" sortable align="center" width="70"></el-table-column>
+        <el-table-column prop="unit" label="单位" sortable align="center" width="80"></el-table-column>
         <el-table-column prop="totalPrice" label="总价" sortable align="center" width="90"></el-table-column>
-        <el-table-column prop="status" label="任务状态" sortable align="center" width="110">
+        <el-table-column prop="status" label="任务状态" sortable align="center" width="95">
           <template slot-scope="scope">
             <div slot="reference">
               <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>

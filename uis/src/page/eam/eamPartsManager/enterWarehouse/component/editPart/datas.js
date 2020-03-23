@@ -37,8 +37,6 @@ export default {
       handler (val) {
         this.form = val
         this.deviceKey = this.form.key
-        console.log(this.form)
-        this.form.totalPrice = this.form.amount * this.form.price
         if (this.form.partsImg) {
           this.getDevicePicture(this.form.partsImg)
           this.key += 1
@@ -55,6 +53,17 @@ export default {
   methods: {
     allFileId (v) {
       this.form.fileId = v
+    },
+    removedFileId (v) {
+      var temp = this.form.fileId
+      if (temp !== '') {
+        var l = temp.split(',').filter(t => {
+          return t !== v
+        })
+        this.form.fileId = l.join(',')
+      } else {
+        this.form.fileId = ''
+      }
     },
     amountBlur: function (e) {
       this.amountNew = e.target.value
@@ -78,16 +87,17 @@ export default {
     uploadOm: function (v) {
       this.form.operationManual = v
     },
-    beforeAvatarUpload: function (file) {
+    beforeAvatarUpload (file) {
+      const isPNG = file.type === 'image/png'
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      return (isJPG || isPNG) && isLt2M
     },
     getDevicePicture: function (partsImg) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
@@ -129,13 +139,6 @@ export default {
         unit: '',
         totalPrice: ''
       },
-      customColors: [
-        { color: '#f56c6c', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 },
-        { color: '#6f7ad3', percentage: 100 }
-      ],
       rules: {
         price: [
           { required: true, message: '请输入价格', trigger: 'blur' },
@@ -174,10 +177,15 @@ export default {
           { required: true, message: '请输入物资类别', trigger: 'blur' }
         ],
         warningValue: [
-          { required: true, message: '请输入预警值', trigger: 'blur' }
+          { required: true, message: '请输入预警值', trigger: 'blur' },
+          {
+            type: 'number',
+            message: '请输入正确数字',
+            trigger: 'blur',
+            transform: value => Number(value)
+          }
         ]
-      },
-      fileList: []
+      }
     }
   }
 }

@@ -53,7 +53,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 			+ " or('APPROVL'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask2' ) "
 			+ " or('END'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"=:flowstatus )"
 			+ " or('REJECT'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask1' ) "
-			+ " or('OVERDUE'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<>:flowstatus and (TO_DAYS(current_date())-TO_DAYS(e."+ EnterWareHouse.CREATION_TIME + "))>7) "
+			+ " or('OVERDUE'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<> 'END' and (TO_DAYS(current_date())-TO_DAYS(e."+ EnterWareHouse.CREATION_TIME + "))>7)"
 			+ " )"
 			+ "")
 	public Page<PartsExtends> getAllEnterWareHouseParts(@Param("query") String query, 
@@ -79,7 +79,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 			+ " or('APPROVL'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask2' ) "
 			+ " or('END'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"=:flowstatus )"
 			+ " or('REJECT'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"='usertask1' ) "
-			+ " or('OVERDUE'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<>:flowstatus and (TO_DAYS(current_date())-TO_DAYS(o."+ OutWareHouse.CREATION_TIME + "))>7) "
+			+ " or('OVERDUE'=:flowstatus and fi."+FlowProcessInfo.FLOW_CURRENT_STEP+"<> 'END' and (TO_DAYS(current_date())-TO_DAYS(o."+ OutWareHouse.CREATION_TIME + "))>7)"
 			+ " )"
 			+ "")
 	public Page<PartsExtends> getAllOutWareHouseParts(@Param("query") String query, 

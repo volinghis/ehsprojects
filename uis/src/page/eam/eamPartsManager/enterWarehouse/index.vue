@@ -1,8 +1,12 @@
 <template>
   <div>
-
     <div class="queryBodys">
-      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini"  label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini"  label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+        <el-form-item label="查询" >
+          <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
+            <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-form-item>
         <el-form-item label="仓库">
           <el-radio-group v-model="queryBean.wareHouseNames" @change="getTableData()">
             <el-radio border label="ALL">全部</el-radio>
@@ -24,9 +28,6 @@
             <el-radio border label="OVERDUE">已逾期</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
-          <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
-        </el-input>
       </el-form>
     </div>
     <div class="ehs_form_item_message">

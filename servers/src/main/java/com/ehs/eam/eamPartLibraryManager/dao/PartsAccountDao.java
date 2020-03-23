@@ -52,6 +52,12 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 	@Query(" select p from PartsAccount p where p."+PartsAccount.DEVICE_CODE+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsAccount> findByDeviceCode(String deviceCode);
 
-//	@Query(" select p from PartsAccount p where p."+PartsAccount.DEVICE_CODE+"=?1 and p."+PartsAccount.PRICE+"=?2 and p."+BaseEntity.DATA_MODEL+" in ?3  order by "+BaseEntity.BASE_SORT_NUM+" desc")
-//	public PartsAccount findPartsAccount(String deviceCode, BigDecimal price,DataModel[] dataModels);
+	@Query("select p from PartsAccount p where p."+BaseEntity.DELETED+" =0 "
+			+ "and (p."+PartsAccount.DEVICE_CODE+" like %:query% "
+			+ "or p."+PartsAccount.DEVICE_NAME+" like %:query% "
+			+ "or p."+PartsAccount.NORM+" like %:query% "
+			+ " ) "
+			+ "")
+	public Page<PartsAccount> getAllPartsAccount(String query, Pageable pb);
+
 }

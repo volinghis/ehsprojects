@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 355
+      return this.$store.state.contentHeight - 330
     }
   },
   mounted: function () {

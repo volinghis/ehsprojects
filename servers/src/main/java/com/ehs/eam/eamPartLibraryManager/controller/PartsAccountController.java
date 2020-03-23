@@ -14,6 +14,7 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamPartLibraryManager.bean.PartsAccountQueryBean;
+import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 
 /**   
@@ -63,6 +64,16 @@ public class PartsAccountController {
 		logger.info("===========进入getPartsAccountAll方法=============");
 		PageInfoBean pb = partsAccountService.findPartsAccountAll(queryBean);
 		logger.info("===========退出getPartsAccountAll方法=============");
+		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+	}
+	
+	
+	@RequestAuth(menuKeys = {"partsAccount"})
+	@RequestMapping(value = "/getAllPartsAccount")
+	public String getAllPartsAccount(@RequestBody(required = false) QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
+		logger.info("===========进入getAllPartsAccount方法=============");
+		PageInfoBean pb = partsAccountService.getAllPartsAccount(queryBean);
+		logger.info("===========退出getAllPartsAccount方法=============");
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 

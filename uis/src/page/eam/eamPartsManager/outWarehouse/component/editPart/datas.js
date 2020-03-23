@@ -11,6 +11,7 @@ export default {
   },
   watch: {
     flag: function (val) {
+      this.flag = val
     },
     amountNew: function (val) {
       if (this.priceNew !== undefined) {
@@ -34,7 +35,8 @@ export default {
           this.partFlag = true
         } else {
           this.amountFlag = true
-          this.getLaveAmount()
+          this.amountMessage = false
+          this.partFlag = true
         }
         this.form = val
         this.deviceKey = this.form.key
@@ -58,6 +60,17 @@ export default {
   methods: {
     allFileId (v) {
       this.fileIds = v
+    },
+    removedFileId (v) {
+      var temp = this.form.fileId
+      if (temp !== '') {
+        var l = temp.split(',').filter(t => {
+          return t !== v
+        })
+        this.form.fileId = l.join(',')
+      } else {
+        this.form.fileId = ''
+      }
     },
     amountBlur: function (e) {
       if (e.target.value <= this.oldAmount) {
@@ -87,6 +100,7 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
         var resData = res.data
         this.imageUrl = URL.createObjectURL(resData)
+        console.log(this.imageUrl)
       }).catch(error => {
         this.$message({ message: error })
       })
@@ -100,6 +114,7 @@ export default {
   data () {
     return {
       key: 0,
+      amountMessage: false,
       deviceKey: '',
       amountFlag: false,
       oldAmount: '',

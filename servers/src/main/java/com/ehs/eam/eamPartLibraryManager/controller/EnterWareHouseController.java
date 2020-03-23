@@ -48,23 +48,6 @@ public class EnterWareHouseController {
 	@Resource
 	private BaseCommonService baseCommonService;
 	
-//	@RequestAuth(menuKeys = {"enterWarehouse"})
-//	@RequestMapping(value = "/getAll")
-//	public String getAll(@RequestBody(required = false) QueryBean queryBean, HttpServletRequest request) {
-//		logger.info("查询所有入库");
-//		PageInfoBean pb = ewhService.findAll(queryBean);
-//		return (pb==null?"[]":JsonUtils.toJsonString(pb));
-//	}
-	
-	
-//	@RequestAuth(menuKeys = {"enterWarehouse"})
-//	@RequestMapping(value = "/getAllTask")
-//	public String getAllTask(@RequestBody(required = false) QueryBean queryBean, HttpServletRequest request) {
-//		logger.info("==========查询所有入库任务===========");
-//		PageInfoBean pb = ewhService.findAllTask(queryBean);
-//		return (pb==null?"[]":JsonUtils.toJsonString(pb));
-//	}
-	
 	/**
 	 * 
 	* @Function: EnterWareHouseController.java
@@ -92,7 +75,7 @@ public class EnterWareHouseController {
 			ewhService.saveEnterWareHouse(wareHouserBean);
 			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件入库流程创建成功 ！"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件入库流程创建失败！"));
 	}
@@ -122,7 +105,7 @@ public class EnterWareHouseController {
 		try {
 			ewhService.updatePartsAccount(flowProcessInfo);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return JsonUtils.toJsonString(resultBean.error("数据更新失败"));
 		}
 		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));

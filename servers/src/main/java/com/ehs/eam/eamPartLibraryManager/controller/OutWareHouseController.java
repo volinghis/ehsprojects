@@ -1,5 +1,8 @@
 package com.ehs.eam.eamPartLibraryManager.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +23,8 @@ import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamPartLibraryManager.bean.WareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
+import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
+import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService;
 
 /**   
@@ -48,13 +53,6 @@ public class OutWareHouseController {
 	@Resource
 	private BaseCommonService baseCommonService;
 	
-//	@RequestAuth(menuKeys = {"outWarehouse"})
-//	@RequestMapping(value = "/getList")
-//	public String getList(@RequestBody QueryBean queryBean ,HttpServletRequest request) {
-//		PageInfoBean pb = owhService.findAll(queryBean);
-//		return (pb==null?"[]":JsonUtils.toJsonString(pb));
-//	}
-	
 	@RequestAuth(menuKeys = {"outWarehouseEdit"})
 	@RequestMapping(value = "/saveOutWareHouse")
 	public String saveWareEnterHouse(@RequestBody OutWareHouserBean wareHouserBean, HttpServletRequest request) {
@@ -69,19 +67,6 @@ public class OutWareHouseController {
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件出库流程创建失败！"));
 	}
 
-//	@RequestAuth(menuKeys = {"outWarehouseEdit"})
-//	@RequestMapping(value = "/validAmount")
-//	public String validAmount(HttpServletRequest request) {
-//		String amount = request.getParameter("amount");
-//		String deviceCode = request.getParameter("deviceCode");
-//		String price = request.getParameter("price");
-//		System.out.println("amount========="+amount);
-//		System.out.println("deviceCode========="+deviceCode);
-//		System.out.println("price========="+price);
-//		int amountNew= owhService.validAmount(amount,deviceCode,price);
-//		return JsonUtils.toJsonString(String.valueOf(amountNew));
-//	}
-	
 	@RequestAuth(menuKeys = {"outWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/updateAfterFlow")
 	public String updatePartAccount(@RequestBody FlowProcessInfo flowProcessInfo) {
@@ -120,6 +105,26 @@ public class OutWareHouseController {
 			logger.error(e.getMessage());
 		}
 		return "{}";
+	}
+	
+	@RequestAuth(menuKeys = {"outWarehouseEdit"})
+	@RequestMapping(value = "/getLaveAmount")
+	public String getLaveAmount(@RequestBody PartsExtends partsAccount) {
+		logger.info("===查询剩余库存===");
+		try {
+			List<PartsAccount> partsAccounts = (List<PartsAccount>) baseCommonService.findAll(PartsAccount.class);
+			List<PartsAccount> accounts =partsAccounts.stream().filter(s -> StringUtils.equals(s.getDeviceCode(), partsAccount.getDeviceCode())).collect(Collectors.toList());
+			if (accounts != null && accounts.size() > 0) {
+				for (PartsAccount account : accounts) {
+					if(account.getPrice().compareTo(partsAccount.getPrice()) == 0) {
+						return JsonUtils.toJsonString(account);
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return null;
 	}
 	
 }

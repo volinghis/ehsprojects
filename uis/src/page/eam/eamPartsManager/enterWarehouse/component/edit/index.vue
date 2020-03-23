@@ -1,38 +1,36 @@
 <template>
   <div :style="{height:$store.state.contentHeight+'px',padding:'0px 20px',background:'#fff'}" class="divHeight">
-    <el-form ref="form"  :model="form" :rules="rules" label-position="right" label-width="100px" :size="GlobalCss.buttonSize" class="formWidth">
+    <el-form ref="form"  :model="form" :rules="rules" label-suffix="：" label-position="right" label-width="100px" :size="GlobalCss.buttonSize" class="formWidth">
       <div class="searchHeight">
         <el-row :gutter="24">
           <el-col :span="8">
-            <el-form-item label="入库编码："  prop="warehouse">
+            <el-form-item label="入库编码"  prop="warehouse">
               <el-input v-model="form.warehouseCode" placeholder="请输入入库编码"  :disabled="show"></el-input>
             </el-form-item>
-            <el-form-item label="入库类型：" prop="inboundType">
-              <!-- <el-input v-model="form.inboundType" :disabled="show"></el-input> -->
+            <el-form-item label="入库类型" prop="inboundType">
               <el-select v-model="form.inboundType" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
                 <el-option v-for="item in inType" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="入库仓库：" prop="warehouse">
-              <!-- <el-input v-model="form.warehouseName" :disabled="show"></el-input> -->
+            <el-form-item label="入库仓库" prop="warehouse">
                  <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
                 <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="入库日期：" prop="inboundDate">
+            <el-form-item label="入库日期" prop="inboundDate">
               <el-date-picker v-model="form.inboundDate" type="date" placeholder="请选择入库日期" style="width:100%" :disabled="show"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="创 建 人："  prop="founder">
+            <el-form-item label="创 建 人"  prop="founder">
               <el-input v-model="form.founder" disabled placeholder="不用填写，系统自动生成" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="备注信息："  prop="remark">
+          <el-form-item label="备注信息"  prop="remark">
             <el-input type="textarea"  :autosize="{ minRows: 2, maxRows: 6}" placeholder="请输入内容" v-model="form.remark"
                       maxlength="300" show-word-limit :disabled="show"></el-input>
           </el-form-item>
