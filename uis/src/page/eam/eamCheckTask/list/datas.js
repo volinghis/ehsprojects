@@ -77,7 +77,7 @@ export default {
       return false
     },
     approveEnable (row) {
-      if (row.flowProcessInfo && row.flowProcessInfo.flowCurrentStep !== 'DRAFT' && row.flowProcessInfo.flowCurrentUser === JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).userKey) {
+      if (row.flowProcessInfo && row.flowProcessInfo.flowCurrentStep !== 'DRAFT' && row.flowProcessInfo.flowCurrentPerson === JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken)).userKey) {
         return true
       }
       return false
