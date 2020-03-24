@@ -24,6 +24,7 @@
         <span style="margin-left:10px;">查询：</span>
         <div class="table-search-wrapper">
           <el-input placeholder="根据设备名称查询"
+                    size="small"
                     v-model="queryParam.name">
             <template slot="append">
               <el-button type="primary"
@@ -90,8 +91,7 @@
                  @click="handleExport"
                  icon="fa fa-download pull-left">导出</el-button>
     </div> -->
-        <div class="table-list">
-          <template>
+        <div class="table-list" style="margin-top:10px;">
             <el-table :data="tableData"
                       style="width: 100%"
                       border
@@ -196,7 +196,6 @@
                 </el-pagination>
               </div>
             </div>
-          </template>
         </div>
       </el-col>
     </el-row>

@@ -1,7 +1,7 @@
-import constructKeys from '../../commom/utils.js'
+import utils from '../../commom/utils.js'
 export default {
   components: {
-    constructKeys
+    utils
   },
   data () {
     return {
@@ -12,6 +12,7 @@ export default {
         status: 'ALL'
       },
       form: {},
+      curTime: '',
       selections: [],
       tableData: [],
       totalCount: 0,
@@ -21,6 +22,9 @@ export default {
   mounted: function () {
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.getScrapEamList()
+    this.$axios.get(this.GlobalVars.globalServiceServlet + '/oper/time/getNow').then(res => {
+      this.curTime = res.data.time
+    })
   },
   methods: {
     getScrapEamList () {
@@ -45,10 +49,12 @@ export default {
       })
     },
     tableRowClassName ({ row, rowIndex }) {
-      console.log(row, rowIndex)
-      if (rowIndex === 0) {
+      console.log('hhhh')
+      var time = utils.getDiffDays(row.applicationTime, this.curTime)
+      console.log(time)
+      if (row.status === '已驳回') {
         return 'warning-row'
-      } else if (rowIndex === 1) {
+      } else if (time >= 7 && row.status !== '已结束') {
         return 'danger-row'
       }
       return ''
@@ -61,7 +67,7 @@ export default {
           type: 'warning'
         })
       } else {
-        var keys = constructKeys.handlerArrayDatas(_this)
+        var keys = utils.handlerArrayDatas(_this)
         this.handleDeleteFun(keys)
       }
     },

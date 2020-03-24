@@ -3,6 +3,7 @@
     <span style="margin-left:10px;">查询：</span>
     <div class="table-search-wrapper">
       <el-input placeholder="根据设备名称查询"
+                size="small"
                 v-model="queryParam.name">
         <template slot="append">
           <el-button type="primary"
@@ -39,6 +40,7 @@
         <el-form-item label="设备位置">
           <el-select v-model="form.addresse"
                      clearable
+                     size="small"
                      style="width:60%"
                      @clear="initTable"
                      @change="addressChange"
@@ -50,8 +52,15 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="系统/专业"
-                      prop="checkScope">
+        <el-form-item prop="checkScopeType"
+                      label="系统/专业">
+          <el-radio-group v-model="checkScopeType"
+                          @change="checkScopeTypeChange">
+            <el-radio label="BY_SYSTEM">按系统</el-radio>
+            <el-radio label="BY_PROFESSIONA">按专业</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item prop="checkScope">
           <el-radio-group v-model="checkScope"
                           @change="selectChange">
             <el-radio v-for="item in checkScopes"
@@ -60,13 +69,6 @@
                       :value="item.key"
                       border
                       size="mini">{{item.text}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item prop="checkScopeType">
-          <el-radio-group v-model="checkScopeType"
-                          @change="checkScopeTypeChange">
-            <el-radio label="BY_SYSTEM">按系统</el-radio>
-            <el-radio label="BY_PROFESSIONA">按专业</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

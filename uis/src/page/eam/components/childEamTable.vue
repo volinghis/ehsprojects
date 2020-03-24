@@ -111,7 +111,6 @@ export default {
     handlerConfirm (val) {
       var d = this.tableData
       d.push.apply(d, this.selectDatas)
-      console.log(d)
       var keysStr = ''
       d.forEach(e => {
         keysStr += e.refKey + ','
