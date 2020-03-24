@@ -10,22 +10,26 @@ export default {
     prop: 'propUploadValue',
     event: 'change'
   },
-
+  watch: {
+    'propUploadValue': function (v) {
+      var that = this
+      if (v) {
+        that.$axios.get(that.GlobalVars.globalServiceServlet + '/data/file/fileList?fileIds=' + v)
+          .then((res) => {
+            if (res.data) {
+              for (var i = 0; i < res.data.length; i++) {
+                this.files.push({ name: res.data[i].name, uid: res.data[i].fileId, status: 'success' })
+              }
+            }
+          })
+      }
+    }
+  },
   data () {
     return { files: [], tempFiles: [] }
   },
   mounted () {
-    let that = this
-    if (this.propUploadValue) {
-      that.$axios.get(that.GlobalVars.globalServiceServlet + '/data/file/fileList?fileIds=' + this.propUploadValue)
-        .then((res) => {
-          if (res.data) {
-            for (var i = 0; i < res.data.length; i++) {
-              this.files.push({ name: res.data[i].name, uid: res.data[i].fileId, status: 'success' })
-            }
-          }
-        })
-    }
+
   },
   methods: {
     change (v) {
