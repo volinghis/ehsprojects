@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     handleViewClick: function (scope) {
-      this.pdfSrc = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
       this.viewVisible = true
+      this.pdfSrc = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
     },
     handleDownLoadClick: function (scope) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + scope.fileId, { responseType: 'blob' }).then((res) => {

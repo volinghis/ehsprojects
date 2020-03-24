@@ -107,7 +107,7 @@
     <!--设备选择弹窗-->
     <el-dialog title="设备台账"
                :visible.sync="dialogTableVisible">
-      <eam-list @handlerSelect="handlerSelect"
+      <eam-list @handlerOneSelect="handlerOneSelect"
                 flag="allocate"></eam-list>
       <div slot="footer"
            class="dialog-footer">
@@ -192,7 +192,7 @@ export default {
       this.dialogTableVisible = false
       this.result.tableData.push(this.selectRow)
     },
-    handlerSelect (val) { // 获取弹窗内所选择的设备
+    handlerOneSelect (val) { // 获取弹窗内所选择的设备
       this.selectRow = val
     },
     handleDelete (index, row) {

@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+import com.aspose.cells.Encoding;
+import com.aspose.cells.TxtLoadOptions;
 import com.aspose.cells.Workbook;
 import com.aspose.slides.Presentation;
 import com.aspose.words.Document;
@@ -93,9 +95,9 @@ public class OfficeToPDF {
 	 * @author: qjj
 	 * @date: 2020年3月18日 下午5:38:29
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年3月18日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年3月18日
+	 * qjj v1.0.0 修改原因
 	 */
 	public static void excelTopdf(InputStream source, OutputStream os) throws Exception {
 		OfficeToPDF d = new OfficeToPDF();
@@ -104,8 +106,9 @@ public class OfficeToPDF {
 			if (!d.getExcelLicense()) {
 				return;
 			}
-
 			long old = System.currentTimeMillis();
+			 com.aspose.cells.TxtLoadOptions to=new TxtLoadOptions();
+			 to.setEncoding(Encoding.getUTF8());
 			// InPath是将要被转化的文档
 			Workbook wb = new Workbook(source);
 			wb.save(os, com.aspose.cells.SaveFormat.PDF);

@@ -117,7 +117,6 @@
                      width="50%"
                      height="100%"
                      destroy-on-close>
-
             <iframe id="MyIframe"
                     :src="pdfSrc"
                     width="100%"

@@ -17,6 +17,7 @@
                 style="width: 100%"
                 highlight-current-row
                 ref="leftTable"
+                @current-change="handleCurrentChange"
                 @selection-change="handleSelectionChange"
                 border
                 :size="GlobalCss.controlSize">
@@ -124,6 +125,9 @@ export default {
       } else {
         this.getLedgerListNotScrap()
       }
+    },
+    handleCurrentChange (val) {
+      this.$emit('handlerOneSelect', val)
     },
     handleSelectionChange (val) {
       this.$emit('handlerSelect', val)

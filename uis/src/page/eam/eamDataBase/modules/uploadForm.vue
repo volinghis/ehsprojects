@@ -1,6 +1,6 @@
 <template>
   <div class="dialogForm">
-    <el-dialog title="新增设备资料" width="30%" :visible.sync="dialogFormVisible">
+    <el-dialog title="新增设备资料" width="30%" :visible.sync="dialogFormVisible" destroy-on-close>
       <el-form :model="form" ref="form">
         <el-form-item label="上传资料:" :label-width="formLabelWidth">
           <file-upload :propUploadValue="form.fileId" :paramData="paramData"  @change="handleChange" ref="myUpload" ></file-upload>
@@ -39,9 +39,9 @@ export default {
   },
   methods: {
     openForm (nodeKey, nodeLabel) { // 打开弹窗
-      if (this.$refs.myUpload !== undefined) {
-        this.$refs.myUpload.$children[0].clearFiles()// 清理文件列表暂时的处理
-      }
+      // if (this.$refs.myUpload !== undefined) {
+      //   this.$refs.myUpload.$children[0].clearFiles()// 清理文件列表暂时的处理
+      // }
       this.form.category = nodeKey
       this.paramData.categories = nodeKey
       this.paramData.categoriesName = nodeLabel

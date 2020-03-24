@@ -36,7 +36,7 @@
     <!--设备选择弹窗-->
     <el-dialog title="设备台账"
                :visible.sync="dialogTableVisible">
-      <eam-list @handlerSelect="handlerSelect" flag="scrap"></eam-list>
+      <eam-list @handlerOneSelect="handlerOneSelect" flag="scrap"></eam-list>
       <div slot="footer"
            class="dialog-footer">
         <el-button @click="dialogTableVisible = false"
@@ -108,7 +108,8 @@ export default {
       this.dialogTableVisible = false
       this.tableData.push(this.selectRow)
     },
-    handlerSelect (val) {
+    handlerOneSelect (val) {
+      console.log(val)
       this.selectRow = val
     }
   }

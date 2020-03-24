@@ -20,10 +20,11 @@ export default {
   },
   created: function () {
     var resData = this.$route.params.data
-    this.getDevicePicture(resData.deviceImg)
-    this.eamInfos = resData
-    console.log(this.eamInfos)
-    this.deviceKey = resData.refKey
+    if (resData !== undefined) {
+      this.getDevicePicture(resData.deviceImg)
+      this.eamInfos = resData
+      this.deviceKey = resData.refKey
+    }
   },
   methods: {
     handlePrint: function () {

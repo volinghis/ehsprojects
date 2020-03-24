@@ -331,7 +331,7 @@ public abstract class EamLedgerFlowSuper extends FlowBaseEntity {
 	@Override
 	public String getViewPage() {
 		// TODO Auto-generated method stub
-		return "eamLedgerEdit";
+		return "eamLedgerDetail";
 	}
 
 	public String getPersonName() {
