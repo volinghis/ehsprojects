@@ -21,7 +21,9 @@ public class QueryBean extends PageBody {
 	/**
 	 * 查询条件
 	 */
-	private  String query;
+	private String query;
+	
+	private String flag;
 	
 	public String getQuery() {
 		return query;
@@ -31,4 +33,12 @@ public class QueryBean extends PageBody {
 		this.query = query;
 	}
 
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	
 }

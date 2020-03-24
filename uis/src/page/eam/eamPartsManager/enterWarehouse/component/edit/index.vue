@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="入库仓库" prop="warehouse">
-                 <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
+              <el-select v-model="form.warehouse" style="width:100%" placeholder="请选择所在仓库" :disabled="show" @change="selectWareHouse">
                 <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -36,7 +36,7 @@
           </el-form-item>
         </el-row>
       </div>
-      <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="dialogVisible = true" v-show="showButton">选择备件</el-button>
+      <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerSelect" v-show="showButton">选择备件</el-button>
       <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerAdd" v-show="showButton">添加备件</el-button>
       <!--备件表格-->
       <div class="tableHeight" :style="{height:tableHeight}">
@@ -47,7 +47,7 @@
     <el-dialog title="添加备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
       <el-divider></el-divider>
       <div style="text-align:center;">
-        <add-part @partsData="partsData"></add-part>
+        <add-part :selectWareHouseFlag="selectFlag" @partsData="partsData"></add-part>
         <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize">确 定</el-button>

@@ -30,7 +30,8 @@ public abstract class PartsExtends extends BaseEntity{
 	
 	public static final String FILE_ID="fileId";
 	public static final String PARTS_IMG="partsImg";
-	public static final String WAREHOUSE_KEY="wareHouseKey";
+	public static final String REF_WAREHOUSE_KEY="refWareHouseKey";
+	public static final String REF_FLOW_KEY="refFlowKey";
 	public static final String WAREHOUSE_CODE="wareHouseCode";
 	public static final String WAREHOUSE="wareHouse";
 	public static final String WAREHOUSE_NAME="wareHouseName";
@@ -57,9 +58,14 @@ public abstract class PartsExtends extends BaseEntity{
 	public static final String SORT="sort";
 	
 	/**
-	 * 仓库跟备件扩展信息表关联key
+	 * 仓库跟备件表关联key
 	 */
-	private String wareHouseKey;
+	private String refWareHouseKey;
+	
+	/**
+	 * 流程跟备件表关联key
+	 */
+	private String refFlowKey;
 	
 	/**
 	 * 入库编码
@@ -201,13 +207,21 @@ public abstract class PartsExtends extends BaseEntity{
 	public void setPartsImg(String partsImg) {
 		this.partsImg = partsImg;
 	}
-
-	public String getWareHouseKey() {
-		return wareHouseKey;
+	
+	public String getRefWareHouseKey() {
+		return refWareHouseKey;
 	}
 
-	public void setWareHouseKey(String wareHouseKey) {
-		this.wareHouseKey = wareHouseKey;
+	public void setRefWareHouseKey(String refWareHouseKey) {
+		this.refWareHouseKey = refWareHouseKey;
+	}
+	
+	public String getRefFlowKey() {
+		return refFlowKey;
+	}
+
+	public void setRefFlowKey(String refFlowKey) {
+		this.refFlowKey = refFlowKey;
 	}
 
 	public String getSupplier() {

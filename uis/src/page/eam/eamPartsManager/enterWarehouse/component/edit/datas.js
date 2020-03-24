@@ -7,12 +7,16 @@ export default {
   },
   data () {
     return {
+      key: '',
       obj: {},
       wareHouse: [],
+      enterWareHouseData: {},
       inType: [],
       showButton: false,
       show: false,
       showFlag: '',
+      selectFlag: '',
+      selectWareHouseFlag: '',
       parts: [],
       pDatas: [],
       partsTable: [],
@@ -60,9 +64,9 @@ export default {
       if (processObj.key != null) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
+          this.getPartsAccounts()
         })
       }
-      this.getPartsAccounts()
       this.getWareHouseAndUseType()
       this.show = true
       this.showButton = false
@@ -71,9 +75,9 @@ export default {
       if (processObj.key != null) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.key } }).then(res => {
           this.form = res.data
+          this.getPartsAccounts()
         })
       }
-      this.getPartsAccounts()
       this.getWareHouseAndUseType()
       this.show = false
       this.showButton = true
@@ -82,6 +86,8 @@ export default {
       if (processObj.businessKey !== undefined) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseByKey', { params: { key: processObj.businessKey } }).then(res => {
           this.form = res.data
+          this.getPartsAccounts()
+          this.getWareHouseAndUseType()
           if (processObj.currentStep === '填写单据') {
             this.showFlag = 'edit'
             this.show = false
@@ -91,19 +97,27 @@ export default {
             this.showFlag = 'view'
             this.showButton = false
           }
-          this.getPartsAccounts()
-          this.getWareHouseAndUseType()
-          // this.form = res.data
-          // this.show = true
-          // this.showFlag = 'view'
-          // this.showButton = false
-          // this.getPartsAccounts()
-          // this.getWareHouseAndUseType()
         })
       }
     }
   },
   methods: {
+    selectWareHouse: function (v) {
+      this.key += 1
+      this.selectWareHouseFlag = v
+    },
+    handlerSelect: function () {
+      if (this.selectWareHouseFlag) {
+        this.dialogVisible = true
+        this.selectFlag = this.selectWareHouseFlag
+        this.key += 1
+      } else {
+        this.$message({
+          message: '请先选择仓库',
+          type: 'warning'
+        })
+      }
+    },
     getWareHouseAndUseType: function () {
       var that = this
       this.$axios.all([

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
+import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -82,8 +83,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				List<PartsExtends> parts =partsExtends.getContent();
 				if(parts != null) {
 					for (PartsExtends partsExtends2 : parts) {
-						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
-						EnterWareHouse enterWareHouse = baseCommonService.findByKey(EnterWareHouse.class, partsExtends2.getWareHouseKey());
+						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
+						EnterWareHouse enterWareHouse = baseCommonService.findByKey(EnterWareHouse.class, partsExtends2.getRefFlowKey());
 						if(fpi!=null) {
 							switch (fpi.getFlowCurrentStep()) {
 							case "END":
@@ -122,7 +123,7 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				return pib;
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("错误信息---------------------"+e.getMessage());
 		}
 		return null;
 	}
@@ -143,8 +144,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				List<PartsExtends> parts =partsExtends.getContent();
 				if(parts != null) {
 					for (PartsExtends partsExtends2 : parts) {
-						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getWareHouseKey());
-						OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, partsExtends2.getWareHouseKey());
+						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
+						OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, partsExtends2.getRefFlowKey());
 						if(fpi!=null) {
 							switch (fpi.getFlowCurrentStep()) {
 							case "END":

@@ -22,10 +22,10 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 //	@Query(" select pe from PartsExtends pe where pe."+PartsExtends.DEVICE_CODE+"=?1 and pe."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 //	public PartsExtends findByDeviceCode(String deviceCode);
 
-	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select p from PartsExtends p where p."+PartsExtends.REF_FLOW_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<PartsExtends> getExtendsByKey(String key,PageRequest pageRequest);
 	
-	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
+	@Query(" select p from PartsExtends p where p."+PartsExtends.REF_FLOW_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsExtends> getAllByWareHouseKey(String wareHouseKey);
 
 //	@Query(" select p from PartsExtends p where p."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
@@ -37,7 +37,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 	
 	
 	
-	@Query("select p from EnterWareHouse e left join PartsExtends p on p."+PartsExtends.WAREHOUSE_KEY+"=e."+BaseEntity.KEY+" left join FlowProcessInfo fi on e."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
+	@Query("select p from EnterWareHouse e left join PartsExtends p on p."+PartsExtends.REF_FLOW_KEY+"=e."+BaseEntity.KEY+" left join FlowProcessInfo fi on e."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
 			+ " where e."+BaseEntity.DELETED+" = 0 "
 			+ " and ( e."+EnterWareHouse.WAREHOUSE_CODE+" like %:query% "
 			+ " or p."+PartsExtends.DEVICE_CODE+" like %:query% "
@@ -63,7 +63,7 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 									  Pageable pb);
 
 	
-	@Query("select p from OutWareHouse o left join PartsExtends p on p."+PartsExtends.WAREHOUSE_KEY+"=o."+BaseEntity.KEY+" left join FlowProcessInfo fi on o."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
+	@Query("select p from OutWareHouse o left join PartsExtends p on p."+PartsExtends.REF_FLOW_KEY+"=o."+BaseEntity.KEY+" left join FlowProcessInfo fi on o."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
 			+ " where o."+BaseEntity.DELETED+" = 0 "
 			+ " and ( o."+OutWareHouse.OUT_WAREHOUSE_CODE+" like %:query% "
 			+ " or p."+PartsExtends.DEVICE_CODE+" like %:query% "

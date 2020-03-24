@@ -163,6 +163,7 @@ public class EnterWareHouseController {
 				return "{}";
 			}
 			EnterWareHouse enterWareHouse=baseCommonService.findByKey(EnterWareHouse.class, key);
+			logger.info("enterWareHouse==="+JsonUtils.toJsonString(enterWareHouse));
 			return (enterWareHouse==null?"{}":JsonUtils.toJsonString(enterWareHouse));
 		} catch (Exception e) {
 			logger.error(e.getMessage());

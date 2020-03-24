@@ -113,7 +113,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 				ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
 				if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 					for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
-						partsExtends.setWareHouseKey(pi.getBusinessKey());
+						partsExtends.setRefFlowKey(pi.getBusinessKey());
 						PartsExtends oldExtends = baseCommonService.findByKey(partsExtends.getClass(), partsExtends.getKey());
 						PartsExtends newExtends = baseCommonService.saveOrUpdate(partsExtends);
 						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(newExtends.getDeviceCode());
@@ -143,7 +143,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 				ProcessInstance pi = flowBaseService.startProcess(wareHouserBean.getOutWareHouse(), wareHouserBean.getFlowProcessInfo());
 				if (!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 					for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
-						partsExtends.setWareHouseKey(pi.getBusinessKey());
+						partsExtends.setRefFlowKey(pi.getBusinessKey());
 						logger.info("准备保存备件信息");
 						PartsExtends pp = baseCommonService.saveOrUpdate(partsExtends);
 						List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pp.getDeviceCode());

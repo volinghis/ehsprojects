@@ -11,6 +11,8 @@ export default {
   },
   data () {
     return {
+      selectFlag: '',
+      selectWareHouseFlag: '',
       wareHouse: [],
       outType: [],
       show: false,
@@ -56,8 +58,6 @@ export default {
   },
   created: function () {
     var processObj = JSON.parse(this.$route.params.processInfo)
-    console.log(processObj)
-    console.log(processObj.currentStep)
     this.flag = processObj.flag
     if (this.flag === 'add') {
       const d = new Date()
@@ -111,6 +111,22 @@ export default {
     }
   },
   methods: {
+    selectWareHouse: function (v) {
+      this.key += 1
+      this.selectWareHouseFlag = v
+    },
+    handlerSelect: function () {
+      if (this.selectWareHouseFlag) {
+        this.dialogVisible = true
+        this.selectFlag = this.selectWareHouseFlag
+        this.key += 1
+      } else {
+        this.$message({
+          message: '请先选择仓库',
+          type: 'warning'
+        })
+      }
+    },
     getWareHouseAndUseType: function () {
       var that = this
       this.$axios.all([
@@ -163,7 +179,6 @@ export default {
             partsExtends: this.tableDatas,
             flowProcessInfo: processInfo
           }
-          console.log(requestParam)
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamOutWarehouse/saveOutWareHouse', requestParam).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({

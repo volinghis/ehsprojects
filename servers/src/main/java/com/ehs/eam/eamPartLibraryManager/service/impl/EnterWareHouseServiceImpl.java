@@ -114,7 +114,8 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 			EnterWareHouse eWareHouse =baseCommonService.findByKey(EnterWareHouse.class, pi.getBusinessKey());
 			if(!CollectionUtils.isEmpty(wareHouserBean.getPartsExtends())) {
 				for (PartsExtends partsExtends : wareHouserBean.getPartsExtends()) {
-					partsExtends.setWareHouseKey(pi.getBusinessKey());
+					partsExtends.setRefFlowKey(pi.getBusinessKey());
+					partsExtends.setRefWareHouseKey(eWareHouse.getWarehouse());
 					partsExtends.setWareHouseCode(eWareHouse.getWarehouseCode());
 					partsExtends.setWareHouse(eWareHouse.getWarehouse());
 					partsExtends.setWareHouseName(eWareHouse.getWarehouseName());

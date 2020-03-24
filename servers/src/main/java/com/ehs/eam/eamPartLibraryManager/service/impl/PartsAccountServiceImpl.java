@@ -87,7 +87,7 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	public PageInfoBean getAllPartsAccount(QueryBean queryBean) {
 		try {
 			Pageable pb = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize(), queryBean.getSortForJpaQuery());
-			Page<PartsAccount> account = partsAccountDao.getAllPartsAccount( queryBean.getQuery(), pb);
+			Page<PartsAccount> account = partsAccountDao.getAllPartsAccount( queryBean.getQuery(), queryBean.getFlag(),pb);
 			if(account != null) {
 				PageInfoBean pib=new PageInfoBean();
 				pib.setDataList(account.getContent());

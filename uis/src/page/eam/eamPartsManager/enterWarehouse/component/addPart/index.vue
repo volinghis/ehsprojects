@@ -8,6 +8,8 @@
     <template>
       <el-table :data="tableData" border ref="multipleTable" @selection-change="handleSelectionChange" :size="GlobalCss.controlSize">
         <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column prop="wareHouseCode" label="入库编号" align="center"></el-table-column>
+        <el-table-column prop="wareHouseName" label="所在仓库" align="center"></el-table-column>
         <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
         <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" align="center"></el-table-column>
@@ -29,11 +31,15 @@
 </template>
 <script>
 export default {
+  props: {
+    selectWareHouseFlag: String
+  },
   data () {
     return {
       multipleSelection: [],
       tableData: [],
       queryBean: {
+        flag: '',
         query: '',
         page: 1,
         size: 20,
@@ -42,10 +48,11 @@ export default {
     }
   },
   mounted: function () {
-    this.getAllParts()
+    this.getAllParts(this.selectWareHouseFlag)
   },
   methods: {
-    getAllParts: function () {
+    getAllParts: function (v) {
+      this.queryBean.flag = v
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getAllPartsAccount', this.queryBean)
         .then(res => {
           this.tableData = res.data.dataList

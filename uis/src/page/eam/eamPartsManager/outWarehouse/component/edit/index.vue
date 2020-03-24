@@ -6,7 +6,7 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <el-form-item label="出库仓库" prop="outWarehouse">
-              <el-select v-model="form.outWarehouseName" style="width:100%" placeholder="请选择所在仓库" :disabled="show">
+              <el-select v-model="form.outWarehouseName" style="width:100%" placeholder="请选择所在仓库" @change="selectWareHouse" :disabled="show">
                 <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>
@@ -56,17 +56,15 @@
         </el-row>
       </div>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize"
-      @click="dialogVisible = true" v-show="showButton">添加备件</el-button>
+    <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerSelect" v-show="showButton">添加备件</el-button>
     <!--添加备件-->
     <div class="tableHeight" :style="{height:tableHeight}">
-      <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams"
-        :totalCounts="totalCount"></TablePart>
+      <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount"></TablePart>
     </div>
     <el-dialog title="选择备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
       <el-divider></el-divider>
       <div style="text-align:center;">
-        <AddPart @partsData="partsData"></AddPart>
+        <AddPart :selectWareHouseFlag="selectFlag" @partsData="partsData"></AddPart>
         <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
             <el-button @click="resetSelect" :size="GlobalCss.buttonSize" v-show="showButton">取 消</el-button>

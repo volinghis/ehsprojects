@@ -57,7 +57,8 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 			+ "or p."+PartsAccount.DEVICE_NAME+" like %:query% "
 			+ "or p."+PartsAccount.NORM+" like %:query% "
 			+ " ) "
+			+ " and p."+PartsAccount.WAREHOUSE+" like %:flag% "
 			+ "")
-	public Page<PartsAccount> getAllPartsAccount(String query, Pageable pb);
+	public Page<PartsAccount> getAllPartsAccount(String query, String flag,Pageable pb);
 
 }
