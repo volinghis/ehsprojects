@@ -54,8 +54,8 @@
         <el-table :data="handlesearch(this.ruleForm.eamCheckDefect)" ref="defectTable" border
           :size="GlobalCss.buttonSize">
           <el-table-column width="40" type="expand">
-            <template slot-scope="props">
-              <defects :dataRow="props.row"></defects>
+            <template slot-scope="scope">
+              <defects :dataRow="scope.row"></defects>
             </template>
           </el-table-column>
           <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>

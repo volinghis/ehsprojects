@@ -2,25 +2,25 @@
   <div>
     <el-form style="width:700px;" label-suffix="：" label-width="100px" class="demo-ruleForm">
       <el-form-item label="设备位置">
-        <span>{{addressNameGet(ruleForm)}}</span>
+        <span>{{addressNameGet(defect)}}</span>
       </el-form-item>
       <el-form-item label="缺陷对象">
-        <span>{{(objectNameGet(ruleForm))}}</span>
+        <span>{{(objectNameGet(defect))}}</span>
       </el-form-item>
       <el-form-item label="缺陷描述">
-        <span>{{ruleForm.question}}</span>
+        <span>{{defect.question}}</span>
       </el-form-item>
       <el-form-item label="问题设备">
-        <span>{{ruleForm.devices}}</span>
+        <span>{{defect.devices}}</span>
       </el-form-item>
       <el-form-item label="缺陷等级">
-        <span>{{transDefectLevel(ruleForm)}}</span>
+        <span>{{transDefectLevel(defect)}}</span>
       </el-form-item>
             <el-form-item label="缺陷状态">
-        <span>{{transDefectStatus(ruleForm)}}</span>
+        <span>{{transDefectStatus(defect)}}</span>
       </el-form-item>
       <el-form-item label="附件">
-        <file-upload v-model="repair.files" :disabled="true"></file-upload>
+        <file-upload v-model="defect.files" :disabled="true"></file-upload>
       </el-form-item>
 
     </el-form>

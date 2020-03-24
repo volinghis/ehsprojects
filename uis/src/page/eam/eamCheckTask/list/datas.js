@@ -65,7 +65,7 @@ export default {
       var that = this
       var processInfo = {}
       processInfo.processDefineKey = 'EamCheckTask'
-      processInfo.businessEntityKey = row ? row.key : ''
+      processInfo.businessKey = row ? row.key : ''
       this.GlobalMethods.openFlowWin('eamCheckTaskEdit', processInfo, function () {
         that.flushData()
       })

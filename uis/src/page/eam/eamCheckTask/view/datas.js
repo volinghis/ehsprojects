@@ -18,6 +18,9 @@ export default {
 
   },
   methods: {
+    normalExecute () {
+      return this.ruleForm.result === 'NORMAL'
+    },
     transExecuteResult (v) {
       if (v === 'NORMAL') {
         return '正常执行'
@@ -83,11 +86,12 @@ export default {
   mounted () {
     var that = this
     var flowInfo = JSON.parse(this.$route.params.processInfo)
-    if (flowInfo.businessEntityKey) {
+    console.log(flowInfo)
+    if (flowInfo.businessKey) {
       this.$axios.all([
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessEntityKey),
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessEntityKey),
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessEntityKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem')
@@ -100,8 +104,6 @@ export default {
         that.ruleForm.eamCheckDefect = defects.data
         that.ruleForm.eamCheckRepair = repairs.data
       }))
-    } else {
-      this.init()
     }
   }
 }

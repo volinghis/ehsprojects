@@ -5,7 +5,7 @@ export default {
 
   data () {
     return {
-      repair: {
+      defect: {
         status: '',
         fiels: '',
         question: '',
@@ -36,18 +36,10 @@ export default {
     },
 
     addressNameGet (s) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.deviceAddresses.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === s.deviceAddress// 筛选出匹配数据
-      })
-      return obj.text
+      return s.deviceAddressName
     },
     objectNameGet (s) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.objects.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === s.objectKey// 筛选出匹配数据
-      })
-      return obj.text
+      return s.objectName
     }
   },
 
@@ -62,7 +54,17 @@ export default {
       that.objects = that.objects.concat(sys.data)
       // 上面两个请求都完成后，才执行这个回调方法
       that.deviceAddresses = deviceAddress.data
-      that.repair = Object.assign(that.repair, that.dataRow)
+      that.defect = Object.assign(that.defect, that.dataRow)
+      if (that.defect.deviceAddress) {
+        that.defect.deviceAddressName = that.deviceAddresses.find((item) => { // 这里的userList就是上面遍历的数据源
+          return item.key === that.defect.deviceAddress// 筛选出匹配数据
+        }).text
+      }
+      if (that.defect.objectKey) {
+        that.defect.objectName = that.objects.find((item) => { // 这里的userList就是上面遍历的数据源
+          return item.key === that.defect.objectKey// 筛选出匹配数据
+        }).text
+      }
     }))
   }
 }

@@ -125,13 +125,10 @@ export default {
           this.ruleForm.flowProcessInfo = p
           this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/task/saveTask', this.ruleForm).then(res => {
             if (res.data.resultType === 'ok') {
-              this.$message({
-                message: res.data.message,
-                type: 'success'
-              })
-              setTimeout(() => {
-                window.close()
-              }, 1000)
+              this.$message.success({ message: res.data.message,
+                onClose: function () {
+                  window.close()
+                } })
             } else {
               this.$message.error(res.data.message)
             }
@@ -144,11 +141,11 @@ export default {
   mounted () {
     var that = this
     var flowInfo = JSON.parse(this.$route.params.processInfo)
-    if (flowInfo.businessEntityKey) {
+    if (flowInfo.businessKey) {
       this.$axios.all([
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessEntityKey),
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessEntityKey),
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessEntityKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem')

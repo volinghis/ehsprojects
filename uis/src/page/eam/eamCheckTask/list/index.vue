@@ -73,7 +73,7 @@
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" show-overflow-tooltip prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">
-          <el-link type="primary" v-if="viewEnable(scope.row)">{{scope.row.name}}</el-link>
+          <el-link type="primary" v-if="viewEnable(scope.row)" @click="view(scope.row)">{{scope.row.name}}</el-link>
           <span v-if="!viewEnable(scope.row)">{{scope.row.name}}</span>
         </template>
 

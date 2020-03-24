@@ -2,22 +2,22 @@
   <div>
     <el-form style="width:700px;" label-suffix="：" label-width="100px" class="demo-ruleForm">
       <el-form-item label="设备位置">
-        <span>{{addressNameGet(ruleForm)}}</span>
+        <span>{{addressNameGet(repair)}}</span>
       </el-form-item>
       <el-form-item label="检修对象">
-        <span>{{(objectNameGet(ruleForm))}}</span>
+        <span>{{(objectNameGet(repair))}}</span>
       </el-form-item>
       <el-form-item label="问题描述">
-        <span>{{ruleForm.question}}</span>
+        <span>{{repair.question}}</span>
       </el-form-item>
       <el-form-item label="检修记事">
          <file-upload v-model="repair.note"  :disabled="true"  ></file-upload>
       </el-form-item>
       <el-form-item label="检修执行人">
-        <span>{{transExecutor(ruleForm)}}</span>
+        <span>{{transExecutor(repair)}}</span>
       </el-form-item>
       <el-form-item label="检修结论">
-        <span>{{transResult(ruleForm)}}</span>
+        <span>{{transResult(repair)}}</span>
       </el-form-item>
     </el-form>
   </div>

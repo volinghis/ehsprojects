@@ -103,7 +103,7 @@ public class EamCheckTaskController {
 	public String saveTask(@RequestBody EamCheckTask task, HttpServletRequest request) {
 		ResultBean resultBean=new ResultBean();
 		try {
-			baseCommonService.saveOrUpdate(task);
+			eamCheckTaskService.saveTask(task);
 			return JsonUtils.toJsonString(resultBean.ok("保存成功"));
 		} catch (Exception e) {
 			logger.error(e.getMessage());
