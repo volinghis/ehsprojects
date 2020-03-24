@@ -33,9 +33,15 @@
           </el-table-column>
           <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
 
-          <el-table-column align="center" show-overflow-tooltip prop="deviceAddressName" width="140" label="设备位置">
+          <el-table-column align="center" show-overflow-tooltip prop="deviceAddress" width="140" label="设备位置">
+            <template slot-scope="scope">
+              <span>{{addressNameGet(scope)}}</span>
+            </template>
           </el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="objectName" width="140" label="检修对象">
+          <el-table-column align="center" show-overflow-tooltip prop="objectKey" width="140" label="检修对象">
+            <template slot-scope="scope">
+              <span>{{objectNameGet(scope)}}</span>
+            </template>
           </el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="question" label="问题描述"></el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="userName" label="检修执行人">
@@ -70,21 +76,27 @@
           </el-table-column>
           <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
 
-          <el-table-column align="center" show-overflow-tooltip prop="deviceAddressName" width="140" label="设备位置">
+          <el-table-column align="center" show-overflow-tooltip prop="deviceAddress" width="140" label="设备位置">
+            <template slot-scope="scope">
+              <span>{{addressNameGet(scope)}}</span>
+            </template>
           </el-table-column>
-          <el-table-column align="center" show-overflow-tooltip prop="objectName" width="140" label="缺陷对象">
+          <el-table-column align="center" show-overflow-tooltip prop="objectKey" width="140" label="缺陷对象">
+            <template slot-scope="scope">
+              <span>{{objectNameGet(scope)}}</span>
+            </template>
           </el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="question" label="缺陷描述"></el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="devices" label="问题设备">
           </el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="level" width="140" label="缺陷等级">
-                  <template slot-scope="scope">
-             <span>{{transDefectLevel(scope)}}</span>
+            <template slot-scope="scope">
+              <span>{{transDefectLevel(scope)}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" show-overflow-tooltip prop="status" width="140" label="缺陷状态">
-             <template slot-scope="scope">
-             <span>{{transDefectStatus(scope)}}</span>
+            <template slot-scope="scope">
+              <span>{{transDefectStatus(scope)}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" show-overflow-tooltip width="100" label="操作">
@@ -103,9 +115,12 @@
 <script>
 import datas from './datas'
 import defects from './models/defects/index.vue'
+import repairs from './models/repairs/index.vue'
+
 export default datas
 datas.components = {
-  'defects': defects
+  'defects': defects,
+  'repairs': repairs
 }
 
 </script>

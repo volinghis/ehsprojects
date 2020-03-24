@@ -62,20 +62,7 @@ export default {
       }
       this.$parent.$parent.$parent.defectsAdd = false
     },
-    addressNameGet (vId) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.deviceAddresses.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === vId// 筛选出匹配数据
-      })
-      this.defect.deviceAddressName = obj.text
-    },
-    objectNameGet (vId) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.objects.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === vId// 筛选出匹配数据
-      })
-      this.defect.objectName = obj.text
-    },
+
     submitForm () {
       this.$refs['defect'].validate((valid) => {
         if (valid) {

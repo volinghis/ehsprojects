@@ -3,7 +3,7 @@
     <el-form :model="defect" :rules="defectRules" label-suffix="：" ref="defect" style="width:700px;" label-width="100px"
       :inline-message="true" :status-icon="true" class="demo-ruleForm">
       <el-form-item label="设备位置" prop="deviceAddress">
-        <el-select v-model="defect.deviceAddress" @change="addressNameGet" style="width:100%" placeholder="请选择设备位置">
+        <el-select v-model="defect.deviceAddress" style="width:100%" placeholder="请选择设备位置">
           <el-option v-for="item in deviceAddresses" :key="item.key" :label="item.text" :value="item.key">
           </el-option>
         </el-select>
@@ -15,7 +15,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item  prop="objectKey">
-        <el-select v-model="defect.objectKey" @change="objectNameGet" style="width:100%" placeholder="请选择">
+        <el-select v-model="defect.objectKey"  style="width:100%" placeholder="请选择">
           <el-option v-for="item in objects" :key="item.key" :label="item.text" :value="item.key">
           </el-option>
         </el-select>
@@ -33,7 +33,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="附件" >
-           <file-upload v-model="defect.files"    ></file-upload>
+           <file-upload v-model="defect.files"   ></file-upload>
       </el-form-item>
         <el-form-item label="缺陷状态" prop="status">
         <el-radio-group v-model="defect.status" >

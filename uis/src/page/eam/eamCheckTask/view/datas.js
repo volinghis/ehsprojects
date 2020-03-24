@@ -1,8 +1,6 @@
 export default {
   data () {
     return {
-      repairsAdd: false,
-      defectsAdd: false,
       deviceAddresses: [],
       objects: [],
       ruleForm: {
@@ -13,19 +11,24 @@ export default {
         eamCheckDefect: [],
         eamCheckReserveUsed: []
       },
-      activeNames: ['rep', 'def', 'rev'],
-      rules: {
-        name: [
-          { required: true, message: '请输入任务名称', trigger: 'blur' },
-          { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-        ]
-      }
+      activeNames: ['rep', 'def', 'rev']
     }
   },
   computed: {
 
   },
   methods: {
+    transExecuteResult (v) {
+      if (v === 'NORMAL') {
+        return '正常执行'
+      } else if (v === 'NOTEXECUTE_NOWORK') {
+        return '不执行-缺工'
+      } else if (v === 'NOTEXECUTE_PERSON_CHANGE') {
+        return '不执行-人员调离'
+      } else {
+        return '不执行-其他'
+      }
+    },
     transDefectLevel (v) {
       if (v.row.level === 'NORMAL') {
         return '一般缺陷'
@@ -50,51 +53,7 @@ export default {
         }
       })
     },
-    remove (s) {
-      s.row.deleted = true
-    },
-    repairInner (v) {
-      if (!this.ruleForm.eamCheckRepair) {
-        this.ruleForm.eamCheckRepair = []
-      }
-      this.ruleForm.eamCheckRepair.push(v)
-    },
-    repairUpdate (newRow) {
-      if (this.ruleForm.eamCheckRepair) {
-        this.ruleForm.eamCheckRepair.forEach(element => {
-          if (element.key === newRow.key) {
-            element = Object.assign(element, newRow)
-          }
-        })
-      }
-    },
-    repairsMethod () {
-      this.repairsAdd = true
-    },
-    defectInner (v) {
-      if (!this.ruleForm.eamCheckDefect) {
-        this.ruleForm.eamCheckDefect = []
-      }
-      this.ruleForm.eamCheckDefect.push(v)
-    },
-    defectUpdate (newRow) {
-      if (this.ruleForm.eamCheckDefect) {
-        this.ruleForm.eamCheckDefect.forEach(element => {
-          if (element.key === newRow.key) {
-            element = Object.assign(element, newRow)
-          }
-        })
-      }
-    },
-    defectsMethod () {
-      this.defectsAdd = true
-    },
-    normalExecute () {
-      return this.ruleForm.result === 'NORMAL'
-    },
-    init () {
-      this.ruleForm.result = 'NORMAL'
-    },
+
     transResult (row) {
       if (row.result === 'OK') {
         return '已解决'
@@ -118,26 +77,6 @@ export default {
         return item.key === s.row.objectKey// 筛选出匹配数据
       })
       return obj.text
-    },
-    handerSubmit (p) {
-      this.$refs['ruleForm'].validate((valid) => {
-        if (valid) {
-          this.ruleForm.flowProcessInfo = p
-          this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/task/saveTask', this.ruleForm).then(res => {
-            if (res.data.resultType === 'ok') {
-              this.$message({
-                message: res.data.message,
-                type: 'success'
-              })
-              setTimeout(() => {
-                window.close()
-              }, 1000)
-            } else {
-              this.$message.error(res.data.message)
-            }
-          })
-        }
-      })
     }
   },
 
@@ -158,9 +97,6 @@ export default {
         that.objects = pros.data
         that.objects = that.objects.concat(syss.data)
         that.ruleForm = Object.assign(that.ruleForm, res.data)
-        if (!that.ruleForm.result) {
-          that.init()
-        }
         that.ruleForm.eamCheckDefect = defects.data
         that.ruleForm.eamCheckRepair = repairs.data
       }))

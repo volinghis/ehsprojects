@@ -15,6 +15,8 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.common.oper.bean.ResultBean;
+import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.checks.bean.CheckTaskQueryBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
@@ -60,6 +62,8 @@ public class EamCheckTaskController {
 		}
 		return "[]";
 	}
+	
+	
 	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/eam/checks/plan/getTask")
 	public String getTask(HttpServletRequest request) {
@@ -74,5 +78,37 @@ public class EamCheckTaskController {
 			logger.error(ex.getMessage());
 		}
 		return "{}";
+	}
+	
+	/**
+	 * 
+	* @Function: EamCheckTaskController.java
+	* @Description: 该函数的功能描述
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: chentm
+	* @date: 2020年3月24日 上午9:06:12 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年3月24日     chentm           v1.0.0               修改原因
+	 */
+	@RequestAuth(menuKeys ={"eamCheckTaskEdit"})
+	@RequestMapping(value = "/eam/checks/task/saveTask")
+	public String saveTask(@RequestBody EamCheckTask task, HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		try {
+			baseCommonService.saveOrUpdate(task);
+			return JsonUtils.toJsonString(resultBean.ok("保存成功"));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return JsonUtils.toJsonString(resultBean.error("保存失败"));
+
 	}
 }

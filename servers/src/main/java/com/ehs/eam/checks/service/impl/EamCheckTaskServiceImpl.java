@@ -82,6 +82,7 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 					}
 					continue;
 				}
+				
 				if(StringUtils.isNotBlank(d.getId())&&d.isDeleted()) {
 					baseCommonService.deleteByKey(EamCheckDefect.class,d.getKey());
 				}
@@ -106,7 +107,12 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 					}
 					continue;
 				}
-	
+				if(StringUtils.equals(r.getUserType(), "OWNER")) {
+					r.setUser(SysAccessUser.get().getUserKey());
+					r.setUserName(SysAccessUser.get().getUsername());
+					r.setOrg(SysAccessUser.get().getOrgKey());
+					r.setOrgName(SysAccessUser.get().getOrgName());
+				}
 				if(StringUtils.isNotBlank(r.getId())&&r.isDeleted()) {
 					baseCommonService.deleteByKey(EamCheckRepair.class,r.getKey());
 				}

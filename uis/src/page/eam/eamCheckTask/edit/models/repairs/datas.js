@@ -70,20 +70,7 @@ export default {
       }
       this.$parent.$parent.$parent.repairsAdd = false
     },
-    addressNameGet (vId) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.deviceAddresses.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === vId// 筛选出匹配数据
-      })
-      this.repair.deviceAddressName = obj.text
-    },
-    objectNameGet (vId) { // 这个vId也就是value值
-      let obj = {}
-      obj = this.objects.find((item) => { // 这里的userList就是上面遍历的数据源
-        return item.key === vId// 筛选出匹配数据
-      })
-      this.repair.objectName = obj.text
-    },
+
     submitForm () {
       this.$refs['repair'].validate((valid) => {
         if (valid) {

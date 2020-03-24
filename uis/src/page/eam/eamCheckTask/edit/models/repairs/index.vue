@@ -3,7 +3,7 @@
     <el-form :model="repair" :rules="repaiRules" label-suffix="：" ref="repair" style="width:700px;" label-width="100px"
       :inline-message="true" :status-icon="true" class="demo-ruleForm">
       <el-form-item label="设备位置" prop="deviceAddress">
-        <el-select v-model="repair.deviceAddress" @change="addressNameGet" style="width:100%" placeholder="请选择设备位置">
+        <el-select v-model="repair.deviceAddress"  style="width:100%" placeholder="请选择设备位置">
           <el-option v-for="item in deviceAddresses" :key="item.key" :label="item.text" :value="item.key">
           </el-option>
         </el-select>
@@ -15,7 +15,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item  prop="objectKey">
-        <el-select v-model="repair.objectKey" @change="objectNameGet" style="width:100%" placeholder="请选择">
+        <el-select v-model="repair.objectKey"  style="width:100%" placeholder="请选择">
           <el-option v-for="item in objects" :key="item.key" :label="item.text" :value="item.key">
           </el-option>
         </el-select>
