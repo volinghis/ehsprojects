@@ -13,10 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import com.aspose.cells.Workbook;
 import com.aspose.slides.Presentation;
 import com.aspose.words.Document;
+import com.aspose.words.LoadOptions;
 import com.aspose.words.SaveFormat;
 
 /**
@@ -145,6 +147,8 @@ public class OfficeToPDF {
 		}
 		try {
 			long old = System.currentTimeMillis();
+			LoadOptions lo=new LoadOptions();
+			lo.setEncoding(Charset.forName("utf8"));
 			Document doc = new Document(source); // word文档
 			// 支持RTF HTML,OpenDocument, PDF,EPUB, XPS转换
 			doc.save(os, SaveFormat.PDF);
