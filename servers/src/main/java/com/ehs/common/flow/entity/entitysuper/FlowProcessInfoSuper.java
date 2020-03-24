@@ -3,8 +3,6 @@ package com.ehs.common.flow.entity.entitysuper;
 import java.util.Map;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -37,10 +35,113 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	private String flowViewPage;
 	private String flowProcessName;
 	private String flowStartActivityId;
+
 	
 	
 	
 	
+
+
+	
+	
+
+
+	private String businessEntityKey;
+
+
+	/**
+	 * 流程实例ID
+	 */
+	private String flowProcessInstanceId;
+	@Transient
+	private Map<String,Object> vars;
+
+	/**
+	 * 审批流程状态 APPROVING,END,CANCELED
+	 */
+
+	/**
+	 * 当前环节
+	 */
+	private String flowCurrentStep;
+	private String flowCurrentStepName;
+	
+	/**
+	 * 当前处理人
+	 */
+	@Column(length = 3000)
+	private String flowCurrentPerson;
+	private String flowCurrentPersonName;
+
+	/**
+	 * 上 一环节处理人
+	 */
+	@Column(length = 3000)
+	private String flowPrevPerson;
+	
+	private String flowPrevPersonName;
+	/**
+	 * 上一环节代码
+	 */
+	private String flowPrevStep;
+	
+	/**
+	 * 上一环节名称
+	 */
+	private String flowPrevStepName;
+
+	
+	
+	
+
+	@Transient
+	private String processName;
+
+	@Transient
+	private String businessKey;
+	@Transient
+	private String processInstanceId;
+	@Transient
+	private String currentStep;
+	@Transient
+	private String currentUser;
+
+	
+	
+	
+
+
+	
+	public String getProcessName() {
+		return this.getFlowProcessName();
+	}
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+	public String getBusinessKey() {
+		return this.getBusinessEntityKey();
+	}
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
+	}
+	public String getProcessInstanceId() {
+		return this.getFlowProcessInstanceId();
+	}
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+	public String getCurrentStep() {
+		return this.getFlowCurrentStepName();
+	}
+	public void setCurrentStep(String currentStep) {
+		this.currentStep = currentStep;
+	}
+	public String getCurrentUser() {
+		return this.getFlowCurrentPersonName();
+	}
+	public void setCurrentUser(String currentUser) {
+		this.currentUser = currentUser;
+	}
 	public String getFlowStartActivityId() {
 		return flowStartActivityId;
 	}
@@ -65,64 +166,6 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public void setFlowProcessName(String flowProcessName) {
 		this.flowProcessName = flowProcessName;
 	}
-	private String businessEntityKey;
-	
-	
-	/**
-	 * 流程实例ID
-	 */
-	private String flowProcessInstanceId;
-	
-	
-	@Transient
-	private Map<String,Object> vars;
-	
-
-
-	/**
-	 * 审批流程状态 APPROVING,END,CANCELED
-	 */
-	
-	
-	/**
-	 * 当前环节
-	 */
-	private String flowCurrentStep;
-	
-	private String flowCurrentStepName;
-	
-	/**
-	 * 当前处理人
-	 */
-	@Column(length = 3000)
-	private String flowCurrentPerson;
-	
-	private String flowCurrentPersonName;
-	
-	
-
-	/**
-	 * 上 一环节处理人
-	 */
-	@Column(length = 3000)
-	private String flowPrevPerson;
-	
-	private String flowPrevPersonName;
-	/**
-	 * 上一环节代码
-	 */
-	private String flowPrevStep;
-	
-	/**
-	 * 上一环节名称
-	 */
-	private String flowPrevStepName;
-	
-
-
-
-	
-	
 	
 	
 
