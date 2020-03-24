@@ -124,11 +124,22 @@ export default {
         }
       })
     },
+    // handleClose: function (done) {
+    //   this.$confirm('确认关闭？').then(_ => {
+    //     this.$refs.partData.$refs.form.validate(valid => {
+    //       if (valid) {
+    //         this.drawer = false
+    //       } else {
+    //         this.drawer = true
+    //       }
+    //     })
+    //   })
+    // },
     handleClose: function (done) {
       this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
         distinguishCancelAndClose: true,
         confirmButtonText: '保存',
-        cancelButtonText: '放弃修改'
+        cancelButtonText: '放弃编辑'
       }).then(() => {
         this.$refs.partData.$refs.form.validate(valid => {
           if (valid) {
@@ -146,12 +157,18 @@ export default {
           }
         })
       }).catch(action => {
-        this.tableData.forEach((e, index) => {
-          if (e.key === this.$refs.partData.form.key) {
-            this.tableData.splice(index, 1)
-            this.drawer = false
-          }
-        })
+        console.log(this.$refs.partData.form)
+        if (this.$refs.partData.form.id === '') {
+          console.log('hhhhhhhhhh')
+          this.tableData.forEach((e, index) => {
+            if (e.key === this.$refs.partData.form.key) {
+              this.tableData.splice(index, 1)
+              this.drawer = false
+            }
+          })
+        } else {
+          this.drawer = false
+        }
         this.$message({
           type: 'info',
           message: action === 'cancel'

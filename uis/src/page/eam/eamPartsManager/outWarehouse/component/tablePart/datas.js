@@ -94,14 +94,45 @@ export default {
     handleDel: function (index, rows) {
       rows.splice(index, 1)
     },
+    // handleClose: function (done) {
+    //   this.$confirm('确认关闭？').then(_ => {
+    //     this.$refs.partData.$refs.form.validate(valid => {
+    //       if (valid) {
+    //         this.drawer = false
+    //       } else {
+    //         this.drawer = true
+    //       }
+    //     })
+    //   })
+    // },
     handleClose: function (done) {
-      this.$confirm('确认关闭？').then(_ => {
+      this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '保存',
+        cancelButtonText: '放弃编辑'
+      }).then(() => {
         this.$refs.partData.$refs.form.validate(valid => {
           if (valid) {
             this.drawer = false
+            this.$message({
+              type: 'info',
+              message: '保存成功'
+            })
           } else {
             this.drawer = true
+            this.$message({
+              type: 'warning',
+              message: '备件信息填写不完整'
+            })
           }
+        })
+      }).catch(action => {
+        this.drawer = false
+        this.$message({
+          type: 'info',
+          message: action === 'cancel'
+            ? '放弃保存并离开页面'
+            : '停留在当前页面'
         })
       })
     },

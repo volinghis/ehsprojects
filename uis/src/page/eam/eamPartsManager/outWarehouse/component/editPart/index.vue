@@ -1,6 +1,6 @@
 <template>
   <div style="margin-right:20px;">
-    <el-form ref="form" :model="form" :rules="rules" label-suffix="：" label-position="right" label-width="80px" :size="GlobalCss.controlSize">
+    <el-form ref="form" :model="form" :rules="rules" label-suffix="：" label-position="right" label-width="90px" :size="GlobalCss.controlSize">
       <el-row style="margin-left:20px;">
         <el-col :span="6">
           <div class="el-upload avatar-uploader">
