@@ -162,7 +162,18 @@ export default {
         that.ruleForm.eamCheckRepair = repairs.data
       }))
     } else {
-      this.init()
+      this.$axios.all([
+
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem')
+      ]).then(this.$axios.spread(function (deviceAddresses, pros, syss) {
+        // 上面两个请求都完成后，才执行这个回调方法
+        that.deviceAddresses = deviceAddresses.data
+        that.objects = pros.data
+        that.objects = that.objects.concat(syss.data)
+        that.init()
+      }))
     }
   }
 }
