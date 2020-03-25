@@ -24,6 +24,10 @@ export default {
       this.getDevicePicture(resData.deviceImg)
       this.eamInfos = resData
       this.deviceKey = resData.refKey
+    } else {
+      var processObj = JSON.parse(this.$route.params.processInfo)
+      console.log(processObj)
+      this.getEamLedgerByEntityKey(processObj.businessKey)
     }
   },
   methods: {
@@ -31,6 +35,16 @@ export default {
     },
     back () {
       this.$router.go(-1)
+    },
+    getEamLedgerByEntityKey (val) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getEamLedgerByEntityKey?key=' + val).then(res => {
+        var data = res.data
+        this.getDevicePicture(data.deviceImg)
+        this.eamInfos = data
+        this.deviceKey = data.refKey
+      }).catch(error => {
+        this.$message({ message: error })
+      })
     },
     getDevicePicture (fileId) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then(res => {

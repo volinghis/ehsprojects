@@ -134,4 +134,13 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 		EamLedgerLast curLedger = eamLastDao.findEamLedgerLastByRefKey(key);
 		return getCurrentList(curLedger);
 	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findEamLedgerByProcessKey(java.lang.String)  
+	*/
+	@Override
+	public EamLedgerLast findEamLedgerByProcessKey(String key) {
+		return eamLastDao.findEamLedgerLastByRefKey(key);
+	}
+
 }

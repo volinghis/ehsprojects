@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5">
+      <el-col :span="5" style="border-right:1px solid #DCDFE6;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
         <el-tree :data="treeData"
                  node-key="id"
                  ref="tree"
@@ -15,10 +15,7 @@
           </span>
         </el-tree>
       </el-col>
-      <el-col :span="1">
-        <el-divider direction="vertical"></el-divider>
-      </el-col>
-      <el-col :span="18">
+      <el-col :span="18" :push="1">
         <el-row>
           <el-col class="searchCol">
             <el-row type="flex"

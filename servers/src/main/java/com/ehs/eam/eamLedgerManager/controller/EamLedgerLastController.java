@@ -19,7 +19,6 @@ import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.TreeDataBean;
-import com.ehs.eam.eamLedgerManager.entity.EamLedger;
 import com.ehs.eam.eamLedgerManager.entity.EamLedgerLast;
 import com.ehs.eam.eamLedgerManager.service.EamLedgerLastService;
 
@@ -146,10 +145,36 @@ public class EamLedgerLastController {
 	 * ---------------------------------------------------------* 2020年1月7日
 	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { "eamLedgerLast" })
 	@RequestMapping(value = "/getChildDevByKey")
 	public String getChildDevByKey(@RequestParam String key, HttpServletRequest request) {
 		List<EamLedgerLast> eamLedgers = eamLedgerLastService.getChildDevByKey(key);
 		return eamLedgers != null ? JsonUtils.toJsonString(eamLedgers) : "[]";
 	}
+	
+	
+	/**
+	 * 
+	* @Function:getChildDevByKey 
+	* @Description: 根据流程获取当前设备信息
+	* @param key
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月24日 下午5:43:10 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月24日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestMapping(value = "/getEamLedgerByEntityKey")
+	public String getEamLedgerByEntityKey(@RequestParam String key, HttpServletRequest request) {
+		EamLedgerLast eamLedger = eamLedgerLastService.findEamLedgerByProcessKey(key);
+		return  JsonUtils.toJsonString(eamLedger);
+	}
+	
 }
