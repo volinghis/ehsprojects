@@ -37,7 +37,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	private String flowProcessName;
 	private String flowStartActivityId;
 
-	
+	@Column(length=4000)
 	private String flowPersons;
 	
 	
