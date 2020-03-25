@@ -86,16 +86,16 @@ export default {
   mounted () {
     var that = this
     var flowInfo = JSON.parse(this.$route.params.processInfo)
-    console.log(flowInfo)
     if (flowInfo.businessKey) {
       this.$axios.all([
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/reserveUsed/getReservUsedByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem')
-      ]).then(this.$axios.spread(function (res, defects, repairs, deviceAddresses, pros, syss) {
+      ]).then(this.$axios.spread(function (res, defects, repairs, reservUsed, deviceAddresses, pros, syss) {
         // 上面两个请求都完成后，才执行这个回调方法
         that.deviceAddresses = deviceAddresses.data
         that.objects = pros.data
@@ -103,6 +103,7 @@ export default {
         that.ruleForm = Object.assign(that.ruleForm, res.data)
         that.ruleForm.eamCheckDefect = defects.data
         that.ruleForm.eamCheckRepair = repairs.data
+        that.ruleForm.eamCheckReserveUsed = reservUsed.data
       }))
     }
   }

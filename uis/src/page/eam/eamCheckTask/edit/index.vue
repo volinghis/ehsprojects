@@ -22,7 +22,7 @@
     </el-form>
     <el-collapse v-model="activeNames" v-if="normalExecute()">
       <el-collapse-item title="检修记录" name="rep">
-        <el-button type="primary" size="mini" style="float:right" @click="repairsMethod()">添加</el-button>
+        <el-button type="primary" size="mini" style="float:right;margin-bottom:5px;" @click="repairsMethod()">添加</el-button>
         <repairs v-if="repairsAdd"></repairs>
         <el-table :data="handlesearch(this.ruleForm.eamCheckRepair)" ref="repairTable" border
           :size="GlobalCss.buttonSize">
@@ -65,7 +65,7 @@
         </el-table>
       </el-collapse-item>
       <el-collapse-item title="缺陷记录" name="def">
-        <el-button type="primary" size="mini" style="float:right" @click="defectsMethod()">添加</el-button>
+        <el-button type="primary" size="mini" style="float:right;margin-bottom:5px;" @click="defectsMethod()">添加</el-button>
         <defects v-if="defectsAdd"></defects>
         <el-table :data="handlesearch(this.ruleForm.eamCheckDefect)" ref="defectTable" border
           :size="GlobalCss.buttonSize">
@@ -108,6 +108,29 @@
           </el-table-column>
         </el-table>
       </el-collapse-item>
+      <el-collapse-item title="备件领用记录" name="part">
+        <el-button type="primary" size="mini" style="float:right;margin-bottom:5px;" @click="partsMethod()">添加</el-button>
+        <parts v-if="partsAdd"></parts>
+        <el-table :data="handlesearch(this.ruleForm.eamCheckReserveUsed)" ref="partsTable" border  :size="GlobalCss.buttonSize">
+          <el-table-column width="40" type="expand">
+            <template slot-scope="props">
+              <parts :dataRow="props.row"></parts>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="wareHouseName" label="所在仓库"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="deviceName" label="备件名称"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="deviceCode" label="备件编号"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="amount" label="数量"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="receivePersonName" width="140" label="领用人"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip width="100" label="操作">
+            <template slot-scope="scope">
+              <el-button type="danger" @click="remove(scope)" size="mini" title="删除" icon="el-icon-delete" circle>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-collapse-item>
 
     </el-collapse>
   </div>
@@ -116,11 +139,13 @@
 import datas from './datas'
 import defects from './models/defects/index.vue'
 import repairs from './models/repairs/index.vue'
+import parts from './models/parts/index.vue'
 
 export default datas
 datas.components = {
   'defects': defects,
-  'repairs': repairs
+  'repairs': repairs,
+  'parts': parts
 }
 
 </script>

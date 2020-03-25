@@ -86,7 +86,21 @@
 
         </el-table>
       </el-collapse-item>
-
+      <el-collapse-item title="备件领用记录" name="def">
+        <el-table :data="handlesearch(this.ruleForm.eamCheckReserveUsed)" ref="defectTable" border :size="GlobalCss.buttonSize">
+          <el-table-column width="40" type="expand">
+            <template slot-scope="scope">
+              <defects :dataRow="scope.row"></defects>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="wareHouseName" label="所在仓库"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="deviceName" label="备件名称"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="deviceCode" label="备件编号"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="amount" label="数量"></el-table-column>
+          <el-table-column align="center" show-overflow-tooltip prop="receivePersonName" width="140" label="领用人"></el-table-column>
+        </el-table>
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>

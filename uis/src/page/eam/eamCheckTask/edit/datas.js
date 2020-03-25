@@ -1,9 +1,11 @@
 export default {
   data () {
     return {
+      partsAdd: false,
       repairsAdd: false,
       defectsAdd: false,
       deviceAddresses: [],
+      wareHouseAll: [],
       objects: [],
       ruleForm: {
         result: '',
@@ -13,7 +15,7 @@ export default {
         eamCheckDefect: [],
         eamCheckReserveUsed: []
       },
-      activeNames: ['rep', 'def', 'rev'],
+      activeNames: ['rep', 'def', 'rev', 'part'],
       rules: {
         name: [
           { required: true, message: '请输入任务名称', trigger: 'blur' },
@@ -68,6 +70,15 @@ export default {
         })
       }
     },
+    partsDataUpdate (newRow) {
+      if (this.ruleForm.eamCheckReserveUsed) {
+        this.ruleForm.eamCheckReserveUsed.forEach(element => {
+          if (element.key === newRow.key) {
+            element = Object.assign(element, newRow)
+          }
+        })
+      }
+    },
     repairsMethod () {
       this.repairsAdd = true
     },
@@ -76,6 +87,12 @@ export default {
         this.ruleForm.eamCheckDefect = []
       }
       this.ruleForm.eamCheckDefect.push(v)
+    },
+    partsInner (v) {
+      if (!this.ruleForm.eamCheckReserveUsed) {
+        this.ruleForm.eamCheckReserveUsed = []
+      }
+      this.ruleForm.eamCheckReserveUsed.push(v)
     },
     defectUpdate (newRow) {
       if (this.ruleForm.eamCheckDefect) {
@@ -88,6 +105,9 @@ export default {
     },
     defectsMethod () {
       this.defectsAdd = true
+    },
+    partsMethod () {
+      this.partsAdd = true
     },
     normalExecute () {
       return this.ruleForm.result === 'NORMAL'
@@ -146,10 +166,12 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getTask?key=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/defects/getDefectsByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/repairs/getRepairsByTaskKey?taskKey=' + flowInfo.businessKey),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/reserveUsed/getReservUsedByTaskKey?taskKey=' + flowInfo.businessKey),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress'),
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona'),
-        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem')
-      ]).then(this.$axios.spread(function (res, defects, repairs, deviceAddresses, pros, syss) {
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceSystem'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=wareHouse')
+      ]).then(this.$axios.spread(function (res, defects, repairs, parts, deviceAddresses, pros, syss, wareHouses) {
         // 上面两个请求都完成后，才执行这个回调方法
         that.deviceAddresses = deviceAddresses.data
         that.objects = pros.data
@@ -160,6 +182,8 @@ export default {
         }
         that.ruleForm.eamCheckDefect = defects.data
         that.ruleForm.eamCheckRepair = repairs.data
+        that.ruleForm.eamCheckReserveUsed = parts.data
+        that.wareHouseAll = wareHouses.data
       }))
     } else {
       this.$axios.all([
