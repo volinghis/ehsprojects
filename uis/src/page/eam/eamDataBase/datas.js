@@ -65,7 +65,7 @@ export default {
         return require('@/assets/images/fileType/img.svg')
       } else if (fileType === 'pdf') {
         return require('@/assets/images/fileType/pdf.svg')
-      } else if (fileType === 'pptx') {
+      } else if (fileType === 'pptx' || fileType === 'ppt') {
         return require('@/assets/images/fileType/ppt.svg')
       } else {
         return require('@/assets/images/fileType/unknow.svg')

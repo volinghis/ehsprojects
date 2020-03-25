@@ -80,6 +80,15 @@ export default {
         return item.key === s.row.objectKey// 筛选出匹配数据
       })
       return obj.text
+    },
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/repairLedger/addDatasAfterFlow', v).then(res => {
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
+      })
     }
   },
 

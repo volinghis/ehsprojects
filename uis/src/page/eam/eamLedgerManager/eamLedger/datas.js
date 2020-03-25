@@ -32,7 +32,7 @@ export default {
   },
   created: function () {
     this.initTable()
-    this.inintTree(this.activeName)
+    this.inintTree()
   },
   methods: {
     initTable () {
@@ -54,7 +54,7 @@ export default {
     },
     handleClick (tab) {
       this.activeName = tab.name
-      this.form.address = ''
+      this.queryParam.address = 'ALL'
       this.queryParam.deviceSystem = 'ALL'
       this.queryParam.profession = 'ALL'
       this.inintTree()

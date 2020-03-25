@@ -86,13 +86,14 @@
 		
 		<menu dataCode="eamCheck" key="eamCheck" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
 			<menu dataCode="eamCheckPlan" key="eamCheckPlan" name="巡检计划" url="/eam/eamCheckplan/list/index" icon="fa-tasks" parentKey="eamCheck" sort="1"></menu>
+			<menu dataCode="eamCheckRepairLedger" key="eamCheckRepairLedger" name="检修台账" url="/eam/eamCheckRepairLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="2"></menu>
+			<menu dataCode="eamCheckDefectLedger" key="eamCheckDefectLedger" name="缺陷台账" url="/eam/eamCheckDefectLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="3"></menu>
 			<menu dataCode="eamCheckPlanEdit" key="eamCheckPlanEdit" name="巡检计划编辑" url="/eam/eamCheckplan/edit/index" icon="fa-tasks" parentKey="eamCheck" sort="10" business="true"></menu>
 			
 		</menu>
 		
 		<menu dataCode="personJob" key="personJob" name="个人工作台" url="" icon="fa-wrench" leaf="false" sort="9994">
 			<menu dataCode="eamCheckTask" key="eamCheckTask" name="巡检任务" url="/eam/eamCheckTask/list/index" icon="fa-tasks" parentKey="personJob" sort="1"></menu>
-			<menu dataCode="eamCheckRepairLedger" key="eamCheckRepairLedger" name="检修台账" url="/eam/eamCheckRepairLedger/index" icon="fa-tasks" parentKey="personJob" sort="2"></menu>
 			<menu dataCode="eamCheckTaskEdit" key="eamCheckTaskEdit" name="巡检任务编辑" url="/eam/eamCheckTask/edit/index" icon="fa-tasks" parentKey="personJob" sort="1" business="true"></menu>
 			<menu dataCode="eamCheckTaskView" key="eamCheckTaskView" name="巡检任务查看" url="/eam/eamCheckTask/view/index" icon="fa-tasks" parentKey="personJob" sort="2" business="true"></menu>
 			
