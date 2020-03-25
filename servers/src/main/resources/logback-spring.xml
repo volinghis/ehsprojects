@@ -29,7 +29,7 @@
 
 
     <!--myibatis log configure-->
-    <logger name="com.ehs" level="DEBUG"/>
+    <logger name="com.ehs" level="INFO"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">

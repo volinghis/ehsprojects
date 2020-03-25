@@ -30,6 +30,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	public static final String FLOW_VIEW_PAGE = "flowViewPage" ;
 	public static final String FLOW_PROCESS_NAME = "flowProcessName" ;
 	public static final String FLOW_START_ACTIVITY_ID = "flowStartActivityId" ;
+	public static final String FLOW_PERSONS="flowPersons";
 	
 	private String flowEditPage;
 	private String flowViewPage;
@@ -37,7 +38,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	private String flowStartActivityId;
 
 	
-	
+	private String flowPersons;
 	
 	
 
@@ -112,6 +113,12 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 
 
 	
+	public String getFlowPersons() {
+		return flowPersons;
+	}
+	public void setFlowPersons(String flowPersons) {
+		this.flowPersons = flowPersons;
+	}
 	public String getProcessName() {
 		return this.getFlowProcessName();
 	}

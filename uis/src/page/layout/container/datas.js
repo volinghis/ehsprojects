@@ -1,6 +1,18 @@
 
 export default {
   methods: {
+    flushNotices () {
+      var self = this
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/notify/message/findByUserOfNotRead').then(response => {
+        if (response.data && response.data.length > 0) {
+          self.$notify({
+            title: response.data[0].title,
+            message: response.data[0].content,
+            position: 'bottom-right'
+          })
+        }
+      })
+    },
     resetPaddingStyle () {
       let boWidth = 0
       if (document.body.offsetWidth > parseInt(this.GlobalCss.serviceMaxWidth)) {
@@ -21,6 +33,7 @@ export default {
     }
   },
   mounted () {
+    setInterval(this.flushNotices, 5000)
     this.resetPaddingStyle()
     this.$store.dispatch(this.GlobalVars.computeWindowSizeMethodName)
     window.onresize = () => {
