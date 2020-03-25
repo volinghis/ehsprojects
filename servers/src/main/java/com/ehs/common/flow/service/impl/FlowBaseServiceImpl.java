@@ -64,6 +64,7 @@ import com.ehs.common.flow.entity.FlowBaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.utils.FlowConstans;
+import com.ehs.common.notifys.entity.impl.NotifyMessageInfo;
 
 
 /**
@@ -133,6 +134,14 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				currentStep = String.join(",",
 						tasks.stream().map(u -> u.getTaskDefinitionKey()).collect(Collectors.toList()));
 				currentStepName = String.join(",", tasks.stream().map(u -> u.getName()).collect(Collectors.toList()));
+				tasks.stream().forEach(s->{
+					NotifyMessageInfo nmi=new NotifyMessageInfo();
+					nmi.setTitle("消息提醒");
+					nmi.setContent("你的"+flowProcessInfo.getProcessName()+"被驳回，请及时处理！");
+					nmi.setUser(s.getAssignee());
+					nmi.setUserName(AccessUtils.getUserNameByUserKey(s.getAssignee()));
+					baseCommonService.saveOrUpdate(nmi);
+				});
 			}
 
 			flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
@@ -271,6 +280,15 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				currentStep = String.join(",",
 						tasks.stream().map(u -> u.getTaskDefinitionKey()).collect(Collectors.toList()));
 				currentStepName = String.join(",", tasks.stream().map(u -> u.getName()).collect(Collectors.toList()));
+				tasks.stream().forEach(s->{
+					NotifyMessageInfo nmi=new NotifyMessageInfo();
+					nmi.setTitle("消息提醒");
+					nmi.setContent("你有一个"+pd.getName()+"需要审批，请及时处理！");
+					nmi.setUser(s.getAssignee());
+					nmi.setUserName(AccessUtils.getUserNameByUserKey(s.getAssignee()));
+					baseCommonService.saveOrUpdate(nmi);
+				});
+				
 			}else {
 				 currentUser = "";
 				 currentUserName = "";
@@ -369,6 +387,14 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 				currentStep = String.join(",",
 						tasks.stream().map(u -> u.getTaskDefinitionKey()).collect(Collectors.toList()));
 				currentStepName = String.join(",", tasks.stream().map(u -> u.getName()).collect(Collectors.toList()));
+				tasks.stream().forEach(s->{
+					NotifyMessageInfo nmi=new NotifyMessageInfo();
+					nmi.setTitle("消息提醒");
+					nmi.setContent("你有一个"+flowProcessInfo.getProcessName()+"需要审批，请及时处理！");
+					nmi.setUser(s.getAssignee());
+					nmi.setUserName(AccessUtils.getUserNameByUserKey(s.getAssignee()));
+					baseCommonService.saveOrUpdate(nmi);
+				});
 			}
 
 			flowProcessInfo.setFlowPrevPerson(flowProcessInfo.getFlowCurrentPerson());
@@ -436,7 +462,6 @@ public class FlowBaseServiceImpl implements FlowBaseService {
 			flowProcessInfo.setFlowCurrentStep(currentStep);
 			flowProcessInfo.setFlowCurrentStepName(currentStepName);
 			flowProcessInfo.setFlowPersons(StringUtils.defaultIfBlank(flowProcessInfo.getFlowPersons(), "")+","+flowProcessInfo.getFlowCurrentPerson());
-
 			baseCommonService.saveOrUpdate(flowProcessInfo);
 		} catch (Exception e) {
 
