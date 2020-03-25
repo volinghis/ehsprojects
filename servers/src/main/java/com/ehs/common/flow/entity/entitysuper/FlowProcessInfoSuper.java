@@ -34,8 +34,7 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 
 	public static final String FLOW_SCORE="flowScore";
 	
-	@Column(length = 4000)
-	private String flowPersons;
+
 
 
 	
@@ -44,11 +43,16 @@ public abstract class FlowProcessInfoSuper extends BaseEntity{
 	private String flowProcessName;
 	private String flowStartActivityId;
 
+
 	
 
 	private Boolean flowScore=false;
 	
 
+
+
+	@Column(length=4000)
+	private String flowPersons;
 
 	
 	
