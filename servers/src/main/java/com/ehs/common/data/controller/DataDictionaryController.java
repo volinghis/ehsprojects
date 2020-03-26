@@ -217,10 +217,10 @@ public class DataDictionaryController {
 		try {
 			String key=request.getParameter("key");
 			dataDictionaryService.deleteDataDictionary(key);
-			return JsonUtils.toJsonString(resultBean.ok("部门删除成功"));
+			return JsonUtils.toJsonString(resultBean.ok("删除成功"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return JsonUtils.toJsonString(resultBean.error("部门删除失败"));
+		return JsonUtils.toJsonString(resultBean.error("删除失败"));
 	}
 }

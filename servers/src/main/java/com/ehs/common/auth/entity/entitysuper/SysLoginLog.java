@@ -35,6 +35,10 @@ public abstract class SysLoginLog extends BaseEntity  {
 	public static final String ACCOUNT="account";
 	public static final String TIME="time";
 	public static final String IP="ip";
+	public static final String BROWSER="browser";
+	public static final String SYSTEM="system";
+	
+	
 	
 	/**
 	 * 	用户名
@@ -53,6 +57,10 @@ public abstract class SysLoginLog extends BaseEntity  {
 	 * 	ip地址
 	 */
 	private String ip;
+	
+	private String browser;
+	
+	private String system;
 
 	public String getName() {
 		return name;
@@ -86,8 +94,32 @@ public abstract class SysLoginLog extends BaseEntity  {
 		this.ip = ip;
 	}
 
-	
-	
-	
+	/**
+	 * @return the browser
+	 */
+	public String getBrowser() {
+		return browser;
+	}
+
+	/**
+	 * @param browser the browser to set
+	 */
+	public void setBrowser(String browser) {
+		this.browser = browser;
+	}
+
+	/**
+	 * @return the system
+	 */
+	public String getSystem() {
+		return system;
+	}
+
+	/**
+	 * @param system the system to set
+	 */
+	public void setSystem(String system) {
+		this.system = system;
+	}
 	
 }

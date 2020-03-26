@@ -73,20 +73,20 @@ public class LoginLogServiceImpl implements LoginLogService {
 	*/
 	@Transactional
 	@Override
-	public void addLoginLog(String userKey, String ip) {
+	public void addLoginLog(String userKey, String ip,String browser,String system) {
 		SysLoginLog logEntity=new SysLoginLog();
 		if (StringUtils.equals("adminKey", userKey)) {
 			logEntity.setAccount("admin");
-			logEntity.setIp(ip);
-			logEntity.setTime(BaseUtils.getNow());
 			logEntity.setName("系统管理员");
 		}else {
 			OrgUser curUser=orgUserDao.findOrgUserBySysUserKey(userKey);
 			logEntity.setAccount(curUser.getDataCode());
-			logEntity.setIp(ip);
-			logEntity.setTime(BaseUtils.getNow());
 			logEntity.setName(curUser.getName());
 		}
+		logEntity.setIp(ip);
+		logEntity.setTime(BaseUtils.getNow());
+		logEntity.setBrowser(browser);
+		logEntity.setSystem(system);
 		baseCommonService.saveOrUpdate(logEntity);
 	}
 

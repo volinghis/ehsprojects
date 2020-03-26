@@ -27,6 +27,8 @@ import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.ResultBean;
 
+import eu.bitwalker.useragentutils.UserAgent;
+
 /**
  * Copyright: Copyright (c) 2019 西安东恒鑫源软件开发有限公司
  * 
@@ -86,7 +88,9 @@ public class LoginController {
 				return JsonUtils.toJsonString(resultBean.error("用户已被锁定"));
 		}
 		//记录登录日志
-		loginLogService.addLoginLog(sysUser.getKey(), BaseUtils.getIpAddress(request));
+		UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+		String version=userAgent.getBrowser().toString().toLowerCase()+" "+userAgent.getBrowserVersion().getMajorVersion();//浏览器版本
+		loginLogService.addLoginLog(sysUser.getKey(), BaseUtils.getIpAddress(request),version,userAgent.getOperatingSystem().getName());
 		sessionBean.login(sysUser.getKey(), request);
 		return JsonUtils.toJsonString(resultBean.ok("认证成功"));
 		

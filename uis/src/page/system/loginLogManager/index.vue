@@ -40,6 +40,12 @@
         <el-table-column prop="ip"
                          align="center"
                          label="ip地址"></el-table-column>
+        <el-table-column prop="browser"
+                         align="center"
+                         label="浏览器"></el-table-column>
+        <el-table-column prop="system"
+                         align="center"
+                         label="操作系统"></el-table-column>
         <el-table-column prop="time"
                          align="center"
                          label="登陆时间"></el-table-column>
@@ -61,5 +67,5 @@ export default datas
 
 </script>
 <style lang="sass" scoped>
-  @import './styles.scss'
+@import './styles.scss'
 </style>
