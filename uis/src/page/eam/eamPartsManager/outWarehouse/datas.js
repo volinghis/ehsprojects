@@ -24,6 +24,7 @@ export default {
   },
   mounted: function () {
     this.getTableData()
+    this.getNowTime()
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.getWareHouseAndUseType()
   },
@@ -55,7 +56,7 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       var date = new Date(row.creationTime.replace(/-/g, '/'))
-      if (this.nowTime >= (date.getTime() + 604800) && row.status !== '已结束') {
+      if (this.nowTime >= (date.getTime() + 604800000) && row.status !== '已结束') {
         return 'ehs-message-info-error'
       } else if (row.status === '填写单据') {
         return 'ehs-message-info-yellow'

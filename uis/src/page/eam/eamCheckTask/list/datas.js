@@ -2,8 +2,10 @@
 export default {
   data () {
     return {
+      sessionUser: '',
       tasks: [],
       timeNow: '',
+      currentStepName: '',
       queryBean: {
         page: 1,
         size: 20,
@@ -34,6 +36,18 @@ export default {
     }))
   },
   methods: {
+    tableRowClassName ({ row, rowIndex }) {
+      if (row.flowProcessInfo !== null) {
+        var step = row.flowProcessInfo.flowCurrentStepName
+        var date = new Date(row.ownerCreationTime.replace(/-/g, '/'))
+        if (this.nowTime >= (date.getTime() + 604800000) && this.step === '未开始') {
+          return 'ehs-message-info-error'
+        } else if (step === '任务填写') {
+          return 'ehs-message-info-yellow'
+        }
+        return ''
+      }
+    },
     transFlow (row) {
       if ((!row.flowProcessInfo) || (!row.flowProcessInfo.flowCurrentStep) || row.flowProcessInfo.flowCurrentStep === 'DRAFT') {
         return '未开始'

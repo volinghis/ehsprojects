@@ -69,29 +69,46 @@
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
       </div>
     </div>
-    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange">
+    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange" :row-class-name="tableRowClassName">
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" show-overflow-tooltip prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">
           <el-link type="primary" v-if="viewEnable(scope.row)" @click="view(scope.row)">{{scope.row.name}}</el-link>
           <span v-if="!viewEnable(scope.row)">{{scope.row.name}}</span>
         </template>
-
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip  prop="eamCheckPlan.name" width="140" sortable="custom" label="计划名称">
+      <el-table-column align="center" show-overflow-tooltip  prop="eamCheckPlan.name" width="140" sortable="custom" label="计划名称"></el-table-column>
+      <el-table-column align="center" prop="eamCheckPlan.ownerName" width="120" sortable="custom" label="计划创建人"></el-table-column>
+      <el-table-column align="center" prop="result" sortable="custom" width="120" label="执行结果">
+        <template slot-scope="scope">
+          <template v-if="scope.row.result == 'NORMAL'">
+            <el-tag size="medium" type="success">{{ '正常执行' }}</el-tag>
+          </template>
+          <template v-else-if="scope.row.result == 'NOTEXECUTE_NOWORK'">
+            <el-tag size="medium" type="danger">{{ '不执行-缺工' }}</el-tag>
+          </template>
+          <template v-else-if="scope.row.result == 'NOTEXECUTE_PERSON_CHANGE'">
+            <el-tag size="medium" type="danger">{{ '不执行-人员调离' }}</el-tag>
+          </template>
+          <template v-else-if="scope.row.result == 'NOTEXECUTE_OTHER'">
+            <el-tag size="medium" type="danger">{{ '不执行-其他' }}</el-tag>
+          </template>
+        </template>
       </el-table-column>
-      <el-table-column align="center" prop="eamCheckPlan.ownerName" width="120" sortable="custom" label="计划创建人">
-      </el-table-column>
-      <el-table-column align="center" prop="eamCheckPlan.ownerCreationTime" width="140" sortable="custom"
-        label="计划创建时间">
+      <el-table-column align="center" prop="repairs" sortable="custom" width="100" label="检修记录">
+        <template slot-scope="scope">
+          <template v-if="scope.row.repairs == true">
+            <el-tag size="medium" type="succes">{{ '有' }}</el-tag>
+          </template>
+        </template>
       </el-table-column>
       <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" width="100" sortable="custom" label="审批状态">
          <template slot-scope="scope">
           <span>{{transFlow(scope.row)}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="userName" width="160" sortable="custom" label="提交人"></el-table-column>
-      <el-table-column align="center" prop="ownerCreationTime" width="140" sortable="custom" label="任务创建时间">
+      <el-table-column align="center" prop="userName" width="100" sortable="custom" label="提交人"></el-table-column>
+      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="任务创建时间">
       </el-table-column>
       <el-table-column align="center" width="80" fixed="right" label="操作">
          <template slot-scope="scope">

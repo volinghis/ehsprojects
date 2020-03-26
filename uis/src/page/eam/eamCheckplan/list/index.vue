@@ -53,18 +53,18 @@
           <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.name}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="year" width="150" sortable="custom" label="计划年度"></el-table-column>
-      <el-table-column align="center" prop="ownerName" width="160" sortable="custom" label="创建人"></el-table-column>
+      <el-table-column align="center" prop="year" width="100" sortable="custom" label="计划年度"></el-table-column>
+      <el-table-column align="center" prop="ownerName" width="100" sortable="custom" label="创建人"></el-table-column>
       <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="创建时间">
       </el-table-column>
-      <el-table-column align="center" prop="startTime" width="160" sortable="custom" label="开始时间"></el-table-column>
+      <el-table-column align="center" prop="startTime" width="120" sortable="custom" label="开始时间"></el-table-column>
       <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="结束时间"></el-table-column>
-      <el-table-column align="center" prop="rate" width="160" sortable="custom" label="执行频率">
+      <el-table-column align="center" prop="rate" width="100" sortable="custom" label="执行频率">
          <template slot-scope="scope">
             <el-tag size="medium">{{ scope.row.rate }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="execute" width="160" sortable="custom" label="计划时效">
+      <el-table-column align="center" prop="execute" width="90" sortable="custom" label="计划时效">
         <template slot-scope="scope">
           <template v-if="scope.row.execute ==='有效'">
             <el-tag size="medium" type="success">{{ scope.row.execute }}</el-tag>
@@ -77,7 +77,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="enable" width="100" sortable="custom" label="状态">
+      <el-table-column align="center" prop="enable" width="90" sortable="custom" label="状态">
         <template slot-scope="scope" v-if="resetTimeCheck(scope.row)">
           <el-tooltip :content="scope.row.enable === true ? '启用中':'停用中'" placement="left">
             <el-switch @change="changeState($event,scope.row,scope.$index)" v-model="scope.row.enable"
@@ -86,7 +86,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="210" fixed="right" label="操作">
+      <el-table-column align="center" width="150" fixed="right" label="操作">
         <template slot-scope="scope">
 
           <el-button type="info" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="delay(scope.row)">延期</el-button>

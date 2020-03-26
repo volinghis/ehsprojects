@@ -17,3 +17,19 @@
   width: 410px;
   margin-left: 10px;
 }
+/deep/.el-table  .ehs-message-info-yellow{
+  background-color: yellow;
+  color: black;
+}
+/deep/.el-table  .ehs-message-info-error{
+  background-color: red;
+  color: white;
+}
+/deep/.el-table .ehs-message-info-waring{
+  background-color: orange;
+  color: black;
+}
+/deep/.el-table .ehs-message-info-success{
+  background-color: green;
+  color: white;
+}

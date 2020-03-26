@@ -24,6 +24,7 @@ export default {
   },
   mounted: function () {
     var that = this
+    that.getNowTime()
     that.getTableData()
     that.getWareHouseAndUseType()
     that.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
@@ -77,9 +78,17 @@ export default {
         type: 'success'
       })
     },
+    getNowTime: function () {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/oper/time/getNow').then(res => {
+        this.nowTime = res.data.time
+      })
+    },
     tableRowClassName ({ row, rowIndex }) {
       var date = new Date(row.creationTime.replace(/-/g, '/'))
-      if (this.nowTime >= (date.getTime() + 604800) && row.status !== '已结束') {
+      console.log(this.nowTime)
+      console.log(date.getTime() + 604800000)
+      console.log(this.nowTime >= (date.getTime() + 604800000))
+      if (this.nowTime >= (date.getTime() + 604800000) && row.status !== '已结束') {
         return 'ehs-message-info-error'
       } else if (row.status === '填写单据') {
         return 'ehs-message-info-yellow'
