@@ -1,9 +1,12 @@
 package com.ehs.eam.eamLedgerManager.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -103,7 +106,8 @@ public class EamLedgerLastController {
 	@RequestMapping(value = "/getListNotPage")
 	public String getEamLedgerListNotPage( HttpServletRequest request) {
 		List<EamLedgerLast>  eamLedgers= (List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);
-		return eamLedgers == null ? "[]" : JsonUtils.toJsonString(eamLedgers);
+		List<EamLedgerLast> resultList=eamLedgers.stream().sorted(Comparator.comparingInt(EamLedgerLast::getCompletePoint)).limit(10).collect(Collectors.toList());
+		return resultList == null ? "[]" : JsonUtils.toJsonString(resultList);
 	}
 	
 	/**

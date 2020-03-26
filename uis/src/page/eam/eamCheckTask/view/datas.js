@@ -82,13 +82,13 @@ export default {
       return obj.text
     },
     handlerAfterFlow (v) { // 流程结束数据处理
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/repairLedger/addDatasAfterFlow', v).then(res => {
-        if (res.data.resultType === 'ok') {
-          window.close()
-        }
-      }).catch(error => {
-        this.$message.error(error)
-      })
+      this.$axios.all([
+        this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/repairLedger/addDatasAfterFlow', v),
+        this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/addDatasAfterFlow', v)
+      ]).then(this.$axios.spread(function (res) {
+        // 上面两个请求都完成后，才执行这个回调方法
+        window.close()
+      }))
     }
   },
 

@@ -87,7 +87,7 @@
 		<menu dataCode="eamCheck" key="eamCheck" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
 			<menu dataCode="eamCheckPlan" key="eamCheckPlan" name="巡检计划" url="/eam/eamCheckplan/list/index" icon="fa-tasks" parentKey="eamCheck" sort="1"></menu>
 			<menu dataCode="eamCheckRepairLedger" key="eamCheckRepairLedger" name="检修台账" url="/eam/eamCheckRepairLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="2"></menu>
-			<menu dataCode="eamCheckDefectLedger" key="eamCheckDefectLedger" name="缺陷台账" url="/eam/eamCheckDefectLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="3"></menu>
+			<menu dataCode="eamCheckDefectLedger" key="eamCheckDefectLedger" name="缺陷库" url="/eam/eamCheckDefectLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="3"></menu>
 			<menu dataCode="eamCheckPlanEdit" key="eamCheckPlanEdit" name="巡检计划编辑" url="/eam/eamCheckplan/edit/index" icon="fa-tasks" parentKey="eamCheck" sort="10" business="true"></menu>
 			
 		</menu>

@@ -103,7 +103,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 	@Transactional
 	public void saveEamLedger(EamRequestBean eamRequestBean) {
 		EamLedger reqEamLedger = eamRequestBean.getEamLedger();
-		System.out.println("---------------------------" + JsonUtils.toJsonString(reqEamLedger));
 		// 设备新建的时候初始化的值
 		String deviceNum = BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {

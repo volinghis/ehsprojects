@@ -31,26 +31,26 @@
                    :inline-message="true"
                    :status-icon="true"
                    class="demo-queryForm">
-            <el-form-item label="检修结论">
-              <el-radio-group v-model="queryBean.result"
+            <el-form-item label="缺陷状态">
+              <el-radio-group v-model="queryBean.status"
                               @change="initTable()">
                 <el-radio border
                           label="ALL">全部</el-radio>
                 <el-radio border
-                          label="OK">已解决</el-radio>
+                          label="OK">已处理</el-radio>
                 <el-radio border
-                          label="ERROR">未解决</el-radio>
+                          label="ERROR">未处理</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="检修执行人">
-              <el-radio-group v-model="queryBean.userType"
+            <el-form-item label="缺陷等级">
+              <el-radio-group v-model="queryBean.level"
                               @change="initTable()">
                 <el-radio border
                           label="ALL">全部</el-radio>
                 <el-radio border
-                          label="OWNER">我检修的</el-radio>
+                          label="NORMAL">一般缺陷</el-radio>
                 <el-radio border
-                          label="OUTER">外部人员</el-radio>
+                          label="MAJOR">重大缺陷</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -58,37 +58,39 @@
         <div class="ehs_form_item_message">
           1)列表显示所有的检修任务执行结果。<br>2)可以根据结果或执行人快速查找
         </div>
-        <div class="table-list">
-          <el-table :data="tableData"
-                    border
-                    :size="GlobalCss.buttonSize">
-            <el-table-column type="index"
-                             align="center"
-                             width="50"
-                             label="序号"></el-table-column>
-            <el-table-column prop="objectKey"
-                             align="center"
-                             label="检修对象"></el-table-column>
-            <el-table-column prop="deviceAddress"
-                             align="center"
-                             label="设备位置"></el-table-column>
-            <el-table-column prop="question"
-                             align="center"
-                             label="问题描述"></el-table-column>
-            <el-table-column prop="userName"
-                             align="center"
-                             label="检修执行人"></el-table-column>
-            <el-table-column prop="result"
-                             align="center"
-                             width="140"
-                             label="检修结论">
-              <template slot-scope="scope">
-                <el-tag :type="scope.row.result === 'OK' ? 'success' : 'danger'"
-                        disable-transitions>{{ scope.row.result === 'OK' ? '已解决' : '未解决' }}</el-tag>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
+        <el-table :data="tableData"
+                  border
+                  :size="GlobalCss.buttonSize">
+          <el-table-column type="index"
+                           align="center"
+                           width="50"
+                           label="序号"></el-table-column>
+          <el-table-column prop="objectKey"
+                           align="center"
+                           label="缺陷对象"></el-table-column>
+          <el-table-column prop="deviceAddress"
+                           align="center"
+                           label="设备位置"></el-table-column>
+          <el-table-column prop="question"
+                           align="center"
+                           label="缺陷描述"></el-table-column>
+          <el-table-column prop="level"
+                           align="center"
+                           label="缺陷等级">
+            <template slot-scope="scope">、
+                <span>{{scope.row.level==="NORMAL" ? '一般缺陷':'重大缺陷'}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status"
+                           align="center"
+                           width="140"
+                           label="缺陷状态">
+            <template slot-scope="scope">
+              <el-tag :type="scope.row.status === 'OK' ? 'success' : 'danger'"
+                      disable-transitions>{{ scope.row.status === 'OK' ? '已解决' : '未解决' }}</el-tag>
+            </template>
+          </el-table-column>
+        </el-table>
         <div class="tableFooter">
           <div class="pagination">
             <el-pagination background

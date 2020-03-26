@@ -15,8 +15,8 @@ export default {
         address: 'ALL',
         objectKey: 'ALL',
         objectType: 'BY_PROFESSIONA',
-        result: 'ALL',
-        userType: 'ALL'
+        status: 'ALL',
+        level: 'ALL'
       }
     }
   },
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     initTable () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/repairLedger/getRepairLedgerList', this.queryBean)
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getDefectLedgerList', this.queryBean)
         .then(res => {
           this.tableData = res.data.dataList
           this.total = res.data.totalCount

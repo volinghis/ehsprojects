@@ -91,7 +91,7 @@
                  @click="handleExport"
                  icon="fa fa-download pull-left">导出</el-button>
     </div> -->
-        <div class="table-list" style="margin-top:10px;">
+        <div class="table-list">
             <el-table :data="tableData"
                       style="width: 100%"
                       border
