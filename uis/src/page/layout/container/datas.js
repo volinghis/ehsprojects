@@ -3,7 +3,7 @@ export default {
   methods: {
     flushNotices () {
       var self = this
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/notify/message/findByUserOfNotRead').then(response => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/notify/message/findByUserOfNotRead?TIMER=Y').then(response => {
         if (response.data && response.data.length > 0) {
           self.$notify({
             title: response.data[0].title,

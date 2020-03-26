@@ -3,7 +3,7 @@ export default {
   methods: {
     flushData () {
       var self = this
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/notify/message/findAllByUser', self.pages).then(response => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/notify/message/findAllByUser?TIMER=Y', self.pages).then(response => {
         self.pages.total = response.data.totalCount
         self.notices = response.data.dataList
       })
@@ -14,6 +14,7 @@ export default {
     }
   },
   mounted () {
+    setInterval(this.flushData, 2000)
     this.flushData()
   },
   data () {
