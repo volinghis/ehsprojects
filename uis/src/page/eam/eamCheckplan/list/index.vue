@@ -59,6 +59,24 @@
       </el-table-column>
       <el-table-column align="center" prop="startTime" width="160" sortable="custom" label="开始时间"></el-table-column>
       <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="结束时间"></el-table-column>
+      <el-table-column align="center" prop="rate" width="160" sortable="custom" label="执行频率">
+         <template slot-scope="scope">
+            <el-tag size="medium">{{ scope.row.rate }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="execute" width="160" sortable="custom" label="计划时效">
+        <template slot-scope="scope">
+          <template v-if="scope.row.execute ==='有效'">
+            <el-tag size="medium" type="success">{{ scope.row.execute }}</el-tag>
+          </template>
+          <template v-else-if="scope.row.execute ==='已过期'">
+            <el-tag size="medium" type="danger">{{ scope.row.execute }}</el-tag>
+          </template>
+          <template v-else-if="scope.row.execute ==='未开始'">
+            <el-tag size="medium" type="primary">{{ scope.row.execute }}</el-tag>
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="enable" width="100" sortable="custom" label="状态">
         <template slot-scope="scope" v-if="resetTimeCheck(scope.row)">
           <el-tooltip :content="scope.row.enable === true ? '启用中':'停用中'" placement="left">

@@ -142,22 +142,7 @@ export default {
           })
         })
       }
-      if (row.rate) {
-        switch (row.rate) {
-          case 'DAY':
-            row.rate = '一天/一次'
-            break
-          case 'WEEK':
-            row.rate = '一周/一次'
-            break
-          case 'MONTH':
-            row.rate = '一月/一次'
-            break
-          case 'YEAR':
-            row.rate = '一年/一次'
-            break
-        }
-      }
+      this.getRate(row)
       if (row.viewType) {
         switch (row.viewType) {
           case 'ORG':
@@ -204,6 +189,36 @@ export default {
     handleReset: function () {
       this.dialogVisible = false
     },
+    getRate (row) {
+      if (row.rate) {
+        switch (row.rate) {
+          case 'DAY':
+            row.rate = '天/次'
+            break
+          case 'WEEK':
+            row.rate = '周/次'
+            break
+          case 'MONTH':
+            row.rate = '月/次'
+            break
+          case 'YEAR':
+            row.rate = '年/次'
+            break
+        }
+      }
+    },
+    getExcute (row) {
+      var dateStart = new Date(row.startTime.replace(/-/g, '/'))
+      var dateEnd = new Date(row.endTime.replace(/-/g, '/'))
+      var dateNow = new Date(this.timeNow.date.replace(/-/g, '/'))
+      if (dateStart.getTime() > dateNow.getTime()) {
+        row.execute = '未开始'
+      } else if (dateEnd.getTime() < dateNow.getTime()) {
+        row.execute = '已过期'
+      } else {
+        row.execute = '有效'
+      }
+    },
     changePage (v) {
       this.queryBean.page = v
       this.flushData()
@@ -213,6 +228,10 @@ export default {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getAllPlans', this.queryBean)
         .then(res => {
           this.plans = res.data.dataList
+          this.plans.forEach(element => {
+            this.getRate(element)
+            this.getExcute(element)
+          })
           this.queryBean.totalCount = res.data.totalCount
         })
     }
