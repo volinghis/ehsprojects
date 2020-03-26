@@ -19,7 +19,10 @@ export default {
     }
   },
   mounted () {
-    setInterval(this.flushData, 2000)
+    var timer = setInterval(this.flushData, 2000)
+    this.$once('hook:beforeDestroy', () => {
+      clearInterval(timer)
+    })
     this.flushData()
   },
   data () {
