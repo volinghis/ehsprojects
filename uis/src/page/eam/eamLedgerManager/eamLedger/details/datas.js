@@ -26,7 +26,6 @@ export default {
       this.deviceKey = resData.refKey
     } else {
       var processObj = JSON.parse(this.$route.params.processInfo)
-      console.log(processObj)
       this.getEamLedgerByEntityKey(processObj.businessKey)
     }
   },

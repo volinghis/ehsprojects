@@ -104,7 +104,6 @@ export default {
       this.inspectorsDatas.push(data)
     },
     getRelatedKeys (data) {
-      console.log(data)
       this.form.refDeviceKey = data
     },
     allFileId (v) {
@@ -164,7 +163,6 @@ export default {
       })
     },
     systemChang (v) {
-      console.log(this.form.deviceSystem)
     },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {

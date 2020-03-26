@@ -49,9 +49,7 @@ export default {
       })
     },
     tableRowClassName ({ row, rowIndex }) {
-      console.log('hhhh')
       var time = utils.getDiffDays(row.applicationTime, this.curTime)
-      console.log(time)
       if (row.status === '已驳回') {
         return 'warning-row'
       } else if (time >= 7 && row.status !== '已结束') {

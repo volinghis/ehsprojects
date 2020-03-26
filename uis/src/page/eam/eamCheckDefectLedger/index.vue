@@ -58,39 +58,41 @@
         <div class="ehs_form_item_message">
           1)列表显示所有的检修任务执行结果。<br>2)可以根据结果或执行人快速查找
         </div>
-        <el-table :data="tableData"
-                  border
-                  :size="GlobalCss.buttonSize">
-          <el-table-column type="index"
-                           align="center"
-                           width="50"
-                           label="序号"></el-table-column>
-          <el-table-column prop="objectKey"
-                           align="center"
-                           label="缺陷对象"></el-table-column>
-          <el-table-column prop="deviceAddress"
-                           align="center"
-                           label="设备位置"></el-table-column>
-          <el-table-column prop="question"
-                           align="center"
-                           label="缺陷描述"></el-table-column>
-          <el-table-column prop="level"
-                           align="center"
-                           label="缺陷等级">
-            <template slot-scope="scope">、
+        <div class="table-list">
+          <el-table :data="tableData"
+                    border
+                    :size="GlobalCss.buttonSize">
+            <el-table-column type="index"
+                             align="center"
+                             width="50"
+                             label="序号"></el-table-column>
+            <el-table-column prop="objectKey"
+                             align="center"
+                             label="缺陷对象"></el-table-column>
+            <el-table-column prop="deviceAddress"
+                             align="center"
+                             label="设备位置"></el-table-column>
+            <el-table-column prop="question"
+                             align="center"
+                             label="缺陷描述"></el-table-column>
+            <el-table-column prop="level"
+                             align="center"
+                             label="缺陷等级">
+              <template slot-scope="scope">、
                 <span>{{scope.row.level==="NORMAL" ? '一般缺陷':'重大缺陷'}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="status"
-                           align="center"
-                           width="140"
-                           label="缺陷状态">
-            <template slot-scope="scope">
-              <el-tag :type="scope.row.status === 'OK' ? 'success' : 'danger'"
-                      disable-transitions>{{ scope.row.status === 'OK' ? '已解决' : '未解决' }}</el-tag>
-            </template>
-          </el-table-column>
-        </el-table>
+              </template>
+            </el-table-column>
+            <el-table-column prop="status"
+                             align="center"
+                             width="140"
+                             label="缺陷状态">
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.status === 'OK' ? 'success' : 'danger'"
+                        disable-transitions>{{ scope.row.status === 'OK' ? '已解决' : '未解决' }}</el-tag>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
         <div class="tableFooter">
           <div class="pagination">
             <el-pagination background

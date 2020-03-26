@@ -79,7 +79,6 @@ export default {
     },
     handerSubmit (process) {
       this.reqBean.flowProcessInfo = process
-      console.log(this.reqBean)
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {
           this.$message({

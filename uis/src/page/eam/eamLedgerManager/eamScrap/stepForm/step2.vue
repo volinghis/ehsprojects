@@ -109,7 +109,6 @@ export default {
       this.tableData.push(this.selectRow)
     },
     handlerOneSelect (val) {
-      console.log(val)
       this.selectRow = val
     }
   }
