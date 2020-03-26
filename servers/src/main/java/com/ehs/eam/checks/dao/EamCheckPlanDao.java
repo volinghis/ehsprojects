@@ -1,5 +1,7 @@
 package com.ehs.eam.checks.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +44,11 @@ public interface EamCheckPlanDao  extends JpaRepository<EamCheckPlan, String>{
 			@Param("userKey") String userKey,
 			@Param("orgKey") String orgKey,
 			Pageable pageable);
+	
+	@Query(" select t from EamCheckPlan t where t."+BaseEntity.DELETED+" =0 "
+			+" and t."+EamCheckPlan.ENABLE+" = 1"
+			+" and to_days(t."+EamCheckPlan.START_TIME+")  <= to_days(current_date()) "
+			+" and to_days(t."+EamCheckPlan.END_TIME+")  >= to_days(current_date()) "
+			+ "")
+	public List<EamCheckPlan> findAllPlanOfEnable();
 }

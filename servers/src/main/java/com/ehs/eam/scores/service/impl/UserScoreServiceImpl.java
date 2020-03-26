@@ -66,7 +66,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 						if(tasks!=null&&!tasks.isEmpty()) {
 							List<String> comuted=new ArrayList<String>();
 							for(HistoricTaskInstance hti:tasks) {
-								if(!comuted.contains(hti.getAssignee())) {
+								if(StringUtils.isNotBlank(hti.getAssignee())&&!comuted.contains(hti.getAssignee())) {
 									
 									long startTime=hti.getCreateTime().getTime();
 									long endTime=hti.getEndTime().getTime();
@@ -116,6 +116,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 					f.setFlowScore(true);
 					baseCommonService.saveOrUpdate(f);
 				}catch(Exception ex) {
+					ex.printStackTrace();
 					logger.error("更新流程："+f.getFlowProcessName()+"评分时发生异常,流程实例ID"+f.getFlowProcessInstanceId());
 					logger.error(ex.getMessage());
 				}

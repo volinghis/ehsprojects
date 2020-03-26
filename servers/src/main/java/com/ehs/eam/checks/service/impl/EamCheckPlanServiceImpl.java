@@ -168,5 +168,10 @@ public class EamCheckPlanServiceImpl implements EamCheckPlanService {
 		}
 
 }
+
+	@Override
+	public List<EamCheckPlan> getAllPlanOfEnable() {
+		return eamCheckPlanDao.findAllPlanOfEnable();
+	}
 }
 	
