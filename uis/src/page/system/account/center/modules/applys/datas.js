@@ -2,7 +2,7 @@ export default {
   methods: {
     flushData () {
       var self = this
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findApplys', self.pages).then(response => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findApplys?TIMER=Y', self.pages).then(response => {
         self.pages.total = response.data.totalCount
         self.datas = response.data.dataList
       })
@@ -17,6 +17,7 @@ export default {
 
   },
   mounted () {
+    setInterval(this.flushData, 2000)
     this.flushData()
   },
   data () {

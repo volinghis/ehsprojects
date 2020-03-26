@@ -7,7 +7,10 @@ import Store from '@/configs/store'
 
 // 添加请求拦截器
 Axios.interceptors.request.use(function (config) {
-  NProgress.start()
+  if (config.url.indexOf('TIMER') <= 0) {
+    NProgress.start()
+  }
+
   if (config.url.indexOf('?') > 0) {
     config.url = config.url + '&tt=' + Math.random()
   } else {
