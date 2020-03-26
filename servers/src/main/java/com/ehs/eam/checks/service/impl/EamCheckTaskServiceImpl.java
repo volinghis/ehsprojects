@@ -14,17 +14,17 @@ import org.springframework.stereotype.Service;
 
 import com.ehs.common.auth.local.SysAccessUser;
 import com.ehs.common.base.service.BaseCommonService;
-import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.checks.bean.CheckTaskQueryBean;
 import com.ehs.eam.checks.dao.EamCheckTaskDao;
 import com.ehs.eam.checks.entity.EamCheckDefect;
-import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckRepair;
 import com.ehs.eam.checks.entity.EamCheckReserveUsed;
 import com.ehs.eam.checks.entity.EamCheckTask;
 import com.ehs.eam.checks.service.EamCheckTaskService;
+import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
+import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 
 @Service
 public class EamCheckTaskServiceImpl implements EamCheckTaskService {
@@ -37,6 +37,9 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 	
 	@Resource
 	private EamCheckTaskDao eamCheckTaskDao;
+	
+	@Resource
+	private PartsAccountDao partsAccountDao;
 	
 	/**
 	 * 
@@ -131,7 +134,9 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 		List<EamCheckReserveUsed> eru=t.getEamCheckReserveUsed();
 		if(eru!=null&&!eru.isEmpty()) {
 			for(EamCheckReserveUsed u:eru) {
-				
+				PartsAccount partsAccount =partsAccountDao.getAccountBywareHouseAndDeviceCode(u.getWareHouse(), u.getDeviceCode());
+				partsAccount.setDummyAmount(partsAccount.getDummyAmount()-u.getAmount());
+				baseCommonService.saveOrUpdate(partsAccount);
 				
 				if(!StringUtils.equals(t.getResult(), "NORMAL")) {
 					if(StringUtils.isNotBlank(u.getId())) {

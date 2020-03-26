@@ -11,6 +11,7 @@ export default {
       overAmount: '',
       dialogTableVisible: false,
       partsData: {
+        deleted: false,
         wareHouse: '',
         wareHouseName: '',
         deviceName: '',
@@ -60,7 +61,7 @@ export default {
       }
     },
     resetSelect () {
-
+      this.dialogTableVisible = false
     },
     userSelectChange () {
       var node = this.$refs.userSelect.getCheckedNodes()

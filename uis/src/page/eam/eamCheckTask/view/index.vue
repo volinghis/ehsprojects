@@ -90,7 +90,7 @@
         <el-table :data="handlesearch(this.ruleForm.eamCheckReserveUsed)" ref="defectTable" border :size="GlobalCss.buttonSize">
           <el-table-column width="40" type="expand">
             <template slot-scope="scope">
-              <defects :dataRow="scope.row"></defects>
+              <parts :dataRow="scope.row"></parts>
             </template>
           </el-table-column>
           <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
@@ -108,11 +108,13 @@
 import datas from './datas'
 import defects from './models/defects/index.vue'
 import repairs from './models/repairs/index.vue'
+import parts from './models/parts/index.vue'
 
 export default datas
 datas.components = {
   'defects': defects,
-  'repairs': repairs
+  'repairs': repairs,
+  'parts': parts
 }
 
 </script>

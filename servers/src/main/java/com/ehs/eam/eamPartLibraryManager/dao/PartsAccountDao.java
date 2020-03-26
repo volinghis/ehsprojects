@@ -60,5 +60,11 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 			+ " and p."+PartsAccount.WAREHOUSE+" like %:flag% "
 			+ "")
 	public Page<PartsAccount> getAllPartsAccount(String query, String flag,Pageable pb);
+	
+	@Query("select p from PartsAccount p where p."+PartsAccount.WAREHOUSE+" = ?1"
+			+ " and p."+PartsAccount.DEVICE_CODE+" = ?2 "
+			+ " and p."+BaseEntity.DELETED+" =0"
+			+ "")
+	public PartsAccount getAccountBywareHouseAndDeviceCode(String wareHouse,String deviceCode);
 
 }
