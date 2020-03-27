@@ -118,6 +118,7 @@
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-slides</artifactId>
 			<version>18.7</version>
+		</dependency>
 		<dependency>
 			<groupId>eu.bitwalker</groupId>
 			<artifactId>UserAgentUtils</artifactId>
