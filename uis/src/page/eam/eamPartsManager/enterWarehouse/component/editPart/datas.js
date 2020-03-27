@@ -38,12 +38,14 @@ export default {
         this.form = val
         this.deviceKey = this.form.key
         if (this.form.partsImg) {
-          this.getDevicePicture(this.form.partsImg)
           this.key += 1
+          this.getDevicePicture(this.form.partsImg)
           if (this.key) {
             this.buttonFlag = false
-            // this.partFlag = true
           }
+        } else {
+          this.key += 1
+          this.imageUrl = ''
         }
       }
     }

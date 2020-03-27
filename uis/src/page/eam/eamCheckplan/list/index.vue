@@ -46,7 +46,7 @@
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">新增</el-button>
       </div>
     </div>
-    <el-table :data="plans" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange">
+    <el-table :data="plans" border :size="GlobalCss.buttonSize" :max-height="tableHeight" @sort-change="sortchange">
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" sortable="custom" label="计划名称">
         <template slot-scope="scope">

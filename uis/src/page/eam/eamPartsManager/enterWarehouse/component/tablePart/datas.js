@@ -1,12 +1,10 @@
 import editPart from '../editPart/index.vue'
-// const select = []
 export default {
   data () {
     return {
       editPartFlag: '',
       flag: false,
       tPrice: 0,
-      partDatas: [],
       tableData: [],
       select: [],
       partsFormEdit: {},
@@ -52,33 +50,18 @@ export default {
       handler (val) {
         this.tableData = val
         this.select.push.apply(this.select, val)
-        // this.unique(this.select)
-        // this.select.filter((item, index, self) => self.indexOf(item) === index)
         this.tableData = this.select
       }
     },
     parts: {
       handler (val) {
-        var newVal = []
-        val.forEach(e => {
-          e.key = ''
-          newVal.push(e)
-        })
         this.select.push.apply(this.select, val)
-        // this.unique(this.select)
         this.tableData = this.select
-        this.partDatas = val
       }
     },
     deep: true
   },
   methods: {
-    unique: function (arr) {
-      return arr.filter(function (item, index, arr) {
-        // 当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
-        return arr.indexOf(item, 0) === index
-      })
-    },
     handleEdit: function (row) {
       this.drawer = true
       this.$nextTick(() => {
@@ -103,7 +86,7 @@ export default {
         if (valid) {
           this.drawer = false
           this.tableData.forEach((e, index) => {
-            if (e.id === this.$refs.partData.form.id) {
+            if (e.key === this.$refs.partData.form.key) {
               this.tableData.splice(index, 1)
               if (this.$refs.partData.form.leaveFactoryDate !== '') {
                 var d = new Date(this.$refs.partData.form.leaveFactoryDate)
@@ -113,10 +96,10 @@ export default {
               let tableDataNew = []
               tableDataNew.push(this.$refs.partData.form)
               this.select.push.apply(this.select, tableDataNew)
-              // this.unique(this.select)
               this.tableData = this.select
-              // this.tableData.push(this.$refs.partData.form)
-              // this.tableParams = this.tableData
+              this.tableData.forEach(element => {
+                element.key = ''
+              })
               this.$emit('tableParams', this.tableData)
               return this.tableData
             }
@@ -157,9 +140,7 @@ export default {
           }
         })
       }).catch(action => {
-        console.log(this.$refs.partData.form)
         if (this.$refs.partData.form.id === '') {
-          console.log('hhhhhhhhhh')
           this.tableData.forEach((e, index) => {
             if (e.key === this.$refs.partData.form.key) {
               this.tableData.splice(index, 1)

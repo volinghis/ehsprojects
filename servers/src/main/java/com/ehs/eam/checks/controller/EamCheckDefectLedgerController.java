@@ -21,9 +21,7 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
-import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
-import com.ehs.eam.checks.bean.CheckRepairLedgerBean;
 import com.ehs.eam.checks.service.EamCheckDefectLedgerService;
 
 
@@ -65,12 +63,12 @@ public class EamCheckDefectLedgerController {
 	
 	@RequestAuth(menuKeys = {"defectLedger"})
 	@RequestMapping(value = "/addDatasAfterFlow")
-	public String addDatasAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
+	public void addDatasAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
 		try {
 			defectLedgerService.addDatasAfterFlow(flowProcessInfo);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("任务巡检--缺陷记录--回调错误："+e.getMessage());;
 		}
-		return JsonUtils.toJsonString(new ResultBean().ok("数据更新成功"));
+		
 	}
 }
