@@ -108,7 +108,6 @@ public class EamCheckPlanController {
 	public String getPlan(HttpServletRequest request) {
 		try {
 			String key=request.getParameter("key");
-			System.out.println(key);
 			if(StringUtils.isBlank(key)) {
 				return "{}";
 			}
