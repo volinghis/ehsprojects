@@ -7,6 +7,11 @@ export default {
     modifyRecord: ModifyRecord,
     FileUpload
   },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 20// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+    }
+  },
   data () {
     return {
       eamItem: {},
