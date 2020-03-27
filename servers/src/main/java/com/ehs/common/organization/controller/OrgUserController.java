@@ -527,7 +527,7 @@ public class OrgUserController {
 	*---------------------------------------------------------*
 	* 2019年12月27日     qjj        v1.0.0            修改原因
 	 */
-	@RequestAuth(menuKeys = {"userManager"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/auth/orgUser/findOrgUserByAccount")
 	public String findOrgUserByAccount(HttpServletRequest request) {
 		String account=request.getParameter("account");

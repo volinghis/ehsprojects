@@ -29,7 +29,7 @@ public interface LoginLogService {
 
 	public PageInfoBean findLoginLogList(LoginLogBean loginLogBean);
 	
-	public 	void addLoginLog(String userKey, String ip);
+	public 	void addLoginLog(String userKey, String ip,String browser,String system);
 
 	/**   
 	* @Function:deleteLoginLogs 
