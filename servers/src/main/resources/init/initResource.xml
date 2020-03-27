@@ -43,13 +43,13 @@
 		</menu>
 		<!-- 设备台账管理 -->
 		<menu dataCode="eamLedgerManager" key="eamLedgerManager" name="设备管理" url="" icon="fa-gears" leaf="false" sort="9991">
-			<menu dataCode="eamLedger" key="eamLedger" name="设备台账" url="/eam/eamLedgerManager/eamLedger/index" parentKey="eamLedgerManager" icon="fa-gears" sort="21">
+			<menu dataCode="eamLedger" key="eamLedger" name="设备台账" url="/eam/eamLedgerManager/eamLedger/index" parentKey="eamLedgerManager" icon="fa-align-justify" sort="21">
 				<menu dataCode="eamLedgerDetail" key="eamLedgerDetail" name="设备台账详情" url="/eam/eamLedgerManager/eamLedger/details/index" business="true" sort="211"></menu>
 			</menu>
-			<menu dataCode="eamMaintain" key="eamMaintain" name="设备更新" url="/eam/eamLedgerManager/eamMaintain/index" parentKey="eamLedgerManager" icon="fa-gears" sort="22">
+			<menu dataCode="eamMaintain" key="eamMaintain" name="设备更新" url="/eam/eamLedgerManager/eamMaintain/index" parentKey="eamLedgerManager" icon="fa-object-ungroup" sort="22">
 			    <menu dataCode="eamLedgerEdit" key="eamLedgerEdit" name="设备台账编辑" url="/eam/eamLedgerManager/eamMaintain/edit/index" business="true" sort="221"></menu>
 			</menu>
-			<menu dataCode="eamScrap" key="eamScrap" name="设备报废" url="/eam/eamLedgerManager/eamScrap/index" parentKey="eamLedgerManager" icon="fa-gears" sort="23">
+			<menu dataCode="eamScrap" key="eamScrap" name="设备报废" url="/eam/eamLedgerManager/eamScrap/index" parentKey="eamLedgerManager" icon="fa-times-rectangle-o" sort="23">
 				<menu dataCode="eamScrapBaseForm" key="eamScrapBaseForm" name="设备报废步骤" url="/eam/eamLedgerManager/eamScrap/stepForm/baseForm" business="true" sort="231">
 					<menu dataCode="eamScrapStep1" key="eamScrapStep1" name="设备报废步骤1" url="/eam/eamLedgerManager/eamScrap/stepForm/step1" business="true" sort="2311"></menu>
 					<menu dataCode="eamScrapStep2" key="eamScrapStep2" name="设备报废步骤2" url="/eam/eamLedgerManager/eamScrap/stepForm/step2" business="true" sort="2312"></menu>
@@ -57,7 +57,7 @@
 				</menu>
 				<menu dataCode="eamScrapDetails" key="eamScrapDetails" name="设备报废查看" url="/eam/eamLedgerManager/eamScrap/details/index" business="true" sort="232"></menu>
 			</menu>
-			<menu dataCode="eamAllocate" key="eamAllocate" name="设备调拨" url="/eam/eamLedgerManager/eamAllocate/index" parentKey="eamLedgerManager" icon="fa-gears" sort="24">
+			<menu dataCode="eamAllocate" key="eamAllocate" name="设备调拨" url="/eam/eamLedgerManager/eamAllocate/index" parentKey="eamLedgerManager" icon="fa-exchange" sort="24">
 				<menu dataCode="eamAllocateBaseForm" key="eamAllocateBaseForm" name="设备调拨步骤" url="/eam/eamLedgerManager/eamAllocate/stepForm/baseForm" business="true" sort="241">
 					<menu dataCode="eamAllocateStep1" key="eamAllocateStep1" name="设备调拨步骤1" url="/eam/eamLedgerManager/eamAllocate/stepForm/step1" business="true" sort="2411"></menu>
 					<menu dataCode="eamAllocateStep2" key="eamAllocateStep2" name="设备调拨步骤2" url="/eam/eamLedgerManager/eamAllocate/stepForm/step2" business="true" sort="2412"></menu>
@@ -73,26 +73,26 @@
 				<menu dataCode="partsBaseInfoEdit" key="partsBaseInfoEdit" name="备件台账编辑" url="/eam/eamPartsManager/partsBaseInfo/component/edit/index" business="true" sort="351"></menu>
 				<menu dataCode="partsBaseInfoDetails" key="partsBaseInfoDetails" name="备件台账详情" url="/eam/eamPartsManager/partsBaseInfo/component/details/index" business="true" sort="352"></menu>
 			</menu> -->
-			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartsManager"  url="/eam/eamPartsManager/partsAccount/index"  sort="31">
+			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" parentKey="eamPartsManager" icon="fa-align-justify" url="/eam/eamPartsManager/partsAccount/index"  sort="31">
 				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="备件台账详情页面 " url="/eam/eamPartsManager/partsAccount/component/details/index" business="true" sort="311"></menu>
 			</menu>
-			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartsManager/enterWarehouse/index" parentKey="eamPartsManager" sort="32">
+			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartsManager/enterWarehouse/index" icon="fa-indent" parentKey="eamPartsManager" sort="32">
 				<menu dataCode="enterWarehouseEdit" key="enterWarehouseEdit" name="入库编辑" url="/eam/eamPartsManager/enterWarehouse/component/edit/index" business="true" sort="321"></menu>
 			</menu>
-			<menu dataCode="outWarehouse" key="outWarehouse" name="出库管理" url="/eam/eamPartsManager/outWarehouse/index" parentKey="eamPartsManager" sort="34">
+			<menu dataCode="outWarehouse" key="outWarehouse" name="出库管理" url="/eam/eamPartsManager/outWarehouse/index" icon="fa-outdent" parentKey="eamPartsManager" sort="34">
 				<menu dataCode="outWarehouseEdit" key="outWarehouseEdit" name="出库编辑" url="/eam/eamPartsManager/outWarehouse/component/edit/index" business="true" sort="341"></menu>
 			</menu>
 		</menu>
 		
 		<menu dataCode="eamCheck" key="eamCheck" name="设备巡检" url="" icon="fa-wrench" leaf="false" sort="9993">
-			<menu dataCode="eamCheckPlan" key="eamCheckPlan" name="巡检计划" url="/eam/eamCheckplan/list/index" icon="fa-tasks" parentKey="eamCheck" sort="1"></menu>
-			<menu dataCode="eamCheckRepairLedger" key="eamCheckRepairLedger" name="检修台账" url="/eam/eamCheckRepairLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="2"></menu>
-			<menu dataCode="eamCheckDefectLedger" key="eamCheckDefectLedger" name="缺陷库" url="/eam/eamCheckDefectLedger/index" icon="fa-tasks" parentKey="eamCheck" sort="3"></menu>
+			<menu dataCode="eamCheckPlan" key="eamCheckPlan" name="巡检计划" url="/eam/eamCheckplan/list/index" icon="fa-calendar-check-o" parentKey="eamCheck" sort="1"></menu>
+			<menu dataCode="eamCheckRepairLedger" key="eamCheckRepairLedger" name="检修台账" url="/eam/eamCheckRepairLedger/index" icon="fa-align-justify" parentKey="eamCheck" sort="2"></menu>
+			<menu dataCode="eamCheckDefectLedger" key="eamCheckDefectLedger" name="缺陷库" url="/eam/eamCheckDefectLedger/index" icon="fa-exclamation-triangle" parentKey="eamCheck" sort="3"></menu>
 			<menu dataCode="eamCheckPlanEdit" key="eamCheckPlanEdit" name="巡检计划编辑" url="/eam/eamCheckplan/edit/index" icon="fa-tasks" parentKey="eamCheck" sort="10" business="true"></menu>
 			
 		</menu>
 		
-		<menu dataCode="personJob" key="personJob" name="个人工作台" url="" icon="fa-wrench" leaf="false" sort="9994">
+		<menu dataCode="personJob" key="personJob" name="个人工作台" url="" icon="fa-television" leaf="false" sort="9994">
 			<menu dataCode="eamCheckTask" key="eamCheckTask" name="巡检任务" url="/eam/eamCheckTask/list/index" icon="fa-tasks" parentKey="personJob" sort="1"></menu>
 			<menu dataCode="eamCheckTaskEdit" key="eamCheckTaskEdit" name="巡检任务编辑" url="/eam/eamCheckTask/edit/index" icon="fa-tasks" parentKey="personJob" sort="1" business="true"></menu>
 			<menu dataCode="eamCheckTaskView" key="eamCheckTaskView" name="巡检任务查看" url="/eam/eamCheckTask/view/index" icon="fa-tasks" parentKey="personJob" sort="2" business="true"></menu>
@@ -115,7 +115,7 @@
 		</menu>-->
 		<!-- 资料库 -->
 		<menu dataCode="eamDataBase" key="eamDataBase" name="资料库" url="" icon="fa-folder-o" leaf="false" sort="9995">
-			<menu dataCode="eamDataBaseInfo" key="eamDataBaseInfo" name="设备资料" url="/eam/eamDataBase/index" parentKey="eamDataBase" sort="61"></menu>
+			<menu dataCode="eamDataBaseInfo" key="eamDataBaseInfo" name="设备资料" url="/eam/eamDataBase/index" icon="fa-file-o" parentKey="eamDataBase" sort="61"></menu>
 		</menu>
 	</menus>
 	
