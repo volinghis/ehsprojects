@@ -40,6 +40,8 @@ import org.springframework.stereotype.Component;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.service.InitDataService;
+import com.ehs.common.base.utils.JsonUtils;
+import com.mongodb.util.JSON;
 
 
 /**   
@@ -68,10 +70,10 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 	@Resource
 	private BaseCommonService baseCommonService;
 	
+	@Value("${server.server.model}")
+	private String serverModel;
+	
 
-	
-	
-	
 	
 
 	
@@ -97,8 +99,10 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		
 
+		if(StringUtils.equalsIgnoreCase(serverModel, "prod")) {
 		//初始化数据
-		initResource();
+			initResource();
+		}
 
 
 	}
@@ -116,6 +120,7 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 				readElement(baseEntityList,root,"");
 
 				logger.info(baseEntityList.size()+" 数据被读取 ");
+		
 				initDataService.initData(baseEntityList);
 			}
 
@@ -131,39 +136,39 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 			if(StringUtils.isNotBlank(targetClass)&&element.attribute("targetClass")==null) {
 				String key=element.attribute("key").getText();
 				BaseEntity baseEntity = (BaseEntity) Class.forName(targetClass).getConstructor().newInstance();
-				
-				BaseEntity tempEntity=baseCommonService.findByKey(baseEntity.getClass(), key);
-				if(tempEntity==null) {
-					Iterator<Attribute> itas = element.attributeIterator();
-					while (itas.hasNext()) {
-						Attribute attribute = itas.next();
-						 List<Field> fieldList = new ArrayList<>() ;
-						 Class tempClass =baseEntity.getClass();
-						 while (tempClass != null) {//当父类为null的时候说明到达了最上层的父类(Object类).
-						       fieldList.addAll(Arrays.asList(tempClass .getDeclaredFields()));
-						       tempClass = tempClass.getSuperclass(); //得到父类,然后赋给自己
-						 }
-					        for(int i=0;i<fieldList.size();i++){  
-					        	Field field=fieldList.get(i);
-					        	if((!field.isAnnotationPresent(Transient.class))&&(!Modifier.isStatic(field.getModifiers()))&&!Modifier.isFinal(field.getModifiers())) {
-					        		field.setAccessible(true);
-					        		if(StringUtils.equals(field.getName(), attribute.getName())) {
-					        			if(StringUtils.equals(Boolean.class.getName(), field.getType().getName())) {
-					        				field.set(baseEntity, Boolean.valueOf(attribute.getText()));
-					        			}else if(StringUtils.equals(Integer.class.getName(), field.getType().getName())){
-					        				field.set(baseEntity, Integer.valueOf(attribute.getText()));
-					        			}else {
-					        				field.set(baseEntity, attribute.getText());
-					        			}
-					        		}
-					        		
-					        	}
-	
-					        }  
-	
-					}
-					baseEntityList.add(baseEntity);
+				BaseEntity tempEntity=baseCommonService.findByKey(baseEntity.getClass(), key); 
+				if(tempEntity!=null) {
+					baseEntity=tempEntity;
 				}
+				Iterator<Attribute> itas = element.attributeIterator();
+				while (itas.hasNext()) {
+					Attribute attribute = itas.next();
+					 List<Field> fieldList = new ArrayList<>() ;
+					 Class tempClass =baseEntity.getClass();
+					 while (tempClass != null) {//当父类为null的时候说明到达了最上层的父类(Object类).
+					       fieldList.addAll(Arrays.asList(tempClass .getDeclaredFields()));
+					       tempClass = tempClass.getSuperclass(); //得到父类,然后赋给自己
+					 }
+				        for(int i=0;i<fieldList.size();i++){  
+				        	Field field=fieldList.get(i);
+				        	if((!field.isAnnotationPresent(Transient.class))&&(!Modifier.isStatic(field.getModifiers()))&&!Modifier.isFinal(field.getModifiers())) {
+				        		field.setAccessible(true);
+				        		if(StringUtils.equals(field.getName(), attribute.getName())) {
+				        			if(StringUtils.equals(Boolean.class.getName(), field.getType().getName())) {
+				        				field.set(baseEntity, Boolean.valueOf(attribute.getText()));
+				        			}else if(StringUtils.equals(Integer.class.getName(), field.getType().getName())){
+				        				field.set(baseEntity, Integer.valueOf(attribute.getText()));
+				        			}else {
+				        				field.set(baseEntity, attribute.getText());
+				        			}
+				        		}
+				        		
+				        	}
+
+				        }  
+
+				}
+				baseEntityList.add(baseEntity);
 			}
 			if(element.attribute("targetClass")!=null) {
 				targetClass=element.attributeValue("targetClass").toString();
