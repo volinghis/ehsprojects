@@ -28,11 +28,8 @@ import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
 import com.ehs.eam.checks.dao.EamCheckDefectDao;
 import com.ehs.eam.checks.dao.EamCheckDefectLedgerDao;
-import com.ehs.eam.checks.dao.EamCheckRepairDao;
 import com.ehs.eam.checks.entity.EamCheckDefect;
 import com.ehs.eam.checks.entity.EamCheckDefectLedger;
-import com.ehs.eam.checks.entity.EamCheckRepair;
-import com.ehs.eam.checks.entity.EamCheckRepairLedger;
 import com.ehs.eam.checks.service.EamCheckDefectLedgerService;
 
 /**   

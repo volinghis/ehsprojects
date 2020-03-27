@@ -90,6 +90,7 @@
       <el-table :data="tableData"
                 style="width: 100%"
                 border
+                :height="tableHeight"
                 :size="GlobalCss.buttonSize">
         <el-table-column type="index"
                          align="center"

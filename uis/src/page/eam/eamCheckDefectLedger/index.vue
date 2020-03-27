@@ -10,13 +10,27 @@
                        name="BY_PROFESSIONA">
             <el-tree :data="professionTree"
                      :props="defaultProps"
-                     @node-click="handleProfessionNodeClick"></el-tree>
+                     :expand-on-click-node="false"
+                     @node-expand="handleExpand"
+                     @node-click="handleNodeClick">
+              <span class="custom-tree-node"
+                    slot-scope="{ node, data}">
+                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NORMAL'?'normal-color':'other-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+              </span>
+            </el-tree>
           </el-tab-pane>
           <el-tab-pane label="按系统"
                        name="BY_SYSTEM">
             <el-tree :data="systemTree"
                      :props="defaultProps"
-                     @node-click="handleSystemNodeClick"></el-tree>
+                     :expand-on-click-node="false"
+                     @node-expand="handleExpand"
+                     @node-click="handleNodeClick">
+              <span class="custom-tree-node"
+                    slot-scope="{ node, data}">
+                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NORMAL'?'normal-color':'other-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+              </span>
+            </el-tree>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -58,9 +72,11 @@
         <div class="ehs_form_item_message">
           1)列表显示所有的检修任务执行结果。<br>2)可以根据结果或执行人快速查找
         </div>
-        <div class="table-list">
+        <div class="table-list"
+             :style="{height:(this.$store.state.contentHeight-240)+'px'}">
           <el-table :data="tableData"
                     border
+                    :height="tableHeight"
                     :size="GlobalCss.buttonSize">
             <el-table-column type="index"
                              align="center"
@@ -78,8 +94,8 @@
             <el-table-column prop="level"
                              align="center"
                              label="缺陷等级">
-              <template slot-scope="scope">、
-                <span>{{scope.row.level==="NORMAL" ? '一般缺陷':'重大缺陷'}}</span>
+              <template slot-scope="scope">
+                <span>{{scope.row.level==='NORMAL' ? '一般缺陷':'重大缺陷'}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="status"

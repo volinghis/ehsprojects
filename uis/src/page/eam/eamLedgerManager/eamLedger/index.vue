@@ -95,12 +95,12 @@
             <el-table :data="tableData"
                       style="width: 100%"
                       border
+                      :height="tableHeight"
                       highlight-current-row
                       :size="GlobalCss.buttonSize">
               <el-table-column type="index"
                                align="center"
-                               width="50"
-                               fixed="left"></el-table-column>
+                               width="50"></el-table-column>
               <el-table-column prop="deviceImg"
                                label="图片"
                                align="center"

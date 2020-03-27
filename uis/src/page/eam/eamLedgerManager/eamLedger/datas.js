@@ -34,6 +34,11 @@ export default {
     this.initTable()
     this.inintTree()
   },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 330
+    }
+  },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getLastList', this.queryParam).then(res => {

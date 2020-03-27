@@ -61,6 +61,7 @@
         <div class="table-list">
           <el-table :data="tableData"
                     border
+                    :height="tableHeight"
                     :size="GlobalCss.buttonSize">
             <el-table-column type="index"
                              align="center"

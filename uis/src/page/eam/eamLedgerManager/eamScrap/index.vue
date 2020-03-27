@@ -53,7 +53,7 @@
     <div class="table-list">
       <template>
         <el-table :data="tableData"
-                  style="width: 100%"
+                  :height="tableHeight"
                   border
                   :row-class-name="tableRowClassName"
                   size="medium"

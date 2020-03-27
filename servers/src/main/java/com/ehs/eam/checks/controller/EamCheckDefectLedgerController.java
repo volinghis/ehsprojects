@@ -8,12 +8,15 @@
  */
 package com.ehs.eam.checks.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
@@ -21,6 +24,7 @@ import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
 import com.ehs.eam.checks.service.EamCheckDefectLedgerService;
 
@@ -70,5 +74,13 @@ public class EamCheckDefectLedgerController {
 			logger.error("任务巡检--缺陷记录--回调错误："+e.getMessage());;
 		}
 		
+	}
+	
+	@RequestAuth(menuKeys = {"defectLedger"})
+	@RequestMapping(value = "/getAnalysisByType")
+	public String getAnalysisByType(@RequestParam String type,@RequestParam boolean onlyMajor, @RequestParam boolean onlyStatusError) {
+		System.out.println("==========================:"+type+"\n"+onlyMajor+"\n"+onlyStatusError);
+		List<CheckDefectAnalysisBean> analysisBeans=defectLedgerService.analysisByType(type, onlyMajor, onlyStatusError);
+		return JsonUtils.toJsonString(analysisBeans);
 	}
 }

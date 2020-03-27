@@ -37,13 +37,10 @@ public interface EamCheckRepairLedgerDao extends JpaRepository<EamCheckRepairLed
 			+ " and ('ALL'=:address or t.deviceAddress= :address) "
 			+ " and ('ALL'=:objectKey or t.objectKey = :objectKey) "
 			+ " and ('ALL'=:objectType or t.objectType = :objectType) "
-			+" and ( 'ALL'=:result "
-			+" or ('OK'=:result and t.result = :result)"
-			+" or ('ERROR'=:result and t.result = :result)"
-			+ " ) "
-			+" and ( 'ALL'=:userType "
-			+" or ('OWNER'=:userType and t.user = :userKey)"
-			+" or ('OUTER'=:userType and t.result = :userType)"
+			+ " and ( 'ALL'=:result or t.result = :result)"
+			+ " and ( 'ALL'=:userType "
+			+ " or ('OWNER'=:userType and t.user = :userKey)"
+			+ " or ('OUTER'=:userType and t.result = :userType)"
 			+ " ) "
 			+ "")
 	public Page<EamCheckRepairLedger> findRepairLedgers(

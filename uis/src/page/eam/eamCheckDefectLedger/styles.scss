@@ -14,3 +14,21 @@
 .table-list{
   margin: 10px 0px 0px 10px;
 }
+@mixin setColor($color) {
+  width: 10px;
+  height: 10px;
+  background-color: $color;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: inline-block;
+}
+.major-color {
+  @include setColor(#db1223);
+}
+.normal-color {
+  @include setColor(#d89910);
+}
+.other-color {
+  @include setColor(#acdde4);
+}

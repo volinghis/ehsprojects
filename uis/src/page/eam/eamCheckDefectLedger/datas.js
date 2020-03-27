@@ -5,6 +5,7 @@ export default {
       total: 0,
       systemTree: [],
       professionTree: [],
+      analysisData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -17,12 +18,23 @@ export default {
         objectType: 'BY_PROFESSIONA',
         status: 'ALL',
         level: 'ALL'
+      },
+      analysisBean: {
+        type: '',
+        onlyMajor: true,
+        onlyStatusError: false
       }
     }
   },
   mounted () {
-    this.inintTree(this.queryBean.objectType)
     this.initTable()
+    this.getAnalysis(this.queryBean.objectType)
+    this.inintTree(this.queryBean.objectType)
+  },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 256
+    }
   },
   methods: {
     initTable () {
@@ -38,28 +50,40 @@ export default {
       this.queryBean.address = 'ALL'
       this.queryBean.objectType = tab.name
       this.queryBean.objectKey = 'ALL'
+      this.getAnalysis(tab.name)
       this.inintTree(tab.name)
       this.initTable()
     },
-    handleProfessionNodeClick (v) {
-      if (v.children !== null) {
-        this.queryBean.address = v.id
+    handleExpand (data, node) {
+      if (node.isLeaf === false) {
+        this.queryBean.address = data.id
         this.queryBean.objectKey = 'ALL'
-      } else {
-        this.queryBean.objectKey = v.id
-        this.queryBean.address = v.pid
+        this.initTable()
       }
-      this.initTable()
+      if (this.analysisData.length > 0) {
+        data.children.forEach(e => {
+          console.log(e)
+          this.analysisData.forEach(a => {
+            if (e.id === a.objectKey && a.count > 0 && a.addressKey === data.id) {
+              e.defect = 'MAJOR'
+            }
+          })
+        })
+      }
     },
-    handleSystemNodeClick (v) {
-      if (v.children !== null) {
-        this.queryBean.address = v.id
-        this.queryBean.objectKey = 'ALL'
-      } else {
+    handleNodeClick (v) {
+      if (v.children === null) {
         this.queryBean.objectKey = v.id
         this.queryBean.address = v.pid
+        this.initTable()
       }
-      this.initTable()
+      return false
+    },
+    getAnalysis (v) {
+      this.analysisBean.type = v === 'BY_PROFESSIONA' ? 'deviceProfessiona' : 'deviceSystem'
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: this.analysisBean }).then(res => {
+        this.analysisData = res.data
+      })
     },
     inintTree (v) {
       if (v === 'BY_PROFESSIONA') {

@@ -20,6 +20,11 @@ export default {
       curTime: ''
     }
   },
+  computed: {
+    tableHeight: function () {
+      return this.$store.state.contentHeight - 300
+    }
+  },
   mounted: function () {
     this.sessionUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.getAllocateEamList()
