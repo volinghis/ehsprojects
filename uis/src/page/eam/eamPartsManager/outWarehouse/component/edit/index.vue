@@ -6,7 +6,7 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <el-form-item label="出库仓库" prop="outWarehouse">
-              <el-select v-model="form.outWarehouseName" style="width:100%" placeholder="请选择所在仓库" @change="selectWareHouse" :disabled="show">
+              <el-select v-model="form.outWarehouse" style="width:100%" placeholder="请选择所在仓库" @change="selectWareHouse" :disabled="show">
                 <el-option v-for="item in wareHouse" :key="item.key" :label="item.text" :value="item.key"></el-option>
               </el-select>
             </el-form-item>

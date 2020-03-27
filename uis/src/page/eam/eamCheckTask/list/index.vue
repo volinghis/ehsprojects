@@ -63,13 +63,14 @@
         </el-form>
       </div>
       <div class="ehs_form_item_message">
-        1)列表显示本人需要执行的和审批过的。<br>2)支持手动添加工作，如发现缺陷或处理检修等可以进行添加。<br>3)工作情况一旦提交，除非被驳回否则不允许修改。
+        1)列表显示本人需要执行的和审批过的。<br>2)支持手动添加工作，如发现缺陷或处理检修等可以进行添加。<br>3)工作情况一旦提交，除非被驳回否则不允许修改。<br>
+        4)黄色代表已经驳回的审批，红色代表超过7天未执行的任务
       </div>
       <div class="rightButtons">
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
       </div>
     </div>
-    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :height="tableHeight" @sort-change="sortchange" :row-class-name="tableRowClassName">
+    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :max-height="tableHeight" @sort-change="sortchange" :row-class-name="tableRowClassName">
       <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
       <el-table-column align="center" show-overflow-tooltip prop="name" sortable="custom" label="任务名称">
         <template slot-scope="scope">

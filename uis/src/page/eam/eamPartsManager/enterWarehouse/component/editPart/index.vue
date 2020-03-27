@@ -4,8 +4,7 @@
       <el-row style="margin-left:20px;">
         <el-col :span="6">
           <div class="item-block">
-            <!-- <div class="item-title">设备图片</div> -->
-            <el-upload class="avatar-uploader"
+            <el-upload class="avatar-uploader" :key="key"
               :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
               :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -15,8 +14,6 @@
         </el-col>
         <el-col :span="18">
           <div class="item-block">
-            <!-- <div class="item-title">备件基本信息</div> -->
-            <!-- <el-divider></el-divider> -->
             <el-row >
               <el-col :span="8">
                 <el-form-item label="备件编码" prop="deviceCode">
@@ -68,15 +65,6 @@
               </el-col>
             </el-row>
           </div>
-          <!-- <el-divider></el-divider> -->
-          <!--设备参数-->
-          <!-- <el-row>
-            <div class="item-block">
-              <span style="color:black;">备件主要参数</span>
-              <params-table  ref="partParams" :flag="flag" :paramsData="paramsData" ></params-table>
-            </div>
-          </el-row>
-          <el-divider></el-divider> -->
         </el-col>
       </el-row>
       <el-row>
@@ -91,7 +79,6 @@
           <FilesTable :fileId="form.fileId" :deviceKey="deviceKey" @getFileId="allFileId" @removedFileId="removedFileId" :isDisable="partFlag" :key="key"></FilesTable>
         </div>
       </el-row>
-      <!-- <el-divider></el-divider> -->
     </el-form>
   </div>
 </template>

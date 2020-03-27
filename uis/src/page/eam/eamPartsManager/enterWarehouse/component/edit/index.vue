@@ -4,7 +4,7 @@
       <div class="searchHeight">
         <el-row :gutter="24">
           <el-col :span="8">
-            <el-form-item label="入库编码"  prop="warehouse">
+            <el-form-item label="入库编码"  prop="warehouseCode">
               <el-input v-model="form.warehouseCode" placeholder="请输入入库编码"  :disabled="show"></el-input>
             </el-form-item>
             <el-form-item label="入库类型" prop="inboundType">
@@ -44,7 +44,7 @@
         </table-part>
       </div>
     </el-form>
-    <el-dialog title="添加备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
+    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
       <el-divider></el-divider>
       <div style="text-align:center;">
         <add-part :selectWareHouseFlag="selectFlag" @partsData="partsData"></add-part>

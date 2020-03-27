@@ -31,7 +31,7 @@
        <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button>
     </div> -->
     <template>
-      <el-table :data="tableData" ref="multipleTable" :height="tableHeight" resizable border highlight-current-row :size="GlobalCss.buttonSize">
+      <el-table :data="tableData" ref="multipleTable" :max-height="tableHeight" resizable border highlight-current-row :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
         <!-- <el-table-column prop="partsImg" label="图片" width="70" sortable align="center">
           <template slot-scope="scope">

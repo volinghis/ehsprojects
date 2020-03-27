@@ -40,7 +40,7 @@
        <!-- <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button> -->
     </div>
     <template>
-      <el-table :data="tableData" resizable :height="tableHeight" border :row-class-name="tableRowClassName"
+      <el-table :data="tableData" resizable :max-height="tableHeight" border :row-class-name="tableRowClassName"
         :size="GlobalCss.buttonSize" style="width: 100%;">
         <el-table-column prop="wareHouseName" label="所在仓库" sortable align="center"></el-table-column>
         <el-table-column prop="wareHouseCode" label="出库编号" sortable align="center">

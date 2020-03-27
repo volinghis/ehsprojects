@@ -39,16 +39,16 @@ export default {
       },
       rules: {
         outWarehouseCode: [
-          { required: true, message: '请输入仓库编码', trigger: 'blur' }
+          { required: true, message: '请输入出库编码', trigger: 'blur' }
         ],
-        outWarehouseName: [
-          { required: true, message: '请输入仓库名称', trigger: 'blur' }
+        outWarehouse: [
+          { required: true, message: '请选择出库仓库', trigger: 'blur' }
         ],
         outBoundType: [
-          { required: true, message: '请输入出库类型', trigger: 'blur' }
+          { required: true, message: '请选择出库类型', trigger: 'blur' }
         ],
         receiveDepartCode: [
-          { required: true, message: '请选择部门', trigger: 'blur' }
+          { required: true, message: '请选择领用部门', trigger: 'blur' }
         ],
         receiveEmpCode: [
           { required: true, message: '请选择领用人', trigger: 'blur' }

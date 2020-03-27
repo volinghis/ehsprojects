@@ -36,10 +36,10 @@ export default {
       },
       rules: {
         warehouseCode: [
-          { required: true, message: '请输入入库编号', trigger: 'blur' }
+          { required: true, message: '请输入入库编码', trigger: 'blur' }
         ],
-        warehouseName: [
-          { required: true, message: '请输入入库名称', trigger: 'blur' }
+        warehouse: [
+          { required: true, message: '请选择入库仓库', trigger: 'blur' }
         ],
         inboundType: [
           { required: true, message: '请选择入库类型', trigger: 'blur' }

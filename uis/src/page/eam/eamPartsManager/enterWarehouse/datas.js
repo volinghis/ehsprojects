@@ -39,7 +39,6 @@ export default {
     },
     handleClick (row) { // 查看
       const currentUser = this.sessionUser.username
-      console.log(row)
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamEnterWareHouse/getEnterWareHouseFlowBean', { params: { key: row.refFlowKey } }).then(res => {
         const entityProcessInfo = res.data
         if (entityProcessInfo.currentUser === currentUser && entityProcessInfo.currentStep === entityProcessInfo.startActivityId) {
@@ -85,9 +84,6 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       var date = new Date(row.creationTime.replace(/-/g, '/'))
-      console.log(this.nowTime)
-      console.log(date.getTime() + 604800000)
-      console.log(this.nowTime >= (date.getTime() + 604800000))
       if (this.nowTime >= (date.getTime() + 604800000) && row.status !== '已结束') {
         return 'ehs-message-info-error'
       } else if (row.status === '填写单据') {
