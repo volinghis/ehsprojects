@@ -69,13 +69,13 @@ public interface EamCheckDefectLedgerDao  extends JpaRepository<EamCheckDefectLe
 			+" and (e."+BaseEntity.DELETED+"=0 or ISNULL(e."+BaseEntity.DELETED+")=1 )"
 			+" and c."+BaseEntity.DELETED+"=0 "
 			+" and ("
-			+ " (:onlyMajor=true "
+			+ " ( true=:onlyMajor "
 			+" and (e."+EamCheckDefectLedger.LEVEL+"='MAJOR' or ISNULL(e."+EamCheckDefectLedger.LEVEL+")=1) ) "
-			+ " or :onlyMajor=false) "
+			+ " or false=:onlyMajor) "
 			+" and ("
-			+ " (:onlyStatusError=true "
+			+ " ( true=:onlyStatusError "
 			+" and (e."+EamCheckDefectLedger.STATUS+"='ERROR' or ISNULL(e."+EamCheckDefectLedger.STATUS+")=1) ) "
-			+ " or :onlyStatusError=false) "
+			+ " or false=:onlyStatusError) "
 			
 			+ " group by u."+DataDictionary.KEY+",u."+DataDictionary.TEXT+",c."+DataDictionary.KEY+",c."+DataDictionary.TEXT+" "
 			)
