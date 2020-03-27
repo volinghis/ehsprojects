@@ -10,11 +10,11 @@ package com.ehs.eam.checks.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.data.entity.DataDictionary;
