@@ -8,8 +8,13 @@
  */
 package com.ehs.eam.checks.service;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
 
 /**   
@@ -60,5 +65,9 @@ public interface EamCheckDefectLedgerService {
 	* 2020年3月26日     qjj        v1.0.0            修改原因
 	*/
 	void addDatasAfterFlow(FlowProcessInfo flowProcessInfo);
+	
+	
+	public List<CheckDefectAnalysisBean> analysisByType(  String type,boolean onlyMajor,boolean onlyStatusError);
+
 
 }

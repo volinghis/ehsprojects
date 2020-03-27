@@ -24,6 +24,7 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
 import com.ehs.eam.checks.dao.EamCheckDefectDao;
 import com.ehs.eam.checks.dao.EamCheckDefectLedgerDao;
@@ -97,6 +98,11 @@ public class EamCheckDefectLedgerServiceImpl implements EamCheckDefectLedgerServ
 				baseCommonService.saveOrUpdate(checkLedger);
 			}
 		}
+	}
+
+	@Override
+	public List<CheckDefectAnalysisBean> analysisByType(String type, boolean onlyMajor, boolean onlyStatusError) {
+		return defectLedgerDao.analysisByType(type, onlyMajor, onlyStatusError);
 	}
 
 

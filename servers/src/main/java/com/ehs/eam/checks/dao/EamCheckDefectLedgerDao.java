@@ -8,6 +8,8 @@
  */
 package com.ehs.eam.checks.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ehs.common.base.entity.BaseEntity;
+import com.ehs.common.data.entity.DataDictionary;
+import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.entity.EamCheckDefectLedger;
 
 /**   
@@ -53,5 +57,28 @@ public interface EamCheckDefectLedgerDao  extends JpaRepository<EamCheckDefectLe
 			@Param("status") String status,
 			@Param("level") String level,
 			Pageable pageable);
+	
+	
+	@Query(" select new com.ehs.eam.checks.bean.CheckDefectAnalysisBean(u."+DataDictionary.KEY+",u."+DataDictionary.TEXT+",c."+DataDictionary.KEY+",c."+DataDictionary.TEXT+",SUM("
+			+ " (case when ISNULL(e."+BaseEntity.KEY+")=1 then 0 else 1 end) "
+			+ ")) from DataDictionary u "
+			+" left join EamCheckDefectLedger e on e."+EamCheckDefectLedger.DEVICE_ADDRESS+"=u."+DataDictionary.KEY
+			+" right join DataDictionary c on c."+DataDictionary.KEY+"=e."+EamCheckDefectLedger.OBJECT_KEY
+			+" where c."+DataDictionary.PARENT_KEY+"=:type "
+			+" and u."+BaseEntity.DELETED+"=0 "
+			+" and (e."+BaseEntity.DELETED+"=0 or ISNULL(e."+BaseEntity.DELETED+")=1 )"
+			+" and c."+BaseEntity.DELETED+"=0 "
+			+" and ("
+			+ " (:onlyMajor=true "
+			+" and (e."+EamCheckDefectLedger.LEVEL+"='MAJOR' or ISNULL(e."+EamCheckDefectLedger.LEVEL+")=1) ) "
+			+ " or :onlyMajor=false) "
+			+" and ("
+			+ " (:onlyStatusError=true "
+			+" and (e."+EamCheckDefectLedger.STATUS+"='ERROR' or ISNULL(e."+EamCheckDefectLedger.STATUS+")=1) ) "
+			+ " or :onlyStatusError=false) "
+			
+			+ " group by u."+DataDictionary.KEY+",u."+DataDictionary.TEXT+",c."+DataDictionary.KEY+",c."+DataDictionary.TEXT+" "
+			)
+	public List<CheckDefectAnalysisBean> analysisByType( @Param("type") String type,@Param("onlyMajor") boolean onlyMajor,@Param("onlyStatusError") boolean onlyStatusError);
 
 }

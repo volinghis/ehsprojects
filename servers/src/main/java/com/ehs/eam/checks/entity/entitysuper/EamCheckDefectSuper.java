@@ -10,6 +10,10 @@ import com.ehs.common.base.entity.BaseEntity;
 public abstract class EamCheckDefectSuper extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
+	public static final String OBJECT_KEY="objectKey";
+	public static final String DEVICE_ADDRESS="deviceAddress";
+	public static final String LEVEL="level";
+	public static final String STATUS="status";
 	private String deviceAddress;
 	private String objectKey;
 	
