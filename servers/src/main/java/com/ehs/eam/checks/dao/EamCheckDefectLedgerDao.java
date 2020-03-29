@@ -59,15 +59,18 @@ public interface EamCheckDefectLedgerDao  extends JpaRepository<EamCheckDefectLe
 			Pageable pageable);
 	
 	
-	@Query(" select new com.ehs.eam.checks.bean.CheckDefectAnalysisBean(u."+DataDictionary.KEY+",u."+DataDictionary.TEXT+",c."+DataDictionary.KEY+",c."+DataDictionary.TEXT+",SUM("
+	@Query(" select new com.ehs.eam.checks.bean.CheckDefectAnalysisBean(d."+BaseEntity.KEY+",d."+DataDictionary.TEXT+",c."+BaseEntity.KEY+",c."+DataDictionary.TEXT+",SUM( "
 			+ " (case when ISNULL(e."+BaseEntity.KEY+")=1 then 0 else 1 end) "
-			+ ")) from DataDictionary u "
-			+" left join EamCheckDefectLedger e on e."+EamCheckDefectLedger.DEVICE_ADDRESS+"=u."+DataDictionary.KEY
-			+" right join DataDictionary c on c."+DataDictionary.KEY+"=e."+EamCheckDefectLedger.OBJECT_KEY
-			+" where c."+DataDictionary.PARENT_KEY+"=:type "
-			+" and u."+BaseEntity.DELETED+"=0 "
-			+" and (e."+BaseEntity.DELETED+"=0 or ISNULL(e."+BaseEntity.DELETED+")=1 )"
+			+ ")) from  DataDictionary d "
+			+"  join DataDictionary c "
+			+ "on d."+DataDictionary.PARENT_KEY+"= 'deviceAddress' "
+			+" and  c."+DataDictionary.PARENT_KEY+"= :type  "
+			+" left join EamCheckDefectLedger e on "
+			+"  e."+EamCheckDefectLedger.DEVICE_ADDRESS+"= d."+BaseEntity.KEY
+			+" and e."+EamCheckDefectLedger.OBJECT_KEY+"= c."+BaseEntity.KEY
+			+" where d."+BaseEntity.DELETED+"=0 "
 			+" and c."+BaseEntity.DELETED+"=0 "
+			+" and (e."+BaseEntity.DELETED+"=0 or ISNULL(e."+BaseEntity.DELETED+")=1 ) "
 			+" and ("
 			+ " ( true=:onlyMajor "
 			+" and (e."+EamCheckDefectLedger.LEVEL+"='MAJOR' or ISNULL(e."+EamCheckDefectLedger.LEVEL+")=1) ) "
@@ -76,8 +79,7 @@ public interface EamCheckDefectLedgerDao  extends JpaRepository<EamCheckDefectLe
 			+ " ( true=:onlyStatusError "
 			+" and (e."+EamCheckDefectLedger.STATUS+"='ERROR' or ISNULL(e."+EamCheckDefectLedger.STATUS+")=1) ) "
 			+ " or false=:onlyStatusError) "
-			
-			+ " group by u."+DataDictionary.KEY+",u."+DataDictionary.TEXT+",c."+DataDictionary.KEY+",c."+DataDictionary.TEXT+" "
+			+ " group by d."+BaseEntity.KEY+",d."+DataDictionary.TEXT+",c."+BaseEntity.KEY+",c."+DataDictionary.TEXT
 			)
 	public List<CheckDefectAnalysisBean> analysisByType( @Param("type") String type,@Param("onlyMajor") boolean onlyMajor,@Param("onlyStatusError") boolean onlyStatusError);
 
