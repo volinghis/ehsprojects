@@ -1,43 +1,40 @@
-import ParamsTable from '../paramsTable/index.vue'
-import ModifyRecord from '../modifyRecord/index.vue'
-import FileUpload from '@components/upload/index'
+import FilesTable from '../../../../components/filesTable'
 export default {
   components: {
-    paramsTable: ParamsTable,
-    modifyRecord: ModifyRecord,
-    FileUpload
+    FilesTable
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 20// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 20
     }
   },
   data () {
     return {
-      eamItem: {},
+      key: '',
+      deviceKey: '',
+      fileId: '',
       imageUrl: '',
       flag: '',
       partFlag: false,
       paramsData: [],
-      customColors: [
-        { color: '#f56c6c', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 },
-        { color: '#6f7ad3', percentage: 100 }
-      ],
-      fileList: []
+      form: {}
     }
   },
   mounted: function () {
-    this.eamItem = this.$route.params.data
+    this.form = this.$route.params.data
+    this.deviceKey = this.form.key
+    this.fileId = this.form.fileId
     this.flag = this.$route.params.flag
     if (this.flag) {
       this.partFlag = true
     }
-    this.getDevicePicture(this.eamItem.partsImg)
+    this.getDevicePicture(this.form.partsImg)
+    this.key += 1
   },
   methods: {
+    allFileId (v) {
+      this.form.fileId = v
+    },
     handlePrint: function () {
     },
     handleBack: function () {

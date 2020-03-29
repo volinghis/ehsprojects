@@ -1,71 +1,61 @@
 <template>
-  <div style="margin-left:10px;">
-    <el-row :gutter="20">
-      <el-col :span="10">
+  <div class="pageClass">
+    <el-row :gutter="10">
+      <el-col :span="8">
         <el-card>
            <div class="item-block" style="text-align:center;">
-            <div class="item-title">设备图片</div>
-            <img style="width: 370px; height: 370px;" v-if="imageUrl" :src="imageUrl">
+            <div class="item-title">设备详情</div>
+            <img style="width: 70%; height: 230px;" v-if="imageUrl" :src="imageUrl">
           </div>
           <div class="ehs_form_item_message" style="text-align:center;">
-           <el-row>
-             <el-form>
+           <el-row style="width:50%;margin-left:32%;">
+             <el-form label-suffix="：">
+               <el-form-item label="备件编码">
+                 <span class="info-content">{{ form.deviceCode }}</span>
+               </el-form-item>
                <el-form-item label="备件名称">
-                 <span class="info-content">{{ eamItem.deviceName }}</span>
+                 <span class="info-content">{{ form.deviceName }}</span>
+               </el-form-item>
+               <el-form-item label="规格型号">
+                 <span class="info-content">{{ form.norm }}</span>
+               </el-form-item>
+               <el-form-item label="物资类型">
+                 <span class="info-content">{{ form.materialType }}</span>
+               </el-form-item>
+               <el-form-item label="物资编码">
+                 <span class="info-content">{{ form.materialCode }}</span>
+               </el-form-item>
+               <el-form-item label="生产厂家">
+                 <span class="info-content">{{ form.manufacturer }}</span>
+               </el-form-item>
+               <el-form-item label="出厂编号">
+                 <span class="info-content">{{ form.leaveFactoryCode }}</span>
+               </el-form-item>
+               <el-form-item label="出厂日期">
+                 <span class="info-content">{{ form.leaveFactoryDate }}</span>
                </el-form-item>
              </el-form>
-              <!-- <el-col :span="24">
-                <span class="info-title">备件名称</span>:&nbsp;<span class="info-content">{{ eamItem.deviceName }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">备件编码</span>:&nbsp;<span class="info-content">{{ eamItem.deviceCode }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">规格型号</span>:&nbsp;<span class="info-content">{{ eamItem.norm }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">物资类型</span>:&nbsp;<span class="info-content">{{ eamItem.materialType }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">物资编码</span>:&nbsp;<span class="info-content">{{ eamItem.materialCode }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">生产厂家</span>:&nbsp;<span class="info-content">{{ eamItem.manufacturer }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">出厂编号</span>:&nbsp;<span class="info-content">{{ eamItem.leaveFactoryCode }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">出厂日期</span>:&nbsp;<span class="info-content">{{ eamItem.leaveFactoryDate }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">预警值</span>:&nbsp;<span class="info-content">{{ eamItem.warningValue }}</span>
-              </el-col> -->
-              <!-- <el-col :span="24">
-                <span class="info-title">创建人</span>:&nbsp;<span class="info-content">{{ eamItem.creationName }}</span>
-              </el-col>
-              <el-col :span="24">
-                <span class="info-title">创建时间</span>:&nbsp;<span class="info-content">{{ eamItem.creationTime }}</span>
-              </el-col> -->
             </el-row>
           </div>
         </el-card>
       </el-col>
-      <el-col :span="14">
+      <el-col :span="16">
         <el-row>
           <el-col :span="24" class="grid-content bg-purple">
             <el-card>
-              asdajdjaldkajklj
+              <div style="margin-left:20px;">
+                <FilesTable :fileId="fileId" :deviceKey="deviceKey" @getFileId="allFileId" :isDisable="partFlag" :key="key"></FilesTable>
+              </div>
             </el-card>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="24">
             <el-card>
               asdajdjaldkajklj
             </el-card>
           </el-col>
-        </el-row>
+        </el-row> -->
       </el-col>
     </el-row>
 
