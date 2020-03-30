@@ -3,13 +3,13 @@
     <el-row :gutter="10">
       <el-col :span="8">
         <el-card>
-           <div class="item-block" style="text-align:center;">
+          <div class="item-block" style="text-align:center;">
             <div class="item-title">设备详情</div>
-            <img style="width: 70%; height: 230px;" v-if="imageUrl" :src="imageUrl">
+            <el-image v-if="imageUrl" :src="imageUrl" class="avatar"></el-image>
           </div>
           <div class="ehs_form_item_message" style="text-align:center;">
            <el-row style="width:50%;margin-left:32%;">
-             <el-form label-suffix="：">
+             <el-form label-suffix="：" label-width="80px">
                <el-form-item label="备件编码">
                  <span class="info-content">{{ form.deviceCode }}</span>
                </el-form-item>

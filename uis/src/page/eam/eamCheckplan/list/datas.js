@@ -1,6 +1,7 @@
 export default {
   data () {
     return {
+      checkScopeStrName: '',
       plans: [],
       dataView: {},
       sessionUser: '',
@@ -116,7 +117,7 @@ export default {
                 checkScope.push(element.text)
               })
             })
-            row.checkScopeStr = checkScope.join(',')
+            this.checkScopeStrName = checkScope.join(',')
           })
         } else {
           this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceProfessiona').then(res => {
@@ -128,15 +129,13 @@ export default {
                 checkScope.push(element.text)
               })
             })
-            row.checkScopeStr = checkScope.join(',')
+            this.checkScopeStrName = checkScope.join(',')
           })
         }
       }
 
       if (row.deviceAddress) {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=deviceAddress').then(res => {
-          // row.deviceAddress = this.filterByName(res.data, row.deviceAddress)[0].text
-          // checkScope.push(element.text)
           this.filterByName(res.data, row.deviceAddress).forEach(element => {
             row.deviceAddress = element.text
           })

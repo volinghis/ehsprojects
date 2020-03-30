@@ -119,49 +119,61 @@
         <el-button type="primary" @click="handleSubmit" :size="GlobalCss.controlSize">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="查看页面" :visible.sync="dialogVisibleView" width="34%" :destroy-on-close="true">
+    <el-dialog title="详情页面" :visible.sync="dialogVisibleView" width="34%" :destroy-on-close="true">
       <el-divider></el-divider>
       <div>
         <el-form ref="dataView" :model="dataView" label-width="80px" label-position="right" size="small" :disabled="true">
           <el-form-item label="计划名称:">
-            <el-input v-model="dataView.name"></el-input>
+            <!-- <el-input v-model="dataView.name"></el-input> -->
+            <span>{{dataView.name}}</span>
           </el-form-item>
           <el-form-item label="执行频率:">
-            <el-input v-model="dataView.rate"></el-input>
+            <!-- <el-input v-model="dataView.rate"></el-input> -->
+            <span>{{dataView.rate}}</span>
           </el-form-item>
           <el-form-item label="计划年度:">
-            <el-input v-model="dataView.year"></el-input>
+            <!-- <el-input v-model="dataView.year"></el-input> -->
+            <span>{{dataView.year}}</span>
           </el-form-item>
           <el-form-item label="计划周期:">
-            <el-col :span="11">
-              <el-form-item prop="startTime">
-                <el-date-picker type="date" placeholder="开始日期" v-model="dataView.startTime"  style="width: 100%;"></el-date-picker>
-              </el-form-item>
+            <!-- <el-col :span="4"> -->
+              <span>{{dataView.startTime}}</span> —— <span>{{dataView.endTime}}</span>
+              <!-- <el-form-item prop="startTime">
+                 <el-date-picker type="date" placeholder="开始日期" v-model="dataView.startTime"  style="width: 100%;"></el-date-picker>
+                <span>{{dataView.startTime}}</span> -->
+              <!-- </el-form-item>
             </el-col>
-            <el-col class="line" :span="2" style="text-align:center">-</el-col>
+            <el-col class="line" :span="1" style="text-align:center">-</el-col>
             <el-col :span="11">
               <el-form-item prop="endTime">
                 <el-date-picker placeholder="结束日期" type="date" v-model="dataView.endTime" style="width: 100%;"></el-date-picker>
+                <span>{{dataView.endTime}}</span>
               </el-form-item>
-            </el-col>
+            </el-col>-->
           </el-form-item>
           <el-form-item label="设备位置:">
-            <el-input v-model="dataView.deviceAddress"></el-input>
+            <!-- <el-input v-model="dataView.deviceAddress"></el-input> -->
+            <span>{{dataView.deviceAddress}}</span>
           </el-form-item>
           <el-form-item label="巡检范围:">
-            <el-input v-model="dataView.checkScopeStr"></el-input>
+            <!-- <el-input v-model="dataView.checkScopeStr"></el-input> -->
+             <span>{{checkScopeStrName}}</span>
           </el-form-item>
           <el-form-item label="执行部门:">
-            <el-input v-model="dataView.checkorName"></el-input>
+            <!-- <el-input v-model="dataView.checkorName"></el-input> -->
+             <span>{{dataView.checkorName}}</span>
           </el-form-item>
           <el-form-item label="是否启用:">
-            <el-input v-model="dataView.enableLabel"></el-input>
+            <!-- <el-input v-model="dataView.enableLabel"></el-input> -->
+             <span>{{dataView.enableLabel}}</span>
           </el-form-item>
           <el-form-item label="授权查看:">
-            <el-input v-model="dataView.viewType"></el-input>
+            <!-- <el-input v-model="dataView.viewType"></el-input> -->
+             <span>{{dataView.viewType}}</span>
           </el-form-item>
           <el-form-item label="备注:">
-            <el-input type="textarea" maxlength="300" show-word-limit v-model="dataView.notes"></el-input>
+            <!-- <el-input type="textarea" maxlength="300" show-word-limit v-model="dataView.notes"></el-input> -->
+             <span>{{dataView.notes}}</span>
           </el-form-item>
         </el-form>
       </div>
