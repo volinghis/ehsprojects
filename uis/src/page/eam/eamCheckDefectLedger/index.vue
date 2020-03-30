@@ -15,7 +15,7 @@
                      @node-click="handleNodeClick">
               <span class="custom-tree-node"
                     slot-scope="{ node, data}">
-                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NORMAL'?'normal-color':'other-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
               </span>
             </el-tree>
           </el-tab-pane>
@@ -28,7 +28,7 @@
                      @node-click="handleNodeClick">
               <span class="custom-tree-node"
                     slot-scope="{ node, data}">
-                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NORMAL'?'normal-color':'other-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
               </span>
             </el-tree>
           </el-tab-pane>

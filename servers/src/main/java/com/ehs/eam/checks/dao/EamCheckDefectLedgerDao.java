@@ -41,14 +41,8 @@ public interface EamCheckDefectLedgerDao  extends JpaRepository<EamCheckDefectLe
 			+ " and ('ALL'=:address or t.deviceAddress= :address) "
 			+ " and ('ALL'=:objectKey or t.objectKey = :objectKey) "
 			+ " and ('ALL'=:objectType or t.objectType = :objectType) "
-			+" and ( 'ALL'=:status "
-			+" or ('OK'=:status and t.status = :status)"
-			+" or ('ERROR'=:status and t.status = :status)"
-			+ " ) "
-			+" and ( 'ALL'=:level "
-			+" or ('NORMAL'=:level and t.level = :level)"
-			+" or ('MAJOR'=:level and t.level = :level)"
-			+ " ) "
+			+ " and ('ALL'=:status or t.status = :status)"
+			+ " and ('ALL'=:level  or t.level = :level ) "
 			+ "")
 	public Page<EamCheckDefectLedger> findDefectLedgers(
 			@Param("address") String address,

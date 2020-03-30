@@ -20,14 +20,12 @@ export default {
         var url = this.GlobalVars.globalServiceServlet + '/flow/handle/sendProcess'
         if (stepKey === 'END') {
           url = this.GlobalVars.globalServiceServlet + '/flow/handle/endProcess'
-          console.log(this.processInfo)
           this.$refs.flowContent.handlerAfterFlow(this.processInfo)
         } else {
           if (!this.vars.taskAssignee) {
             this.$message.error('请选择流程处理人！')
           }
         }
-        console.log(url)
         this.$axios.post(url, this.processInfo)
           .then(res => {
             // 成功了, 更新数据(成功)
