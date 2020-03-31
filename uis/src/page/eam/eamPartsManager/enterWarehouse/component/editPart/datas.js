@@ -51,6 +51,10 @@ export default {
     }
   },
   mounted: function () {
+    if (this.flag === 'view') {
+      this.buttonFlag = false
+      this.partFlag = true
+    }
   },
   methods: {
     allFileId (v) {

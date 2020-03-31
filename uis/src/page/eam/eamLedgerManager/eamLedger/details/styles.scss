@@ -1,18 +1,26 @@
 .item-block {
     .item-title {
       font-size: 14px;
+      text-align: left;
     }
   }
-  .el-form--label-top .el-form-item__label {
-    padding: 0 0 0px;
-  }
   .el-form-item {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
-  .contents{
-    line-height: 22px;
+  /deep/.el-form-item{
+    line-height: 15px;
   }
-  .el-divider--horizontal{
-    margin:6px 0;
-    background-color: #2db7f5;
+  /deep/.el-form-item__label{
+    line-height: 30px;
+  }
+  /deep/.el-form-item__content{
+    line-height: 30px;
+    text-align: left;
+  }
+  .pageClass{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .offset-row{
+    margin-top:10px;
   }

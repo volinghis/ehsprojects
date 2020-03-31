@@ -59,15 +59,18 @@ export default {
         this.queryBean.address = data.id
         this.queryBean.objectKey = 'ALL'
         this.initTable()
-      }
-      if (this.analysisData.length > 0) {
+        this.getAnalysis(this.queryBean.objectType)
         data.children.forEach(e => {
-          console.log(e)
-          this.analysisData.forEach(a => {
-            if (e.id === a.objectKey && a.count > 0 && a.addressKey === data.id) {
-              e.defect = 'MAJOR'
-            }
-          })
+          if (this.analysisData.length > 0) {
+            this.analysisData.forEach(a => {
+              if (e.id === a.objectKey && a.count > 0 && a.addressKey === data.id) {
+                e.defect = 'MAJOR'
+              }
+              if (e.id === a.objectKey && a.count === 0 && a.addressKey === data.id) {
+                e.defect = 'NONE'
+              }
+            })
+          }
         })
       }
     },
@@ -80,7 +83,11 @@ export default {
       return false
     },
     getAnalysis (v) {
-      this.analysisBean.type = v === 'BY_PROFESSIONA' ? 'deviceProfessiona' : 'deviceSystem'
+      if (v === 'BY_PROFESSIONA') {
+        this.analysisBean.type = 'deviceProfessiona'
+      } else {
+        this.analysisBean.type = 'deviceSystem'
+      }
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: this.analysisBean }).then(res => {
         this.analysisData = res.data
       })

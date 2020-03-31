@@ -21,7 +21,6 @@ export default {
       pDatas: [],
       partsTable: [],
       tableDatas: [],
-      tableHeight: ' ',
       dialogVisible: false,
       totalCount: 0,
       form: {

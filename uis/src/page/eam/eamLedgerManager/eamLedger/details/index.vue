@@ -1,99 +1,105 @@
 <template>
-  <div style="padding:0px 20px;">
-    <div class="item-block right">
-      <div class="item-title">设备基本信息</div>
-      <div class="contents">
-        <el-row>
-          <el-col :span="4">
+  <div class="pageClass">
+    <el-row :gutter="10">
+      <el-col :span="7">
+        <el-card>
+          <div class="item-block" style="text-align:center;">
+            <div class="item-title">设备详情</div>
             <el-image style="width: 150px; height: 150px"
                       :src="imgUrl"
                       fit="fill"></el-image>
-          </el-col>
-          <el-col :span="20">
-            <el-row :span="24">
-              <el-col :span="12">
-                <span class="info-title">设备名称</span>:&nbsp;<span class="info-content">{{ eamInfos.deviceName }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">设备编码</span>:&nbsp;<span class="info-content">{{ eamInfos.deviceNum }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">设备型号</span>:&nbsp;<span class="info-content">{{ eamInfos.deviceModel }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">出厂编号</span>:&nbsp;<span class="info-content">{{ eamInfos.leaveNum }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">生产厂家</span>:&nbsp;<span class="info-content">{{ eamInfos.factoryName }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">出厂日期</span>:&nbsp;<span class="info-content">{{ eamInfos.leaveDate }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">投运日期</span>:&nbsp;<span class="info-content">{{ eamInfos.runDate }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">安装位置</span>:&nbsp;<span class="info-content">{{ eamInfos.installLocationName }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="info-title">负责人</span>:&nbsp;<span class="info-content">{{ eamInfos.personName }}</span>
-              </el-col>
+          </div>
+          <div class="ehs_form_item_message">
+            <el-row style="width:60%;margin-left:32%;">
+              <el-form label-suffix="：" label-width="100">
+                <el-form-item label="设备名称">
+                  <span class="info-content">{{ eamInfos.deviceName }}</span>
+                </el-form-item>
+                <el-form-item label="设备编码">
+                  <span class="info-content">{{eamInfos.deviceNum }}</span>
+                </el-form-item>
+                <el-form-item label="设备型号">
+                  <span class="info-content">{{ eamInfos.deviceModel }}</span>
+                </el-form-item>
+                <el-form-item label="设备专业">
+                  <span class="info-content">{{eamInfos.profession }}</span>
+                </el-form-item>
+                <el-form-item label="设备系统">
+                  <span class="info-content">{{eamInfos.deviceSystem }}</span>
+                </el-form-item>
+                <el-form-item label="生产厂家">
+                  <span class="info-content">{{ eamInfos.factoryName }}</span>
+                </el-form-item>
+                <el-form-item label="出厂日期">
+                  <span class="info-content">{{ eamInfos.leaveDate }}</span>
+                </el-form-item>
+                <el-form-item label="投运日期">
+                  <span class="info-content">{{ eamInfos.runDate}}</span>
+                </el-form-item>
+                <el-form-item label="安装位置">
+                  <span class="info-content">{{ eamInfos.installLocationName }}</span>
+                </el-form-item>
+                <el-form-item label="负责人">
+                  <span class="info-content">{{ eamInfos.personName }}</span>
+                </el-form-item>
+              </el-form>
             </el-row>
-            <el-row>
-              <el-col :span="24">
-                <div class="item-block right">
-                  <div class="item-title">定期工作标准</div>
-                  <el-divider></el-divider>
-                  <el-input type="textarea"
-                            :rows="5"
-                            maxlength="300"
-                            show-word-limit
-                            placeholder="请输入定期工作标准"
-                            v-model="eamInfos.remarks">
-                  </el-input>
-                </div>
-              </el-col>
-            </el-row>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="17">
+        <el-row>
+          <el-col :span="24">
+            <el-card>
+              <past-inspectors :deviceKey="deviceKey"
+                               :isDisable="true"></past-inspectors>
+            </el-card>
           </el-col>
         </el-row>
-      </div>
-    </div>
-    <!--设备参数-->
-    <div class="item-block right">
-      <el-divider></el-divider>
-      <params-table :deviceKey="deviceKey"
-                    :isDisable="true"></params-table>
-    </div>
-    <!--历任点检员-->
-    <div class="item-block right">
-      <el-divider></el-divider>
-      <past-inspectors :deviceKey="deviceKey"
-                       :isDisable="true"></past-inspectors>
-    </div>
-    <!--子设备-->
-    <div class="item-block right">
-      <el-divider></el-divider>
-      <ChildEamTable :deviceKey="deviceKey"
-                     :isDisable="true" ></ChildEamTable>
-    </div>
-    <!--关联文件-->
-    <div class="item-block right">
-      <el-divider></el-divider>
-      <FilesTable :fileId="eamInfos.fileId"
-                  :deviceKey="deviceKey"
-                  :isDisable="true"></FilesTable>
-    </div>
-    <el-form ref="form"
-             label-position="top"
-             label-width="80px">
-      <el-form-item style="text-align: center;">
-        <el-button :size="GlobalCss.buttonSize"
-                   type="primary"
-                   @click="back">返回</el-button>
-        <!-- <el-button :size="GlobalCss.buttonSize"
-                   @click="handlePrint">打印</el-button> -->
-      </el-form-item>
-    </el-form>
+        <el-row class="offset-row">
+          <el-col :span="24">
+            <el-card>
+              <ChildEamTable :deviceKey="deviceKey"
+                             :isDisable="true"></ChildEamTable>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row class="offset-row">
+          <el-col :span="24">
+            <el-card>
+              <params-table :deviceKey="deviceKey"
+                            :isDisable="true"></params-table>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="10"
+            style="margin-top:10px;">
+      <el-col :span="7">
+        <el-card>
+          <div class="item-title">定期工作标准</div>
+          <div>
+            <el-input type="textarea"
+                      :rows="5"
+                      maxlength="300"
+                      show-word-limit
+                      placeholder="请输入定期工作标准"
+                      v-model="eamInfos.remarks">
+            </el-input>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="17">
+        <el-card>
+          <FilesTable :fileId="eamInfos.fileId"
+                      :deviceKey="deviceKey"
+                      :isDisable="true"></FilesTable>
+        </el-card>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 

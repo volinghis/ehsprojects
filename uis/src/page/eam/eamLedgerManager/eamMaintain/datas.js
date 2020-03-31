@@ -86,6 +86,7 @@ export default {
     },
     // 编辑
     handleEditClick: function (scope) {
+      console.log(scope)
       if (scope.deviceStatus !== '正常') {
         this.$message({
           type: 'warning',
