@@ -1,0 +1,11 @@
+.el-pagination{
+  float: right;
+  height: 30px !important;
+}
+ /deep/ .el-table__header-wrapper{
+   height: 30px !important;
+ }
+ .processNames{
+   color: #1e93ff;
+   cursor: pointer;
+ }

@@ -1,5 +1,7 @@
 package com.ehs.eam.checks.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.utils.FlowConstans;
+import com.ehs.common.organization.entity.entitysuper.OrganizationInfo;
+import com.ehs.eam.checks.bean.CheckTaskAnalysisBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
 
@@ -59,4 +63,19 @@ public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 			@Param("flowstatus") String flowstatus,
 			@Param("executeResult") String executeResult,
 			Pageable pageable);
+	
+	@Query(" select new com.ehs.eam.checks.bean.CheckTaskAnalysisBean(o."+BaseEntity.KEY+",o."+OrganizationInfo.NAME+","
+			+ "SUM((case when ISNULL(t."+BaseEntity.KEY+")=1 then 0 else 1 end) )"
+			+" ) from OrganizationInfo o "
+			+ " left join EamCheckTask t on o."+BaseEntity.KEY+"=t."+EamCheckTask.ORG
+			+ " left join FlowProcessInfo p on t."+EamCheckTask.FLOW_PROCESS_INFO_KEY+"=p."+BaseEntity.KEY
+
+			+" where o."+BaseEntity.DELETED+"=0 "
+			+" and (t."+BaseEntity.DELETED+"=0 or ISNULL(t."+BaseEntity.KEY+")=1 )"
+			+" and (t."+EamCheckTask.RESULT+"='NORMAL' or ISNULL(t."+BaseEntity.KEY+")=1 )"
+			+" and ((p."+BaseEntity.DELETED+"=0 and p."+FlowProcessInfo.FLOW_CURRENT_STEP+"='"+FlowConstans.FLOW_STATUS_END+"') or ISNULL(p."+BaseEntity.KEY+")=1 )"
+
+			+" group by o."+BaseEntity.KEY+",o."+OrganizationInfo.NAME
+			)
+	public List<CheckTaskAnalysisBean> analysisTaskForOrg();
 }

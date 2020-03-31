@@ -1,6 +1,9 @@
 export default {
 
   methods: {
+    tableHeight: function () {
+      return document.body.offsetHeight / 3 - 30
+    },
     flushData () {
       var self = this
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/notify/message/findAllByUser?TIMER=Y', self.pages).then(response => {

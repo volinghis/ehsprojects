@@ -2,9 +2,9 @@
 <div>
         <el-table :data="notices"
                         :size="GlobalCss.buttonSize"
-                           :height="(($store.state.contentHeight-10)/3-30-30)"
+                           :height="tableHeight()"
                         >
-  <el-table-column prop="content">
+  <el-table-column prop="content" show-overflow-tooltip>
                 </el-table-column>
         </el-table>
 

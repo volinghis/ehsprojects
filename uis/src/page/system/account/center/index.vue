@@ -26,7 +26,7 @@
           </el-col>
         </el-row>
         <el-row >
-          <el-col :span="15">
+          <el-col :span="12">
             <div class="block-title"
                  style="background: #40c9c6;">
               <label>我的待办</label>
@@ -34,7 +34,16 @@
             </div>
             <Approves></Approves>
           </el-col>
-          <el-col :span="9" class="paddingStyle" >
+          <el-col :span="8" class="paddingStyle" >
+            <div class="block-title"
+                 style="background: #f4516c;">
+              <label>任务统计</label>
+
+            </div>
+
+            <Tasks></Tasks>
+          </el-col>
+                    <el-col :span="4" class="paddingStyle" >
             <div class="block-title"
                  style="background: #f4516c;">
               <label>消息提醒</label>
@@ -49,26 +58,30 @@
           <el-col :span="12">
             <div class="block-title"
                  style="background: #5d75f2;">
-              <label>我的申请</label>
+              <label>缺陷统计-按专业</label>
 
             </div>
 
-            <Applys/>
+            <Professiona/>
           </el-col>
           <el-col :span="12" class="paddingStyle" >
             <div class="block-title"
                  style="background:#36a3f7;">
-              <label>我的已办</label>
+              <label>缺陷统计-按系统</label>
 
             </div>
-            <Dones />
+            <Systems />
           </el-col>
         </el-row>
   </div>
 </template>
 <script>
-import Applys from './modules/applys/index'
-import Dones from './modules/dones/index.vue'
+import Professiona from './modules/defectsAnalysis/professiona/index.vue'
+import Systems from './modules/defectsAnalysis/systems/index.vue'
+import Tasks from './modules/tasksAnalysis/index.vue'
+
+// import Applys from './modules/applys/index'
+// import Dones from './modules/dones/index.vue'
 import Approves from './modules/approves/index.vue'
 import Notices from './modules/notices/index.vue'
 import Rates from './modules/rates/index'
@@ -77,10 +90,13 @@ import Devices from './modules/devices/index'
 import datas from './datas'
 export default datas
 datas.components = {
-  Dones,
+  // Dones,
+  Systems,
   Approves,
   Notices,
-  Applys,
+  Tasks,
+  // Applys,
+  Professiona,
   Rates,
   Devices,
   Ranks

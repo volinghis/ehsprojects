@@ -8,10 +8,16 @@
  */
 package com.ehs.eam.checks.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,6 +81,38 @@ public class EamCheckDefectLedgerController {
 		}
 		
 	}
+	
+	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/defectAnalysisForIndexPage")
+	public String defectAnalysisForIndexPage(@RequestParam String type) {
+		List<CheckDefectAnalysisBean> analysisBeans=defectLedgerService.analysisByType(type, false, false);
+		if(analysisBeans!=null&&!analysisBeans.isEmpty()) {
+			List<List<String>> mm=new ArrayList<List<String>>();
+			analysisBeans.forEach(s->{
+				System.out.println(JsonUtils.toJsonString(s));
+			});
+			List<String> addresses =analysisBeans.stream().map(CheckDefectAnalysisBean::getAddressName).collect(Collectors.toList()).stream().distinct().collect(Collectors.toList());
+			addresses.add(0,"product");
+			mm.add(addresses);
+			List<String> typeList =analysisBeans.stream().map(CheckDefectAnalysisBean::getObjectName).collect(Collectors.toList()).stream().distinct().collect(Collectors.toList());
+			typeList.forEach(ss->{
+				List<String> counts=new ArrayList<String>();
+				counts.add(ss);
+				addresses.forEach(s->{
+				long l=analysisBeans.stream().filter(p->StringUtils.equals(s, p.getAddressName())&&StringUtils.equals(ss, p.getObjectName())).count();
+				if(l>0) {
+//					counts.add(analysisBeans.stream().filter(p->StringUtils.equals(s, p.getAddressName())&&StringUtils.equals(ss, p.getObjectName())).findFirst().get().getCount()+"");
+					counts.add(Math.random()+"");
+
+				}
+				});
+				mm.add( counts);
+			});
+			return JsonUtils.toJsonString(mm);
+		}
+		return "[]";
+	}
+
 	
 	@RequestAuth(menuKeys = {"defectLedger"})
 	@RequestMapping(value = "/getAnalysisByType")

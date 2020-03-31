@@ -16,6 +16,7 @@ import com.ehs.common.auth.local.SysAccessUser;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.eam.checks.bean.CheckTaskAnalysisBean;
 import com.ehs.eam.checks.bean.CheckTaskQueryBean;
 import com.ehs.eam.checks.dao.EamCheckTaskDao;
 import com.ehs.eam.checks.entity.EamCheckDefect;
@@ -201,6 +202,11 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 			return pib;
 		}
 		return null;
+	}
+
+	@Override
+	public List<CheckTaskAnalysisBean> analysisTaskForOrg() {
+		return eamCheckTaskDao.analysisTaskForOrg();
 	}
 
 }

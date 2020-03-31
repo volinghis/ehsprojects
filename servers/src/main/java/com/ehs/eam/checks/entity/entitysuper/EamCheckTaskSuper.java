@@ -26,7 +26,7 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	public final static String DEFECTS="defects";
 	public final static String RESERVES="reserves";
 	public final static String RESULT="result";
-	
+	public final static String ORG="org";
 	
 	
 	public String getOrgName() {

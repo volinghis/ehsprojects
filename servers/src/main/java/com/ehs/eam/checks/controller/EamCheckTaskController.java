@@ -1,5 +1,9 @@
 package com.ehs.eam.checks.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
@@ -17,6 +22,8 @@ import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.common.organization.entity.OrganizationInfo;
+import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
+import com.ehs.eam.checks.bean.CheckTaskAnalysisBean;
 import com.ehs.eam.checks.bean.CheckTaskQueryBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
@@ -63,6 +70,22 @@ public class EamCheckTaskController {
 		return "[]";
 	}
 	
+	
+	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/eam/checks/task/taskAnalysisForIndexPage")
+	public String taskAnalysisForIndexPage() {
+		List<CheckTaskAnalysisBean> analysisBeans=eamCheckTaskService.analysisTaskForOrg();
+		if(analysisBeans!=null&&!analysisBeans.isEmpty()) {
+			analysisBeans.forEach(s->{
+				System.out.println(JsonUtils.toJsonString(s));
+				s.setValue(Long.valueOf(""+((int)(Math.random()*100))));
+			});
+			//System.out.println(JsonUtils.toJsonString(analysisBeans));
+			return JsonUtils.toJsonString(analysisBeans);
+			
+		}
+		return "[]";
+	}
 	
 	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/eam/checks/plan/getTask")
