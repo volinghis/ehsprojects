@@ -26,7 +26,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="当前职务：" prop="position">
-            <el-input v-model="form.position" :disabled="inputShow"></el-input>
+            <!-- <el-input v-model="form.position" :disabled="inputShow"></el-input> -->
+             <el-select v-model="form.position" style="width:100%" placeholder="请选择职务" :disabled="inputShow">
+                <el-option v-for="item in positions" :key="item.key" :label="item.text" :value="item.key"></el-option>
+              </el-select>
           </el-form-item>
         </el-col>
       </el-row>

@@ -3,12 +3,11 @@ package com.ehs.common.organization.dao;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ehs.common.base.config.DataConfig;
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.organization.entity.OrgUser;
 
@@ -29,91 +28,6 @@ import com.ehs.common.organization.entity.OrgUser;
 @Repository
 public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 
-	/**
-	 * 
-	* @Function: OrgUserDao.java
-	* @Description: 根据用户的dataCode或者名称模糊查询用户
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 上午11:21:32 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+"=0 and (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) order by  "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<OrgUser> findUsers(String query, PageRequest pageRequest);
-
-	/**
-	 * 
-	* @Function: OrgUserDao.java
-	* @Description: 根据查询条件和选择部门交集查询用户
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 上午11:22:31 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?2% or u."+OrgUser.NAME+" like %?2% ) and u.orgKey=?1 and u."+OrgUser.DELETED+"=0 " )
-	public Page<OrgUser> findUserByOrgKey(String orgKey, String query, PageRequest pageRequest);
-
-	/**
-	 * 
-	* @Function: OrgUserDao.java
-	* @Description: 查询所有用户并分页
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 上午11:23:06 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+"=0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
-	public Page<OrgUser> findUsers(PageRequest pageRequest);
-
-
-
-	/**
-	 * 
-	* @Function: OrgUserDao.java
-	* @Description: 根据部门查找用户分页
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月26日 下午2:02:28 
-	*
-	* Modification History:
-	* Date         Author          Version            Description
-	*---------------------------------------------------------*
-	* 2019年12月26日     zhaol           v1.0.0               修改原因
-	 */
-	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DELETED+"=0 " )
-	public Page<OrgUser> findUserByOrgKey(String orgKey, PageRequest pageRequest);
 	@Query(" select u from OrgUser u where u."+OrgUser.ORG_KEY+" =?1 and u."+OrgUser.DELETED+"=0 " )
 	public List<OrgUser> findUserByOrgKey(String orgKey);
 
@@ -121,7 +35,48 @@ public interface OrgUserDao extends JpaRepository<OrgUser, String> {
 	
 	public List<OrgUser> findOrgUserByOrgKeyAndDeleted(String orgKey,boolean deleted);
 
-	@Query(" select u from OrgUser u where (u."+OrgUser.DATA_CODE+" like %?1% or u."+OrgUser.NAME+" like %?1% ) and u."+OrgUser.DELETED+"=0 " )
-	public List<OrgUser> findUserByQuery(String query);
+	/**
+	 * 
+	* @Function: OrgUserDao.java
+	* @Description: 分页递归查询部门下所有人员
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月1日 上午10:45:33 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月1日     zhaol           v1.0.0               修改原因
+	 */
+	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+" = 0 and (isnull("+OrgUser.NAME+")=0 or isnull("+OrgUser.DATA_CODE+")=0 or LENGTH(trim(?1))>0 or u."+OrgUser.NAME+" like %?1% or u."+OrgUser.DATA_CODE+" like %?1% ) and u."+OrgUser.ORG_KEY+" in ?2 order by "+BaseEntity.BASE_SORT_NUM +" desc")
+	public Page<OrgUser> findByUser(String query, String[] array, Pageable pb);
+	
+	/**
+	 * 
+	* @Function: OrgUserDao.java
+	* @Description: 不需要递归，直接根据部门查询人员的分页
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月1日 上午10:46:12 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月1日     zhaol           v1.0.0               修改原因
+	 */
+	@Query(" select u from OrgUser u where u."+OrgUser.DELETED+" = 0 and (isnull("+OrgUser.NAME+")=0 or isnull("+OrgUser.DATA_CODE+")=0 or LENGTH(trim(?1))>0 or u."+OrgUser.NAME+" like %?1% or u."+OrgUser.DATA_CODE+" like %?1% ) and u."+OrgUser.ORG_KEY+" = ?2 order by "+BaseEntity.BASE_SORT_NUM +" desc ")
+	public Page<OrgUser> findByUser(String query,String orgKey, Pageable pb);
+
+
 
 }

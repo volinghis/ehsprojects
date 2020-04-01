@@ -93,7 +93,7 @@ export default {
     },
     getUserBySearch: function (organizationKey, form) {
       this.searchParam = form
-      this.findUserByOrgKey(organizationKey, form)
+      this.findUserByOrgKey(organizationKey, this.searchParam)
     }
   }
 }
