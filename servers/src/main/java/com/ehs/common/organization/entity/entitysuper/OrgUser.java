@@ -44,6 +44,7 @@ public abstract  class OrgUser extends BaseEntity {
 	public static final String EMAIL="email";
 	public static final String TELEPHONE="telephone";
 	public static final String POSITION="position";
+	public static final String POSITION_NAME="positionName";
 	public static final String GENDER="gender";
 	public static final String EDUCATION="education";
 	public static final String GRADUATED_SCHOOL="graduatedSchool";
@@ -103,6 +104,7 @@ public abstract  class OrgUser extends BaseEntity {
 	 * 职务
 	 */
 	private String position;
+	private String positionName;
 	
 	/**
 	 * 性别
@@ -254,6 +256,14 @@ public abstract  class OrgUser extends BaseEntity {
 		this.profession = profession;
 	}
 	
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
+
 	public Timestamp getGraduatedDate() {
 		return graduatedDate;
 	}

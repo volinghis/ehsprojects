@@ -6,6 +6,7 @@ export default {
     editUserForm: Object
   },
   mounted () {
+    this.getPositions()
     if (this.userFlag === 'add') {
       this.form.orgKey = this.organKey
       this.form.orgName = this.organName
@@ -42,6 +43,13 @@ export default {
     }
   },
   methods: {
+    getPositions: function () {
+      var that = this
+      this.$axios.all([ this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/dataDictionaryManager/findDatasByParentKey?parentKey=position') ])
+        .then(this.$axios.spread(function (p) {
+          that.positions = p.data
+        }))
+    },
     userCodeValidation: function (d) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/userValidation', { params: { dataCode: d.dataCode, key: d.key } }).then(res => {
         if (res.data.resultType === 'error') {
@@ -59,6 +67,7 @@ export default {
   },
   data () {
     return {
+      positions: [],
       inputShow: false,
       form: {
         name: '',
@@ -93,8 +102,7 @@ export default {
           { required: true, message: '请选择性别', trigger: 'blur' }
         ],
         position: [
-          { required: true, message: '请输入职务', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+          { required: true, message: '请输入职务', trigger: 'blur' }
         ],
         department: [
           { required: true, message: '请选择部门', trigger: 'blur' },

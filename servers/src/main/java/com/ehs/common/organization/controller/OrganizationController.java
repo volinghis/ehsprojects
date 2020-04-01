@@ -221,7 +221,9 @@ public class OrganizationController {
 		if (count > 0) {
 			return JsonUtils.toJsonString(resultBean.error("此部门下有子部门，不可删除！"));
 		}
-		List<OrgUser> users = orgUserDao.findUserByOrgKey(key);
+//		List<OrgUser> users = orgUserDao.findUserByOrgKey(key);
+		List<OrgUser> users = orgUserDao.findOrgUserByOrgKeyAndDeleted(key,false);
+		
 		if(users.size() > 0) {
 			return JsonUtils.toJsonString(resultBean.error("此部门下有人员，不可删除！"));
 		}
@@ -316,7 +318,6 @@ public class OrganizationController {
 			}
 			trees.sort((a, b) -> {
 		    	int c=Integer.parseInt(StringUtils.defaultIfBlank(a.getSort(), "0")) - Integer.parseInt(StringUtils.defaultIfBlank(b.getSort(), "0"));
-		    	System.out.println("c======"+c);
 		    	if(c == 0) {
 		    		return ((Long)(Long.parseLong(a.getSort()) - Long.parseLong(b.getSort()))).intValue();
 		    	}
@@ -324,6 +325,19 @@ public class OrganizationController {
 		    });
 		}
 		return (trees==null?"[]":JsonUtils.toJsonString(trees));
+	}
+	
+	@RequestAuth(menuKeys = {"orgManager"})
+	@RequestMapping(value = "/auth/orgManager/findUsersByOrgKey")
+	public String findUsersByOrgKey(@RequestParam("orgKey") String key,HttpServletRequest request) {
+		ResultBean resultBean=new ResultBean();
+		OrganizationInfo org = baseCommonService.findByKey(OrganizationInfo.class, key);
+//		List<OrgUser> orgUsers = orgUserDao.findUserByOrgKey(org.getKey());
+		List<OrgUser> orgUsers = orgUserDao.findOrgUserByOrgKeyAndDeleted(org.getKey(),false);
+		if(orgUsers.size() > 0) {
+			return JsonUtils.toJsonString(resultBean.error("此部门下有人员，不可继续添加子部门！"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("可以添加！"));
 	}
 	
 }

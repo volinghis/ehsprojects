@@ -124,9 +124,19 @@ export default {
           type: 'warning'
         })
       } else {
-        this.dialogTableVisible = true
-        this.formLabelAlign = {}
-        this.formLabelAlign.parentKey = node
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgManager/findUsersByOrgKey', { params: { orgKey: node } }).then(res => {
+          if (res.data.resultType === 'error') {
+            this.$message({
+              message: res.data.message,
+              type: 'warning'
+            })
+            this.dialogTableVisible = false
+          } else {
+            this.dialogTableVisible = true
+            this.formLabelAlign = {}
+            this.formLabelAlign.parentKey = node
+          }
+        })
       }
     },
     handleAuthToOrg: function (row) {

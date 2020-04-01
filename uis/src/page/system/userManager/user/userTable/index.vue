@@ -16,7 +16,7 @@
       <el-table-column type="index" align="center" width="45"> </el-table-column>
       <el-table-column prop="dataCode" label="工号" align="center" > </el-table-column>
       <el-table-column prop="name" label="姓名" align="center"> </el-table-column>
-      <el-table-column prop="position" label="职务" align="center"> </el-table-column>
+      <el-table-column prop="positionName" label="职务" align="center"> </el-table-column>
       <el-table-column prop="gender" label="性别" align="center" width="80">
         <template slot-scope="scope">
           <el-tag size="small" v-if="scope.row.gender ==='男'">{{ scope.row.gender }}</el-tag>

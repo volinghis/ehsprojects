@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -24,6 +25,7 @@ import com.ehs.common.auth.service.RoleService;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.organization.bean.OrgUserBean;
@@ -91,39 +93,36 @@ public class OrgUserServiceImpl implements OrgUserService{
 	 */
 	
 	@Override
-	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean userQueryBean) {
-		PageRequest pageRequest =PageRequest.of(userQueryBean.getPage()-1, userQueryBean.getSize());
-		if (StringUtils.isNotBlank(orgKey) && StringUtils.isNotBlank(userQueryBean.getQuery())) {
-			List<OrgUser> users = getOrgUsers(orgKey);
-			List<OrgUser> orgUsers = users.stream().filter(s -> StringUtils.contains(s.getName(), userQueryBean.getQuery()) || 
-					StringUtils.contains(s.getDataCode(), userQueryBean.getQuery())).collect(Collectors.toList());
-			if (orgUsers!=null) {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(orgUsers);
-				pb.setTotalCount(orgUsers.size()); 
-				return pb;
+	public PageInfoBean findUserByOrgKey(String orgKey,UserQueryBean queryBean) {
+		try {
+			Pageable pb = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize(),queryBean.getSortForJpaQuery());
+			ArrayList<String> list = new ArrayList();
+			List<OrganizationInfo> orgList = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
+			if (orgList.size() > 0) {
+				List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
+				filterItems(templist, orgList,orgKey);
+				for (OrganizationInfo organizationInfo : templist) {
+					list.add(organizationInfo.getKey());
+				}
 			}
-			return null;
-		}else if (StringUtils.isNotBlank(orgKey)) {
-			List list = getOrgUsers(orgKey);
-			if (list!=null) {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(list);
-				pb.setTotalCount(list.size()); 
-				return pb;
+			Page<OrgUser> users = null;
+			if(list.size() > 0) {
+				String[] orgs = new String[list.size()];
+				users =orgUserDao.findByUser(queryBean.getQuery(),list.toArray(orgs),pb);
+			}else {
+				users =orgUserDao.findByUser(queryBean.getQuery(),orgKey,pb);
 			}
-			return null;
+			if(users != null) {
+				PageInfoBean pBean = new PageInfoBean();
+				pBean.setDataList(users.getContent());
+				pBean.setTotalCount(users.getTotalElements());
+				return pBean;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else {
-			List<OrgUser> users = (List<OrgUser>) baseCommonService.findAll(OrgUser.class);
-			if (users != null) {
-				PageInfoBean pb=new PageInfoBean();
-				pb.setDataList(users);
-				pb.setTotalCount(users.size()); 
-				return pb;
-			}
-			return null;
-		}
+		return null;
+		
 	}
 	
 	private void filterItems(List<OrganizationInfo> list,List<OrganizationInfo> dataList,String parentKey) {
@@ -133,31 +132,6 @@ public class OrgUserServiceImpl implements OrgUserService{
 		});
 	}
 	
-	public List<OrgUser> getOrgUsers(String orgKey){
-		List list = new ArrayList();
-//		List<OrganizationInfo> orgList = orgDao.findIdByChildren(orgKey);
-		List<OrganizationInfo> orgList = (List<OrganizationInfo>) baseCommonService.findAll(OrganizationInfo.class);
-		if (orgList.size() > 0) {
-			List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
-			filterItems(templist, orgList,orgKey);
-			if (templist.size() == 0) {
-				List<OrgUser> users = orgUserDao.findUserByOrgKey(orgKey);
-				for (OrgUser orgUser : users) {
-					list.add(orgUser);
-				}
-			}else {
-				for (OrganizationInfo organizationInfo : templist) {
-					List<OrgUser> users = orgUserDao.findUserByOrgKey(organizationInfo.getKey());
-					if (users!=null) {
-						for (OrgUser user : users) {
-							list.add(user);
-						}
-					}
-				}
-			}
-		}
-		return list;
-	}
 	/**
 	 * 
 	* @see com.ehs.common.organization.service.OrgUserService#saveUser(com.ehs.common.organization.entity.OrgUser)  
@@ -180,6 +154,8 @@ public class OrgUserServiceImpl implements OrgUserService{
 	@Override
 	@Transactional
 	public OrgUser saveUser(OrgUser orgUser) {
+		DataDictionary data = baseCommonService.findByKey(DataDictionary.class, orgUser.getPosition());
+		orgUser.setPositionName(data.getText()); 
 		if (StringUtils.isBlank(orgUser.getSysUserKey())) {
 			String dataCode = orgUser.getDataCode();
 			String salt = BaseUtils.getSalt();
