@@ -24,6 +24,11 @@ public class LocalUser {
 	 * 组织编号
 	 */
 	private String orgDataCode;
+	
+	/**
+	 * 职务
+	 */
+	private String positionName;
 
 	public LocalUser initBySysUser(String sysUserKey) {
 		SysUser su = (SysUser) SpringUtils.getBean(BaseCommonService.class).findByKey(SysUser.class, sysUserKey);
@@ -38,6 +43,7 @@ public class LocalUser {
 			this.setUsername(uu.getName());
 			this.setDataCode(uu.getDataCode());
 			this.setAvatar(uu.getAvatar());
+			this.setPositionName(uu.getPositionName());
 			if (StringUtils.isNotBlank(uu.getOrgKey())) {
 				OrganizationInfo oi = (OrganizationInfo) SpringUtils.getBean(BaseCommonService.class)
 						.findByKey(OrganizationInfo.class, uu.getOrgKey());
@@ -133,6 +139,14 @@ public class LocalUser {
 	 */
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
 	}
 
 }
