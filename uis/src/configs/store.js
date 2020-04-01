@@ -9,8 +9,7 @@ export default new Vuex.Store({
     contentHeight: 0,
     menuDatas: [],
     selectedTabs: [],
-    resourceMenuKey: '',
-    showFlowEl: true
+    resourceMenuKey: 'ALL'
   },
   mutations: {
 
