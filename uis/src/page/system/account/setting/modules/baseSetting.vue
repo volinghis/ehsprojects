@@ -18,8 +18,8 @@
             <el-input v-model="form.name" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="职 务："
-                        prop="position">
-            <el-input v-model="form.position" :disabled="true"></el-input>
+                        prop="positionName">
+            <el-input v-model="form.positionName" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="部 门："
                         prop="orgName">
