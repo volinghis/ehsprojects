@@ -102,6 +102,7 @@ public class OrgUserServiceImpl implements OrgUserService{
 				List<OrganizationInfo> templist=new ArrayList<OrganizationInfo>();
 				filterItems(templist, orgList,orgKey);
 				for (OrganizationInfo organizationInfo : templist) {
+					list.add(orgKey);
 					list.add(organizationInfo.getKey());
 				}
 			}

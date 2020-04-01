@@ -18,7 +18,6 @@ export default {
       userTableData: [],
       organizationKey: '',
       organizationName: '',
-      organizationChildren: false,
       defaultExpandKeys: [],
       searchParam: {},
       filterText: '',
@@ -75,11 +74,6 @@ export default {
     handleNodeClick: function (data) {
       this.organizationKey = data.id
       this.organizationName = data.name
-      if (data.leaf === false) {
-        this.organizationChildren = data.leaf
-      } else {
-        this.organizationChildren = true
-      }
       this.findUserByOrgKey(data.id, this.searchParam)
       this.nodeParentKey = data.id
     },
