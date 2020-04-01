@@ -2,7 +2,7 @@ export default {
 
   methods: {
     tableHeight: function () {
-      return document.body.offsetHeight / 3 - 30
+      return document.body.offsetHeight / 3 - 10
     },
     flushData () {
       var self = this

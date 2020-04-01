@@ -9,8 +9,8 @@
                         align="center"
                         >
                          <template slot-scope="scope">
-          <el-image :src="findUrl(scope.$index+1)" style="width:15px;height:15px"
-                    fit="fill"  :size="GlobalCss.buttonSize"></el-image>
+          <el-image :src="findUrl(scope.$index+1)" style="width:35px;height:35px"
+                    fit="fill"  size="large"></el-image>
       </template>
       </el-table-column>
 

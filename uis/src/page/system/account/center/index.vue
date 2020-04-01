@@ -1,78 +1,110 @@
 <template>
 
-  <div >
-            <el-row >
-          <el-col :span="8">
-             <div class="block-title"
-                 style="background:#f2bb5e;">
-              <label>我的战绩</label>
-            </div>
-            <Rates></Rates>
-          </el-col>
-          <el-col :span="8" class="paddingStyle" >
-            <div class="block-title"
+  <div class="panel">
+    <el-row  :gutter="10" >
+      <el-col :span="8" >
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>我的绩效</span>
+          </div>
+          <Rates></Rates>
+        </el-card>
+      </el-col>
+      <el-col :span="8"  class="paddingStyle">
+        <!-- <div class="block-title"
                  style="background: #66b1ff;">
               <label>上月榜单（仅展示前10名）</label>
-            </div>
-            <Ranks></Ranks>
-          </el-col>
-           <el-col :span="8" class="paddingStyle" >
-            <div class="block-title"
+            </div> -->
+        <el-card>
+          <div slot="header"  class="clearfix">
+            <span>上月榜单（仅展示前10名）</span>
+          </div>
+          <Ranks></Ranks>
+        </el-card>
+      </el-col>
+      <el-col :span="8" class="paddingStyle">
+        <!-- <div class="block-title"
                  style="background: #67C23A;">
               <label>设备资料完整度</label>
-            </div>
-
-            <Devices></Devices>
-          </el-col>
-        </el-row>
-        <el-row >
-          <el-col :span="12">
-            <div class="block-title"
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>设备资料完整度</span>
+          </div>
+          <Devices></Devices>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :span="12">
+        <!-- <div class="block-title"
                  style="background: #40c9c6;">
               <label>我的待办</label>
 
-            </div>
-            <Approves></Approves>
-          </el-col>
-          <el-col :span="8" class="paddingStyle" >
-            <div class="block-title"
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>我的待办</span>
+          </div>
+          <Approves></Approves>
+        </el-card>
+      </el-col>
+      <el-col :span="8" class="paddingStyle">
+        <!-- <div class="block-title"
                  style="background: #f4516c;">
               <label>任务统计</label>
 
-            </div>
-
-            <Tasks></Tasks>
-          </el-col>
-                    <el-col :span="4" class="paddingStyle" >
-            <div class="block-title"
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>任务统计</span>
+          </div>
+          <Tasks></Tasks>
+        </el-card>
+      </el-col>
+      <el-col :span="4" class="paddingStyle">
+        <!-- <div class="block-title"
                  style="background: #f4516c;">
               <label>消息提醒</label>
 
-            </div>
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>消息提醒</span>
+          </div>
+          <Notices></Notices>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
 
-            <Notices></Notices>
-          </el-col>
-        </el-row>
-        <el-row >
-
-          <el-col :span="12">
-            <div class="block-title"
+      <el-col :span="12">
+        <!-- <div class="block-title"
                  style="background: #5d75f2;">
               <label>缺陷统计-按专业</label>
 
-            </div>
-
-            <Professiona/>
-          </el-col>
-          <el-col :span="12" class="paddingStyle" >
-            <div class="block-title"
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>缺陷统计-按专业</span>
+          </div>
+          <Professiona />
+        </el-card>
+      </el-col>
+      <el-col :span="12" class="paddingStyle">
+        <!-- <div class="block-title"
                  style="background:#36a3f7;">
               <label>缺陷统计-按系统</label>
 
-            </div>
-            <Systems />
-          </el-col>
-        </el-row>
+            </div> -->
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>缺陷统计-按系统</span>
+          </div>
+          <Systems />
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -105,6 +137,7 @@ datas.components = {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/mixin.scss";
-@import "./styles.scss";
+  @import "@/styles/mixin.scss";
+  @import "./styles.scss";
+
 </style>
