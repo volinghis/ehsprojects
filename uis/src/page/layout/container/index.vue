@@ -6,7 +6,7 @@
         <el-aside :style="{height:(this.$store.state.contentHeight)+parseInt(GlobalCss.tabHeight)+'px'}">
           <siders></siders>
         </el-aside>
-         <el-container >
+         <el-container>
            <el-header class="tabHeader">
             <tabs></tabs>
            </el-header>

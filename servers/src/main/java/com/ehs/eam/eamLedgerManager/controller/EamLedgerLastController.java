@@ -103,11 +103,10 @@ public class EamLedgerLastController {
 	* 2020年1月17日     qjj        v1.0.0            修改原因
 	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/getListNotPage")
-	public String getEamLedgerListNotPage( HttpServletRequest request) {
-		List<EamLedgerLast>  eamLedgers= (List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);
-		List<EamLedgerLast> resultList=eamLedgers.stream().sorted(Comparator.comparingInt(EamLedgerLast::getCompletePoint)).limit(10).collect(Collectors.toList());
-		return resultList == null ? "[]" : JsonUtils.toJsonString(resultList);
+	@RequestMapping(value = "/getEamLedgerListNeverQuery")
+	public String getEamLedgerListNeverQuery( HttpServletRequest request) {
+		PageInfoBean pb=eamLedgerLastService.findEamLedgerListNeverQuery();
+		return pb == null ? "[]" : JsonUtils.toJsonString(pb);
 	}
 	
 	/**

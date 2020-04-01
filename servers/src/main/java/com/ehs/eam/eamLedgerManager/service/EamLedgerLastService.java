@@ -65,5 +65,21 @@ public interface EamLedgerLastService {
 	*/
 	public EamLedgerLast findEamLedgerByProcessKey(String key);
 
+	/**   
+	* @Function:findEamLedgerListNeverQuery 
+	* @Description: 该函数的功能描述
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年3月31日 下午2:11:01 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年3月31日     qjj        v1.0.0            修改原因
+	*/
+	public PageInfoBean findEamLedgerListNeverQuery();
+
 
 }

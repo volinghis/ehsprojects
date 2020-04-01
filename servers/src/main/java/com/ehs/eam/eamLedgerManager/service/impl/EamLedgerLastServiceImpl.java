@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -141,6 +142,22 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	@Override
 	public EamLedgerLast findEamLedgerByProcessKey(String key) {
 		return eamLastDao.findEamLedgerLastByRefKey(key);
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findEamLedgerListNeverQuery()  
+	*/
+	@Override
+	public PageInfoBean findEamLedgerListNeverQuery() {
+		PageRequest pr = PageRequest.of(0,10,Direction.ASC,"completePoint");
+		Page<EamLedgerLast> eamLedgers = eamLastDao.findAll(pr);
+		if (eamLedgers != null) {
+			PageInfoBean pb = new PageInfoBean();
+			pb.setDataList(eamLedgers.getContent());
+			pb.setTotalCount(eamLedgers.getTotalElements());
+			return pb;
+		}
+		return null;
 	}
 
 }
