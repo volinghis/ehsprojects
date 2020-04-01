@@ -3,7 +3,6 @@ import userAuth from '../../userAuth/index.vue'
 export default {
   data () {
     return {
-      // authorizeButton: false,
       multipleSelection: [],
       nodeId: '',
       drawer: false,
@@ -39,15 +38,10 @@ export default {
   props: {
     organizationKey: String,
     organizationName: String,
-    organizationChildren: Boolean,
     totals: Number,
     userDatas: Array
-    // currentUserKey: String
   },
   watch: {
-    // currentUserKey: function (val) {
-    //   this.initRoleTable(val)
-    // },
     userDatas: {
       handler (val) {
         if (val) {
@@ -62,25 +56,11 @@ export default {
     organizationName: function (newValue, oldValue) {
       this.organizationName = newValue
     },
-    organizationChildren: function (newValue, oldValue) {
-      this.organizationChildren = newValue
-    },
     totals: function (newValue, oldValue) {
       this.totalCount = newValue
     }
   },
   methods: {
-    // filterByName: function (aim, dataCode) {
-    //   return aim.filter(item => item.dataCode === dataCode)
-    // },
-    // initRoleTable (val) { // 获取所有待选角色
-    //   this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findUserRoles', { params: { userKey: val } }).then(res => {
-    //     let role = this.filterByName(res.data, 'sysAdmin')
-    //     if (role.length) {
-    //       this.authorizeButton = true
-    //     }
-    //   })
-    // },
     saveTransfer: function () {
       const orguser = {
         orgKey: this.nodeId,
@@ -147,14 +127,9 @@ export default {
     addUser: function () {
       this.userFlag = 'add'
       this.buttonShow = true
-      if (this.organizationName === '') {
+      if (this.organizationName === '' || this.organizationKey === 'rootOrg') {
         this.$message({
           message: '请选择部门',
-          type: 'warning'
-        })
-      } else if (this.organizationChildren === false) {
-        this.$message({
-          message: '请选择具体部门',
           type: 'warning'
         })
       } else {

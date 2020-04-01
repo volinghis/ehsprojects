@@ -14,7 +14,7 @@
       <el-col :span="18" :push="1">
         <userTable @getUserBySearch="getUserBySearch" @findUserByOrgKey="findUserByOrgKey"
           :organizationKey="organizationKey" :organizationName="organizationName"
-          :organizationChildren="organizationChildren" :totals="totalCount" :userDatas="userTableData">
+          :totals="totalCount" :userDatas="userTableData">
         </userTable>
       </el-col>
     </el-row>

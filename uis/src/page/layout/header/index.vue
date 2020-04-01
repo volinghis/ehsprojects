@@ -16,7 +16,7 @@
         <span style="margin-right:15px;">欢迎您，{{sessionUser.username}}({{sessionUser.account}})</span>
         <span style="margin-right:15px;">部门:{{sessionUser.orgName}}</span>
         <span style="margin-right:25px;">职务:{{sessionUser.positionName}}</span>
-        <span @click="logout()" title="安全退出"><i class='fa fa-sign-out logout'> 退出登录</i></span>
+        <span style="cursor: pointer;" @click="logout()" title="安全退出"><i class='fa fa-sign-out logout'> 退出登录</i></span>
       </div>
     </div>
   </div>
