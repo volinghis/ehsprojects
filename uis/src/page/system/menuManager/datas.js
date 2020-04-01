@@ -22,9 +22,20 @@ export default {
   methods: {
     initTree () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/menu/menuDatas', { params: { menuAuth: true } }).then(res => {
-        this.treeData = res.data.filter(d => !d.business && d.key !== 'home')
-      }).catch(() => {
-
+        var resData = res.data
+        const filterMenu = (resData) => {
+          return resData.filter(item => {
+            return item.business === false
+          }).map(item => {
+            item = Object.assign({}, item)
+            if (item.children) {
+              item.children = filterMenu(item.children)
+            }
+            return item
+          })
+        }
+        const menu = filterMenu(resData)
+        this.treeData = menu
       })
     },
     handleNodeClick (data) {
