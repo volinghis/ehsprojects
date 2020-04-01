@@ -1,12 +1,9 @@
 package com.ehs.eam.eamLedgerManager.controller;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +37,7 @@ public class EamLedgerLastController {
 	 * @param request
 	 * @return
 	 */
-	@RequestAuth(menuKeys = { "eamLedgerLast" })
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getLastList")
 	public String getEamLedgerLastList(@RequestBody EamLedgerQueryBean querybean, HttpServletRequest request) {
 		PageInfoBean pageBean = eamLedgerLastService.findEamLedgerLastList(querybean);
@@ -48,7 +45,7 @@ public class EamLedgerLastController {
 	}
 	
 	
-	@RequestAuth(menuKeys = {"eamLedgerLast"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getLastSuggestions")
 	public String getLastSuggestions() {
 		List<EamLedgerLast> eamLedgers=	(List<EamLedgerLast>) baseCommonService.findAll(EamLedgerLast.class);
@@ -79,7 +76,7 @@ public class EamLedgerLastController {
 	 *  ---------------------------------------------------------* 2020年1月7日
 	 *  qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedgerLast" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getLeftEamLedgerList")
 	public String getLeftEamLedgerList(@RequestBody EamLedgerQueryBean querybean, HttpServletRequest request) {
 		PageInfoBean pageBean = eamLedgerLastService.findLeftEamLedgerList(querybean);
@@ -148,7 +145,7 @@ public class EamLedgerLastController {
 	 * ---------------------------------------------------------* 2020年1月7日
 	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedgerLast" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getChildDevByKey")
 	public String getChildDevByKey(@RequestParam String key, HttpServletRequest request) {
 		List<EamLedgerLast> eamLedgers = eamLedgerLastService.getChildDevByKey(key);
@@ -173,7 +170,7 @@ public class EamLedgerLastController {
 	*---------------------------------------------------------*
 	* 2020年3月24日     qjj        v1.0.0            修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByEntityKey")
 	public String getEamLedgerByEntityKey(@RequestParam String key, HttpServletRequest request) {
 		EamLedgerLast eamLedger = eamLedgerLastService.findEamLedgerByProcessKey(key);

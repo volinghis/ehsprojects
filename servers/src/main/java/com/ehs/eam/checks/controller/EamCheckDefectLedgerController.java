@@ -9,15 +9,12 @@
 package com.ehs.eam.checks.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hpsf.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -114,10 +111,9 @@ public class EamCheckDefectLedgerController {
 	}
 
 	
-	@RequestAuth(menuKeys = {"defectLedger"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAnalysisByType")
 	public String getAnalysisByType(@RequestParam String type,@RequestParam boolean onlyMajor, @RequestParam boolean onlyStatusError) {
-		System.out.println("==========================:"+type+"\n"+onlyMajor+"\n"+onlyStatusError);
 		List<CheckDefectAnalysisBean> analysisBeans=defectLedgerService.analysisByType(type, onlyMajor, onlyStatusError);
 		return JsonUtils.toJsonString(analysisBeans);
 	}

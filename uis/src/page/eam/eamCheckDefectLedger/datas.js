@@ -3,8 +3,7 @@ export default {
     return {
       tableData: [],
       total: 0,
-      systemTree: [],
-      professionTree: [],
+      treeData: [],
       analysisData: [],
       defaultProps: {
         children: 'children',
@@ -50,8 +49,8 @@ export default {
       this.queryBean.address = 'ALL'
       this.queryBean.objectType = tab.name
       this.queryBean.objectKey = 'ALL'
-      this.getAnalysis(tab.name)
       this.inintTree(tab.name)
+      this.getAnalysis(tab.name)
       this.initTable()
     },
     handleExpand (data, node) {
@@ -59,19 +58,6 @@ export default {
         this.queryBean.address = data.id
         this.queryBean.objectKey = 'ALL'
         this.initTable()
-        this.getAnalysis(this.queryBean.objectType)
-        data.children.forEach(e => {
-          if (this.analysisData.length > 0) {
-            this.analysisData.forEach(a => {
-              if (e.id === a.objectKey && a.count > 0 && a.addressKey === data.id) {
-                e.defect = 'MAJOR'
-              }
-              if (e.id === a.objectKey && a.count === 0 && a.addressKey === data.id) {
-                e.defect = 'NONE'
-              }
-            })
-          }
-        })
       }
     },
     handleNodeClick (v) {
@@ -95,12 +81,41 @@ export default {
     inintTree (v) {
       if (v === 'BY_PROFESSIONA') {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
-          this.professionTree = res.data
+          this.initCallBack(res.data)
         })
       } else {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
-          this.systemTree = res.data
+          this.initCallBack(res.data)
         })
+      }
+    },
+    initCallBack (val) {
+      if (val.length > 0) {
+        val.forEach((s, index) => { // 位置
+          var temp = []
+          var len = s.children.length
+          s.children.forEach(e => { // 系统
+            if (this.analysisData.length > 0) {
+              this.analysisData.forEach(a => {
+                if (e.id === a.objectKey && a.count > 0 && a.addressKey === s.id) {
+                  e.defect = 'MAJOR'
+                  temp.push('MAJOR')
+                }
+                if (e.id === a.objectKey && a.count === 0 && a.addressKey === s.id) {
+                  e.defect = 'NONE'
+                  s.defect = 'NONE'
+                  temp.push('NONE')
+                }
+              })
+            }
+          })
+          if (temp.indexOf('MAJOR') === 0) {
+            s.defect = 'MAJOR'
+          } else if (temp.length < len) {
+            s.defect = 'NORMAL'
+          }
+        })
+        this.treeData = val
       }
     },
     changePage (v) {

@@ -8,11 +8,7 @@
  */
 package com.ehs.eam.eamLedgerManager.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -76,7 +73,7 @@ public class EamLedgerController {
 	 * ---------------------------------------------------------* 2019年12月31日
 	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getList")
 	public String getEamLedgerList(@RequestBody EamLedgerQueryBean querybean, HttpServletRequest request) {
 		PageInfoBean pageBean = eamLedgerService.findEamLedgerList(querybean);
@@ -132,7 +129,7 @@ public class EamLedgerController {
 	 * ---------------------------------------------------------* 2020年1月6日
 	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamParamsByKey")
 	public String getEamParamsByKey(HttpServletRequest request, @RequestParam String key) {
 		List<EamParameters> eamParameters = eamLedgerService.getEamParametersByKey(key);
@@ -185,7 +182,7 @@ public class EamLedgerController {
 	 * ---------------------------------------------------------* 2020年1月6日
 	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getInspectorsByKey")
 	public String getInspectorsByKey(HttpServletRequest request, @RequestParam String key) {
 		List<EamInspectors> eamInspectors = eamLedgerService.getInspectorsByKey(key);
@@ -317,7 +314,7 @@ public class EamLedgerController {
 	}
 
 	
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByKey")
 	public String getEamLedgerByKey(@RequestParam String key) {
 		EamLedger eamLedger=baseCommonService.findByKey(EamLedger.class, key);
@@ -341,24 +338,11 @@ public class EamLedgerController {
 	*---------------------------------------------------------*
 	* 2020年3月10日     qjj        v1.0.0            修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamLedger" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgersNotInFlow")
 	public String getEamLedgersNotInFlow(@RequestBody EamLedgerQueryBean querybean) {
 		PageInfoBean pageBean = eamLedgerService.findEamLedgersNotInFlow(querybean);
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
 	
-	@RequestAuth(menuKeys = {"eamLedger"})
-	@RequestMapping(value = "/getSuggestions")
-	public String getSuggestions() {
-		List<EamLedger> eamLedgers=	(List<EamLedger>) baseCommonService.findAll(EamLedger.class);
-		List<Object> resList=new  ArrayList<Object>();
-		for (EamLedger el : eamLedgers) {
-			Map<String, String> innerMap=new HashMap<String, String>();
-			innerMap.put("value", el.getDeviceName());
-			innerMap.put("key",el.getKey());
-			resList.add(innerMap);
-		}
-		return JsonUtils.toJsonString(resList);
-	}
 }

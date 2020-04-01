@@ -19,9 +19,9 @@
                @nextStep="nextStep"
                @prevStep="prevStep"
                :businessKey=businessKey />
+        <step3 v-if="active === 3"
+               @prevStep="prevStep" />
       </keep-alive>
-      <step3 v-if="active === 3"
-             @prevStep="prevStep" />
 
     </div>
   </div>
@@ -78,6 +78,13 @@ export default {
       }
     },
     handerSubmit (process) {
+      if (this.reqBean.eamLedgerDatas.length === 0) {
+        this.$message({
+          message: '请点击下一步选择设备',
+          type: 'warning'
+        })
+        return
+      }
       this.reqBean.flowProcessInfo = process
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamAllocate/addEamAllocate', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {

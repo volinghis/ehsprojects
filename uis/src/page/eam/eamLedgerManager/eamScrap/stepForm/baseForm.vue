@@ -14,12 +14,12 @@
         <step1 v-if="active === 1"
                @nextStep="nextStep"
                @handleCancel="handleCancel" :businessKey=businessKey />
-      </keep-alive>
         <step2 v-if="active === 2"
                @nextStep="nextStep"
                @prevStep="prevStep" :businessKey=businessKey />
       <step3 v-if="active === 3"
              @prevStep="prevStep" />
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -75,6 +75,13 @@ export default {
     handerSubmit (process) {
       // 提交数据 准备开始流程
       this.reqBean.flowProcessInfo = process
+      if (this.reqBean.scrapDatas.length === 0) {
+        this.$message({
+          message: '请点击下一步选择设备',
+          type: 'warning'
+        })
+        return
+      }
       var current = this
       current.$axios.post(current.GlobalVars.globalServiceServlet + '/eam/eamScrap/addEamScrap', this.reqBean).then(res => {
         if (res.data.resultType === 'ok') {

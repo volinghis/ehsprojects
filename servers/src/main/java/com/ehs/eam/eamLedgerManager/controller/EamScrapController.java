@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -38,9 +39,9 @@ import com.ehs.eam.eamLedgerManager.service.EamScrapService;
  * @author: qjj
  * @date: 2020年1月8日 下午6:57:35
  *
- *        Modification History: Date Author Version Description
- *        ---------------------------------------------------------* 2020年1月8日
- *        qjj v1.0.0 修改原因
+ * Modification History: Date Author Version Description
+ * ---------------------------------------------------------* 2020年1月8日
+ * qjj v1.0.0 修改原因
  */
 @RestController
 @RequestMapping("/eam/eamScrap")
@@ -63,11 +64,11 @@ public class EamScrapController {
 	 * @author: qjj
 	 * @date: 2020年1月10日 下午3:15:42
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月10日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月10日
+	 * qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getScrapEamList")
 	public String getEamScrapList(@RequestBody EamScrapQueryBean scrapQueryBean) {
 		PageInfoBean pageBean = eamScrapService.findEamScrapList(scrapQueryBean);
@@ -85,9 +86,9 @@ public class EamScrapController {
 	 * @author: qjj
 	 * @date: 2020年1月9日 上午10:51:36
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月9日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月9日
+	 * qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/addEamScrap")
@@ -113,9 +114,9 @@ public class EamScrapController {
 	 * @author: qjj
 	 * @date: 2020年1月10日 下午3:17:50
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月10日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月10日
+	 * qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamScrap" })
 	@RequestMapping(value = "/deleteEamScrap")
@@ -140,18 +141,18 @@ public class EamScrapController {
 	 * @author: qjj
 	 * @date: 2020年1月14日 下午8:06:34
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月14日
-	 *        qjj v1.0.0 修改原因
+	 *  Modification History: Date Author Version Description
+	 *  ---------------------------------------------------------* 2020年1月14日
+	 *  qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getScrapFlowBean")
 	public String getScrapFlowBean(@RequestParam String key) {
 		EamFlowBean eamScrapFlowBean = eamScrapService.findScrapFlowBean(key);
 		return eamScrapFlowBean != null ? JsonUtils.toJsonString(eamScrapFlowBean) : "{}";
 	}
 
-	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByScrapKey")
 	public String getEamLedgerByScrapKey(@RequestParam String key) {
 		EamScrap eamScrap =baseCommonService.findByKey(EamScrap.class, key);
@@ -182,7 +183,6 @@ public class EamScrapController {
 	@RequestMapping(value = "/updateAfterFlow")
 	public String updateAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
 		ResultBean resultBean = new ResultBean();
-		System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 		try {
 			eamScrapService.updateRelatedAfterFlow(flowProcessInfo);
 		} catch (Exception e) {
@@ -192,7 +192,7 @@ public class EamScrapController {
 		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
 	}
 
-	@RequestAuth(menuKeys = { "eamScrap" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getScrapByKey")
 	public String getScrapByKey(@RequestParam String key) {
 		EamScrap eamScrap = baseCommonService.findByKey(EamScrap.class, key);

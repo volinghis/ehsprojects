@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
@@ -70,7 +71,7 @@ public class EamAllocateController {
 	 *        ---------------------------------------------------------* 2020年1月10日
 	 *        qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamAllocate" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getAllocateEamList")
 	public String getEamAllocateList(@RequestBody EamAllocateQueryBean allocateQueryBean) {
 		PageInfoBean pageBean = eamAllocateService.findEamAllocateList(allocateQueryBean);
@@ -148,7 +149,7 @@ public class EamAllocateController {
 	 *        ---------------------------------------------------------* 2020年1月14日
 	 *        qjj v1.0.0 修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamAllocate" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getAllocateFlowBean")
 	public String getAllocateFlowBean(@RequestParam String key) {
 		EamFlowBean eamFlowBean = eamAllocateService.findAllocateFlowBean(key);
@@ -171,7 +172,7 @@ public class EamAllocateController {
 	*---------------------------------------------------------*
 	* 2020年3月10日     qjj        v1.0.0            修改原因
 	 */
-	@RequestAuth(menuKeys = { "eamAllocate" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByAllocateKey")
 	public String getEamLedgerByAllocateKey(@RequestParam String key) {
 		Map<String,Object> resMap=new HashMap<String, Object>();
@@ -211,7 +212,7 @@ public class EamAllocateController {
 		return JsonUtils.toJsonString(resultBean.ok("数据更新成功"));
 	}
 
-	@RequestAuth(menuKeys = { "eamAllocate" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getAllocateByKey")
 	public String getAllocateByKey(@RequestParam String key) {
 		EamAllocate eamAllocate = baseCommonService.findByKey(EamAllocate.class, key);

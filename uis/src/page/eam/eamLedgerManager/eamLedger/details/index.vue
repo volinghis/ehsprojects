@@ -3,15 +3,15 @@
     <el-row :gutter="10">
       <el-col :span="7">
         <el-card>
-          <div class="item-block" style="text-align:center;">
+          <div class="item-block"
+               style="text-align:center;">
             <div class="item-title">设备详情</div>
             <el-image style="width: 150px; height: 150px"
                       :src="imgUrl"
                       fit="fill"></el-image>
-          </div>
-          <div class="ehs_form_item_message">
-            <el-row style="width:60%;margin-left:32%;">
-              <el-form label-suffix="：" label-width="100">
+            <div class="ehs_form_item_message">
+              <el-form label-suffix="："
+                       label-width="100">
                 <el-form-item label="设备名称">
                   <span class="info-content">{{ eamInfos.deviceName }}</span>
                 </el-form-item>
@@ -43,42 +43,10 @@
                   <span class="info-content">{{ eamInfos.personName }}</span>
                 </el-form-item>
               </el-form>
-            </el-row>
+            </div>
           </div>
         </el-card>
-      </el-col>
-      <el-col :span="17">
-        <el-row>
-          <el-col :span="24">
-            <el-card>
-              <past-inspectors :deviceKey="deviceKey"
-                               :isDisable="true"></past-inspectors>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row class="offset-row">
-          <el-col :span="24">
-            <el-card>
-              <ChildEamTable :deviceKey="deviceKey"
-                             :isDisable="true"></ChildEamTable>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row class="offset-row">
-          <el-col :span="24">
-            <el-card>
-              <params-table :deviceKey="deviceKey"
-                            :isDisable="true"></params-table>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="10"
-            style="margin-top:10px;">
-      <el-col :span="7">
-        <el-card>
+        <el-card style="margin-top:10px;">
           <div class="item-title">定期工作标准</div>
           <div>
             <el-input type="textarea"
@@ -93,6 +61,18 @@
       </el-col>
       <el-col :span="17">
         <el-card>
+          <past-inspectors :deviceKey="deviceKey"
+                           :isDisable="true"></past-inspectors>
+        </el-card>
+        <el-card class="offset-card">
+          <ChildEamTable :deviceKey="deviceKey"
+                         :isDisable="true"></ChildEamTable>
+        </el-card>
+        <el-card class="offset-card">
+          <params-table :deviceKey="deviceKey"
+                        :isDisable="true"></params-table>
+        </el-card>
+        <el-card class="offset-card">
           <FilesTable :fileId="eamInfos.fileId"
                       :deviceKey="deviceKey"
                       :isDisable="true"></FilesTable>

@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 400
+      return this.$store.state.contentHeight - 450
     }
   },
   methods: {

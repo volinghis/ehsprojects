@@ -8,27 +8,27 @@
                  @tab-click="handleClick">
           <el-tab-pane label="按专业"
                        name="BY_PROFESSIONA">
-            <el-tree :data="professionTree"
+            <el-tree :data="treeData"
                      :props="defaultProps"
                      :expand-on-click-node="false"
                      @node-expand="handleExpand"
                      @node-click="handleNodeClick">
               <span class="custom-tree-node"
                     slot-scope="{ node, data}">
-                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+                <i :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
               </span>
             </el-tree>
           </el-tab-pane>
           <el-tab-pane label="按系统"
                        name="BY_SYSTEM">
-            <el-tree :data="systemTree"
+            <el-tree :data="treeData"
                      :props="defaultProps"
                      :expand-on-click-node="false"
                      @node-expand="handleExpand"
                      @node-click="handleNodeClick">
               <span class="custom-tree-node"
                     slot-scope="{ node, data}">
-                <i v-if="node.isLeaf" :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
+                <i :class="data.defect==='MAJOR'?'major-color':(data.defect==='NONE'?'other-color':'normal-color')"></i><span style="margin-left:5px;">{{ node.label }}</span>
               </span>
             </el-tree>
           </el-tab-pane>
