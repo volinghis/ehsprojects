@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -58,7 +59,7 @@ public class PartsAccountController {
 	*---------------------------------------------------------*
 	* 2020年1月3日     zhaol           v1.0.0               修改原因
 	 */
-	@RequestAuth(menuKeys = {"partsAccount"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getPartsAccountAll")
 	public String getPartsAccountAll(@RequestBody(required = false) PartsAccountQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getPartsAccountAll方法=============");
@@ -68,7 +69,7 @@ public class PartsAccountController {
 	}
 	
 	
-	@RequestAuth(menuKeys = {"partsAccount"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllPartsAccount")
 	public String getAllPartsAccount(@RequestBody(required = false) QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入getAllPartsAccount方法=============");

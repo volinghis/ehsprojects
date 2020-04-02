@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-card>
     <div class="topPanel">
 
       <div class="queryBodys">
@@ -123,6 +124,7 @@
         :page-size="queryBean.size" layout="total, prev, pager, next" :total="queryBean.totalCount">
       </el-pagination>
     </div>
+    </el-card>
   </div>
 </template>
 <script>

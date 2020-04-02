@@ -73,7 +73,7 @@ public class PartsExtendsController {
 		return "[]";
 	}
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllEnterWareHouseParts")
 	public String getAllEnterWareHouseParts(@RequestBody EnterWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入---getAllEnterWareHouseParts方法=============");
@@ -88,7 +88,7 @@ public class PartsExtendsController {
 		return "[]";
 	}
 	
-	@RequestAuth(menuKeys = {"enterWarehouseEdit"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllOutWareHouseParts")
 	public String getAllOutWareHouseParts(@RequestBody OutWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("===========进入---getAllOutWareHouseParts方法=============");

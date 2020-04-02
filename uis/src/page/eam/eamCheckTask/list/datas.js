@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     tableHeight: function () {
-      return this.$store.state.contentHeight - 440// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
+      return this.$store.state.contentHeight - 470// - document.querySelector('.topPanel').offsetHeight - document.querySelector('.bottomPanel').offsetHeight
     }
   },
   mounted () {
