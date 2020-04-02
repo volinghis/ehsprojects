@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row gutter="10" style="margin:0px 8px;">
+    <el-row :gutter="10" style="margin:0px 8px;">
       <el-col :span="4">
         <el-card :style="{height:(this.$store.state.contentHeight-25)+'px'}">
           <el-tabs v-model="activeName"
