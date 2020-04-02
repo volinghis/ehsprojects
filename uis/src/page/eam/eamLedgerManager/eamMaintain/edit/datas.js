@@ -44,14 +44,8 @@ export default {
         deviceName: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
         ],
-        deviceModel: [
-          { required: true, message: '请输入设备型号', trigger: 'blur' }
-        ],
         person: [
           { required: true, message: '请选择责任人', trigger: 'blur' }
-        ],
-        runDate: [
-          { required: true, message: '请选择投运日期', trigger: 'blur' }
         ],
         installLocation: [
           { required: true, message: '请选择设备位置', trigger: 'blur' }
@@ -61,9 +55,6 @@ export default {
         ],
         deviceSystem: [
           { required: true, message: '请选择设备系统', trigger: 'blur' }
-        ],
-        factoryName: [
-          { required: true, message: '请输入生产厂家', trigger: 'blur' }
         ]
       }
     }

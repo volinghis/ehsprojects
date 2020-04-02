@@ -4,7 +4,8 @@ export default {
       tableData: [],
       total: 0,
       treeData: [],
-      analysisData: [],
+      proAnalysisData: [],
+      SysAnalysisData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -17,18 +18,20 @@ export default {
         objectType: 'BY_PROFESSIONA',
         status: 'ALL',
         level: 'ALL'
-      },
-      analysisBean: {
-        type: '',
-        onlyMajor: true,
-        onlyStatusError: false
       }
     }
   },
   mounted () {
-    this.initTable()
-    this.getAnalysis(this.queryBean.objectType)
-    this.inintTree(this.queryBean.objectType)
+    var that = this
+    this.$axios.all([
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: { type: 'deviceProfessiona', onlyMajor: true, onlyStatusError: true } }),
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: { type: 'deviceSystem', onlyMajor: true, onlyStatusError: true } })
+    ]).then(this.$axios.spread(function (deviceProfessiona, deviceSystem) {
+      that.proAnalysisData = deviceProfessiona.data
+      that.SysAnalysisData = deviceSystem.data
+    }))
+    that.initTable()
+    that.inintTree(this.queryBean.objectType)
   },
   computed: {
     tableHeight: function () {
@@ -50,7 +53,6 @@ export default {
       this.queryBean.objectType = tab.name
       this.queryBean.objectKey = 'ALL'
       this.inintTree(tab.name)
-      this.getAnalysis(tab.name)
       this.initTable()
     },
     handleExpand (data, node) {
@@ -68,55 +70,43 @@ export default {
       }
       return false
     },
-    getAnalysis (v) {
-      if (v === 'BY_PROFESSIONA') {
-        this.analysisBean.type = 'deviceProfessiona'
-      } else {
-        this.analysisBean.type = 'deviceSystem'
-      }
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: this.analysisBean }).then(res => {
-        this.analysisData = res.data
-      })
-    },
     inintTree (v) {
       if (v === 'BY_PROFESSIONA') {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
-          this.initCallBack(res.data)
+          this.initCallBack(res.data, this.proAnalysisData)
         })
       } else {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
-          this.initCallBack(res.data)
+          this.initCallBack(res.data, this.SysAnalysisData)
         })
       }
     },
-    initCallBack (val) {
-      if (val.length > 0) {
-        val.forEach((s, index) => { // 位置
-          var temp = []
-          var len = s.children.length
-          s.children.forEach(e => { // 系统
-            if (this.analysisData.length > 0) {
-              this.analysisData.forEach(a => {
-                if (e.id === a.objectKey && a.count > 0 && a.addressKey === s.id) {
-                  e.defect = 'MAJOR'
-                  temp.push('MAJOR')
-                }
-                if (e.id === a.objectKey && a.count === 0 && a.addressKey === s.id) {
-                  e.defect = 'NONE'
-                  s.defect = 'NONE'
-                  temp.push('NONE')
-                }
-              })
-            }
-          })
-          if (temp.indexOf('MAJOR') === 0) {
-            s.defect = 'MAJOR'
-          } else if (temp.length < len) {
-            s.defect = 'NORMAL'
+    initCallBack (treeVal, analysisVal) {
+      treeVal.forEach(s => { // 位置
+        var temp = []
+        var len = s.children.length
+        s.children.forEach(e => { // 系统
+          if (analysisVal.length > 0) {
+            analysisVal.forEach(a => {
+              if (e.id === a.objectKey && a.count > 0 && a.addressKey === s.id) {
+                e.defect = 'MAJOR'
+                temp.push('MAJOR')
+              }
+              if (e.id === a.objectKey && a.count === 0 && a.addressKey === s.id) {
+                e.defect = 'NONE'
+                s.defect = 'NONE'
+                temp.push('NONE')
+              }
+            })
           }
         })
-        this.treeData = val
-      }
+        if (temp.indexOf('MAJOR') === 0) {
+          s.defect = 'MAJOR'
+        } else if (temp.length < len) {
+          s.defect = 'NORMAL'
+        }
+      })
+      this.treeData = treeVal
     },
     changePage (v) {
       this.queryBean.page = v

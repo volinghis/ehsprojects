@@ -67,9 +67,9 @@ public class EamAllocateController {
 	 * @author: qjj
 	 * @date: 2020年1月10日 下午3:15:42
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月10日
-	 *        qjj v1.0.0 修改原因
+	 *  Modification History: Date Author Version Description
+	 *  ---------------------------------------------------------* 2020年1月10日
+	 *  qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getAllocateEamList")
@@ -89,9 +89,9 @@ public class EamAllocateController {
 	 * @author: qjj
 	 * @date: 2020年1月9日 上午10:51:36
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月9日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月9日
+	 * qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamAllocate" })
 	@RequestMapping(value = "/addEamAllocate")
@@ -118,9 +118,9 @@ public class EamAllocateController {
 	 * @author: qjj
 	 * @date: 2020年1月10日 下午3:17:50
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月10日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月10日
+	 * qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { "eamAllocate" })
 	@RequestMapping(value = "/deleteEamAllocate")
@@ -145,9 +145,9 @@ public class EamAllocateController {
 	 * @author: qjj
 	 * @date: 2020年1月14日 下午8:06:34
 	 *
-	 *        Modification History: Date Author Version Description
-	 *        ---------------------------------------------------------* 2020年1月14日
-	 *        qjj v1.0.0 修改原因
+	 * Modification History: Date Author Version Description
+	 * ---------------------------------------------------------* 2020年1月14日
+	 * qjj v1.0.0 修改原因
 	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getAllocateFlowBean")

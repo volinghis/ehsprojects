@@ -22,17 +22,26 @@ export default {
       },
       imgUrl: '',
       form: {},
-      activeName: 'first',
+      activeName: 'BY_PROFESSIONA',
       total: 0,
       tableData: [],
       tableId: '',
-      dataFirst: [],
-      dataSecond: []
+      treeData: [],
+      proAnalysisData: [],
+      SysAnalysisData: []
     }
   },
-  created: function () {
-    this.initTable()
-    this.inintTree()
+  mounted: function () {
+    var that = this
+    this.$axios.all([
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: { type: 'deviceProfessiona', onlyMajor: true, onlyStatusError: true } }),
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getAnalysisByType', { params: { type: 'deviceSystem', onlyMajor: true, onlyStatusError: true } })
+    ]).then(this.$axios.spread(function (deviceProfessiona, deviceSystem) {
+      that.proAnalysisData = deviceProfessiona.data
+      that.SysAnalysisData = deviceSystem.data
+    }))
+    that.inintTree()
+    that.initTable()
   },
   computed: {
     tableHeight: function () {
@@ -86,15 +95,42 @@ export default {
       this.initTable()
     },
     inintTree () {
-      if (this.activeName === 'first') {
+      if (this.activeName === 'BY_PROFESSIONA') {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceProfessiona' } }).then(res => {
-          this.dataFirst = res.data
+          this.initCallBack(res.data, this.proAnalysisData)
         })
       } else {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getTreeForDevice', { params: { parentKey: 'deviceAddress', subKey: 'deviceSystem' } }).then(res => {
-          this.dataSecond = res.data
+          this.initCallBack(res.data, this.SysAnalysisData)
         })
       }
+    },
+    initCallBack (treeVal, analysisVal) {
+      treeVal.forEach(s => { // 位置
+        var temp = []
+        var len = s.children.length
+        s.children.forEach(e => { // 系统
+          if (analysisVal.length > 0) {
+            analysisVal.forEach(a => {
+              if (e.id === a.objectKey && a.count > 0 && a.addressKey === s.id) {
+                e.defect = 'MAJOR'
+                temp.push('MAJOR')
+              }
+              if (e.id === a.objectKey && a.count === 0 && a.addressKey === s.id) {
+                e.defect = 'NONE'
+                s.defect = 'NONE'
+                temp.push('NONE')
+              }
+            })
+          }
+        })
+        if (temp.indexOf('MAJOR') === 0) {
+          s.defect = 'MAJOR'
+        } else if (temp.length < len) {
+          s.defect = 'NORMAL'
+        }
+      })
+      this.treeData = treeVal
     },
     handleLink (row) {
       this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })

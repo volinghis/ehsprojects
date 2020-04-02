@@ -47,7 +47,7 @@
           </el-form>
         </div>
         <div class="ehs_form_item_message">
-          1)列表显示所有的检修任务执行结果。<br>2)可以根据结果或执行人快速查找
+          1)列表显示所有的检修任务执行结果。<br>2)可以根据结果或执行人快速查找。<br>3)左侧树中&nbsp;<i class="major-color"/>&nbsp;重大缺陷，&nbsp;<i class="normal-color"/>&nbsp;一般缺陷，&nbsp;<i class="other-color"/>&nbsp;暂无缺陷。
         </div>
         <div class="table-list" :style="{height:(this.$store.state.contentHeight-240)+'px'}">
           <el-table :data="tableData" border :height="tableHeight" :size="GlobalCss.buttonSize">
