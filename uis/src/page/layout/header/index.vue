@@ -4,8 +4,8 @@
       <div style="float:left;">
         <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 10px;"></el-image>
       </div>
-      <div style="float:right;margin-right:20px;padding-top:2px;">
-        <span>东恒MIS管理系统</span><br>
+      <div style="float:right;margin-right:0px;padding-top:2px;">
+        <span>东恒鑫源MIS管理系统</span><br>
       </div>
     </div>
     <div class="topright">

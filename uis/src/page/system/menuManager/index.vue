@@ -1,15 +1,18 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="5" style="border-right:1px solid #DCDFE6;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-        <el-tree :data="treeData" ref="tree" :props="defaultProps" default-expand-all highlight-current
-          @node-click="handleNodeClick"></el-tree>
+    <el-row :gutter="10">
+      <el-col :span="5" :style="{height:(this.$store.state.contentHeight-65)+'px'}">
+        <el-card style="margin-left:10px;">
+        <el-tree :data="treeData" ref="tree" :props="defaultProps" default-expand-all highlight-current @node-click="handleNodeClick"></el-tree>
+        </el-card>
       </el-col>
       <!-- <el-col :span="1">
         <el-divider direction="vertical"></el-divider>
       </el-col> -->
-      <el-col :span="18" :push="1">
+      <!-- <el-col :span="18" :push="1"> -->
+      <el-col :span="19">
         <div class="container">
+        <el-card style="margin-right:10px;">
           <div class="operation">
             <el-button type="primary" :size="GlobalCss.buttonSize" @click="handleAuthToMenu">授权</el-button>
           </div>
@@ -27,6 +30,7 @@
               </el-table>
             </template>
           </div>
+        </el-card>
           <!--授权弹框-->
           <el-dialog title="角色授权" destroy-on-close :visible.sync="dialogTableVisible" :close-on-click-modal="false">
             <el-divider></el-divider>

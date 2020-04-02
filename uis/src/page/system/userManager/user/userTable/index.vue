@@ -42,7 +42,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @current-change="handleCurrentChange" style="float:right;" background :current-page.sync="form.page"
+    <el-pagination @current-change="handleCurrentChange" style="text-align:right;" background :current-page.sync="form.page"
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination>
     <el-dialog title="员工信息" :visible.sync="dialogVisible" :destroy-on-close="true" width="50%" :close-on-click-modal="false" :before-close="handleClose">

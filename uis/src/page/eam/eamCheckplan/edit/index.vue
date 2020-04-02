@@ -1,7 +1,8 @@
 <template>
 <div >
+  <el-card style="margin-left:10px;margin-right:10px;">
 <el-divider content-position="left">创建计划</el-divider>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" style="width:600px;" label-width="100px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-suffix=":" style="width:600px;" label-width="100px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
 
   <el-form-item label="计划名称" prop="name" >
     <el-input v-model="ruleForm.name" placeholder="请选择计划名称" ></el-input>
@@ -93,6 +94,7 @@
       <div class="ehs_form_item_message">计划一经创建，仅能对计划进行延期，或启用停止，不能对其他信息进行修改。请仔细核对信息，如确认无误，请进行创建</div>
   </el-form-item>
 </el-form>
+  </el-card>
 </div>
 </template>
 <script>

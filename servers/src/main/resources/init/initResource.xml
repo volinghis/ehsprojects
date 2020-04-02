@@ -32,7 +32,7 @@
 			<menu dataCode="orgManager" key="orgManager" name="部门管理" url="/system/orgManager/index" icon="fa-sitemap"  parentKey="systemManager"  sort="39" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 			<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users"  parentKey="systemManager"  sort="40" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 
-			<menu dataCode="userCenter" key="userCenter" name="个人中心" url="/layout/content/portal" icon="fa-user-circle"  parentKey="systemManager"  sort="15" ></menu>
+<!-- 			<menu dataCode="userCenter" key="userCenter" name="个人中心" url="/layout/content/portal" icon="fa-user-circle"  parentKey="systemManager"  sort="15" ></menu> -->
 			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user"  parentKey="systemManager"  sort="42" ></menu>
 
 			<menu dataCode="roleManager" key="roleManager" name="角色管理" url="/system/roleManager/index" icon="fa-user"  parentKey="systemManager"  sort="43" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>

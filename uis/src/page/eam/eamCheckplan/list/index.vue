@@ -1,7 +1,7 @@
 <template>
   <div>
+    <el-card style="margin-left:10px;margin-right:10px;">
     <div class="topPanel">
-
       <div class="queryBodys">
         <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
           class="demo-ruleForm">
@@ -43,7 +43,7 @@
         1)列表显示本人创建的，需要本人执行的，以及开放给所有人的计划。<br>2)非被人创建的的计划仅能查看。<br>3)对于有效期(当前时间小于等于结束时间)内的计划可以进行启动停止或延期操作。<br>4)立即执行功能可以快捷执行计划，如计划没有达到执行频率点，需要执行计划可采用此方法。<br>5)通常计划创建之后，我们不建议您再进行延期变动，如有此需求，建议重新建立计划。
       </div>
       <div class="rightButtons">
-        <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">新增</el-button>
+        <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()" icon="el-icon-plus" style="margin-bottom:5px;">新增</el-button>
       </div>
     </div>
     <el-table :data="plans" border :size="GlobalCss.buttonSize" :max-height="tableHeight" @sort-change="sortchange">
@@ -178,6 +178,7 @@
         </el-form>
       </div>
     </el-dialog>
+    </el-card>
   </div>
 </template>
 <script>

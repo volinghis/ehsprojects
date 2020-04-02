@@ -10,7 +10,7 @@ export default {
     var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     this.sessionUser = currUser
     if (currUser.avatar !== null) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + currUser.avatar, { responseType: 'blob' }).then((res) => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + currUser.avatar + '&resoureMenuKey=ALL', { responseType: 'blob' }).then((res) => {
         this.avatarUrl = URL.createObjectURL(res.data)
       })
     } else {

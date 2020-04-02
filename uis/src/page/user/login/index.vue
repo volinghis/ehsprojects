@@ -6,8 +6,8 @@
         <el-col :span="12">
           <p><el-image :src="dhUrl" style="width: 100px; height: 100px"></el-image></p>
           <p>
-            <span>东恒MIS管理系统</span><br>
-            <span>Dongheng MIS Management System</span>
+            <span>东恒鑫源MIS管理系统</span><br>
+            <span>Dongheng XinYuan MIS Management System</span>
           </p>
         </el-col>
         <el-col :span="12">

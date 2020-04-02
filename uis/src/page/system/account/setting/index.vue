@@ -1,11 +1,11 @@
 <template>
+<el-card style="margin-left:10px;margin-right:10px;">
   <div class="container">
     <div class="account-settings-info-left">
       <el-tabs tab-position="left"
                v-model="activeName"
                @tab-click="handleSelect"
-               style="border-right:1px solid #DCDFE6;margin-right:15px;"
-               :style="{height:(this.$store.state.contentHeight-15)+'px'}">
+               :style="{height:(this.$store.state.contentHeight-65)+'px'}">
         <!-- <el-tab-pane label="个人首页"
                      name="first"></el-tab-pane> -->
         <el-tab-pane label="修改密码"
@@ -21,6 +21,7 @@
       </el-tabs>
     </div>
   </div>
+</el-card>
 </template>
 
 <script>
