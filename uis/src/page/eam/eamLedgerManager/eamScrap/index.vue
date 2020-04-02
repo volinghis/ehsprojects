@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-card style="margin:0px 10px 10px 10px;">
     <span style="margin-left:10px;">查询：</span>
     <div class="table-search-wrapper">
       <el-input placeholder="请输入报废名称"
@@ -53,7 +54,6 @@
     <div class="table-list">
       <template>
         <el-table :data="tableData"
-                  :height="tableHeight"
                   border
                   :row-class-name="tableRowClassName"
                   size="medium"
@@ -121,6 +121,7 @@
         </div>
       </template>
     </div>
+    </el-card>
   </div>
 </template>
 <script>

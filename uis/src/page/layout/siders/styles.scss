@@ -14,8 +14,9 @@
     width: $siderWidth;
 
   }
-
-
-
+  li:hover, .el-submenu__title:hover{
+    background-color: $menuHover !important;
+  }
 }
+
 

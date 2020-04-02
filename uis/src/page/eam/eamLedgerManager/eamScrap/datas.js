@@ -26,11 +26,6 @@ export default {
       this.curTime = res.data.time
     })
   },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 300
-    }
-  },
   methods: {
     getScrapEamList () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamScrap/getScrapEamList', this.queryParam).then(res => {
