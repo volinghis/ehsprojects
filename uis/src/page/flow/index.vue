@@ -1,11 +1,19 @@
 <template>
-   <el-container >
 
-     <el-header> <el-steps  :active="processDefineInfo.currentStepNum"   finish-status="success" >
+<div class="totalPanel">
+   <el-container class="flowPanel">
+
+     <el-header>
+
+       <!--
+       <el-steps  :active="processDefineInfo.currentStepNum"   finish-status="success" >
+
     <el-step v-for="item in processDefineInfo.steps" :key="item.stepKey" :title="item.stepName"></el-step>
-  </el-steps></el-header>
+  </el-steps>-->
+  <el-image :src="flowImg()"></el-image>
+  </el-header>
       <el-container>
-    <el-container>
+    <el-container class="flowPanel">
       <el-main :style="pageHeight()"> <router-view ref="flowContent"></router-view></el-main>
     </el-container>
 
@@ -39,7 +47,7 @@
   </el-timeline></div>
   </el-container>
    </el-container>
-
+</div>
 </template>
 <script>
 import datas from './datas.js'

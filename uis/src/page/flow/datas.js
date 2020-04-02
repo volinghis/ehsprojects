@@ -2,9 +2,13 @@
 export default {
 
   methods: {
-
+    flowImg () {
+      var flowInfo = JSON.parse(this.$route.params.processInfo)
+      return this.GlobalVars.globalServiceServlet + '/flow/flowInfo/processDiagram?resoureMenuKey=ALL&processInstanceId=' +
+      (flowInfo.processInstanceId ? flowInfo.processInstanceId : '') + '&processDefineKey=' + (flowInfo.processDefineKey ? flowInfo.processDefineKey : '')
+    },
     pageHeight () {
-      return { height: ((document.body.offsetHeight > parseInt(this.GlobalCss.bodyMinHight) ? document.body.offsetHeight : parseInt(this.GlobalCss.bodyMinHight)) - 70) + 'px' }
+      return { height: ((document.body.offsetHeight > parseInt(this.GlobalCss.bodyMinHight) ? document.body.offsetHeight : parseInt(this.GlobalCss.bodyMinHight)) - 100) + 'px' }
     },
     pageHeightWithWidth () {
       var h = this.pageHeight()

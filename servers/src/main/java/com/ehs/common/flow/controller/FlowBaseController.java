@@ -1,5 +1,7 @@
 package com.ehs.common.flow.controller;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,16 +17,21 @@ import org.flowable.bpmn.model.Event;
 import org.flowable.bpmn.model.FlowElement;
 
 import org.flowable.bpmn.model.FlowNode;
+import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.SequenceFlow;
+import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.UserTask;
 import org.flowable.engine.HistoryService;
 
 import org.flowable.engine.ProcessEngine;
+import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
+import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Comment;
-
+import org.flowable.image.ProcessDiagramGenerator;
 
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
@@ -347,6 +354,93 @@ public class FlowBaseController {
 		}
 
 		return JsonUtils.toJsonString(pib);
+	}
+
+
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/flow/flowInfo/processDiagram")
+	public void genProcessDiagram(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+		String processId =request.getParameter("processInstanceId");
+		System.out.println("666");
+		System.out.println(processId);
+		String processDefineKey=request.getParameter("processDefineKey");
+		List<String> activityIds = new ArrayList<>();
+		BpmnModel bpmnModel =null;
+		if(StringUtils.isBlank(processId)) {
+			String processDefineId = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefineKey).latestVersion().singleResult().getId();
+			bpmnModel=repositoryService.getBpmnModel(processDefineId);
+			Process process = bpmnModel.getMainProcess();
+			Collection<FlowElement> flowElements = process.getFlowElements();
+
+			for (FlowElement f : flowElements) {
+				if (f instanceof StartEvent) {
+					List<SequenceFlow> flows = ((StartEvent) f).getOutgoingFlows();
+					for (SequenceFlow ff : flows) {
+						FlowElement fe = ff.getTargetFlowElement();
+						UserTask ut = (UserTask) fe;
+						activityIds.add(ut.getId());
+					}
+					break;
+				}
+			}
+			
+		}else {
+			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
+			if(pi!=null) {
+				bpmnModel=repositoryService.getBpmnModel(pi.getProcessDefinitionId());
+				// 使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
+				String InstanceId = processId;
+				List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(InstanceId).list();
+				for (Execution exe : executions) {
+					List<String> ids = runtimeService.getActiveActivityIds(exe.getId());
+					activityIds.addAll(ids);
+				}
+			}else {
+				HistoricProcessInstance hpi= historyService.createHistoricProcessInstanceQuery().processInstanceId(processId).singleResult();
+				bpmnModel=repositoryService.getBpmnModel(hpi.getProcessDefinitionId());
+				Process process = bpmnModel.getMainProcess();
+				Collection<FlowElement> flowElements = process.getFlowElements();
+				for (FlowElement f : flowElements) {
+					if (f instanceof EndEvent) {
+						EndEvent se=(EndEvent)f;
+						activityIds.add(se.getId());
+						break;
+					}
+				}
+
+
+			}
+
+		}
+
+
+		// 得到正在执行的Activity的Id
+
+		List<String> flows = new ArrayList<>();
+
+		// 获取流程图
+		ProcessEngineConfiguration engconf = processEngine.getProcessEngineConfiguration();
+		ProcessDiagramGenerator diagramGenerator = engconf.getProcessDiagramGenerator();
+		InputStream in = diagramGenerator.generateDiagram(bpmnModel, "png", activityIds, flows,
+				engconf.getActivityFontName(), engconf.getLabelFontName(), engconf.getAnnotationFontName(),
+				engconf.getClassLoader(), 2.0,true);
+		OutputStream out = null;
+		byte[] buf = new byte[1024];
+		int legth = 0;
+		try {
+			out = httpServletResponse.getOutputStream();
+			while ((legth = in.read(buf)) != -1) {
+				out.write(buf, 0, legth);
+			}
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 
 
