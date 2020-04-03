@@ -76,11 +76,9 @@ public class MenuServiceImpl implements MenuService {
 		List<RoleBean> tempList = menuRolesBean.getRoleList();
 		for (SysMenu sysMenu : childrenMenus) {
 			List<RoleBean> roleBeans = JsonUtils.parseList(sysMenu.getRoles(), RoleBean.class);
-			if (roleBeans.containsAll(tempList)) {
-				roleBeans.removeAll(tempList);
-				sysMenu.setRoles(JsonUtils.toJsonString(roleBeans));
-				baseCommonService.saveOrUpdate(sysMenu);
-			}
+		    roleBeans.removeAll(tempList);
+		    sysMenu.setRoles(JsonUtils.toJsonString(roleBeans));
+		    baseCommonService.saveOrUpdate(sysMenu);
 		}
 	}
 
