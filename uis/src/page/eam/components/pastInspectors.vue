@@ -27,13 +27,14 @@
       </el-table-column>
       <el-table-column prop="serverTime"
                        label="担任时间"
-                       width="240"
+                       width="160"
                        align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.isSet">
             <el-date-picker v-model="eam_Inspectors.sel['serverTime']"
                             value-format="yyyy-MM-dd"
                             type="date"
+                            style="width:88%;"
                             size="mini"
                             placeholder="选择日期">
             </el-date-picker>
@@ -43,12 +44,13 @@
       </el-table-column>
       <el-table-column prop="serveTime"
                        label="离任时间"
-                       width="240"
+                       width="160"
                        align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.isSet">
             <el-date-picker v-model="eam_Inspectors.sel['departureTime']"
                             type="date"
+                            style="width:88%;"
                             value-format="yyyy-MM-dd"
                             size="mini"
                             placeholder="选择日期">

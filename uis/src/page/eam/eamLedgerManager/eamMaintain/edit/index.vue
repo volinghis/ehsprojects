@@ -7,8 +7,8 @@
              label-suffix="："
              label-width="100px">
       <el-row>
-        <el-col :span="4"
-                :lg="4">
+        <el-col :span="5"
+                :lg="5">
           <el-upload class="avatar-uploader"
                      :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                      :show-file-list="false"
@@ -22,8 +22,8 @@
                class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-col>
-        <el-col :span="20"
-                :lg="20">
+        <el-col :span="19"
+                :lg="19">
           <el-row>
             <el-col :span="8">
               <el-form-item label="设备名称"
