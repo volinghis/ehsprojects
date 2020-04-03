@@ -4,19 +4,16 @@
     <div class="account-settings-info-left">
       <el-tabs tab-position="left"
                v-model="activeName"
-               @tab-click="handleSelect"
                :style="{height:(this.$store.state.contentHeight-65)+'px'}">
-        <!-- <el-tab-pane label="个人首页"
-                     name="first"></el-tab-pane> -->
+                @tab-click="handleClick"
+               style="border-right:1px solid #DCDFE6;margin-right:15px;">
+        <el-tab-pane label="个人资料"
+                     name="first">
+          <BaseSetting v-if="isFirst" />
+        </el-tab-pane>
         <el-tab-pane label="修改密码"
                      name="second">
-          <ChangePassword />
-        </el-tab-pane>
-        <el-tab-pane label="消息管理"
-                     name="third"></el-tab-pane>
-        <el-tab-pane label="个人资料"
-                     name="fourth">
-          <BaseSetting />
+          <ChangePassword  v-if="isSecond"/>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -30,19 +27,23 @@ import ChangePassword from './modules/changePassword'
 export default {
   data () {
     return {
-      activeName: 'fourth'
+      activeName: 'first',
+      isFirst: true,
+      isSecond: false
     }
   },
   components: {
     BaseSetting,
     ChangePassword
   },
-  mounted () {
-  },
   methods: {
-    handleSelect (tab) {
+    handleClick (tab) {
       if (tab.name === 'first') {
-        this.$router.push({ name: 'userCenter' })
+        this.isFirst = true
+        this.isSecond = false
+      } else if (tab.name === 'second') {
+        this.isFirst = false
+        this.isSecond = true
       }
     }
   }

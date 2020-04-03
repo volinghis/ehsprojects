@@ -108,10 +108,6 @@ export default {
     return {
       imageUrl: '',
       account: '',
-      ruleForm: {
-        pass: '',
-        checkPass: ''
-      },
       form: {
         dataCode: '',
         name: '',
@@ -166,7 +162,7 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/orgUser/saveOrgUser', this.form)
+          this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/userManager/saveCurrentUser', this.form)
             .then((res) => {
               if (res.data.resultType === 'ok') {
                 this.$message({
@@ -180,23 +176,21 @@ export default {
         }
       })
     },
-    handleChange (value) {
-    },
     resetForm (formName) {
       this.$refs[formName].resetFields()
       this.initForm()
     },
     beforeAvatarUpload (file) {
+      const isPNG = file.type === 'image/png'
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      return (isJPG || isPNG) && isLt2M
     }
   }
 }
