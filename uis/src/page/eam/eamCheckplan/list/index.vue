@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin-left:10px;margin-right:10px;">
+    <!-- <el-card style="margin-left:10px;margin-right:10px;"> -->
     <div class="topPanel">
       <div class="queryBodys">
         <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
@@ -178,7 +178,7 @@
         </el-form>
       </div>
     </el-dialog>
-    </el-card>
+    <!-- </el-card> -->
   </div>
 </template>
 <script>

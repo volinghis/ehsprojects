@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="10" style="margin:0px 8px;">
       <el-col :span="4">
-        <el-card :style="{height:(this.$store.state.contentHeight-25)+'px'}">
+        <!-- <el-card :style="{height:(this.$store.state.contentHeight-25)+'px'}"> -->
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="按专业" name="BY_PROFESSIONA">
               <el-tree :data="treeData" :props="defaultProps" @node-click="handleFirstNodeClick">
@@ -19,10 +19,10 @@
                 </span></el-tree>
             </el-tab-pane>
           </el-tabs>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
       <el-col :span="20">
-        <el-card :style="{height:(this.$store.state.contentHeight-25)+'px'}">
+        <!-- <el-card :style="{height:(this.$store.state.contentHeight-25)+'px'}"> -->
           <span style="margin-left:10px;">查询：</span>
           <div class="table-search-wrapper">
             <el-input placeholder="根据设备名称查询" size="small" v-model="queryParam.name">
@@ -120,7 +120,7 @@
               </div>
             </div>
           </div>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
     </el-row>
 

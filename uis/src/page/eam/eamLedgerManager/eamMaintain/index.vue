@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin:0px 10px 10px 10px;" :style="{height:(this.$store.state.contentHeight-25)+'px'}">
+    <!-- <el-card style="margin:0px 10px 10px 10px;" :style="{height:(this.$store.state.contentHeight-25)+'px'}"> -->
     <span style="margin-left:10px;">查询：</span>
     <div class="table-search-wrapper">
       <el-input placeholder="根据设备名称查询"
@@ -204,7 +204,7 @@
         </div>
       </div>
     </div>
-    </el-card>
+    <!-- </el-card> -->
   </div>
 
 </template>

@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="10">
       <el-col :span="5" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-      <el-card style="margin-left: 10px;">
+      <!-- <el-card style="margin-left: 10px;"> -->
         <el-tree :data="treeData"
                  node-key="id"
                  ref="tree"
@@ -15,10 +15,10 @@
             <span style="margin-left:5px;">{{ node.label }}</span>
           </span>
         </el-tree>
-      </el-card>
+      <!-- </el-card> -->
       </el-col>
       <el-col :span="19">
-      <el-card style="margin-right:10px;">
+      <!-- <el-card style="margin-right:10px;"> -->
         <el-row>
           <el-col class="searchCol">
             <el-row type="flex"
@@ -123,7 +123,7 @@
                     height="600px;" />
           </el-dialog>
         </template>
-      </el-card>
+      <!-- </el-card> -->
       </el-col>
     </el-row>
   </div>

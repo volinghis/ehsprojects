@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin:0px 10px 10px 10px;">
+    <!-- <el-card style="margin:0px 10px 10px 10px;"> -->
     <span style="margin-left:10px;">查询：</span>
     <div class="table-search-wrapper">
       <el-input placeholder="请输入报废名称"
@@ -121,7 +121,7 @@
         </div>
       </template>
     </div>
-    </el-card>
+    <!-- </el-card> -->
   </div>
 </template>
 <script>

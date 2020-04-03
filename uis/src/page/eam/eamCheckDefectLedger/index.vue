@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="10">
       <el-col :span="4" :style="{height:(this.$store.state.contentHeight-60)+'px'}">
-        <el-card style="margin-left:10px;">
+        <!-- <el-card style="margin-left:10px;"> -->
         <el-tabs v-model="queryBean.objectType" @tab-click="handleClick">
           <el-tab-pane label="按专业" name="BY_PROFESSIONA">
             <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" @node-expand="handleExpand"
@@ -23,10 +23,10 @@
             </el-tree>
           </el-tab-pane>
         </el-tabs>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
       <el-col :span="20">
-        <el-card style="margin-right:10px;">
+        <!-- <el-card style="margin-right:10px;"> -->
         <div class="queryBodys">
           <el-form ref="queryForm" style="width:800px;" label-suffix="：" label-position="left" size="mini"
             label-width="100px" :inline-message="true" :status-icon="true" class="demo-queryForm">
@@ -74,7 +74,7 @@
             </el-pagination>
           </div>
         </div>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
     </el-row>
 
