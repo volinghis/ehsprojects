@@ -107,7 +107,7 @@ public class OutWareHouseController {
 		return "{}";
 	}
 	
-	@RequestAuth(menuKeys = {"outWarehouseEdit"})
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getLaveAmount")
 	public String getLaveAmount(@RequestBody PartsExtends partsAccount) {
 		logger.info("===查询剩余库存===");

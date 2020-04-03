@@ -33,6 +33,7 @@ export default {
       handler (val) {
         if (this.flag !== 'view') {
           this.partFlag = true
+          this.amountMessage = true
         } else {
           this.amountFlag = true
           this.amountMessage = false

@@ -1,9 +1,8 @@
 <template>
   <div class="business-tabs">
-  <el-tabs :value="activeTab" @tab-click="tabClick" @tab-remove="tabRemove">
-    <el-tab-pane v-for="(item,index) in $store.state.selectedTabs" :key="item.name" :label="item.meta.title" :name="item.name" :closable="index>0"/>
-
-  </el-tabs>
+    <el-tabs :value="activeTab" @tab-click="tabClick" @tab-remove="tabRemove">
+      <el-tab-pane v-for="(item,index) in $store.state.selectedTabs" :key="item.name" :label="item.meta.title" :name="item.name" :closable="index>0"/>
+    </el-tabs>
   </div>
 </template>
 <script>

@@ -1,38 +1,45 @@
-@import '@/styles/mixin.scss';
-$marginPx : 10px;
-.business-tabs{
-  // margin-top: $marginPx !important;
-  .el-tabs__item{
-  //   @include font-styles;
-  //   font-size: 12px !important;
-  //   height: $tabHeight - $marginPx;
-  //   line-height: $tabHeight - $marginPx;
-  //   vertical-align: middle;
-  //   text-align: center;
-  //   padding: 1 0 0 0px !important;
-  //   margin: 0 0 0 0px !important;
-  //   margin-right: 10px !important;
-  //   border-top: 1px solid #dcdee2 !important;
-  //   border-right: 1px solid #dcdee2 !important;
-  //   border-left: 1px solid #dcdee2 !important;
-  //   border-radius:5px 5px 0 0;
-    .el-icon-close{
-      margin-right: -10px !important;
-      margin-top: -5px !important;
-    }
-  }
+// @import '@/styles/mixin.scss';
+// $marginPx : 10px;
+// .business-tabs{
+//   margin-top: $marginPx !important;
+//   .el-tabs__item{
+//     @include font-styles;
+//     font-size: 12px !important;
+//     height: $tabHeight - $marginPx;
+//     line-height: $tabHeight - $marginPx;
+//     vertical-align: middle;
+//     text-align: center;
+//     padding: 1 0 0 0px !important;
+//     margin: 0 0 0 0px !important;
+//     margin-right: 10px !important;
+//     border-top: 1px solid #dcdee2 !important;
+//     border-right: 1px solid #dcdee2 !important;
+//     border-left: 1px solid #dcdee2 !important;
+//     border-radius:5px 5px 0 0;
+//     .el-icon-close{
+//       margin-right: -10px !important;
+//       margin-top: -5px !important;
+//     }
+//   }
 
-  .el-tabs__nav{
-    border: none !important;
-  }
-  .el-tabs__item:not(.is-active){
-    background-color: #f8f8f9;
-    border-bottom: 1px solid #dcdee2 !important;
-  }
-  .el-tabs__item .is-active{
-    border-bottom: none !important;
-  }
+//   .el-tabs__nav{
+//     border: none !important;
+//   }
+//   .el-tabs__item:not(.is-active){
+//     background-color: #f8f8f9;
+//     border-bottom: 1px solid #dcdee2 !important;
+//   }
+//   .el-tabs__item .is-active{
+//     border-bottom: none !important;
+//   }
+// }
+.el-tabs__nav-scroll {
+  overflow: hidden;
+  margin-left: 15px;
 }
-#tab-home{
-  padding-left: 20px;
+/deep/.el-tabs__nav .el-tabs__item:nth-child(1) span{
+  display: none;
+}
+.el-tabs--top .el-tabs__item.is-top:nth-child(2), .el-tabs--top .el-tabs__item.is-bottom:nth-child(2), .el-tabs--bottom .el-tabs__item.is-top:nth-child(2), .el-tabs--bottom .el-tabs__item.is-bottom:nth-child(2) {
+  padding-left: 0;
 }
