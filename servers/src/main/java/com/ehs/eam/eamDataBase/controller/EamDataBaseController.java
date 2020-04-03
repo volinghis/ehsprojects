@@ -40,7 +40,7 @@ public class EamDataBaseController {
 	@Resource
 	private DataDictionaryService dataDictService;
 
-	@RequestAuth(menuKeys = { "dataBase" })
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping("/getFileInfoList")
 	public String getFileInfoList(@RequestBody EamDataBaseQuery querybean) {
 		PageInfoBean pageBean=null;
@@ -53,8 +53,23 @@ public class EamDataBaseController {
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
 	
-	
-	@RequestAuth(menuKeys = { "dataBase" })
+	/**
+	 * 
+	* @Function:getFileCategoriesForTree 
+	* @Description: 获取资料类型树结构数据
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月3日 下午1:37:50 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月3日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping("/getFileCategoriesForTree")
 	public String getFileCategoriesForTree(HttpServletRequest request) {
 		String parentKey = "edmEquipmentInfo";
