@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
@@ -89,7 +88,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 							switch (fpi.getFlowCurrentStep()) {
 							case "END":
 								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
 								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
 								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
@@ -97,7 +97,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 								break;
 							case "usertask2":
 								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
 								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
 								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
@@ -105,7 +106,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 								break;
 							case "usertask1":
 								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
 								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
 								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
@@ -150,7 +152,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 							switch (fpi.getFlowCurrentStep()) {
 							case "END":
 								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
 								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
 								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
@@ -158,7 +161,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 								break;
 							case "usertask2":
 								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
 								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
 								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
@@ -166,7 +170,8 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 								break;
 							case "usertask1":
 								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStepName());
+								partsExtends2.setStatus(fpi.getFlowCurrentStep());
+								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
 								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
 								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
 								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());

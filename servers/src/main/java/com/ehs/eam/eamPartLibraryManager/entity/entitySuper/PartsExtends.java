@@ -39,6 +39,7 @@ public abstract class PartsExtends extends BaseEntity{
 	public static final String ENTER_OUT_TYPE_NAME="enterOutTypeName";
 	public static final String REVIEWER="reviewer";
 	public static final String STATUS="status";
+	public static final String STATUS_NAME="statusName";
 	public static final String SUPPLIER="supplier";
 	public static final String LEAVE_FACTORY_CODE="leaveFactoryCode";
 	public static final String LEAVE_FACTORY_DATE="leaveFactoryDate";
@@ -99,6 +100,7 @@ public abstract class PartsExtends extends BaseEntity{
 	 * 审核状态
 	 */
 	private String status;
+	private String statusName;
 	
 	/**
 	 * 设备关联文件
@@ -390,6 +392,14 @@ public abstract class PartsExtends extends BaseEntity{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
 
 	public String getEnterOutType() {

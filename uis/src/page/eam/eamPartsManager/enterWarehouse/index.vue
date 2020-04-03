@@ -63,9 +63,9 @@
         <el-table-column prop="status" label="任务状态" sortable align="center" width="110">
           <template slot-scope="scope">
             <div slot="reference">
-              <el-tag size="mini" v-if="(scope.row.status === '负责人审核')" type="primary">{{ scope.row.status}}</el-tag>
-              <el-tag size="mini" v-else-if="(scope.row.status  === '已结束')" type="success">{{ scope.row.status}}</el-tag>
-              <el-tag size="mini" v-else-if="(scope.row.status  === '填写单据')" type="warning">{{'已驳回'}}</el-tag>
+              <el-tag size="mini" v-if="(scope.row.status === 'usertask2')" type="primary">{{ scope.row.statusName}}</el-tag>
+              <el-tag size="mini" v-else-if="(scope.row.status  === 'END')" type="success">{{ scope.row.statusName}}</el-tag>
+              <el-tag size="mini" v-else-if="(scope.row.status  === 'usertask1')" type="warning">{{'已驳回'}}</el-tag>
             </div>
           </template>
         </el-table-column>

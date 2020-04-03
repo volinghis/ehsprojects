@@ -54,48 +54,6 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 	
-
-//	@Override
-//	public PageInfoBean findAllTask(QueryBean queryBean) {
-//		Pageable pb = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize(), queryBean.getSortForJpaQuery());
-//		Page<EnterWareHouse> warehouses = ewhDao.findAllTask(
-//				queryBean.getQuery(),
-//				queryBean.getWareHouseNames(),
-//				queryBean.getInBoundTypes(),
-//				queryBean.getFlowstatus(),
-//				pb);
-//		System.out.println("partsExtends====="+JsonUtils.toJsonString(warehouses));
-//		System.out.println("partsExtends====="+JsonUtils.toJsonString(warehouses.getContent()));
-//		if(warehouses != null) {
-//			PageInfoBean pib=new PageInfoBean();
-//			pib.setDataList(warehouses.getContent());
-//			pib.setTotalCount(warehouses.getTotalElements());
-//			System.out.println("pib.getTotalCount()====="+pib.getTotalCount());
-//			return pib;
-//		}
-//		return null;
-//	}
-	
-//	@Override
-//	public PageInfoBean findAll(QueryBean queryBean) {
-//		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-//		Page<EnterWareHouse> enterWareHouses = ewhDao.findAll(pageRequest);
-//		if (enterWareHouses!=null) {
-//			List<EnterWareHouse> enterWareHouseList  = enterWareHouses.getContent();
-//			for (EnterWareHouse ew : enterWareHouseList) {
-//				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(ew.getKey());
-//				if(fpi!=null) {
-//					ew.setStatus(fpi.getFlowCurrentStepName());
-//				}
-//			}
-//			PageInfoBean pb=new PageInfoBean();
-//			pb.setDataList(enterWareHouseList);
-//			pb.setTotalCount(enterWareHouses.getTotalElements());
-//			return pb;
-//		}
-//		return null;
-//	}
-	
 	@Override
 	@Transactional
 	public void saveEnterWareHouse(EnterWareHouserBean wareHouserBean) {

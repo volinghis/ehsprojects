@@ -30,9 +30,10 @@ export default {
   },
   methods: {
     handleAdd: function () {
+      var that = this
       this.GlobalMethods.openFlowWin('outWarehouseEdit', { processDefineKey: 'EamOutWareHouseFlow', flag: 'add' }, function () {
-        this.getTableData()
-        this.getWareHouseAndUseType()
+        that.getTableData()
+        that.getWareHouseAndUseType()
       })
     },
     handleClick: function (row) {
@@ -56,9 +57,9 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       var date = new Date(row.creationTime.replace(/-/g, '/'))
-      if (this.nowTime >= (date.getTime() + 604800000) && row.status !== '已结束') {
+      if (this.nowTime >= (date.getTime() + 604800000) && row.status !== 'END') {
         return 'ehs-message-info-error'
-      } else if (row.status === '填写单据') {
+      } else if (row.status === 'usertask1') {
         return 'ehs-message-info-yellow'
       }
       return ''
