@@ -116,7 +116,12 @@
                          sortable
                          align="center"
                          label="设备编号"
-                         width="150"></el-table-column>
+                         width="150">
+          <template slot-scope="scope">
+            <el-link type="primary"
+                     @click="handleLink(scope.row)">{{scope.row.deviceNum}}</el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="deviceName"
                          sortable
                          align="center"
@@ -179,14 +184,14 @@
         <el-table-column fixed="right"
                          align="center"
                          label="操作"
-                         width="170">
+                         width="100">
           <template slot-scope="scope">
             <el-button type="warning"
                        @click="handleEditClick(scope.row)"
                        :size="GlobalCss.buttonSize">编辑</el-button>
-            <el-button type="danger"
+            <!-- <el-button type="danger"
                        :size="GlobalCss.buttonSize"
-                       @click="handleDelete(scope.row)">删除</el-button>
+                       @click="handleDelete(scope.row)">删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>

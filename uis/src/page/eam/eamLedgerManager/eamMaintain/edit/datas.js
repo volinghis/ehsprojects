@@ -23,6 +23,7 @@ export default {
       deviceAddress: [],
       deviceSystem: [],
       deviceProfession: [],
+      isDisabled: false,
       form: {
         deviceName: '',
         deviceNum: '',
@@ -65,6 +66,7 @@ export default {
     if (resData !== undefined) {
       this.deviceKey = resData.key
       this.getDevicePicture(resData.deviceImg)
+      this.isDisabled = true
       this.form = resData
     }
     this.getDeviceAddress()

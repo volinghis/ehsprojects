@@ -3,13 +3,13 @@
     <el-row :gutter="10">
       <el-col :span="7">
         <el-card>
-          <div class="item-block"
-               style="text-align:center;">
+          <div class="item-block">
             <div class="item-title">设备详情</div>
+            <div class="item-content">
             <el-image style="width: 150px; height: 150px"
                       :src="imgUrl"
                       fit="fill"></el-image>
-            <div class="ehs_form_item_message">
+            <div class="ehs_form_item_message" style="margin-left:30% !important;">
               <el-form label-suffix="："
                        label-width="100">
                 <el-form-item label="设备名称">
@@ -43,6 +43,7 @@
                   <span class="info-content">{{ eamInfos.personName }}</span>
                 </el-form-item>
               </el-form>
+            </div>
             </div>
           </div>
         </el-card>

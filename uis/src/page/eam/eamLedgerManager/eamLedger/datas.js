@@ -39,9 +39,9 @@ export default {
     ]).then(this.$axios.spread(function (deviceProfessiona, deviceSystem) {
       that.proAnalysisData = deviceProfessiona.data
       that.SysAnalysisData = deviceSystem.data
+      that.inintTree()
+      that.initTable()
     }))
-    that.inintTree()
-    that.initTable()
   },
   computed: {
     tableHeight: function () {

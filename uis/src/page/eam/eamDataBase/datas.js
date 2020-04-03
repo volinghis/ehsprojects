@@ -15,7 +15,6 @@ export default {
       },
       nodeLabel: '',
       defaultExpandKeys: [],
-      mainHeight: 0,
       tableData: [],
       total: 0,
       treeData: [],
@@ -31,8 +30,6 @@ export default {
   mounted: function () {
     this.initTreeData()
     this.initTable()
-    var h = document.querySelector('.searchCol').offsetHeight
-    this.mainHeight = this.$store.state.contentHeight - h - 8
   },
   methods: {
     handleViewClick: function (scope) {

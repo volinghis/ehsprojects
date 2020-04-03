@@ -48,6 +48,10 @@ export default {
         this.deviceAddresses = res.data
       })
     },
+    handleLink (row) {
+      row.refKey = row.key
+      this.$router.push({ name: 'eamLedgerDetail', params: { data: row } })
+    },
     selectChange () {
       if (this.checkScopeType === 'BY_SYSTEM') {
         this.queryParam.deviceSystem = this.checkScope

@@ -85,7 +85,8 @@
               <el-table-column prop="deviceNum" align="center" label="设备编号" sortable width="150">
                 <template slot-scope="scope">
                   <el-link type="primary" @click="handleLink(scope.row)">{{scope.row.deviceNum}}</el-link>
-                </template></el-table-column>
+                </template>
+                </el-table-column>
               <el-table-column prop="deviceName" align="center" sortable label="设备名称"></el-table-column>
               <el-table-column prop="deviceModel" align="center" sortable label="规格型号"></el-table-column>
               <el-table-column prop="completePoint" label="资料完整度" align="center" sortable>

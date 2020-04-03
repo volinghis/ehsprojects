@@ -61,6 +61,7 @@
                             prop="installLocation">
                 <el-select v-model="form.installLocation"
                            style="width:100%;"
+                           :disabled="isDisabled"
                            placeholder="请选择">
                   <el-option v-for="item in deviceAddress"
                              :key="item.key"
