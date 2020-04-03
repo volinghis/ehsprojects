@@ -25,7 +25,7 @@ export default {
         })
     },
     handleCurrentChange (val) { // 页面跳转
-      this.form.page = val
+      this.queryParams.page = val
       this.initTable()
     },
     handleDelete (row) {
