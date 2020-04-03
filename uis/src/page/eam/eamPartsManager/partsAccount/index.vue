@@ -1,5 +1,5 @@
 <template>
-<el-card>
+<!-- <el-card> -->
   <div>
     <div class="queryBodys">
       <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini" label-width="100px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
@@ -69,7 +69,7 @@
       </div>
     </template>
   </div>
-</el-card>
+<!-- </el-card> -->
 </template>
 <script>
 import datas from './datas'

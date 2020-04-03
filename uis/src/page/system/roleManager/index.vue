@@ -1,6 +1,6 @@
 <template>
   <div class="role-table">
-<el-card style="margin-left:10px;margin-right:10px;">
+<!-- <el-card style="margin-left:10px;margin-right:10px;"> -->
     <div class="search-wrapper">
       <div style="float:left;">
         <el-input :size="GlobalCss.controlSize" v-model="form.query" placeholder="请输入角色编码或名称">
@@ -30,7 +30,7 @@
         layout="total, prev, pager, next" :total="totalCount">
       </el-pagination>
     </div>
-</el-card>
+<!-- </el-card> -->
     <!-- Form -->
     <el-dialog title="角色添加" width="40%" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-divider></el-divider>

@@ -1,5 +1,5 @@
 <template>
-<el-card style="margin-left:10px;margin-right:10px;">
+<!-- <el-card style="margin-left:10px;margin-right:10px;"> -->
   <div class="loginLog-table">
     <div class="search-wrapper">
       <div style="float:left;margin-bottom:5px;">
@@ -27,7 +27,7 @@
       </el-pagination>
     </div>
   </div>
-</el-card>
+<!-- </el-card> -->
 </template>
 
 <script>

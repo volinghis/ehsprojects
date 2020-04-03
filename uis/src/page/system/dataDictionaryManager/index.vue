@@ -2,14 +2,14 @@
   <div>
     <el-row :gutter="10">
       <el-col :span="5" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-        <el-card style="margin-left:10px;">
+        <!-- <el-card style="margin-left:10px;"> -->
         <el-tree :props="props" ref="tree" node-key="id" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
       <!-- <el-col :span="18" :push="1"> -->
       <el-col :span="19">
         <div class="container">
-          <el-card style="margin-right:10px;">
+          <!-- <el-card style="margin-right:10px;"> -->
           <div class="operation">
             <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="dictionaryAdd"> 新增</el-button>
           </div>
@@ -34,7 +34,7 @@
               </el-pagination>
             </template>
           </div>
-          </el-card>
+          <!-- </el-card> -->
           <!--添加组织-->
           <el-dialog title="编辑页面" :visible.sync="dialogTableVisible" :close-on-click-modal="false" width="40%" :before-close="handleClose">
             <el-divider></el-divider>
