@@ -8,7 +8,7 @@ export default {
       currentStepName: '',
       queryBean: {
         page: 1,
-        size: 20,
+        size: 10,
         times: 'ALL',
         owners: 'ALL',
         executeResult: 'ALL',
@@ -105,12 +105,12 @@ export default {
       this.execute()
     },
 
-    changePage (v) {
-      this.queryBean.page = v
-      this.flushData()
-    },
-    flushData () {
-      this.queryBean.page = 1
+    flushData (v) {
+      if (!v) {
+        this.queryBean.page = 1
+      } else {
+        this.queryBean.page = v
+      }
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/task/getAllTasks', this.queryBean)
         .then(res => {
           this.tasks = res.data.dataList

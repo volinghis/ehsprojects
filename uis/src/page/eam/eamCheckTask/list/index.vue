@@ -67,21 +67,22 @@
         1)列表显示本人需要执行的和审批过的。<br>2)支持手动添加工作，如发现缺陷或处理检修等可以进行添加。<br>3)工作情况一旦提交，除非被驳回否则不允许修改。<br>
         4)黄色代表已经驳回的审批，红色代表超过7天未执行的任务
       </div>
-      <div class="rightButtons">
+
+      <div class="rightButtons" >
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
       </div>
     </div>
-    <el-table :data="tasks" border :size="GlobalCss.buttonSize" :max-height="tableHeight" @sort-change="sortchange" :row-class-name="tableRowClassName">
-      <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
-      <el-table-column align="center" show-overflow-tooltip prop="name" sortable="custom" label="任务名称">
+    <el-table :data="tasks" border :size="GlobalCss.buttonSize"  @sort-change="sortchange" :row-class-name="tableRowClassName">
+      <el-table-column type="index" align="center" min-width="50"  label="序号"></el-table-column>
+      <el-table-column align="center" show-overflow-tooltip prop="name" min-width="100" sortable="custom" label="任务名称">
         <template slot-scope="scope">
           <el-link type="primary" v-if="viewEnable(scope.row)" @click="view(scope.row)">{{scope.row.name}}</el-link>
           <span v-if="!viewEnable(scope.row)">{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip  prop="eamCheckPlan.name" width="140" sortable="custom" label="计划名称"></el-table-column>
-      <el-table-column align="center" prop="eamCheckPlan.ownerName" width="120" sortable="custom" label="计划创建人"></el-table-column>
-      <el-table-column align="center" prop="result" sortable="custom" width="120" label="执行结果">
+      <el-table-column align="center" show-overflow-tooltip  prop="eamCheckPlan.name" min-width="100" sortable="custom" label="计划名称"></el-table-column>
+      <el-table-column align="center" prop="eamCheckPlan.ownerName" min-width="100" sortable="custom" label="计划创建人"></el-table-column>
+      <el-table-column align="center" prop="result" sortable="custom" min-width="100" label="执行结果">
         <template slot-scope="scope">
           <template v-if="scope.row.result == 'NORMAL'">
             <el-tag size="medium" type="success">{{ '正常执行' }}</el-tag>
@@ -97,31 +98,31 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="repairs" sortable="custom" width="100" label="检修记录">
+      <el-table-column align="center" prop="repairs" sortable="custom" min-width="100" label="检修记录">
         <template slot-scope="scope">
           <template v-if="scope.row.repairs == true">
             <el-tag size="medium" type="succes">{{ '有' }}</el-tag>
           </template>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" width="100" sortable="custom" label="审批状态">
+      <el-table-column align="center" prop="flowProcessInfo.flowCurrentStep" min-width="100" sortable="custom" label="审批状态">
          <template slot-scope="scope">
           <span>{{transFlow(scope.row)}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="userName" width="100" sortable="custom" label="提交人"></el-table-column>
-      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="任务创建时间">
+      <el-table-column align="center" prop="userName" min-width="100" sortable="custom" label="提交人"></el-table-column>
+      <el-table-column align="center" prop="ownerCreationTime" min-width="160" sortable="custom" label="任务创建时间">
       </el-table-column>
-      <el-table-column align="center" width="80" fixed="right" label="操作">
+      <el-table-column align="center" min-width="60" label="操作">
          <template slot-scope="scope">
              <el-button type="primary"  @click="execute(scope.row)" size="mini" title="执行" v-if="executeEnable(scope.row)" icon="el-icon-edit" circle></el-button>
              <el-button type="primary"  @click="approve(scope.row)" size="mini" title="处理" v-if="approveEnable(scope.row)" icon="el-icon-check" circle></el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div class="bottomPanel">
-      <el-pagination style="float:right" :current-page="queryBean.page" @current-change="changePage"
-        :page-size="queryBean.size" layout="total, prev, pager, next" :total="queryBean.totalCount">
+<div class="bottomPanel">
+      <el-pagination style="float:right" :current-page="queryBean.page" @current-change="flushData"
+        :page-size="queryBean.size"   layout="total, prev, pager, next" :total="queryBean.totalCount">
       </el-pagination>
     </div>
     <!-- </el-card> -->
