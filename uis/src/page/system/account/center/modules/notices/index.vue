@@ -2,7 +2,9 @@
 <div>
         <el-table :data="notices"
                         :size="GlobalCss.buttonSize"
-                           :height="(($store.state.contentHeight-10)/2-40-30)"
+
+                           :height="360"
+
                         >
   <el-table-column prop="content">
                 </el-table-column>

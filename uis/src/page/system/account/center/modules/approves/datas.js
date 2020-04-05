@@ -29,7 +29,7 @@ export default {
     return {
       datas: [],
       pages: {
-        size: 20,
+        size: 10,
         total: 0,
         page: 1
       }

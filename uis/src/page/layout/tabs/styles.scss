@@ -1,7 +1,10 @@
 @import '@/styles/mixin.scss';
 $marginPx : 10px;
 .business-tabs{
-  margin-top: $marginPx !important;
+
+   margin-top: $marginPx !important;
+   margin-left: 10px !important;
+
   .el-tabs__item{
     @include font-styles;
     font-size: 12px !important;
@@ -30,7 +33,8 @@ $marginPx : 10px;
     border-bottom: 1px solid #dcdee2 !important;
   }
   .el-tabs__item .is-active{
-    border-bottom: none !important;    
+
+    border-bottom: none !important;
   }
- 
 }
+

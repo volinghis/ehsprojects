@@ -1,41 +1,144 @@
 <template>
-  <div >
-        <el-row >
-          <el-col :span="15">
-            <div class="block-title"
-                 style="background: #40c9c6;">
-              <label>我的代办</label>
-              <i class="fa fa-angle-double-right fa-2x"></i>
-            </div>
-            <Approves></Approves>
-          </el-col>
-          <el-col :span="9" class="paddingStyle" >
-            <div class="block-title"
-                 style="background: #f4516c;">
-              <label>消息提醒</label>
-              <i class="fa fa-angle-double-right fa-2x"></i>
-            </div>
-            <Notices></Notices>
-          </el-col>
-        </el-row>
-        <el-row >
-          <el-col :span="12">
-            <div class="block-title"
-                 style="background: #5d75f2;">
-              <label>我的申请</label>
-              <i class="fa fa-angle-double-right fa-2x"></i>
-            </div>
-            <Applys/>
-          </el-col>
-          <el-col :span="12" class="paddingStyle" >
-            <div class="block-title"
-                 style="background:#36a3f7;">
-              <label>我的已办</label>
-              <i class="fa fa-angle-double-right fa-2x"></i>
-            </div>
-            <Dones />
-          </el-col>
-        </el-row>
+
+  <div class="panel">
+      <el-row  :gutter="10" >
+      <el-col :span="16" >
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>我的待办</span>
+          </div>
+          <Approves></Approves>
+        </el-card>
+      </el-col>
+      <el-col :span="8"  >
+        <!-- <div class="block-title"
+                 style="background: #66b1ff;">
+              <label>上月榜单（仅展示前10名）</label>
+            </div> -->
+         <el-card >
+          <div slot="header" class="clearfix">
+            <span>我的绩效</span>
+          </div>
+          <Rates></Rates>
+        </el-card>
+      </el-col>
+
+    </el-row>
+    <el-row  :gutter="10" >
+      <el-col :span="12" >
+       <el-card>
+          <div slot="header" class="clearfix">
+            <span>设备资料完整度</span>
+          </div>
+          <Devices></Devices>
+        </el-card>
+      </el-col>
+
+      <el-col :span="7" class="paddingStyle">
+        <!-- <div class="block-title"
+                 style="background: #67C23A;">
+              <label>设备资料完整度</label>
+            </div> -->
+      <el-card>
+          <div slot="header" class="clearfix">
+            <span>消息提醒</span>
+          </div>
+          <Notices></Notices>
+        </el-card>
+      </el-col>
+       <el-col :span="5"  class="paddingStyle">
+        <!-- <div class="block-title"
+                 style="background: #66b1ff;">
+              <label>上月榜单（仅展示前10名）</label>
+            </div> -->
+        <el-card>
+          <div slot="header"  class="clearfix">
+            <span>上月榜单（仅展示前8名）</span>
+          </div>
+          <Ranks></Ranks>
+        </el-card>
+      </el-col>
+    </el-row>
+<!--
+    <el-row  :gutter="10" >
+      <el-col :span="8" >
+        <el-card >
+          <div slot="header" class="clearfix">
+            <span>我的绩效</span>
+          </div>
+          <Rates></Rates>
+        </el-card>
+      </el-col>
+      <el-col :span="8"  class="paddingStyle">
+
+        <el-card>
+          <div slot="header"  class="clearfix">
+            <span>上月榜单（仅展示前10名）</span>
+          </div>
+          <Ranks></Ranks>
+        </el-card>
+      </el-col>
+      <el-col :span="8" class="paddingStyle">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>设备资料完整度</span>
+          </div>
+          <Devices></Devices>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :span="12">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>我的待办</span>
+          </div>
+          <Approves></Approves>
+        </el-card>
+      </el-col>
+      <el-col :span="8" class="paddingStyle">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>任务统计</span>
+          </div>
+          <Tasks></Tasks>
+        </el-card>
+      </el-col>
+      <el-col :span="4" class="paddingStyle">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>消息提醒</span>
+          </div>
+          <Notices></Notices>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+
+      <el-col :span="12">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>缺陷统计-按专业</span>
+          </div>
+          <Professiona />
+        </el-card>
+      </el-col>
+      <el-col :span="12" class="paddingStyle">
+
+        <el-card>
+          <div slot="header" class="clearfix">
+            <span>缺陷统计-按系统</span>
+          </div>
+          <Systems />
+        </el-card>
+      </el-col>
+    </el-row>
+    -->
   </div>
 </template>
 <script>

@@ -10,7 +10,7 @@
 
     <el-step v-for="item in processDefineInfo.steps" :key="item.stepKey" :title="item.stepName"></el-step>
   </el-steps>-->
-  <el-image :src="flowImg()"></el-image>
+  <img :src="flowImg()" />
   </el-header>
       <el-container>
     <el-container class="flowPanel">
