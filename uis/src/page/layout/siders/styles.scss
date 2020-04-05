@@ -1,5 +1,6 @@
 
 .siders{
+
   i{
     font-size: 14px;
   }
@@ -8,10 +9,10 @@
 
   }
   .el-menu-item{
-    width: $siderWidth;
+    width: $siderWidth - 1;
   }
   .el-submenu{
-    width: $siderWidth;
+    width: $siderWidth - 1;
 
   }
   li:hover, .el-submenu__title:hover{

@@ -3,21 +3,19 @@ export default {
     return {
       dhUrl: require('@/assets/dongheng.svg'),
       avatarUrl: '',
-      sessionUser: {}
+      sessionUser: JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
     }
   },
-  mounted () {
-    var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
-    this.sessionUser = currUser
-    if (currUser.avatar !== null) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + currUser.avatar, { responseType: 'blob' }).then((res) => {
-        this.avatarUrl = URL.createObjectURL(res.data)
-      })
-    } else {
-      this.avatarUrl = require('@/assets/logo.svg')
-    }
-  },
+
   methods: {
+    userImg () {
+      var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
+      if (currUser.avatar !== null) {
+        return this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + currUser.avatar
+      } else {
+        return '@/assets/logo.svg'
+      }
+    },
     logout () {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/login/doLogout').then(res => {
         if (res.data.resultType === 'ok') {

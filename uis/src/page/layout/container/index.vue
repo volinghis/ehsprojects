@@ -1,8 +1,9 @@
 <template>
-    <el-container >
+<div >
+    <el-container class="pagePanel">
 
         <el-header ><ehsheader></ehsheader></el-header>
-        <el-container>
+        <el-container class="pagePanel">
         <el-aside :style="{height:(this.$store.state.contentHeight)+parseInt(GlobalCss.tabHeight)+'px'}">
           <siders></siders>
         </el-aside>
@@ -15,7 +16,7 @@
 
     </el-container>
   </el-container>
-
+</div>
 </template>
 <script>
 

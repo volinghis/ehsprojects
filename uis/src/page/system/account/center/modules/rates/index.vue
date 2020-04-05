@@ -2,22 +2,30 @@
   <div>
        <el-table :data="rates"
                         :size="GlobalCss.buttonSize"
-                        :height="(($store.state.contentHeight-10)/3-30)"
+
+                        :height="210"
                         >
 
       <el-table-column prop="label"
+      min-width="60"
+
                         align="center"
                         >
       </el-table-column>
       <el-table-column prop="score"
                         align="center"
+
+                         min-width="40"
+
                         >
                          <template slot-scope="scope">
     <span class="ratescore">{{scope.row.score}}</span>
       </template>
       </el-table-column>
       <el-table-column prop="rate"
-                        width="200"
+
+                        min-width="100"
+
                         align="center"
                         >
                          <template slot-scope="scope">

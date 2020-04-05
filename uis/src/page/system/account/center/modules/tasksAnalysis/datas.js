@@ -13,13 +13,11 @@ export default {
   },
   methods: {
     chartSize: function () {
-      return { width: (document.body.offsetWidth - parseInt(this.GlobalCss.siderWidth) - 60) / 3, height: document.body.offsetHeight / 3 }
+      return { height: 360 }
     }
   },
 
   mounted () {
-    document.querySelector('.echarts').style.height = this.chartSize().height + 'px'
-    document.querySelector('.echarts').style.width = this.chartSize().width + 'px'
     var that = this
     this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/checks/task/taskAnalysisForIndexPage').then(response => {
       that.orgOptions = {
@@ -32,8 +30,7 @@ export default {
           {
             name: '任务数量',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '50%'],
+
             data: response.data,
             emphasis: {
               itemStyle: {
@@ -46,6 +43,8 @@ export default {
         ]
 
       }
+
+      that.$refs.chart3.resize({ height: that.chartSize().height })
     })
   }
 }

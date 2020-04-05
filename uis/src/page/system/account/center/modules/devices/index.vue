@@ -2,7 +2,9 @@
   <div>
        <el-table :data="datas"
                         :size="GlobalCss.buttonSize"
-                        :height="(($store.state.contentHeight-10)/3-30)"
+
+                        :height="370"
+
                         >
 
       <el-table-column prop="deviceName"
@@ -28,7 +30,9 @@
            <el-table-column prop="personName"
                         align="center"
                         label="责任人"
-                          width="80"
+
+                          width="60"
+
                         >
 
       </el-table-column>

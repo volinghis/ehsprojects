@@ -2,24 +2,32 @@
   <div>
        <el-table :data="ranks"
                         :size="GlobalCss.buttonSize"
-                        :height="(($store.state.contentHeight-10)/3-30)"
+
+                        :height="370"
+
                         >
 
       <el-table-column prop="userName"
                         align="center"
+
+                        min-width="35"
                         >
                          <template slot-scope="scope">
-          <el-image :src="findUrl(scope.$index+1)" style="width:35px;height:35px"
-                    fit="fill"  size="large"></el-image>
+          <el-image :src="findUrl(scope.$index+1)" style="width:25px;height:25px"
+                    fit="fill"  ></el-image>
+
       </template>
       </el-table-column>
 
       <el-table-column prop="userName"
                         align="center"
+
+                        show-overflow-tooltip
                         >
       </el-table-column>
       <el-table-column prop="score"
-                        width="200"
+                        min-width="50"
+
                         align="center"
                         >
        <template slot-scope="scope">

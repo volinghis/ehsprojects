@@ -1,7 +1,9 @@
 
 <template>
   <div class="hello">
-    <chart ref="chart3"  :theme="GlobalVars.ehsecharts" :initOptions="chartSize()" :options="orgOptions" :auto-resize="true"></chart>
+
+    <chart ref="chart3"  :theme="GlobalVars.ehsecharts" :style="chartSize()" :initOptions="chartSize()" :options="orgOptions" ></chart>
+
   </div>
 </template>
 

@@ -2,7 +2,9 @@
 <div>
         <el-table :data="notices"
                         :size="GlobalCss.buttonSize"
-                           :height="tableHeight()"
+
+                           :height="360"
+
                         >
   <el-table-column prop="content" show-overflow-tooltip>
                 </el-table-column>
