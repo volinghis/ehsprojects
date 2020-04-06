@@ -153,7 +153,7 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 									if(partsAccount.getPrice().compareTo(pp.getPrice()) == 0) {
 										logger.info("编码相同，价格相同的时候");
 										logger.info("partsAccount.getDummyAmount()====="+partsAccount.getDummyAmount());
-										if(StringUtils.isNotBlank(String.valueOf(partsAccount.getDummyAmount()))) {
+										if(StringUtils.isBlank(String.valueOf(partsAccount.getDummyAmount()))) {
 											partsAccount.setDummyAmount(partsAccount.getAmount().intValue() - pp.getAmount().intValue());
 											logger.info("hhhh==="+partsAccount.getDummyAmount());
 										}else {

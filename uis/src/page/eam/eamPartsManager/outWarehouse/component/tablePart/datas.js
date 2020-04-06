@@ -85,11 +85,15 @@ export default {
       })
     },
     handleClick: function (row) {
-      this.drawer = true
-      this.$nextTick(() => {
-        this.partsFormEdit = row
-        this.flagMark = 'view'
-      })
+      if (this.flag !== 'view') {
+        this.drawer = false
+      } else {
+        this.drawer = true
+        this.$nextTick(() => {
+          this.partsFormEdit = row
+          this.flagMark = 'view'
+        })
+      }
     },
     handleDel: function (index, rows) {
       rows.splice(index, 1)
@@ -139,6 +143,13 @@ export default {
     saveForm: function () {
       this.$refs.partData.$refs.form.validate(valid => {
         if (valid) {
+          if (this.$refs.partData.$refs.form.model.amount > this.$refs.partData.oldAmount) {
+            this.$message({
+              message: '输入数量不能大于库存数量',
+              type: 'warning'
+            })
+            return
+          }
           this.drawer = false
           this.tableData.forEach((e, index) => {
             if (e.id === this.$refs.partData.form.id) {
@@ -147,6 +158,9 @@ export default {
                 var d = new Date(this.$refs.partData.form.leaveFactoryDate)
                 var datetime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' '
                 this.$refs.partData.form.leaveFactoryDate = datetime
+              }
+              if (this.$refs.partData.form.amount && this.$refs.partData.form.price) {
+                this.$refs.partData.form.totalPrice = this.$refs.partData.form.amount * this.$refs.partData.form.price
               }
               let tableDataNew = []
               tableDataNew.push(this.$refs.partData.form)

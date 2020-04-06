@@ -13,24 +13,26 @@ export default {
     flag: function (val) {
       this.flag = val
     },
-    amountNew: function (val) {
-      if (this.priceNew !== undefined) {
-        this.totalPriceNew = this.form.price * val
-      }
-    },
-    priceNew: function (val) {
-      if (this.amountNew !== undefined) {
-        this.totalPriceNew = this.form.amount * val
-      }
-    },
-    totalPriceNew: function (val) {
-      this.form.totalPrice = val
-    },
+    // amountNew: function (val) {
+    //   if (this.priceNew !== undefined) {
+    //     this.totalPriceNew = this.form.price * val
+    //   }
+    // },
+    // priceNew: function (val) {
+    //   if (this.amountNew !== undefined) {
+    //     this.totalPriceNew = this.form.amount * val
+    //   }
+    // },
+    // totalPriceNew: function (val) {
+    //   this.form.totalPrice = val
+    //   console.log(this.form.totalPrice)
+    // },
     factoryDateBlur: function (val) {
       this.form.leaveFactoryDate = val
     },
     partsForm: {
       handler (val) {
+        // console.log(this.flag)
         if (this.flag !== 'view') {
           this.partFlag = true
           this.amountMessage = true
@@ -101,7 +103,6 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
         var resData = res.data
         this.imageUrl = URL.createObjectURL(resData)
-        console.log(this.imageUrl)
       }).catch(error => {
         this.$message({ message: error })
       })
@@ -124,14 +125,11 @@ export default {
       paramsData: [],
       priceNew: 0,
       amountNew: 0,
-      totalPriceNew: 0,
+      // totalPriceNew: 0,
       imageUrl: '',
       form: {
         fileId: '',
         partsImg: '',
-        // maintenancesStandard: '',
-        // synopsis: '',
-        // operationManual: '',
         deviceName: '',
         deviceCode: '',
         norm: '',
@@ -149,13 +147,6 @@ export default {
         unit: '',
         totalPrice: 0
       },
-      customColors: [
-        { color: '#f56c6c', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 },
-        { color: '#6f7ad3', percentage: 100 }
-      ],
       rules: {
         price: [
           { required: true, message: '请输入价格', trigger: 'blur' },
