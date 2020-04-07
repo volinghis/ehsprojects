@@ -1,39 +1,20 @@
-
 <template>
   <div>
-    <el-row type="flex"
-            class="row-bg"
-            justify="center"
-            style="margin-top:50px;">
-      <el-col :span="8">
-        <el-form :model="ruleForm"
-                 status-icon
-                 :rules="rules"
-                 :size="GlobalCss.buttonSize"
-                 ref="ruleForm"
-                 label-width="100px"
-                 class="demo-ruleForm">
-          <el-form-item label="输入原密码："
-                        prop="pass">
-            <el-input type="password"
-                      v-model="ruleForm.pass"
-                      autocomplete="off"></el-input>
+    <el-row type="flex" class="row-bg" justify="center" style="margin-top:50px;">
+      <el-col :span="12">
+        <el-form :model="ruleForm" status-icon :rules="rules" :size="GlobalCss.buttonSize" ref="ruleForm"
+          label-width="100px" class="demo-ruleForm">
+          <el-form-item label="输入原密码：" prop="pass">
+            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="输入新密码："
-                        prop="newPass">
-            <el-input v-model="ruleForm.newPass"
-                      type="password"
-                      autocomplete="off"></el-input>
+          <el-form-item label="输入新密码：" prop="newPass">
+            <el-input v-model="ruleForm.newPass" type="password" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="确认新密码："
-                        prop="checkPass">
-            <el-input type="password"
-                      v-model="ruleForm.checkPass"
-                      autocomplete="off"></el-input>
+          <el-form-item label="确认新密码：" prop="checkPass">
+            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"
-                       @click="submitForm">提交</el-button>
+            <el-button type="primary" @click="submitForm">提交</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -74,15 +55,18 @@ export default {
         newPass: ''
       },
       rules: {
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
-        newPass: [
-          { validator: checknewPass, trigger: 'blur' }
-        ]
+        pass: [{
+          validator: validatePass,
+          trigger: 'blur'
+        }],
+        checkPass: [{
+          validator: validatePass2,
+          trigger: 'blur'
+        }],
+        newPass: [{
+          validator: checknewPass,
+          trigger: 'blur'
+        }]
       }
     }
   },
@@ -90,7 +74,8 @@ export default {
     submitForm () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/userManager/changPassword', this.ruleForm).then(res => {
+          this.$axios.post(this.GlobalVars.globalServiceServlet + '/auth/userManager/changPassword', this
+            .ruleForm).then(res => {
             if (res.data.resultType === 'ok') {
               this.$message({
                 message: res.data.message,
@@ -113,4 +98,5 @@ export default {
     }
   }
 }
+
 </script>

@@ -6,7 +6,7 @@ export default {
       queryParams: {
         query: '',
         page: 1,
-        size: 20
+        size: 10
       },
       tableData: [],
       multipleSelection: []

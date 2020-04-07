@@ -12,20 +12,20 @@
     </div>
     <div class="table-container">
       <el-table :data="tableData" v-loading="loading" :size="GlobalCss.buttonSize" border style="width: 100%">
-        <el-table-column type="index" align="center" width="50"></el-table-column>
-        <el-table-column prop="name" align="center" label="角色姓名"></el-table-column>
-        <el-table-column prop="dataCode" align="center" label="角色编码"></el-table-column>
-        <el-table-column prop="remark" align="center" label="备注"></el-table-column>
-        <el-table-column prop="creationTime" align="center" label="创建时间"></el-table-column>
+        <el-table-column type="index" show-overflow-tooltip min-width="50" align="center"></el-table-column>
+        <el-table-column prop="name" show-overflow-tooltip min-width="100" align="center" label="角色姓名"></el-table-column>
+        <el-table-column prop="dataCode" show-overflow-tooltip min-width="100" align="center" label="角色编码"></el-table-column>
+        <el-table-column prop="remark" show-overflow-tooltip min-width="100" align="center" label="备注"></el-table-column>
+        <el-table-column prop="creationTime" show-overflow-tooltip min-width="100" align="center" label="创建时间"></el-table-column>
         <!-- <el-table-column prop="updateTime" label="更新时间"></el-table-column> -->
-        <el-table-column fixed="right" label="操作" align="center" width="180">
+        <el-table-column fixed="right" label="操作" show-overflow-tooltip min-width="120" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="primary" :size="GlobalCss.buttonSize" >编辑</el-button>
             <el-button type="danger" @click="handleDelete(scope.row)" :size="GlobalCss.buttonSize">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @current-change="handleCurrentChange" :current-page.sync="form.page" :page-size="form.size" background
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="form.page" :page-size="form.size"
         layout="total, prev, pager, next" :total="totalCount">
       </el-pagination>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5" style="border-right:1px solid #DCDFE6;" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
+      <el-col :span="5">
         <!-- <el-input placeholder="输入关键字进行查找" :size="GlobalCss.buttonSize" v-model="filterText"></el-input> -->
         <!-- <el-tree :data="treeData"  node-key="id"  ref="tree" :props="treeProps" :default-expanded-keys="defaultExpandKeys"
                    @node-click="handleNodeClick" :filter-node-method="filterNode" highlight-current :expand-on-click-node="false">
@@ -11,20 +11,20 @@
       <!-- <el-col :span="1">
         <el-divider direction="vertical"></el-divider>
       </el-col> -->
-      <el-col :span="18" :push="1">
-        <div class="container">
+      <el-col :span="18" :push="1" style="border-left:1px solid #DCDFE6;">
+        <div class="container" style="margin-left:10px;">
           <div class="operation">
             <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="orgAdd"> 新增</el-button>
           </div>
           <div class="refRoleTable">
             <template>
               <el-table :data="orgTableData" :size="GlobalCss.buttonSize" border>
-                <el-table-column type="index" align="center" width="45"> </el-table-column>
-                <el-table-column prop="dataCode" align="center" label="部门编码"></el-table-column>
-                <el-table-column prop="name" align="center" label="部门名称"></el-table-column>
-                <el-table-column prop="sort" align="center" label="排序" width="120"></el-table-column>
-                <!-- <el-table-column prop="name" align="center" label="业务权限"></el-table-column> -->
-                <el-table-column align="center" width="200" label="操作">
+                <el-table-column type="index" show-overflow-tooltip min-width="45" align="center"> </el-table-column>
+                <el-table-column prop="dataCode" show-overflow-tooltip min-width="140" align="center" label="部门编码"></el-table-column>
+                <el-table-column prop="name" show-overflow-tooltip min-width="150" align="center" label="部门名称"></el-table-column>
+                <el-table-column prop="sort" show-overflow-tooltip min-width="80" align="center" sortable label="排序"></el-table-column>
+                <!-- <el-table-column prop="name" show-overflow-tooltip min-width="100" align="center" label="业务权限"></el-table-column> -->
+                <el-table-column show-overflow-tooltip min-width="160" align="center" label="操作">
                   <template slot-scope="scope">
                     <!-- <el-button type="warning" :size="GlobalCss.buttonSize" @click="handleAuthToOrg(scope.row)">授权</el-button> -->
                     <el-button type="primary" :size="GlobalCss.buttonSize" @click="handleEdit(scope.row)">编辑</el-button>
