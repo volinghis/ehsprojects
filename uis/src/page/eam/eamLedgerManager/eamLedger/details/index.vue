@@ -80,7 +80,7 @@
         </el-card>
       </el-col>
     </el-row>
-
+  <el-button type="primary" @click="$router.go(-1)" :size="GlobalCss.buttonSize" style="float:right;">返回</el-button>
   </div>
 </template>
 

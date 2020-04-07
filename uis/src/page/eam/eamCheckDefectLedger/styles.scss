@@ -14,6 +14,9 @@
 .table-list{
   margin: 10px 0px 0px 10px;
 }
+/deep/.el-divider--horizontal {
+  margin: 0px 0 15px 0;
+}
 @mixin setColor($color) {
   width: 10px;
   height: 10px;

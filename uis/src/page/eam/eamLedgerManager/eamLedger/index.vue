@@ -44,20 +44,20 @@
                    :status-icon="true"
                    class="demo-ruleForm">
             <el-form-item label="查询">
-               <el-input placeholder="根据设备名称查询"
-                    size="small"
-                    v-model="queryParam.name"
-                    style="width:60%;"
-                    clearable
-                    @clear="initTable">
-            <template slot="append">
-              <el-button type="primary"
-                         :size="GlobalCss.buttonSize"
-                         icon="el-icon-search"
-                         @click="initTable()">
-              </el-button>
-            </template>
-          </el-input>
+              <el-input placeholder="根据设备名称查询"
+                        size="small"
+                        v-model="queryParam.name"
+                        style="width:60%;"
+                        clearable
+                        @clear="initTable">
+                <template slot="append">
+                  <el-button type="primary"
+                             :size="GlobalCss.buttonSize"
+                             icon="el-icon-search"
+                             @click="initTable()">
+                  </el-button>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item label="投运时长">
               <el-radio-group v-model="queryParam.time"
@@ -120,8 +120,9 @@
                              min-width="60">
               <template slot-scope="scope">
                 <el-image class="table-td-deviceImg"
-                          style="width: 36px; height: 36px"
-                          :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
+                          style="width: 26px; height: 26px"
+                          :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey"
+                          :preview-src-list="[scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey]">
                   <div slot="error"
                        class="image-slot">
                     <!-- <i class="fa fa-file-picture-o fa-3x"></i> -->
@@ -198,11 +199,10 @@
           </el-table>
           <div class="tableFooter">
             <div class="pagination">
-              <el-pagination background
-                             @current-change="changePage"
+              <el-pagination @current-change="changePage"
                              :current-page="queryParam.page"
                              :page-size="queryParam.size"
-                             layout="total, prev, pager, next, jumper"
+                             layout="total, prev, pager, next"
                              :total="total">
               </el-pagination>
             </div>

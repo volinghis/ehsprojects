@@ -71,6 +71,7 @@ export default {
     },
     view (row) {
       var that = this
+      console.log(row)
       this.GlobalMethods.openFlowWin(row.flowProcessInfo.flowViewPage, row.flowProcessInfo, function () {
         that.flushData()
       })

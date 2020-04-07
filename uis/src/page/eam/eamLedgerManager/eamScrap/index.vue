@@ -112,8 +112,7 @@
         </el-table>
         <div class="pagination"
              style="float:right;margin-top:12px;">
-          <el-pagination background
-                         layout="total, prev, pager, next"
+          <el-pagination layout="total, prev, pager, next"
                          :current-page="queryParam.page"
                          :page-size="queryParam.size"
                          :total="totalCount"

@@ -12,7 +12,6 @@
           <el-upload class="avatar-uploader"
                      :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
                      :show-file-list="false"
-                      accept=""
                      :on-success="handleAvatarSuccess"
                      :before-upload="beforeAvatarUpload">
             <img v-if="imgUrl"
@@ -152,6 +151,6 @@
 import datas from './datas'
 export default datas
 </script>
-<style lang="scss" scoped >
+<style lang="scss">
 @import "./styles.scss";
 </style>

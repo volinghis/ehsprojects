@@ -26,6 +26,7 @@ import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
+import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.checks.bean.CheckDefectAnalysisBean;
 import com.ehs.eam.checks.bean.CheckDefectLedgerBean;
@@ -54,6 +55,9 @@ public class EamCheckDefectLedgerController {
 	
 	@Resource
 	private EamCheckDefectLedgerService defectLedgerService;
+	
+	@Resource
+	private FlowProcessInfoService flowProcessInfoService;
 
 	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getDefectLedgerList")
@@ -116,5 +120,12 @@ public class EamCheckDefectLedgerController {
 	public String getAnalysisByType(@RequestParam String type,@RequestParam boolean onlyMajor, @RequestParam boolean onlyStatusError) {
 		List<CheckDefectAnalysisBean> analysisBeans=defectLedgerService.analysisByType(type, onlyMajor, onlyStatusError);
 		return JsonUtils.toJsonString(analysisBeans);
+	}
+	
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
+	@RequestMapping(value = "/getFlowProcessInfoByBusinessKey")
+	public String getFlowProcessInfoByBusinessKey(@RequestParam String key) {
+		FlowProcessInfo flowInfo=flowProcessInfoService.findProcessInfoByEntityKey(key);
+		return JsonUtils.toJsonString(flowInfo);
 	}
 }

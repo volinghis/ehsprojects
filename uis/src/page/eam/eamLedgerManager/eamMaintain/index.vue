@@ -96,15 +96,14 @@
                 :size="GlobalCss.buttonSize">
         <el-table-column type="index"
                          align="center"
-                         min-width="40"
-                         fixed="left"></el-table-column>
+                         min-width="40"></el-table-column>
         <el-table-column prop="deviceImg"
                          label="图片"
                          align="center"
-                         min-width="50">
+                         min-width="60">
           <template slot-scope="scope">
             <el-image class="table-td-deviceImg"
-                      style="width: 36px; height: 36px"
+                      style="width: 26px; height: 26px"
                       :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
               <div slot="error"
                    class="image-slot">
@@ -174,11 +173,11 @@
                          align="center"></el-table-column> -->
         <el-table-column prop="person"
                          v-if="show"></el-table-column>
-        <el-table-column prop="personName"
+        <!-- <el-table-column prop="personName"
                          label="负责人"
                          min-width="100"
                          sortable
-                         align="center"></el-table-column>
+                         align="center"></el-table-column> -->
         <!-- <el-table-column prop="deviceStatus"
                          label="设备状态"
                          sortable
@@ -202,20 +201,16 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <div class="tableFooter">
         <div class="pagination"
-             style="text-align:right;margin-top:12px;">
-          <el-pagination background
-                         @current-change="changePage"
+             style="text-align:right;">
+          <el-pagination @current-change="changePage"
                          :current-page="queryParam.page"
                          :page-size="queryParam.size"
-                         layout="total, prev, pager, next, jumper"
+                         layout="total, prev, pager, next"
                          :total="total">
           </el-pagination>
         </div>
       </div>
-    </div>
     <!-- </el-card> -->
   </div>
 
