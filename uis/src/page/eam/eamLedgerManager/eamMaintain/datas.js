@@ -29,11 +29,6 @@ export default {
     this.getDeviceAddress()
     this.checkScopeTypeChange()
   },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 480
-    }
-  },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getList', this.queryParam).then(res => {

@@ -1,16 +1,7 @@
 <template>
   <div>
     <!-- <el-card style="margin:0px 10px 10px 10px;"> -->
-    <span style="margin-left:10px;">查询：</span>
-    <div class="table-search-wrapper">
-      <el-input placeholder="请输入报废名称"
-                size="small"
-                v-model="queryParam.query">
-        <el-button slot="append"
-                   icon="el-icon-search"></el-button>
-      </el-input>
-    </div>
-     <div class="queryBodys">
+    <div class="queryBodys">
       <el-form ref="ruleForm"
                style="width:700px;"
                label-suffix="："
@@ -20,6 +11,15 @@
                :inline-message="true"
                :status-icon="true"
                class="demo-ruleForm">
+        <el-form-item label="查询">
+          <el-input placeholder="请输入报废名称"
+                    size="small"
+                    style="width:60%;"
+                    v-model="queryParam.query">
+            <el-button slot="append"
+                       icon="el-icon-search"></el-button>
+          </el-input>
+        </el-form-item>
         <el-form-item label="设备状态">
           <el-radio-group v-model="queryParam.status"
                           @change="getScrapEamList()">

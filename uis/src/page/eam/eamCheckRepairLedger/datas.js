@@ -24,11 +24,6 @@ export default {
     this.inintTree(this.queryBean.objectType)
     this.initTable()
   },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 256
-    }
-  },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/repairLedger/getRepairLedgerList', this.queryBean)

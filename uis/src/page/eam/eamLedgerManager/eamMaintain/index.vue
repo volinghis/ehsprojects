@@ -1,30 +1,32 @@
 <template>
   <div>
     <!-- <el-card style="margin:0px 10px 10px 10px;" :style="{height:(this.$store.state.contentHeight-25)+'px'}"> -->
-    <span style="margin-left:10px;">查询：</span>
-    <div class="table-search-wrapper">
-      <el-input placeholder="根据设备名称查询"
-                size="small"
-                v-model="queryParam.name">
-        <template slot="append">
-          <el-button type="primary"
-                     :size="GlobalCss.buttonSize"
-                     icon="el-icon-search"
-                     @click="initTable()">
-          </el-button>
-        </template>
-      </el-input>
-    </div>
     <div class="queryBodys">
       <el-form ref="ruleForm"
                style="width:700px;"
                label-suffix="："
                label-position="left"
-               size="mini"
+               :size="GlobalCss.buttonSize"
                label-width="100px"
                :inline-message="true"
                :status-icon="true"
                class="demo-ruleForm">
+        <el-form-item label="查询">
+          <el-input placeholder="根据设备名称查询"
+                    size="small"
+                    v-model="queryParam.name"
+                    style="width:60%;"
+                    clearable
+                    @clear="initTable">
+            <template slot="append">
+              <el-button type="primary"
+                         :size="GlobalCss.buttonSize"
+                         icon="el-icon-search"
+                         @click="initTable()">
+              </el-button>
+            </template>
+          </el-input>
+        </el-form-item>
         <el-form-item label="投运时长">
           <el-radio-group v-model="queryParam.time"
                           @change="initTable()">
@@ -41,7 +43,7 @@
         <el-form-item label="设备位置">
           <el-select v-model="form.addresse"
                      clearable
-                     size="small"
+                     size="mini"
                      style="width:60%"
                      @clear="initTable"
                      @change="addressChange"
@@ -91,23 +93,22 @@
       <el-table :data="tableData"
                 style="width: 100%"
                 border
-                :height="tableHeight"
                 :size="GlobalCss.buttonSize">
         <el-table-column type="index"
                          align="center"
-                         width="50"
+                         min-width="40"
                          fixed="left"></el-table-column>
         <el-table-column prop="deviceImg"
                          label="图片"
                          align="center"
-                         width="60">
+                         min-width="50">
           <template slot-scope="scope">
             <el-image class="table-td-deviceImg"
                       style="width: 36px; height: 36px"
                       :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
               <div slot="error"
                    class="image-slot">
-                <i class="fa fa-file-picture-o fa-3x"></i>
+                <!-- <i class="fa fa-file-picture-o fa-3x"></i> -->
               </div>
             </el-image>
           </template>
@@ -116,7 +117,7 @@
                          sortable
                          align="center"
                          label="设备编号"
-                         width="150">
+                         min-width="150">
           <template slot-scope="scope">
             <el-link type="primary"
                      @click="handleLink(scope.row)">{{scope.row.deviceNum}}</el-link>
@@ -125,10 +126,12 @@
         <el-table-column prop="deviceName"
                          sortable
                          align="center"
+                         min-width="100"
                          label="设备名称"></el-table-column>
         <el-table-column prop="deviceModel"
                          sortable
                          align="center"
+                         min-width="100"
                          label="规格型号"></el-table-column>
         <!-- <el-table-column prop="completePoint"
                          label="资料完整度"
@@ -144,31 +147,36 @@
                          label="生产厂家"
                          sortable
                          align="center"
+                         min-width="100"
                          :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="installLocationName"
                          label="安装位置"
                          sortable
+                         min-width="100"
                          align="center"></el-table-column>
         <el-table-column prop="deviceSystem"
                          label="设备系统"
+                         min-width="100"
                          sortable
                          align="center"></el-table-column>
         <el-table-column prop="profession"
                          label="设备专业"
+                         min-width="100"
                          sortable
                          align="center"></el-table-column>
-        <el-table-column prop="leaveDate"
+        <!-- <el-table-column prop="leaveDate"
                          label="出厂日期"
                          sortable
                          align="center"></el-table-column>
         <el-table-column prop="runDate"
                          label="启用日期"
                          sortable
-                         align="center"></el-table-column>
+                         align="center"></el-table-column> -->
         <el-table-column prop="person"
                          v-if="show"></el-table-column>
         <el-table-column prop="personName"
                          label="负责人"
+                         min-width="100"
                          sortable
                          align="center"></el-table-column>
         <!-- <el-table-column prop="deviceStatus"
@@ -181,10 +189,9 @@
                     :size="GlobalCss.buttonSize">{{scope.row.deviceStatus}}</el-tag>
           </template>
         </el-table-column> -->
-        <el-table-column fixed="right"
-                         align="center"
+        <el-table-column align="center"
                          label="操作"
-                         width="100">
+                         min-width="100">
           <template slot-scope="scope">
             <el-button type="warning"
                        @click="handleEditClick(scope.row)"

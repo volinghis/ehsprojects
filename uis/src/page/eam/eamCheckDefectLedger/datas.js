@@ -33,11 +33,6 @@ export default {
     that.initTable()
     that.inintTree(this.queryBean.objectType)
   },
-  computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 256
-    }
-  },
   methods: {
     initTable () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getDefectLedgerList', this.queryBean)

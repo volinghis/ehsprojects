@@ -66,7 +66,7 @@
               </el-table-column>
               <el-table-column prop="name"
                                label="文件名称"
-                               align="center"></el-table-column>
+                               align="center"  show-overflow-tooltip></el-table-column>
               <el-table-column prop="categoriesName"
                                label="资料类别"
                                align="center"></el-table-column>
