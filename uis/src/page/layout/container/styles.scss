@@ -15,6 +15,7 @@
 
 .tabHeader{
   height: $tabHeight !important;
+  width: $bodyMinWidth - $siderWidth  ;
 }
 .el-main{
   padding: 0px;
