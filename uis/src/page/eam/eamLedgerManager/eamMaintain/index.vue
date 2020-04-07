@@ -103,8 +103,9 @@
                          min-width="60">
           <template slot-scope="scope">
             <el-image class="table-td-deviceImg"
-                      style="width: 26px; height: 26px"
-                      :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey">
+                      style="width: 26px; height: 26px;top:3px;"
+                      :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey"
+                      :preview-src-list="[scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey]">
               <div slot="error"
                    class="image-slot">
                 <!-- <i class="fa fa-file-picture-o fa-3x"></i> -->
