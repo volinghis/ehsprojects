@@ -32,37 +32,37 @@
        <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button>
     </div> -->
     <template>
-      <el-table :data="tableData" ref="multipleTable" :max-height="tableHeight" resizable border highlight-current-row :size="GlobalCss.buttonSize">
+      <el-table :data="tableData" ref="multipleTable" resizable border highlight-current-row :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
-        <!-- <el-table-column prop="partsImg" label="图片" width="70" sortable align="center">
+        <!-- <el-table-column prop="partsImg" label="图片" width="70" sortable show-overflow-tooltip align="center">
           <template slot-scope="scope">
             <el-image style="width: 30px; height: 30px" :src="scope.row.partsImg" :preview-src-list="[scope.row.partsImg]"></el-image>
           </template>
         </el-table-column> -->
-        <el-table-column prop="deviceCode" label="备件编号" sortable align="center">
+        <el-table-column prop="deviceCode" label="备件编号" min-width="100" sortable show-overflow-tooltip align="center">
           <template slot-scope="scope">
             <el-link type="primary" @click="handleView(scope.row)">{{scope.row.deviceCode}}</el-link>
           </template>
         </el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" sortable align="center"></el-table-column>
-        <!-- <el-table-column prop="completePoint" label="资料完整度" sortable align="center">
+        <el-table-column prop="deviceName" label="备件名称" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <!-- <el-table-column prop="completePoint" label="资料完整度" sortable show-overflow-tooltip align="center">
           <template slot-scope="scope">
-            <el-progress :percentage="scope.row.completePoint" :color="customColors" sortable align="center"></el-progress>
+            <el-progress :percentage="scope.row.completePoint" :color="customColors" sortable show-overflow-tooltip align="center"></el-progress>
           </template>
         </!--> -->
-        <el-table-column prop="wareHouseCode" label="仓库编码" sortable align="center"></el-table-column>
-        <el-table-column prop="wareHouseName" label="所在仓库" sortable align="center"></el-table-column>
-        <el-table-column prop="norm" label="规格型号" sortable align="center"></el-table-column>
-        <el-table-column prop="materialCode" label="物资编码"  sortable align="center"></el-table-column>
-        <el-table-column prop="materialType" label="物资类别"  sortable align="center"></el-table-column>
-        <!-- <el-table-column prop="manufacturer"  label="生产厂家" sortable align="center"></el-table-column> -->
-        <el-table-column prop="amount" label="数量" sortable align="center" width="80"> </el-table-column>
-        <el-table-column prop="price" label="单价" sortable align="center" width="80"> </el-table-column>
-        <el-table-column prop="warningValue" label="预警值" sortable align="center" width="90"></el-table-column>
+        <el-table-column prop="wareHouseCode" label="仓库编码" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="wareHouseName" label="所在仓库" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="norm" label="规格型号" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="materialCode" label="物资编码"  min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="materialType" label="物资类别"  min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <!-- <el-table-column prop="manufacturer"  label="生产厂家" sortable show-overflow-tooltip align="center"></el-table-column> -->
+        <el-table-column prop="amount" label="数量" min-width="80" sortable show-overflow-tooltip align="center"> </el-table-column>
+        <el-table-column prop="price" label="单价" min-width="80" sortable show-overflow-tooltip align="center"> </el-table-column>
+        <el-table-column prop="warningValue" label="预警值" min-width="90" sortable show-overflow-tooltip align="center"></el-table-column>
       </el-table>
       <div>
         <div style="text-align:right;">
-          <el-pagination class="pageHeight" background :current-page.sync="queryBean.page" :page-size="queryBean.size"
+          <el-pagination class="pageHeight" :current-page.sync="queryBean.page" :page-size="queryBean.size"
                          layout="total, prev, pager, next" :total="queryBean.totalCount">
           </el-pagination>
         </div>

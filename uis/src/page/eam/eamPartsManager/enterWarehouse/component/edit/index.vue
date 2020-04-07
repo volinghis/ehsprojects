@@ -39,12 +39,12 @@
       <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerSelect" v-show="showButton">选择备件</el-button>
       <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerAdd" v-show="showButton">添加备件</el-button>
       <!--备件表格-->
-      <div class="tableHeight" :style="{height:tableHeight}">
+      <div class="tableHeight">
         <table-part ref="table" :parts="parts" :objPart="obj" :showFlag="showFlag" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount">
         </table-part>
       </div>
     </el-form>
-    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" destroy-on-close>
+    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close>
       <el-divider></el-divider>
       <div style="text-align:center;">
         <add-part :selectWareHouseFlag="selectFlag" @partsData="partsData"></add-part>

@@ -1,8 +1,8 @@
 <template>
   <div class="pageClass">
     <el-row :gutter="10">
-      <el-col :span="8">
-        <el-card>
+      <el-col :span="8" style="border-right-style: ridge;border-right-width: 1px;border-right-color: #E4E7ED;">
+        <!-- <el-card> -->
           <div class="item-block" style="text-align:center;">
             <div class="item-title">设备详情</div>
             <el-image v-if="imageUrl" :src="imageUrl" class="avatar"></el-image>
@@ -37,16 +37,16 @@
              </el-form>
             </el-row>
           </div>
-        </el-card>
+        <!-- </el-card> -->
       </el-col>
       <el-col :span="16">
         <el-row>
           <el-col :span="24" class="grid-content bg-purple">
-            <el-card>
+            <!-- <el-card> -->
               <div style="margin-left:20px;">
                 <FilesTable :fileId="fileId" :deviceKey="deviceKey" @getFileId="allFileId" :isDisable="partFlag" :key="key"></FilesTable>
               </div>
-            </el-card>
+            <!-- </el-card> -->
           </el-col>
         </el-row>
         <!-- <el-row>

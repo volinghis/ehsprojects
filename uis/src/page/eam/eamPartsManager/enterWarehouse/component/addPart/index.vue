@@ -7,15 +7,15 @@
     </el-form>
     <template>
       <el-table :data="tableData" border ref="multipleTable" @selection-change="handleSelectionChange" :size="GlobalCss.controlSize">
-        <el-table-column type="selection" align="center"></el-table-column>
-        <el-table-column prop="wareHouseCode" label="入库编号" align="center"></el-table-column>
-        <el-table-column prop="wareHouseName" label="所在仓库" align="center"></el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" align="center"></el-table-column>
-        <el-table-column prop="norm" label="规格型号" align="center"></el-table-column>
-        <el-table-column prop="materialType" label="物资类别" align="center"></el-table-column>
-        <el-table-column prop="amount" label="数量" align="center"></el-table-column>
-        <el-table-column prop="warningValue" label="预警值" align="center">
+        <el-table-column type="selection" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="wareHouseCode" label="入库编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="wareHouseName" label="所在仓库" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="materialType" label="物资类别" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="amount" label="数量" show-overflow-tooltip min-width="70" align="center"></el-table-column>
+        <el-table-column prop="warningValue" label="预警值" show-overflow-tooltip min-width="70" align="center">
           <template slot-scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag type="danger" size="small">{{ scope.row.warningValue }}</el-tag>
@@ -23,7 +23,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination style="text-align:right;" background :current-page.sync="queryBean.page" :page-size="queryBean.size"
+      <el-pagination style="text-align:right;" :current-page.sync="queryBean.page" :page-size="queryBean.size"
         @current-change="changePage" layout="total, prev, pager, next" :total="queryBean.totalCount">
       </el-pagination>
     </template>
@@ -42,7 +42,7 @@ export default {
         flag: '',
         query: '',
         page: 1,
-        size: 20,
+        size: 10,
         totalCount: 0
       }
     }

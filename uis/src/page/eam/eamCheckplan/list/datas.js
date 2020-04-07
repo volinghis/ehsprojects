@@ -11,7 +11,7 @@ export default {
       dialogVisible: false,
       queryBean: {
         page: 1,
-        size: 20,
+        size: 10,
         rates: 'ALL',
         types: 'ALL',
         status: 'ALL',
@@ -223,7 +223,7 @@ export default {
       this.flushData()
     },
     flushData () {
-      this.queryBean.page = 1
+      // this.queryBean.page = 1
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/checks/plan/getAllPlans', this.queryBean)
         .then(res => {
           this.plans = res.data.dataList

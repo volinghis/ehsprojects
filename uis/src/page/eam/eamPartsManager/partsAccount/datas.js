@@ -14,7 +14,7 @@ export default {
       queryBean: {
         query: '',
         page: 1,
-        size: 20,
+        size: 10,
         totalCount: 0,
         warehouseNames: 'ALL',
         reserve: 'ALL'

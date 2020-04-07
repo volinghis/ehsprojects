@@ -3,8 +3,7 @@
     <!-- <el-card style="margin-left:10px;margin-right:10px;"> -->
     <div class="topPanel">
       <div class="queryBodys">
-        <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true"
-          class="demo-ruleForm">
+        <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="left" size="mini" label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
           <el-form-item label="执行频率">
             <el-radio-group v-model="queryBean.rates" @change="flushData()">
                <el-radio border label="ALL">全部</el-radio>
@@ -15,7 +14,7 @@
             </el-radio-group>
           </el-form-item>
 
-             <el-form-item label="计划分类">
+          <el-form-item label="计划分类">
             <el-radio-group v-model="queryBean.types" @change="flushData()">
                <el-radio border label="ALL">全部</el-radio>
               <el-radio border label="OWNER">我创建的</el-radio>
@@ -46,25 +45,24 @@
         <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()" icon="el-icon-plus" style="margin-bottom:5px;">新增</el-button>
       </div>
     </div>
-    <el-table :data="plans" border :size="GlobalCss.buttonSize" :max-height="tableHeight" @sort-change="sortchange">
-      <el-table-column type="index" align="center" width="50" fixed="left" label="序号"></el-table-column>
-      <el-table-column align="center" prop="name" sortable="custom" label="计划名称">
+    <el-table :data="plans" border :size="GlobalCss.buttonSize" @sort-change="sortchange">
+      <el-table-column type="index" show-overflow-tooltip min-width="40" align="center" label="序号"></el-table-column>
+      <el-table-column show-overflow-tooltip min-width="100" align="center" prop="name" sortable="custom" label="计划名称">
         <template slot-scope="scope">
           <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.name}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="year" width="100" sortable="custom" label="计划年度"></el-table-column>
-      <el-table-column align="center" prop="ownerName" width="100" sortable="custom" label="创建人"></el-table-column>
-      <el-table-column align="center" prop="ownerCreationTime" width="160" sortable="custom" label="创建时间">
-      </el-table-column>
-      <el-table-column align="center" prop="startTime" width="120" sortable="custom" label="开始时间"></el-table-column>
-      <el-table-column align="center" prop="endTime" width="160" sortable="custom" label="结束时间"></el-table-column>
-      <el-table-column align="center" prop="rate" width="100" sortable="custom" label="执行频率">
+      <el-table-column show-overflow-tooltip min-width="90" align="center" prop="year" sortable="custom" label="计划年度"></el-table-column>
+      <!-- <el-table-column show-overflow-tooltip min-width="90" align="center" prop="ownerName" sortable="custom" label="创建人"></el-table-column> -->
+      <el-table-column show-overflow-tooltip min-width="130" align="center" prop="ownerCreationTime" sortable="custom" label="创建时间"></el-table-column>
+      <el-table-column show-overflow-tooltip min-width="100" align="center" prop="startTime" sortable="custom" label="开始时间"></el-table-column>
+      <el-table-column show-overflow-tooltip min-width="100" align="center" prop="endTime" sortable="custom" label="结束时间"></el-table-column>
+      <el-table-column show-overflow-tooltip min-width="100" align="center" prop="rate" width="100" sortable="custom" label="执行频率">
          <template slot-scope="scope">
             <el-tag size="medium">{{ scope.row.rate }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="execute" width="90" sortable="custom" label="计划时效">
+      <el-table-column show-overflow-tooltip min-width="90" align="center" prop="execute" sortable="custom" label="计划时效">
         <template slot-scope="scope">
           <template v-if="scope.row.execute ==='有效'">
             <el-tag size="medium" type="success">{{ scope.row.execute }}</el-tag>
@@ -77,7 +75,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="enable" width="90" sortable="custom" label="状态">
+      <el-table-column show-overflow-tooltip min-width="70" align="center" prop="enable" sortable="custom" label="状态">
         <template slot-scope="scope" v-if="resetTimeCheck(scope.row)">
           <el-tooltip :content="scope.row.enable === true ? '启用中':'停用中'" placement="left">
             <el-switch @change="changeState($event,scope.row,scope.$index)" v-model="scope.row.enable"
@@ -86,12 +84,10 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="150" fixed="right" label="操作">
+      <el-table-column show-overflow-tooltip min-width="140" align="center" label="操作">
         <template slot-scope="scope">
-
           <el-button type="info" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="delay(scope.row)">延期</el-button>
           <el-button type="warning" :size="GlobalCss.buttonSize" v-if="resetTimeCheck(scope.row)" @click="comply(scope.row)">执行</el-button>
-
         </template>
       </el-table-column>
     </el-table>
@@ -101,9 +97,9 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="25%" :destroy-on-close="true">
+    <el-dialog title="延期--选择时间" :visible.sync="dialogVisible" width="40%" :destroy-on-close="true">
       <div>
-        <el-form :model="formDate" label-width="240px">
+        <el-form :model="formDate" label-width="80px">
           <el-form-item label="原定时间：">
             <el-date-picker v-model="formDate.oldTime" type="date" placeholder="选择日期" style="width: 100%;" size="small"
               :disabled="true"></el-date-picker>
@@ -119,7 +115,7 @@
         <el-button type="primary" @click="handleSubmit" :size="GlobalCss.controlSize">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="详情页面" :visible.sync="dialogVisibleView" width="34%" :destroy-on-close="true">
+    <el-dialog title="详情页面" :visible.sync="dialogVisibleView" width="40%" :destroy-on-close="true">
       <el-divider></el-divider>
       <div>
         <el-form ref="dataView" :model="dataView" label-width="80px" label-position="right" size="small" :disabled="true">
@@ -137,7 +133,7 @@
           </el-form-item>
           <el-form-item label="计划周期:">
             <!-- <el-col :span="4"> -->
-              <span>{{dataView.startTime}}</span> —— <span>{{dataView.endTime}}</span>
+              <span>{{dataView.startTime}}</span> — <span>{{dataView.endTime}}</span>
               <!-- <el-form-item prop="startTime">
                  <el-date-picker type="date" placeholder="开始日期" v-model="dataView.startTime"  style="width: 100%;"></el-date-picker>
                 <span>{{dataView.startTime}}</span> -->

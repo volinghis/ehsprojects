@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="margin-left:10px;margin-right:10px;">
     <el-row :gutter="10">
-      <el-col :span="4" :style="{height:(this.$store.state.contentHeight-60)+'px'}">
+      <el-col :span="4" style="border-right-style: ridge;border-right-width: 1px;border-right-color: #E4E7ED;">
         <!-- <el-card style="margin-left:10px;"> -->
         <el-tabs v-model="queryBean.objectType" @tab-click="handleClick">
           <el-tab-pane label="按专业" name="BY_PROFESSIONA">
@@ -13,7 +13,7 @@
         </el-tabs>
         <!-- </el-card> -->
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" style="border-left-style: ridge;border-left-width: 1px;border-left-color: #E4E7ED;">
         <!-- <el-card style="margin-right:10px;"> -->
         <div class="queryBodys">
           <el-form ref="queryForm" style="width:800px;" label-suffix="：" label-position="left" size="mini" label-width="100px" :inline-message="true" :status-icon="true" class="demo-queryForm">
@@ -38,12 +38,12 @@
         </div>
         <div class="table-list">
           <el-table :data="tableData" border :size="GlobalCss.buttonSize">
-            <el-table-column type="index" align="center" width="50" label="序号"></el-table-column>
-            <el-table-column prop="objectKey" align="center" label="检修对象"></el-table-column>
-            <el-table-column prop="deviceAddress" align="center" label="设备位置"></el-table-column>
-            <el-table-column prop="question" align="center" label="问题描述"></el-table-column>
-            <el-table-column prop="userName" align="center" label="检修执行人"></el-table-column>
-            <el-table-column prop="result" align="center" width="140" label="检修结论">
+            <el-table-column type="index" show-overflow-tooltip min-width="40" align="center" label="序号"></el-table-column>
+            <el-table-column prop="objectKey" show-overflow-tooltip min-width="100" align="center" label="检修对象"></el-table-column>
+            <el-table-column prop="deviceAddress" show-overflow-tooltip min-width="100" align="center" label="设备位置"></el-table-column>
+            <el-table-column prop="question" show-overflow-tooltip min-width="100" align="center" label="问题描述"></el-table-column>
+            <el-table-column prop="userName" show-overflow-tooltip min-width="100" align="center" label="检修执行人"></el-table-column>
+            <el-table-column prop="result" show-overflow-tooltip min-width="100" align="center" label="检修结论">
               <template slot-scope="scope">
                 <el-tag :type="scope.row.result === 'OK' ? 'success' : 'danger'" disable-transitions>{{ scope.row.result === 'OK' ? '已解决' : '未解决' }}</el-tag>
               </template>
@@ -52,8 +52,8 @@
         </div>
         <div class="tableFooter">
           <div class="pagination">
-            <el-pagination background @current-change="changePage" :current-page="queryBean.page"
-              :page-size="queryBean.size" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination @current-change="changePage" :current-page="queryBean.page"
+              :page-size="queryBean.size" layout="total, prev, pager, next" :total="total">
             </el-pagination>
           </div>
         </div>

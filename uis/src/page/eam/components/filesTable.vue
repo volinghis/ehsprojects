@@ -1,92 +1,41 @@
 <template>
   <div class="filesTable">
     <span style="display:inline-block;float:left">关联文件</span>
-    <div class="operate"
-         v-if="!isDisable">
+    <div class="operate" v-if="!isDisable">
       <div class="select-wrap">
         <span>文件类别：</span>
-        <el-select v-model="value"
-                   @change="selectChang"
-                   ref="selector"
-                   :size="GlobalCss.buttonSize"
-                   placeholder="请选择文件类别">
-          <el-option v-for="item in options"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
-          </el-option>
+        <el-select v-model="value" @change="selectChang" ref="selector" :size="GlobalCss.buttonSize"
+          placeholder="请选择文件类别">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </div>
       <div class="upload-wrap">
-        <el-upload :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=' + $store.state.resourceMenuKey"
-                   ref="upload"
-                   :data="paramData"
-                   :disabled="disabled"
-                   :on-success="uploadSucess"
-                   :show-file-list="false">
-          <el-button :size="GlobalCss.buttonSize"
-                     @click="handleClickUpload"
-                     type="primary"
-                     icon="fa fa-cloud-upload pull-left">点击上传</el-button>
+        <el-upload :action="GlobalVars.globalServiceServlet + '/data/file/fileUpload'+ '?tt=' + Math.random()+ '&resoureMenuKey=ALL'"
+          ref="upload" :data="paramData" :disabled="disabled" :on-success="uploadSucess" :show-file-list="false">
+          <el-button :size="GlobalCss.buttonSize" @click="handleClickUpload" type="primary" icon="fa fa-cloud-upload pull-left">点击上传</el-button>
         </el-upload>
       </div>
     </div>
     <div class="tableClass">
-      <el-table :data="filesTableData"
-                border
-                :size="GlobalCss.buttonSize"
-                style="width: 100%">
-        <el-table-column type="index"
-                         align="center"></el-table-column>
-        <el-table-column prop="name"
-                         align="center"
-                         label="文件名称">
-        </el-table-column>
-        <el-table-column prop="type"
-                         align="center"
-                         width="80"
-                         label="文件类型">
-        </el-table-column>
-        <el-table-column prop="fileSize"
-                         align="center"
-                         label="文件大小">
-        </el-table-column>
-        <el-table-column prop="categoriesName"
-                         align="center"
-                         label="类别">
-        </el-table-column>
-        <el-table-column fixed="right"
-                         align="center"
-                         width="210"
-                         label="操作">
+      <el-table :data="filesTableData" border :size="GlobalCss.buttonSize" style="width: 100%">
+        <el-table-column type="index" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="name" show-overflow-tooltip min-width="100" align="center" label="文件名称"></el-table-column>
+        <el-table-column prop="type" show-overflow-tooltip min-width="70" align="center" label="文件类型"></el-table-column>
+        <el-table-column prop="fileSize" show-overflow-tooltip min-width="80" align="center" label="文件大小"></el-table-column>
+        <el-table-column prop="categoriesName" show-overflow-tooltip min-width="90" align="center" label="类别"></el-table-column>
+        <el-table-column fixed="right" show-overflow-tooltip min-width="160" align="center" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleViewClick(scope.row)"
-                       type="primary"
-                       :size="GlobalCss.buttonSize">预览</el-button>
-            <el-button type="danger"
-                       v-if="!isDisable"
-                       :size="GlobalCss.buttonSize"
-                       @click="handleDelete(scope.row,scope.$index)">删除</el-button>
-            <el-button type="warning"
-                       @click="handleDownLoadClick(scope.row)"
-                       :size="GlobalCss.buttonSize">下载</el-button>
+            <el-button @click="handleViewClick(scope.row)" type="primary" :size="GlobalCss.buttonSize">预览</el-button>
+            <el-button type="danger" v-if="!isDisable" :size="GlobalCss.buttonSize" @click="handleDelete(scope.row,scope.$index)">删除</el-button>
+            <el-button type="warning" @click="handleDownLoadClick(scope.row)" :size="GlobalCss.buttonSize">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <template>
-      <el-dialog title="文件预览"
-                 :modal="false"
-                 :visible.sync="viewVisible"
-                 width="50%"
-                 height="100%"
-                 destroy-on-close>
-        <embed id="myObj"
-               :src="pdfSrc"
-               type="application/pdf"
-               width="100%"
-               height="500px;" />
+      <el-dialog title="文件预览" :modal="false" :visible.sync="viewVisible" width="50%" height="100%" destroy-on-close>
+        <embed id="myObj" :src="pdfSrc" type="application/pdf" width="100%" height="500px;" />
       </el-dialog>
     </template>
   </div>
@@ -121,7 +70,9 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/dataBase/getFileCategories').then(res => {
         this.options = res.data
       }).catch(error => {
-        this.$message({ message: error })
+        this.$message({
+          message: error
+        })
       })
     },
     getFileList (fileId) {
@@ -129,7 +80,9 @@ export default {
         this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/fileList?fileIds=' + fileId).then(res => {
           this.filesTableData = res.data
         }).catch(error => {
-          this.$message({ message: error })
+          this.$message({
+            message: error
+          })
         })
       }
     },
@@ -142,7 +95,10 @@ export default {
     },
     handleClickUpload () {
       if (this.value === '') {
-        this.$message({ message: '请先选择文件类别', type: 'warning' })
+        this.$message({
+          message: '请先选择文件类别',
+          type: 'warning'
+        })
         this.disabled = true
         setTimeout(() => {
           this.disabled = false
@@ -150,7 +106,8 @@ export default {
       }
     },
     handleViewClick: function (scope) {
-      var url = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId + '&resoureMenuKey=' + this.$store.state.resourceMenuKey
+      var url = this.GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.fileId +
+          '&resoureMenuKey=' + this.$store.state.resourceMenuKey
       this.pdfSrc = url
       this.viewVisible = true
     },
@@ -188,7 +145,12 @@ export default {
         this.$emit('getFileId', d)
       } else {
         if (this.deviceKey !== '') {
-          this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeRefFile', { params: { deviceKey: this.deviceKey, key: row.fileId } }).then(res => {
+          this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/removeRefFile', {
+            params: {
+              deviceKey: this.deviceKey,
+              key: row.fileId
+            }
+          }).then(res => {
             if (res.data.resultType === 'ok') {
               this.filesTableData.splice(index, 1)
               this.$emit('removedFileId', row.fileId)
@@ -198,13 +160,17 @@ export default {
               })
             }
           }).catch(error => {
-            this.$message({ message: error })
+            this.$message({
+              message: error
+            })
           })
         }
       }
     },
     handleDownLoadClick: function (scope) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + scope.fileId, { responseType: 'blob' }).then((res) => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + scope.fileId, {
+        responseType: 'blob'
+      }).then((res) => {
         let fileName = scope.name
         let blob = new Blob([res.data])
         if (window.navigator.msSaveOrOpenBlob) {
@@ -227,21 +193,26 @@ export default {
     }
   }
 }
+
 </script>
 <style lang="scss" scoped>
-.tableClass {
-  margin: 10px 0px;
-  text-align: center;
-}
-.operate {
-  float: right;
-}
-.select-wrap {
-  float: left;
-}
-.upload-wrap {
-  margin-left: 8px;
-  margin-bottom: 8px;
-  float: right;
-}
+  .tableClass {
+    margin: 10px 0px;
+    text-align: center;
+  }
+
+  .operate {
+    float: right;
+  }
+
+  .select-wrap {
+    float: left;
+  }
+
+  .upload-wrap {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    float: right;
+  }
+
 </style>

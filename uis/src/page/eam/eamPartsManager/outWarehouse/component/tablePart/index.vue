@@ -1,20 +1,20 @@
 <template>
   <div>
-    <el-table :data="tableData"  resizable highlight-current-row border @row-dblclick="handleClick" :max-height="tableHeight"
+    <el-table :data="tableData" resizable highlight-current-row border @row-dblclick="handleClick"
               :size="GlobalCss.buttonSize" :summary-method="getSummaries" show-summary style="width: 100%;">
-      <el-table-column prop="deviceCode" label="备件编号" align="center"></el-table-column>
-      <el-table-column prop="deviceName" label="备件名称" width="130" align="center"></el-table-column>
-      <el-table-column prop="norm" label="规格型号" width="130"  align="center"></el-table-column>
-      <el-table-column prop="leaveFactoryCode" label="出厂编号" width="100"  align="center"></el-table-column>
-      <!-- <el-table-column prop="leaveFactoryDate" label="出厂日期" width="100"  align="center"></el-table-column> -->
-      <!-- <el-table-column prop="supplier" label="供应商" width="100"  align="center"></el-table-column> -->
-      <!-- <el-table-column prop="warningValue" label="预警值" width="90"  align="center"></el-table-column> -->
-      <el-table-column prop="amount" label="数量"  align="center"></el-table-column>
-      <!-- <el-table-column prop="dummyAmount" label="数量"  align="center"></el-table-column> -->
-      <el-table-column prop="price" label="单价" width="90" align="center"></el-table-column>
-      <el-table-column prop="unit" label="单位" width="70" align="center"></el-table-column>
-      <el-table-column prop="totalPrice" label="总价"  align="center"></el-table-column>
-      <el-table-column fixed="right"  label="操作" width="150"  align="center" v-if="flagBotton">
+      <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <el-table-column prop="leaveFactoryCode" label="出厂编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <!-- <el-table-column prop="leaveFactoryDate" label="出厂日期" width="100"  show-overflow-tooltip min-width="100" align="center"></el-table-column> -->
+      <!-- <el-table-column prop="supplier" label="供应商" width="100"  show-overflow-tooltip min-width="100" align="center"></el-table-column> -->
+      <!-- <el-table-column prop="warningValue" label="预警值" width="90"  show-overflow-tooltip min-width="100" align="center"></el-table-column> -->
+      <el-table-column prop="amount" label="数量"  show-overflow-tooltip min-width="80" align="center"></el-table-column>
+      <!-- <el-table-column prop="dummyAmount" label="数量"  show-overflow-tooltip min-width="100" align="center"></el-table-column> -->
+      <el-table-column prop="price" label="单价" show-overflow-tooltip min-width="80" align="center"></el-table-column>
+      <el-table-column prop="unit" label="单位" show-overflow-tooltip min-width="70" align="center"></el-table-column>
+      <el-table-column prop="totalPrice" label="总价" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <el-table-column fixed="right"  label="操作" show-overflow-tooltip min-width="150" align="center" v-if="flagBotton">
         <template slot-scope="scope">
           <el-button @click="handleEdit(scope.row)"  :size="GlobalCss.buttonSize" type="primary">编辑</el-button>
           <el-button @click="handleDel(scope.$index,tableData)" :size="GlobalCss.buttonSize" type="danger">删除</el-button>
@@ -24,7 +24,7 @@
     <!-- <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
                    :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination> -->
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="50%" >
+    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="60%" >
       <el-divider></el-divider>
       <editPart ref="partData" :flag="flagMark" :partsForm="partsFormEdit"></editPart>
       <div style="text-align:center;">

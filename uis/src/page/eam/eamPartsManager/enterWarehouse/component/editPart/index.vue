@@ -44,7 +44,7 @@
                   <el-input v-model="form.unit" placeholder="请填写单位" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="数量" prop="amount">
-                  <el-input v-model="form.amount" placeholder="请填写单位" @blur="amountBlur($event)" :disabled="partFlag">
+                  <el-input v-model="form.amount" placeholder="请填写数量" @blur="amountBlur($event)" :disabled="partFlag">
                   </el-input>
                 </el-form-item>
               </el-col>

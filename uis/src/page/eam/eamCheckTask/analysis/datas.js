@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     chartSize: function () {
-      return { width: 1000, height: 600 }
+      return { width: 1000, height: 500 }
     }
   },
 

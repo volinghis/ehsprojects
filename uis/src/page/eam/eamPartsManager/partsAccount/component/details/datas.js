@@ -41,7 +41,7 @@ export default {
       this.$router.go(-1)
     },
     getDevicePicture: function (partsImg) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + partsImg, { responseType: 'blob' }).then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + partsImg, { responseType: 'blob' }).then(res => {
         var resData = res.data
         this.imageUrl = URL.createObjectURL(resData)
       }).catch(error => {

@@ -69,7 +69,7 @@
       </div>
 
       <div class="rightButtons" >
-        <el-button type="primary" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
+        <el-button type="primary" icon="el-icon-plus" :size="GlobalCss.buttonSize" @click="add()">添加工作</el-button>
       </div>
     </div>
     <el-table :data="tasks" border :size="GlobalCss.buttonSize"  @sort-change="sortchange" :row-class-name="tableRowClassName">

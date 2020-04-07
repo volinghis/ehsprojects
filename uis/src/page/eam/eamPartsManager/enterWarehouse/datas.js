@@ -8,7 +8,7 @@ export default {
       tableData: [],
       queryBean: {
         page: 1,
-        size: 20,
+        size: 10,
         query: '',
         totalCount: 0,
         wareHouseNames: 'ALL',
@@ -18,9 +18,9 @@ export default {
     }
   },
   computed: {
-    tableHeight: function () {
-      return this.$store.state.contentHeight - 330
-    }
+    // tableHeight: function () {
+    //   return this.$store.state.contentHeight - 330
+    // }
   },
   mounted: function () {
     var that = this

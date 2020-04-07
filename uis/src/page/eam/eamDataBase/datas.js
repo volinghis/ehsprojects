@@ -8,7 +8,7 @@ export default {
   data () {
     return {
       queryParam: {
-        size: 20,
+        size: 10,
         page: 1,
         query: '',
         nodeKey: ''
