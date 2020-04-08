@@ -3,7 +3,7 @@
        <el-table :data="datas"
                         :size="GlobalCss.buttonSize"
 
-                        :height="370"
+                        :height="371"
 
                         >
 
@@ -49,3 +49,10 @@
 
   </div>
 </template>
+<script>
+import datas from './datas'
+export default datas
+</script>
+<style lang="scss" scoped>
+@import './styles.scss'
+</style>
