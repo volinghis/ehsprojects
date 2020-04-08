@@ -162,7 +162,7 @@ public class FlowTaskController {
 				ProcessDonesBean ptb=new ProcessDonesBean();
 				ptb.setTaskId(t.getId());
 				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByProcessInstanceId(t.getProcessInstanceId());
-
+				ptb.setCreateTime(t.getEndTime());
 				
 				ptb.setProcessName(fpi.getFlowProcessName());
 				ptb.setBusinessKey(fpi.getBusinessEntityKey());
