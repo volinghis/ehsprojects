@@ -33,9 +33,9 @@
 			<menu dataCode="eamCheckTask" key="eamCheckTask" name="巡检任务" url="/eam/eamCheckTask/list/index" icon="fa-tasks" parentKey="personJob" sort="1"></menu>
 			<menu dataCode="eamCheckTaskEdit" key="eamCheckTaskEdit" name="巡检任务编辑" url="/eam/eamCheckTask/edit/index" icon="fa-tasks" parentKey="personJob" sort="1" business="true"></menu>
 			<menu dataCode="eamCheckTaskView" key="eamCheckTaskView" name="巡检任务查看" url="/eam/eamCheckTask/view/index" icon="fa-tasks" parentKey="personJob" sort="2" business="true"></menu>
-			<menu dataCode="userApproves" key="userApproves" name="我的代办" url="/system/account/approves/index" icon="fa-list" parentKey="personJob" sort="10"></menu>
+			<menu dataCode="userApproves" key="userApproves" name="我的待办" url="/system/account/approves/index" icon="fa-list" parentKey="personJob" sort="10"></menu>
 			<menu dataCode="userDones" key="userDones" name="我的已办" url="/system/account/dones/index" icon="fa-database" parentKey="personJob" sort="20"></menu>
-			<menu dataCode="userDones" key="userApplys" name="我的申请" url="/system/account/applys/index" icon="fa-sitemap" parentKey="personJob" sort="30"></menu>
+			<menu dataCode="userApplys" key="userApplys" name="我的申请" url="/system/account/applys/index" icon="fa-sitemap" parentKey="personJob" sort="30"></menu>
 		
 		</menu>
 		
