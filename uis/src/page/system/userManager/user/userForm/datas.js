@@ -66,6 +66,22 @@ export default {
     }
   },
   data () {
+    // 验证邮箱的规则
+    var checkEmail = (rule, value, cb) => {
+      const regEmail = /^([a-zA-Z]|[0-9])+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (regEmail.test(value)) {
+        return cb()
+      }
+      cb(new Error('请输入合法的邮箱'))
+    }
+    // 验证手机号码的规则
+    var checkMobile = (rule, value, cb) => {
+      const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regMobile.test(value)) {
+        return cb()
+      }
+      cb(new Error('手机号码格式不正确'))
+    }
     return {
       positions: [],
       inputShow: false,
@@ -88,25 +104,35 @@ export default {
       rules: {
         dataCode: [
           { required: true, message: '请输入工号', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+          { min: 4, max: 18, message: '长度在 4 到 18 个字符', trigger: 'blur' }
         ],
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
           { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
         ],
-        telephone: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { min: 11, max: 11, message: '号码为11位数字', trigger: 'blur' }
-        ],
         gender: [
           { required: true, message: '请选择性别', trigger: 'blur' }
         ],
         position: [
-          { required: true, message: '请输入职务', trigger: 'blur' }
+          { required: true, message: '请输入职务', trigger: 'change' }
         ],
-        department: [
-          { required: true, message: '请选择部门', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+        telephone: [{
+          required: true,
+          message: '请输入手机号',
+          trigger: 'blur'
+        },
+        {
+          validator: checkMobile,
+          message: '请输入正确的手机号码',
+          trigger: 'blur'
+        }
+        ],
+        email: [
+          {
+            validator: checkEmail,
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
+          }
         ]
       }
     }
