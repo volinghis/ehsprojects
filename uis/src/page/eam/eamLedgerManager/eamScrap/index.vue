@@ -90,6 +90,7 @@
           <el-table-column prop="scrapReason"
                            sortable
                            align="center"
+                           show-overflow-tooltip
                            label="报废原因"></el-table-column>
           <el-table-column prop="status"
                            sortable

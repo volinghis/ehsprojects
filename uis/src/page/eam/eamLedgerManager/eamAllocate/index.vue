@@ -93,6 +93,7 @@
           <el-table-column prop="allocateReason"
                            sortable
                            align="center"
+                           show-overflow-tooltip
                            label="调拨原因"></el-table-column>
           <el-table-column prop="status"
                            sortable
