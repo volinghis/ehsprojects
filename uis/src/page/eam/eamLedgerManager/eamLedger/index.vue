@@ -117,7 +117,7 @@
             <el-table-column prop="deviceImg"
                              label="图片"
                              align="center"
-                             min-width="60">
+                             min-width="50">
               <template slot-scope="scope">
                 <el-image class="table-td-deviceImg"
                           style="width: 26px; height: 26px;top:3px;"
@@ -134,8 +134,7 @@
                              align="center"
                              label="设备编号"
                              sortable
-                             show-overflow-tooltip
-                             min-width="100">
+                             min-width="150">
               <template slot-scope="scope">
                 <el-link type="primary"
                          @click="handleLink(scope.row)">{{scope.row.deviceNum}}</el-link>
@@ -149,8 +148,8 @@
             <el-table-column prop="deviceModel"
                              align="center"
                              sortable
-                             label="规格型号"
-                             min-width="100"></el-table-column>
+                             label="型号"
+                             min-width="80"></el-table-column>
             <el-table-column prop="completePoint"
                              label="资料完整度"
                              align="center"

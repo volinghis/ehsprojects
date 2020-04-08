@@ -132,7 +132,8 @@
                          sortable
                          align="center"
                          min-width="100"
-                         label="规格型号"></el-table-column>
+                         show-overflow-tooltip
+                         label="型号"></el-table-column>
         <!-- <el-table-column prop="completePoint"
                          label="资料完整度"
                          align="center"
@@ -148,7 +149,7 @@
                          sortable
                          align="center"
                          min-width="100"
-                         :show-overflow-tooltip="true"></el-table-column>
+                         show-overflow-tooltip></el-table-column>
         <el-table-column prop="installLocationName"
                          label="安装位置"
                          sortable

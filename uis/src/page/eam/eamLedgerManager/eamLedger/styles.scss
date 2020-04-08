@@ -41,3 +41,6 @@
 .other-color {
   @include setColor(#c3d1ce);
 }
+.el-form-item--mini{
+  margin-bottom: 10px;
+}
