@@ -1,10 +1,11 @@
 <template>
   <div>
-    <el-row :gutter="10">
-      <el-col :span="5" :style="{height:(this.$store.state.contentHeight-65)+'px'}">
-        <!-- <el-card style="margin-left:10px;"> -->
-        <el-tree :data="treeData" ref="tree" :props="defaultProps" default-expand-all highlight-current @node-click="handleNodeClick"></el-tree>
-        <!-- </el-card> -->
+
+    <el-row>
+      <el-col :span="5" style="border-right:1px solid #DCDFE6;">
+        <el-tree :data="treeData" ref="tree" :props="defaultProps" default-expand-all highlight-current
+          @node-click="handleNodeClick"></el-tree>
+
       </el-col>
       <!-- <el-col :span="1">
         <el-divider direction="vertical"></el-divider>
@@ -19,9 +20,9 @@
           <div class="refRoleTable">
             <template>
               <el-table :data="tableData" :size="GlobalCss.controlSize" border style="width: 100%">
-                <el-table-column prop="name" align="center" label="角色名称"></el-table-column>
-                <el-table-column prop="dataCode" align="center" label="角色编码"></el-table-column>
-                <el-table-column align="center" label="操作">
+                <el-table-column prop="name" show-overflow-tooltip min-width="100" align="center" label="角色名称"></el-table-column>
+                <el-table-column prop="dataCode" show-overflow-tooltip min-width="100" align="center" label="角色编码"></el-table-column>
+                <el-table-column show-overflow-tooltip min-width="60" align="center" label="操作">
                   <template slot-scope="scope">
                     <el-button @click="handleRomoveAuth(scope.row)" type="warning" :size="GlobalCss.buttonSize">移除
                     </el-button>

@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="12" style="margin-left:70px;">
+      <el-col :span="12"
+              style="margin-left:20px;">
         <el-form ref="form"
                  :model="form"
                  :size="GlobalCss.buttonSize"
@@ -9,22 +10,27 @@
                  :rules="rules">
           <el-divider content-position="center"><span style="color:#409EFF">基本信息</span></el-divider>
           <el-form-item label="账 号："
-                        prop="dataCode"
-                        >
-            <el-input v-model="form.dataCode" :disabled="true"></el-input>
+                        prop="dataCode">
+            <el-input v-model="form.dataCode"
+                      :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="姓 名："
                         prop="name">
-            <el-input v-model="form.name" :disabled="true"></el-input>
+            <el-input v-model="form.name"
+                      :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="职 务："
                         prop="positionName">
-            <el-input v-model="form.positionName" :disabled="true"></el-input>
+            <el-input v-model="form.positionName"
+                      :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="部 门："
                         prop="orgName">
-            <OrgSelect style="width:100%;" :propOrgValue="form.orgKey"
-                       v-model="form.orgKey" :disabled="true"></OrgSelect>
+            <OrgSelect style="width:100%;"
+                       :propOrgValue="form.orgKey"
+                       v-model="form.orgKey"
+                       :disabled="true">
+            </OrgSelect>
           </el-form-item>
           <el-form-item label="邮 箱："
                         prop="email">
@@ -85,8 +91,8 @@
                    :on-success="handleAvatarSuccess"
                    :before-upload="beforeAvatarUpload">
           <el-image v-if="form.avatar||account==='admin'"
-               :src="imageUrl"
-               class="avatar"></el-image>
+                    :src="imageUrl"
+                    class="avatar"></el-image>
           <i v-else
              class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -105,6 +111,22 @@ export default {
     OrgSelect
   },
   data () {
+    // 验证邮箱的规则
+    var checkEmail = (rule, value, cb) => {
+      const regEmail = /^([a-zA-Z]|[0-9])+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (regEmail.test(value)) {
+        return cb()
+      }
+      cb(new Error('请输入合法的邮箱'))
+    }
+    // 验证手机号码的规则
+    var checkMobile = (rule, value, cb) => {
+      const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regMobile.test(value)) {
+        return cb()
+      }
+      cb(new Error('手机号码格式不正确'))
+    }
     return {
       imageUrl: '',
       account: '',
@@ -125,13 +147,27 @@ export default {
       formLabelWidth: '80px',
       options: [],
       rules: {
-        telephone: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { min: 11, max: 11, message: '11位手机号码', trigger: 'blur' }
+        telephone: [{
+          required: true,
+          message: '请输入手机号',
+          trigger: 'blur'
+        },
+        {
+          validator: checkMobile,
+          message: '请输入正确的手机号码',
+          trigger: 'blur'
+        }
         ],
-        email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        email: [{
+          required: true,
+          message: '请输入邮箱地址',
+          trigger: 'blur'
+        },
+        {
+          validator: checkEmail,
+          message: '请输入正确的邮箱地址',
+          trigger: ['blur', 'change']
+        }
         ]
       }
     }
@@ -146,13 +182,19 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     initForm () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', { params: { account: this.account } })
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/orgUser/findOrgUserByAccount', {
+        params: {
+          account: this.account
+        }
+      })
         .then((res) => {
           var fileId = res.data.avatar
           if (this.account === 'admin') {
             this.imageUrl = require('@/assets/logo.svg')
           } else {
-            this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then((res) => {
+            this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, {
+              responseType: 'blob'
+            }).then((res) => {
               this.imageUrl = URL.createObjectURL(res.data)
             })
           }
@@ -194,20 +236,22 @@ export default {
     }
   }
 }
+
 </script>
 <style lang="scss" scoped>
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
+  width: 170px;
+  height: 170px;
+  line-height: 170px;
   text-align: center;
 }
 
 /deep/.avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
+
 /deep/.avatar-uploader .el-upload {
   border: 1px dashed #8c939d;
   border-radius: 6px;
@@ -215,11 +259,13 @@ export default {
   position: relative;
   margin-top: 20px;
 }
+
 .avatar {
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: 170px;
   display: block;
 }
+
 .el-divider {
   background-color: #3a8ee6;
 }

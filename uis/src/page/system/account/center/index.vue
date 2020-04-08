@@ -21,7 +21,7 @@
 
             <span>我的绩效</span>
           </div>
-          <Rates></Rates>
+          <!-- <Rates></Rates> -->
         </el-card>
       </el-col>
 
@@ -32,7 +32,7 @@
           <div slot="header" class="clearfix">
             <span>设备资料完整度</span>
           </div>
-          <Devices></Devices>
+          <!-- <Devices></Devices> -->
         </el-card>
       </el-col>
 
@@ -58,7 +58,7 @@
           <div slot="header"  class="clearfix">
             <span>上月榜单（仅展示前8名）</span>
           </div>
-          <Ranks></Ranks>
+          <!-- <Ranks></Ranks> -->
         </el-card>
       </el-col>
     </el-row>

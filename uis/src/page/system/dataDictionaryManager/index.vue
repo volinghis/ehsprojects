@@ -1,26 +1,28 @@
 <template>
   <div>
-    <el-row :gutter="10">
-      <el-col :span="5" :style="{height:(this.$store.state.contentHeight-10)+'px'}">
-        <!-- <el-card style="margin-left:10px;"> -->
+
+    <el-row>
+      <el-col :span="5">
+
         <el-tree :props="props" ref="tree" node-key="id" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
         <!-- </el-card> -->
       </el-col>
-      <!-- <el-col :span="18" :push="1"> -->
-      <el-col :span="19">
+
+      <el-col :span="18" :push="1" style="border-left:1px solid #DCDFE6;">
+
         <div class="container">
           <!-- <el-card style="margin-right:10px;"> -->
           <div class="operation">
             <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="dictionaryAdd"> 新增</el-button>
           </div>
-          <div class="refRoleTable">
+          <div class="refRoleTable" style="margin-left:10px;">
             <template>
               <el-table :data="orgTableData" :size="GlobalCss.buttonSize" border>
-                <el-table-column type="index" align="center" width="45"> </el-table-column>
-                <el-table-column prop="dataCode" align="center" label="编码"></el-table-column>
-                <el-table-column prop="text" align="center" label="名称"></el-table-column>
-                <el-table-column prop="sort" align="center" label="排序" width="120"></el-table-column>
-                <el-table-column align="center" width="200" label="操作">
+                <el-table-column type="index" show-overflow-tooltip min-width="45" align="center"> </el-table-column>
+                <el-table-column prop="dataCode" show-overflow-tooltip min-width="100" align="center" label="编码"></el-table-column>
+                <el-table-column prop="text" show-overflow-tooltip min-width="100" align="center" label="名称"></el-table-column>
+                <el-table-column prop="sort" show-overflow-tooltip min-width="80" sortable align="center" label="排序" width="120"></el-table-column>
+                <el-table-column show-overflow-tooltip min-width="120" align="center" label="操作">
                   <template slot-scope="scope">
                     <el-button type="primary" :size="GlobalCss.buttonSize" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" :size="GlobalCss.buttonSize" @click="handleRemove(scope.row)">删除
@@ -28,7 +30,7 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-pagination @current-change="handleCurrentChange" style="text-align: right;" background
+              <el-pagination @current-change="handleCurrentChange" style="text-align: right;"
                 :current-page.sync="form.page" :page-size="form.size" layout="total, prev, pager, next"
                 :total="totalCount">
               </el-pagination>
