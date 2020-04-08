@@ -9,15 +9,14 @@
                size="mini"
                label-width="100px"
                :inline-message="true"
-               :status-icon="true"
-               class="demo-ruleForm">
+               :status-icon="true">
         <el-form-item label="查询">
           <el-input placeholder="请输入报废名称"
                     size="small"
                     style="width:60%;"
                     v-model="queryParam.query">
             <el-button slot="append"
-                       icon="el-icon-search"></el-button>
+                       icon="el-icon-search" @click="getScrapEamList"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item label="设备状态">
