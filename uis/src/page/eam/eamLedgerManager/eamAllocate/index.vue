@@ -14,7 +14,9 @@
           <el-input placeholder="请输入调拨名称"
                     size="small"
                     style="width:60%;"
-                    v-model="queryParam.query">
+                    v-model="queryParam.query"
+                     clearable
+                    @clear="getAllocateEamList">
             <el-button slot="append"
                        icon="el-icon-search" @click="getAllocateEamList"></el-button>
           </el-input>
