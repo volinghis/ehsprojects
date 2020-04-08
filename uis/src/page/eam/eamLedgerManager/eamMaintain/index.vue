@@ -77,7 +77,7 @@
       </el-form>
     </div>
     <div class="ehs_form_item_message">
-      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行查询和设备更新操作。<br />3)可以根据设备位置，系统和专业快捷查询。
+      1)该列表显示展示所有设备信息。<br />2)在该页面可以进行设备新增和更新操作。<br />3)可以根据设备位置，系统和专业快捷查询或根据设备名称模糊查询。
     </div>
     <div class="operate">
       <el-button type="primary"
@@ -103,7 +103,7 @@
                          min-width="60">
           <template slot-scope="scope">
             <el-image class="table-td-deviceImg"
-                      style="width: 26px; height: 26px;top:3px;"
+                      style="width: 23px; height: 23px;"
                       :src="scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey"
                       :preview-src-list="[scope.row.deviceImg===''?'':GlobalVars.globalServiceServlet + '/data/file/viewFile?fileId=' + scope.row.deviceImg + '&resoureMenuKey=' + $store.state.resourceMenuKey]">
               <div slot="error"
@@ -131,7 +131,7 @@
         <el-table-column prop="deviceModel"
                          sortable
                          align="center"
-                         min-width="100"
+                         min-width="80"
                          show-overflow-tooltip
                          label="型号"></el-table-column>
         <!-- <el-table-column prop="completePoint"
@@ -180,8 +180,9 @@
                          min-width="100"
                          sortable
                          align="center"></el-table-column> -->
-        <!-- <el-table-column prop="deviceStatus"
-                         label="设备状态"
+        <el-table-column prop="deviceStatus"
+                         label="状态"
+                         min-width="100"
                          sortable
                          align="center">
           <template slot-scope="scope">
@@ -189,10 +190,10 @@
                     disable-transitions
                     :size="GlobalCss.buttonSize">{{scope.row.deviceStatus}}</el-tag>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column align="center"
                          label="操作"
-                         min-width="100">
+                         min-width="80">
           <template slot-scope="scope">
             <el-button type="warning"
                        @click="handleEditClick(scope.row)"

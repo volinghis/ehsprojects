@@ -10,7 +10,7 @@ export default {
       }
     },
     inintTable () {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getEamLedgerListNeverQuery').then(res => {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamLedgerListNeverQuery').then(res => {
         this.datas = res.data.dataList
       }).catch(error => {
         this.$message({ message: error })

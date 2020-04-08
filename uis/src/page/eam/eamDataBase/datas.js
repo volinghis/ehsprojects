@@ -73,8 +73,12 @@ export default {
       this.initTable()
     },
     handleNodeClick: function (n) {
-      this.nodeLabel = n.label
-      this.queryParam.nodeKey = n.id
+      if (n.children !== null) {
+        this.queryParam.nodeKey = ''
+      } else {
+        this.nodeLabel = n.label
+        this.queryParam.nodeKey = n.id
+      }
       this.initTable()
     },
     handleQuery () {

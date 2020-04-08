@@ -85,29 +85,6 @@ public class EamLedgerLastController {
 	
 	/**
 	 * 
-	* @Function:getEamLedgerListNotPage 
-	* @Description:获取所有设备台账为分页
-	* @param request
-	* @return
-	* @throws：异常描述
-	* @version: v1.0.0
-	* @author: qjj
-	* @date: 2020年1月17日 下午7:52:23 
-	*
-	* Modification History:
-	* Date        Author        Version      Description
-	*---------------------------------------------------------*
-	* 2020年1月17日     qjj        v1.0.0            修改原因
-	 */
-	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/getEamLedgerListNeverQuery")
-	public String getEamLedgerListNeverQuery( HttpServletRequest request) {
-		PageInfoBean pb=eamLedgerLastService.findEamLedgerListNeverQuery();
-		return pb == null ? "[]" : JsonUtils.toJsonString(pb);
-	}
-	
-	/**
-	 * 
 	* @Function:getProfessionTreeForDevice 
 	* @Description: 获取专业的树结构数据
 	* @return
@@ -173,7 +150,7 @@ public class EamLedgerLastController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByEntityKey")
 	public String getEamLedgerByEntityKey(@RequestParam String key, HttpServletRequest request) {
-		EamLedgerLast eamLedger = eamLedgerLastService.findEamLedgerByProcessKey(key);
+		EamLedgerLast eamLedger = eamLedgerLastService.findEamLedgerByRefKey(key);
 		return  JsonUtils.toJsonString(eamLedger);
 	}
 	

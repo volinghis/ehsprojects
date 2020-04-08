@@ -21,6 +21,7 @@ import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
@@ -343,6 +344,42 @@ public class EamLedgerController {
 	public String getEamLedgersNotInFlow(@RequestBody EamLedgerQueryBean querybean) {
 		PageInfoBean pageBean = eamLedgerService.findEamLedgersNotInFlow(querybean);
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
+	}
+	
+	@RequestAuth(menuKeys = {"eamLedger"})
+	@RequestMapping(value = "/updateEamLedgerAfterFlow")
+	public String updateEamLedgerAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo){
+		ResultBean resultBean = new ResultBean();
+		try {
+			eamLedgerService.updateEamLedgerAfterFlow(flowProcessInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonUtils.toJsonString(resultBean.error("新增设备失败"));
+		}
+		return JsonUtils.toJsonString(resultBean.ok("新增设备成功"));
+		
+	}
+	/**
+	 * 
+	* @Function:getEamLedgerListNotPage 
+	* @Description:获取所有设备台账为分页
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年1月17日 下午7:52:23 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年1月17日     qjj        v1.0.0            修改原因
+	 */
+	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/getEamLedgerListNeverQuery")
+	public String getEamLedgerListNeverQuery( HttpServletRequest request) {
+		PageInfoBean pb=eamLedgerService.findEamLedgerListNeverQuery();
+		return pb == null ? "[]" : JsonUtils.toJsonString(pb);
 	}
 	
 }

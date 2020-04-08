@@ -155,13 +155,10 @@ export default {
         this.deviceProfession = res.data
       })
     },
-    systemChang (v) {
-    },
     handerSubmit (process) {
       this.$refs.form.validate(valid => {
         if (valid) {
           const reqBean = {
-            eamLedgerLast: this.form,
             eamLedger: this.form,
             paramsList: this.paramsTableDatas,
             inspectorsList: this.inspectorsDatas,

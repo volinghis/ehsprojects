@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -46,7 +47,7 @@ public class EamDataBaseServieImpl implements EamDataBaseServie {
 	
 	@Override
 	public PageInfoBean findEamDataBaseList(EamDataBaseQuery querybean) {
-		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize());
+		PageRequest pageRequest = PageRequest.of(querybean.getPage() - 1, querybean.getSize(),Direction.DESC,"creationTime");
         List<Predicate> ps=new ArrayList<Predicate>();
         Specification<DataFileInfoCopy> sf=(Root<DataFileInfoCopy> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
         	if(StringUtils.isNotBlank(querybean.getQuery())) {

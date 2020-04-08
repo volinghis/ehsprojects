@@ -133,6 +133,7 @@
             <el-table-column prop="deviceNum"
                              align="center"
                              label="设备编号"
+                             show-overflow-tooltip
                              sortable
                              min-width="150">
               <template slot-scope="scope">

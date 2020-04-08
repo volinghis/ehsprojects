@@ -34,8 +34,6 @@ public class EamRequestBean {
 
 	private EamLedger eamLedger;
 	
-	private EamLedgerLast eamLedgerLast;
-	
 	private List<EamParameters> paramsList;
 
 	private List<EamInspectors> inspectorsList;
@@ -90,14 +88,6 @@ public class EamRequestBean {
 
 	public void setFlowProcessInfo(FlowProcessInfo flowProcessInfo) {
 		this.flowProcessInfo = flowProcessInfo;
-	}
-
-	public EamLedgerLast getEamLedgerLast() {
-		return eamLedgerLast;
-	}
-
-	public void setEamLedgerLast(EamLedgerLast eamLedgerLast) {
-		this.eamLedgerLast = eamLedgerLast;
 	}
 
 }

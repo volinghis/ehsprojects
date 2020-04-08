@@ -55,7 +55,8 @@
                       maxlength="300"
                       show-word-limit
                       placeholder="请输入定期工作标准"
-                      v-model="eamInfos.remarks">
+                      v-model="eamInfos.remarks"
+                      :disabled="true">
             </el-input>
           </div>
         </el-card>
@@ -80,7 +81,7 @@
         </el-card>
       </el-col>
     </el-row>
-  <el-button type="primary" @click="$router.go(-1)" :size="GlobalCss.buttonSize" style="float:right;">返回</el-button>
+  <el-button type="primary" @click="goBack" :size="GlobalCss.buttonSize" style="float:right;">返回</el-button>
   </div>
 </template>
 

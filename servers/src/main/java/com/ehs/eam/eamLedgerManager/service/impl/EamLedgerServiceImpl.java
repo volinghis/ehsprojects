@@ -21,14 +21,15 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.entity.BaseEntity;
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.BaseUtils;
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.data.entity.DataDictionary;
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
@@ -106,7 +107,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		// 设备新建的时候初始化的值
 		String deviceNum = BaseUtils.getNumberForAll();
 		if (StringUtils.isBlank(reqEamLedger.getKey())) {
-			reqEamLedger.setDeviceStatus("正常");
 			reqEamLedger.setDeviceNum(deviceNum);
 		} else {
 			EamLedger eLedger = baseCommonService.findByKey(EamLedger.class, reqEamLedger.getKey());
@@ -116,7 +116,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 		DataDictionary dataDictionary = baseCommonService.findByKey(DataDictionary.class,
 				reqEamLedger.getInstallLocation());
 		reqEamLedger.setInstallLocationName(dataDictionary == null ? "" : dataDictionary.getText());
-
+		reqEamLedger.setDeviceStatus("审批申请中");
 		// 开始流程
 		ProcessInstance pi = flowBaseService.startProcess(reqEamLedger, eamRequestBean.getFlowProcessInfo());
 		String entityKey = "";
@@ -137,19 +137,6 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 					baseCommonService.saveOrUpdate(ei);
 				}
 			}
-			// 同步数据eamLedgerLast表中
-			EamLedgerLast eLast = eamRequestBean.getEamLedgerLast();
-			if (StringUtils.isNotBlank(eLast.getKey())) {
-				EamLedgerLast eLastOld = eamLedgerLastDao.findEamLedgerLastByRefKey(entityKey);
-				BeanUtils.copyProperties(eLast, eLastOld, BaseEntity.ID, BaseEntity.KEY, EamLedgerLast.REF_KEY);
-				baseCommonService.saveOrUpdate(eLastOld);
-			} else {
-				EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
-				BeanUtils.copyProperties(eamLedger, eLast);
-				eLast.setRefKey(entityKey);
-				baseCommonService.saveOrUpdate(eLast);
-			}
-
 		}
 
 	}
@@ -220,7 +207,7 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			PageInfoBean pb = new PageInfoBean();
 			List<EamLedger> resultList = new ArrayList<EamLedger>();
 			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(), "已报废")
-					&& !StringUtils.contains(s.getDeviceStatus(), "申请中"))).collect(Collectors.toList());
+					&& !StringUtils.contains(s.getDeviceStatus(), "中"))).collect(Collectors.toList());
 			pb.setDataList(resultList);
 			pb.setTotalCount(eamLedgers.getTotalElements());
 			return pb;
@@ -269,5 +256,45 @@ public class EamLedgerServiceImpl implements EamLedgerService {
 			}
 			baseCommonService.saveOrUpdate(eamLedger);
 		}
+	}
+
+	/**
+	 * @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#updateEamLedgerAfterFlow(com.ehs.common.flow.entity.impl.FlowProcessInfo)
+	 */
+	@Override
+	@Transactional
+	public void updateEamLedgerAfterFlow(FlowProcessInfo flowProcessInfo) {
+		// 同步数据eamLedgerLast表中
+		String entityKey=flowProcessInfo.getBusinessEntityKey();
+		EamLedgerLast eLast = eamLedgerLastDao.findEamLedgerLastByRefKey(entityKey);
+		if(eLast==null) {
+			eLast=new EamLedgerLast();
+			eLast.setRefKey(entityKey);
+		}
+		EamLedger eamLedger = baseCommonService.findByKey(EamLedger.class, entityKey);
+		eamLedger.setDeviceStatus("正常");
+		BeanUtils.copyProperties(eamLedger, eLast,BaseEntity.ID, BaseEntity.KEY, EamLedgerLast.REF_KEY);
+		baseCommonService.saveOrUpdate(eamLedger);
+		baseCommonService.saveOrUpdate(eLast);
+
+	}
+
+	/** 
+	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerService#findEamLedgerListNeverQuery()  
+	*/
+	@Override
+	public PageInfoBean findEamLedgerListNeverQuery() {
+		PageRequest pr = PageRequest.of(0,10,Direction.ASC,"completePoint");
+		Page<EamLedger> eamLedgers = eamLedgerDao.findAll(pr);
+		if (eamLedgers != null) {
+			PageInfoBean pb = new PageInfoBean();
+			List<EamLedger> resultList = new ArrayList<EamLedger>();
+			resultList = eamLedgers.getContent().stream().filter(s -> (!StringUtils.equals(s.getDeviceStatus(), "已报废")
+					&& !StringUtils.contains(s.getDeviceStatus(), "中"))).collect(Collectors.toList());
+			pb.setDataList(resultList);
+			pb.setTotalCount(eamLedgers.getTotalElements());
+			return pb;
+		}
+		return null;
 	}
 }

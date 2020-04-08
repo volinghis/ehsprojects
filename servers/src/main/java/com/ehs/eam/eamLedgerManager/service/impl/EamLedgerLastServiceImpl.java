@@ -140,24 +140,8 @@ public class EamLedgerLastServiceImpl implements EamLedgerLastService {
 	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findEamLedgerByProcessKey(java.lang.String)  
 	*/
 	@Override
-	public EamLedgerLast findEamLedgerByProcessKey(String key) {
+	public EamLedgerLast findEamLedgerByRefKey(String key) {
 		return eamLastDao.findEamLedgerLastByRefKey(key);
-	}
-
-	/** 
-	* @see com.ehs.eam.eamLedgerManager.service.EamLedgerLastService#findEamLedgerListNeverQuery()  
-	*/
-	@Override
-	public PageInfoBean findEamLedgerListNeverQuery() {
-		PageRequest pr = PageRequest.of(0,10,Direction.ASC,"completePoint");
-		Page<EamLedgerLast> eamLedgers = eamLastDao.findAll(pr);
-		if (eamLedgers != null) {
-			PageInfoBean pb = new PageInfoBean();
-			pb.setDataList(eamLedgers.getContent());
-			pb.setTotalCount(eamLedgers.getTotalElements());
-			return pb;
-		}
-		return null;
 	}
 
 }

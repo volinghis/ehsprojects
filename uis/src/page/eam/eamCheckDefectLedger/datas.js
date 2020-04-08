@@ -106,7 +106,6 @@ export default {
     async handleLinkClick (row) {
       const { data: res } = await this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/defectLedger/getFlowProcessInfoByBusinessKey?key=' + row.taskKey)
       var that = this
-      console.log(res)
       this.GlobalMethods.openFlowWin(res.flowViewPage, res, function () {
         that.initTable()
       })

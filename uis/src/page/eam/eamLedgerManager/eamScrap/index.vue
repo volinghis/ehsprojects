@@ -74,6 +74,7 @@
           <el-table-column prop="applicationName"
                            sortable
                            align="center"
+                           show-overflow-tooltip
                            label="申请名称"></el-table-column>
           <el-table-column prop="applicationTime"
                            align="center"

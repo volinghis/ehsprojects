@@ -10,6 +10,7 @@ package com.ehs.eam.eamLedgerManager.service;
 
 import java.util.List;
 
+import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamLedgerManager.bean.EamLedgerQueryBean;
 import com.ehs.eam.eamLedgerManager.bean.EamRequestBean;
@@ -145,4 +146,40 @@ public interface EamLedgerService {
 	* 2020年3月12日     qjj        v1.0.0            修改原因
 	*/
 	public void removeRelatedFile(String deviceKey, String key);
+
+
+	/**   
+	* @Function:updateEamLedgerAfterFlow 
+	* @Description: 该函数的功能描述
+	* @param flowProcessInfo
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月8日 上午11:35:32 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月8日     qjj        v1.0.0            修改原因
+	*/
+	public void updateEamLedgerAfterFlow(FlowProcessInfo flowProcessInfo);
+
+
+	/**   
+	* @Function:findEamLedgerListNeverQuery 
+	* @Description: 该函数的功能描述
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月8日 下午3:44:20 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月8日     qjj        v1.0.0            修改原因
+	*/
+	public PageInfoBean findEamLedgerListNeverQuery();
+
+
 }

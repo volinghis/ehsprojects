@@ -15,7 +15,8 @@ export default {
       deviceKey: '',
       imgUrl: '',
       fileList: [],
-      eamInfos: {}
+      eamInfos: {},
+      backFlag: ''
     }
   },
   created: function () {
@@ -26,30 +27,53 @@ export default {
       this.deviceKey = resData.refKey
     } else {
       var processObj = JSON.parse(this.$route.params.processInfo)
+      this.deviceKey = processObj.businessKey
+      this.backFlag = 'flow'
       this.getEamLedgerByEntityKey(processObj.businessKey)
     }
   },
   methods: {
-    handlePrint: function () {
-    },
-    back () {
-      this.$router.go(-1)
+    goBack () {
+      if (this.backFlag === 'flow') {
+        window.close()
+      } else {
+        this.$router.go(-1)
+      }
     },
     getEamLedgerByEntityKey (val) {
-      this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getEamLedgerByEntityKey?key=' + val).then(res => {
-        var data = res.data
-        this.getDevicePicture(data.deviceImg)
-        this.eamInfos = data
-        this.deviceKey = data.refKey
-      }).catch(error => {
-        this.$message({ message: error })
-      })
+      if (this.backFlag === 'flow') { // 通过流程进行查看
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/getEamLedgerByKey?key=' + val).then(res => {
+          this.callBack(res.data)
+        }).catch(error => {
+          this.$message({ message: error })
+        })
+      } else { // 直接进行查看
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/eam/eamLedgerLast/getEamLedgerByEntityKey?key=' + val).then(res => {
+          this.callBack(res.data)
+        }).catch(error => {
+          this.$message({ message: error })
+        })
+      }
+    },
+    callBack (data) {
+      this.getDevicePicture(data.deviceImg)
+      this.eamInfos = data
+      this.deviceKey = data.refKey
     },
     getDevicePicture (fileId) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + fileId, { responseType: 'blob' }).then(res => {
         this.imgUrl = URL.createObjectURL(res.data)
       }).catch(error => {
         this.$message({ message: error })
+      })
+    },
+    handlerAfterFlow (v) { // 流程结束数据处理
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/eamLedger/updateEamLedgerAfterFlow', v).then(res => {
+        if (res.data.resultType === 'ok') {
+          window.close()
+        }
+      }).catch(error => {
+        this.$message.error(error)
       })
     }
   }
