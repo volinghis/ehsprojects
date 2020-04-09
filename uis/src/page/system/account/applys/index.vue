@@ -1,11 +1,12 @@
 <template>
 <div>
         <el-table :data="datas"
+        border
                         :size="GlobalCss.buttonSize"
-                           :height="(($store.state.contentHeight-10)/2-40-30)"
                         >
       <el-table-column prop="processName"
                         align="center"
+
                         label="申请名称">
                         <template slot-scope="scope">
      <span class="processNames" @click="processNameClick(scope.row)">{{scope.row.processName}}</span>

@@ -2,9 +2,7 @@
 <div>
         <el-table :data="datas"
                         :size="GlobalCss.buttonSize"
-
-                           :height="200"
-
+                        border
                         >
       <el-table-column prop="processName"
                         align="center"

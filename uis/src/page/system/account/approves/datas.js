@@ -2,13 +2,16 @@ export default {
   methods: {
     flushData () {
       var self = this
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findDones?TIMER=Y', self.pages).then(response => {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/flow/task/findTasks?TIMER=Y', self.pages).then(response => {
         self.pages.total = response.data.totalCount
         self.datas = response.data.dataList
       })
     },
     processNameClick (v) {
-      this.GlobalMethods.openFlowWin(v.processPage, v)
+      var that = this
+      this.GlobalMethods.openFlowWin(v.processPage, v, function () {
+        that.flushData()
+      })
     },
     changePage (v) {
       this.pages.page = v
@@ -16,10 +19,6 @@ export default {
     }
   },
   mounted () {
-    var timer = setInterval(this.flushData, 2000)
-    this.$once('hook:beforeDestroy', () => {
-      clearInterval(timer)
-    })
     this.flushData()
   },
   data () {
