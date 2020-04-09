@@ -25,7 +25,7 @@
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
 		<!-- 首页 -->
-		<menu dataCode="home" key="home" name="首页" url="/system/account/center/index" icon="fa-home"  sort="1"></menu>
+		<menu dataCode="home" key="home" name="首页" url="/eam/eamHomePage/index" icon="fa-home"  sort="1"></menu>
 		<menu dataCode="sampleEdit" key="sampleEdit" name="流程案例" url="/flow/sample/index"  sort="9999"  business="true" ></menu>
 		
 		
