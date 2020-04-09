@@ -61,7 +61,7 @@
     <div class="tableHeight" :style="{height:tableHeight}">
       <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount"></TablePart>
     </div>
-    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close>
+    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close :key="key">
       <el-divider></el-divider>
       <div style="text-align:center;">
         <AddPart :selectWareHouseFlag="selectFlag" @partsData="partsData"></AddPart>

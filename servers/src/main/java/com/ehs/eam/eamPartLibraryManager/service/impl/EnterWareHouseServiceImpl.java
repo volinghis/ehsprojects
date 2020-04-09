@@ -1,5 +1,6 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -100,7 +101,10 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 							//相同编号下相同价格
 							logger.info("编码相同，价格相同的时候");
 							pa.setAmount(new Integer(pa.getAmount().intValue() + pExtends.getAmount().intValue()));
-							pa.setDummyAmount(pa.getAmount());
+//							pa.setDummyAmount(pa.getAmount());
+							pa.setDummyAmount(pa.getDummyAmount()+pExtends.getAmount());
+							pa.setTotalPrice(pa.getPrice().multiply(new BigDecimal(pa.getAmount().toString())));
+							logger.info("总价格为========="+pa.getTotalPrice());
 							logger.info("总数量为========="+pa.getAmount());
 							logger.info("虚拟总数量为========="+pa.getDummyAmount());
 							baseCommonService.saveOrUpdate(pa);

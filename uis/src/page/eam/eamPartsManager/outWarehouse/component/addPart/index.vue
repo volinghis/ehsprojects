@@ -8,10 +8,14 @@
     <template>
       <el-table :data="tableData" border ref="multipleTable" @selection-change="handleSelectionChange" :size="GlobalCss.controlSize">
         <el-table-column type="selection" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center">
+          <template slot-scope="scope">
+            <el-link type="primary" @click="handleRowClick(scope.row)">{{scope.row.deviceCode}}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseCode" label="入库编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseName" label="所在仓库" show-overflow-tooltip min-width="100" align="center"></el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="materialType" label="物资类别" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <!-- <el-table-column prop="amount" label="数量" show-overflow-tooltip min-width="100" align="center"></el-table-column> -->
@@ -27,55 +31,59 @@
       <el-pagination style="text-align:right;" :current-page.sync="queryBean.page" :page-size="queryBean.size"
             @current-change="changePage" layout="total, prev, pager, next" :total="queryBean.totalCount"></el-pagination>
     </template>
+     <el-dialog width="50%" title="备件详情" :visible.sync="innerVisible" append-to-body>
+       <div class="pageClass">
+        <el-row :gutter="10">
+          <el-col :span="5">
+            <div class="item-block" style="text-align:center;">
+              <el-image v-if="imageUrl" :src="imageUrl" class="avatar"></el-image>
+            </div>
+          </el-col>
+          <el-col :span="19">
+              <el-row >
+                <el-form label-suffix="：" label-width="80px">
+                  <el-col :span="8">
+                      <el-form-item label="备件编码">
+                        <span class="info-content">{{ form.deviceCode }}</span>
+                      </el-form-item>
+                      <el-form-item label="备件名称">
+                        <span class="info-content">{{ form.deviceName }}</span>
+                      </el-form-item>
+                      <el-form-item label="规格型号">
+                        <span class="info-content">{{ form.norm }}</span>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-form-item label="物资类型">
+                        <span class="info-content">{{ form.materialType }}</span>
+                      </el-form-item>
+                      <el-form-item label="物资编码">
+                        <span class="info-content">{{ form.materialCode }}</span>
+                      </el-form-item>
+                      <el-form-item label="生产厂家">
+                        <span class="info-content">{{ form.manufacturer }}</span>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-form-item label="出厂编号">
+                        <span class="info-content">{{ form.leaveFactoryCode }}</span>
+                      </el-form-item>
+                      <el-form-item label="出厂日期">
+                        <span class="info-content">{{ form.leaveFactoryDate }}</span>
+                      </el-form-item>
+                  </el-col>
+                </el-form>
+              </el-row>
+          </el-col>
+        </el-row>
+      </div>
+     </el-dialog>
   </div>
 </template>
 <script>
-export default {
-  data () {
-    return {
-      multipleSelection: [],
-      tableData: [],
-      queryBean: {
-        flag: '',
-        query: '',
-        page: 1,
-        size: 10,
-        totalCount: 0
-      }
-    }
-  },
-  props: {
-    selectWareHouseFlag: String
-  },
-  mounted: function () {
-    this.getAllParts(this.selectWareHouseFlag)
-  },
-  methods: {
-    getAllParts: function (v) {
-      this.queryBean.flag = v
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/eam/partsAccount/getAllPartsAccount', this.queryBean)
-        .then(res => {
-          this.tableData = res.data.dataList
-          this.queryBean.totalCount = res.data.totalCount
-        })
-    },
-    changePage (v) {
-      this.queryBean.page = v
-      this.getAllParts()
-    },
-    handleSelectionChange: function (val) {
-      this.multipleSelection = val
-      this.$emit('partsData', this.multipleSelection)
-    }
-  }
-}
-
+import datas from './datas'
+export default datas
 </script>
 <style lang="scss" scoped>
-  /deep/.el-input-group__append {
-    background-color: #409eff;
-    border: 1px solid #409eff;
-    color: #fff;
-  }
-
-</style>>
+  @import "./styles.scss";
+</style>

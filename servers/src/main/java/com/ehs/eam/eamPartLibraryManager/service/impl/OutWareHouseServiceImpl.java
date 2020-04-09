@@ -1,5 +1,6 @@
 package com.ehs.eam.eamPartLibraryManager.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ehs.common.base.service.BaseCommonService;
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.service.FlowBaseService;
@@ -189,15 +189,15 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		if(!CollectionUtils.isEmpty(partsExtends)) {
 			for (PartsExtends pExtends : partsExtends) {
 				List<PartsAccount> pAccounts = partsAccountDao.findByDeviceCode(pExtends.getDeviceCode());
-				logger.info("pAccounts.length========"+pAccounts.size());
 				if (!CollectionUtils.isEmpty(pAccounts)) {
 					for (PartsAccount partsAccount : pAccounts) {
 						PartsAccount pa = baseCommonService.findByKey(PartsAccount.class, partsAccount.getKey());
-						logger.info("pa==========="+JsonUtils.toJsonString(pa));
 						if(pa.getPrice().compareTo(pExtends.getPrice()) == 0) {
 							logger.info("编码相同，价格相同的时候");
 							pa.setAmount(new Integer(pa.getAmount().intValue() - pExtends.getAmount().intValue()));
+							pa.setTotalPrice(pa.getPrice().multiply(new BigDecimal(pa.getAmount().toString())));
 							logger.info("出库以后的数量为========="+pa.getAmount());
+							logger.info("出库以后的总价值为========="+pa.getTotalPrice());
 							baseCommonService.saveOrUpdate(pa);
 							logger.info("====出库流程回调结束======");
 						}

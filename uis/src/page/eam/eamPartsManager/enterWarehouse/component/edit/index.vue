@@ -47,7 +47,7 @@
     <el-dialog title="选择备件" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close>
       <el-divider></el-divider>
       <div style="text-align:center;">
-        <add-part :selectWareHouseFlag="selectFlag" @partsData="partsData"></add-part>
+        <add-part :selectWareHouseFlag="selectFlag" @partsData="partsData" :key="key"></add-part>
         <div style="margin: 10px;">
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="overSelect" :size="GlobalCss.buttonSize">确 定</el-button>

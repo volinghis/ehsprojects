@@ -82,37 +82,39 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				List<PartsExtends> parts =partsExtends.getContent();
 				if(parts != null) {
 					for (PartsExtends partsExtends2 : parts) {
-						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
-						EnterWareHouse enterWareHouse = baseCommonService.findByKey(EnterWareHouse.class, partsExtends2.getRefFlowKey());
-						if(fpi!=null) {
-							switch (fpi.getFlowCurrentStep()) {
-							case "END":
-								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
-								partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
-								break;
-							case "usertask2":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
-								partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
-								break;
-							case "usertask1":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
-								partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
-								partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
-								partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
-								break;
+						if(partsExtends2 != null) {
+							FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
+							EnterWareHouse enterWareHouse = baseCommonService.findByKey(EnterWareHouse.class, partsExtends2.getRefFlowKey());
+							if(fpi!=null) {
+								switch (fpi.getFlowCurrentStep()) {
+								case "END":
+									partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+									partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+									partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
+									partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
+									break;
+								case "usertask2":
+									partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+									partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+									partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
+									partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
+									break;
+								case "usertask1":
+									partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(enterWareHouse.getWarehouseCode());
+									partsExtends2.setWareHouseName(enterWareHouse.getWarehouseName());
+									partsExtends2.setEnterOutType(enterWareHouse.getInboundType());
+									partsExtends2.setEnterOutTypeName(enterWareHouse.getInboundTypeName());
+									break;
+								}
 							}
 						}
 					}
@@ -146,45 +148,48 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 				List<PartsExtends> parts =partsExtends.getContent();
 				if(parts != null) {
 					for (PartsExtends partsExtends2 : parts) {
-						FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
-						OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, partsExtends2.getRefFlowKey());
-						if(fpi!=null) {
-							switch (fpi.getFlowCurrentStep()) {
-							case "END":
-								partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
-								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
-								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
-								partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
-								break;
-							case "usertask2":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
-								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
-								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
-								partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
-								break;
-							case "usertask1":
-								partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
-								partsExtends2.setStatus(fpi.getFlowCurrentStep());
-								partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
-								partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
-								partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
-								partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
-								partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
-								break;
+						if(partsExtends2 != null) {
+							FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(partsExtends2.getRefFlowKey());
+							OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, partsExtends2.getRefFlowKey());
+							if(fpi!=null) {
+								switch (fpi.getFlowCurrentStep()) {
+								case "END":
+									partsExtends2.setReviewer(fpi.getFlowPrevPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
+									partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
+									partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
+									partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
+									break;
+								case "usertask2":
+									partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
+									partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
+									partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
+									partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
+									break;
+								case "usertask1":
+									partsExtends2.setReviewer(fpi.getFlowCurrentPersonName());
+									partsExtends2.setStatus(fpi.getFlowCurrentStep());
+									partsExtends2.setStatusName(fpi.getFlowCurrentStepName());
+									partsExtends2.setWareHouseCode(outWareHouse.getOutWarehouseCode());
+									partsExtends2.setWareHouseName(outWareHouse.getOutWarehouseName());
+									partsExtends2.setEnterOutType(outWareHouse.getOutBoundType());
+									partsExtends2.setEnterOutTypeName(outWareHouse.getOutBoundTypeName());
+									break;
+								}
 							}
+							list.add(partsExtends2);
 						}
 					}
 				}
-				list.addAll(parts);
+//				list.addAll(parts);
 				PageInfoBean pib=new PageInfoBean();
 				pib.setDataList(list);
-				pib.setTotalCount(partsExtends.getTotalElements());
+				pib.setTotalCount(list.size());
 				logger.info("查询所有出库备件-----结束");
 				return pib;
 			}

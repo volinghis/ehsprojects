@@ -11,6 +11,7 @@ export default {
   },
   data () {
     return {
+      key: '',
       selectFlag: '',
       selectWareHouseFlag: '',
       wareHouse: [],
@@ -114,6 +115,11 @@ export default {
     selectWareHouse: function (v) {
       this.key += 1
       this.selectWareHouseFlag = v
+      if (this.$refs.table.tableData.length > 0) {
+        this.$refs.table.tableData = []
+        this.$refs.table.select = []
+        this.$refs.table.partDatas = []
+      }
     },
     handlerSelect: function () {
       if (this.selectWareHouseFlag) {
@@ -171,8 +177,13 @@ export default {
     handerSubmit: function (processInfo) {
       this.$refs.form.validate(valid => {
         if (valid) {
-          if (this.tableDatas === undefined) {
-            this.tableDatas = this.partsTable
+          if (this.tableDatas === undefined && this.parts.length > 0) {
+            this.tableDatas = this.parts
+          } else {
+            this.$message({
+              message: '请选择您要出库的备件',
+              type: 'warning'
+            })
           }
           const requestParam = {
             outWareHouse: this.form,

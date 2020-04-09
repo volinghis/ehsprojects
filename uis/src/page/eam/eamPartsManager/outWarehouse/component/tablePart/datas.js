@@ -2,6 +2,11 @@ import editPart from '../editPart/index.vue'
 export default {
   data () {
     return {
+      key: '',
+      imageUrl: '',
+      dialogVisible: false,
+      form: {},
+      edit: true,
       tPrice: 0,
       partDatas: [],
       tableData: [],
@@ -10,14 +15,8 @@ export default {
       flagMark: '',
       partsFormEdit: {},
       totalCount: 0,
-      tableHeight: ' ',
       drawer: false,
-      direction: 'rtl',
-      currentPage: 1,
-      form: {
-        page: 1,
-        size: 20
-      }
+      direction: 'rtl'
     }
   },
   components: {
@@ -48,6 +47,9 @@ export default {
         this.select.push.apply(this.select, val)
         this.unique(this.select)
         this.tableData = this.select
+        if (this.flag === 'view') {
+          this.edit = false
+        }
       }
     },
     parts: {
@@ -55,6 +57,8 @@ export default {
         var newVal = []
         newName.forEach(e => {
           e.key = ''
+          e.amount = ''
+          e.totalPrice = ''
           newVal.push(e)
         })
         this.select.push.apply(this.select, newVal)
@@ -71,6 +75,50 @@ export default {
     }
   },
   methods: {
+    handleRowClick (row) {
+      this.form = row
+      this.getDevicePicture(this.form.partsImg)
+      this.key += 1
+      this.dialogVisible = true
+    },
+    handleAmountEdit (index, row) {
+      var amountVal = Number(row.amount)
+      if (isNaN(amountVal) || typeof (amountVal) !== 'number') {
+        this.$message.error('您填写数字有误，请填写数字')
+        row.amount = ''
+      }
+      this.edit = false
+      if (row.amount > row.dummyAmount) {
+        this.$message({
+          message: '您填写的数量大于库存，请重新填写',
+          type: 'warning'
+        })
+        row.amount = ''
+        this.edit = false
+      } else if (row.dummyAmount - row.amount <= row.warningValue) {
+        this.$message({
+          message: '您的剩余库存已经达到预警值，请尽快采购',
+          type: 'warning'
+        })
+        this.edit = false
+      }
+      row.totalPrice = row.price * row.amount
+    },
+    handleCurrentChange (row, event, column) {
+      if (this.flag === 'view') {
+        this.edit = false
+      } else {
+        this.edit = true
+      }
+    },
+    getDevicePicture: function (partsImg) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + partsImg, { responseType: 'blob' }).then(res => {
+        var resData = res.data
+        this.imageUrl = URL.createObjectURL(resData)
+      }).catch(error => {
+        this.$message({ message: error })
+      })
+    },
     unique: function (arr) {
       return arr.filter(function (item, index, arr) {
         // 当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素

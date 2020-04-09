@@ -34,7 +34,7 @@
     <div class="ehs_form_item_message">
       1)该列表显示展示所有备件信息。<br />
       2)在该页面可以根据各种条件进行查询。<br />
-      3)黄色代表已经驳回的任务，红色代表超过7天未处理的任务
+      3)黄色代表已经驳回的任务，红色代表超过7天未处理的任务，申请日期起超过7天未处理为逾期。
     </div>
     <div class="operate">
        <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>

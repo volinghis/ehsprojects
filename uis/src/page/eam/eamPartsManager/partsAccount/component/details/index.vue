@@ -58,6 +58,12 @@
         </el-row> -->
       </el-col>
     </el-row>
+    <el-row>
+      <el-divider></el-divider>
+      <el-col style="text-align:center;">
+        <el-button type="primary" @click="$router.go(-1)" :size="GlobalCss.buttonSize" >返回</el-button>
+      </el-col>
+    </el-row>
 
   </div>
 </template>
