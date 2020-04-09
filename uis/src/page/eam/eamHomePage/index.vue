@@ -62,14 +62,9 @@
         </el-card>
       </el-col>
     </el-row>
-
-
   </div>
 </template>
 <script>
-
-
-
 import Approves from './modules/approves/index.vue'
 import Notices from './modules/notices/index.vue'
 import Rates from './modules/rates/index'
@@ -78,14 +73,12 @@ import Devices from './modules/devices/index'
 import datas from './datas'
 export default datas
 datas.components = {
-
   Approves,
   Notices,
   Rates,
   Devices,
   Ranks
 }
-
 </script>
 
 <style lang="scss" scoped>
