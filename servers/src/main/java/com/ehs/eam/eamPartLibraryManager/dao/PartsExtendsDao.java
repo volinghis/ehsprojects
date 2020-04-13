@@ -16,27 +16,83 @@ import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
 import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: PartsExtendsDao.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午9:54:37 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @Repository
 public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 
-//	@Query(" select pe from PartsExtends pe where pe."+PartsExtends.DEVICE_CODE+"=?1 and pe."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
-//	public PartsExtends findByDeviceCode(String deviceCode);
-
+	/**
+	 * 
+	* @Function: PartsExtendsDao.java
+	* @Description: 根据入库流程key查询所有 备件信息并分页
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:54:51 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query(" select p from PartsExtends p where p."+PartsExtends.REF_FLOW_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public Page<PartsExtends> getExtendsByKey(String key,PageRequest pageRequest);
 	
+	/**
+	 * 
+	* @Function: PartsExtendsDao.java
+	* @Description: 根据入库流程key查询所有 备件信息
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:55:34 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query(" select p from PartsExtends p where p."+PartsExtends.REF_FLOW_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsExtends> getAllByWareHouseKey(String wareHouseKey);
-
-//	@Query(" select p from PartsExtends p where p."+BaseEntity.DELETED+" = 0  order by "+BaseEntity.BASE_SORT_NUM+" desc")
-//	public Page<PartsExtends> getAll(PageRequest pageRequest);
-//
-//	@Query(" select p from PartsExtends p where p."+PartsExtends.WAREHOUSE_KEY+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
-//	public List<PartsExtends> getExtendsByKey(String key);
 	
-	
-	
-	
+	/**
+	 * 
+	* @Function: PartsExtendsDao.java
+	* @Description: 查询所有入库备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:55:59 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query("select p from EnterWareHouse e left join PartsExtends p on p."+PartsExtends.REF_FLOW_KEY+"=e."+BaseEntity.KEY+" left join FlowProcessInfo fi on e."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
 			+ " where e."+BaseEntity.DELETED+" = 0 "
 			+ " and ( e."+EnterWareHouse.WAREHOUSE_CODE+" like %:query% "
@@ -63,6 +119,24 @@ public interface PartsExtendsDao extends JpaRepository<PartsExtends, String> {
 									  Pageable pb);
 
 	
+	/**
+	 * 
+	* @Function: PartsExtendsDao.java
+	* @Description: 查询所有出库备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:56:21 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query("select p from OutWareHouse o left join PartsExtends p on p."+PartsExtends.REF_FLOW_KEY+"=o."+BaseEntity.KEY+" left join FlowProcessInfo fi on o."+BaseEntity.KEY+"=fi."+FlowProcessInfo.BUSINESS_ENTITY_KEY
 			+ " where o."+BaseEntity.DELETED+" = 0 "
 			+ " and ( o."+OutWareHouse.OUT_WAREHOUSE_CODE+" like %:query% "

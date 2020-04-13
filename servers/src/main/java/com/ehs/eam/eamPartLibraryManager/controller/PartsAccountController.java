@@ -46,10 +46,6 @@ public class PartsAccountController {
 	* @Function: PartsAccountController.java
 	* @Description: 查找备件
 	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
 	* @version: v1.0.0
 	* @author: zhaol
 	* @date: 2020年1月3日 上午10:27:44 
@@ -68,7 +64,20 @@ public class PartsAccountController {
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
-	
+	/**
+	 * 
+	* @Function: PartsAccountController.java
+	* @Description: 查找备件
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:04:15 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllPartsAccount")
 	public String getAllPartsAccount(@RequestBody(required = false) QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {

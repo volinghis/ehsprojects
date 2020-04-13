@@ -20,14 +20,64 @@ import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
 */
 public interface OutWareHouseService {
 
-//	public PageInfoBean findAll(QueryBean queryBean);
-
-//	public int validAmount(String amount, String deviceCode, String price);
-	
+	/**
+	 * 
+	* @Function: OutWareHouseService.java
+	* @Description: 开始出库流程
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:40:58 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean);
 
+	/**
+	 * 
+	* @Function: OutWareHouseService.java
+	* @Description: 出库成功流程回调
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:41:14 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	public void updatePartsAccount(FlowProcessInfo flowProcessInfo);
 
+	/**
+	 * 
+	* @Function: OutWareHouseService.java
+	* @Description: 更新流程信息
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:41:28 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	public WareHouseFlowBean getOutWareHouseFlowBean(String key);
 
 }

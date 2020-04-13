@@ -29,10 +29,23 @@ import com.ehs.eam.scores.dao.UserScoreDao;
 import com.ehs.eam.scores.entity.impl.UserScore;
 import com.ehs.eam.scores.service.UserScoreService;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: UserScoreServiceImpl.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午10:49:35 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @Service
 public class UserScoreServiceImpl implements UserScoreService {
 
-	
 	private static final Logger logger=LoggerFactory.getLogger(UserScoreServiceImpl.class);
 	
 	@Resource
@@ -41,13 +54,22 @@ public class UserScoreServiceImpl implements UserScoreService {
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 	
-	
 	@Resource
 	private UserScoreDao userScoreDao;
 	
 	@Resource
 	private HistoryService historyService;
 	
+	/**
+	 * 
+	* @see com.ehs.eam.scores.service.UserScoreService#addScores()  
+	* @Function: UserScoreServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Transactional
 	@Override
 	public void addScores() {
@@ -110,8 +132,6 @@ public class UserScoreServiceImpl implements UserScoreService {
 							}
 	
 						}
-						
-	
 					}
 					f.setFlowScore(true);
 					baseCommonService.saveOrUpdate(f);
@@ -120,22 +140,51 @@ public class UserScoreServiceImpl implements UserScoreService {
 					logger.error("更新流程："+f.getFlowProcessName()+"评分时发生异常,流程实例ID"+f.getFlowProcessInstanceId());
 					logger.error(ex.getMessage());
 				}
-
 			}
 		}
 	}
 
+	/**
+	 * 
+	* @see com.ehs.eam.scores.service.UserScoreService#getUserScoresTotal(java.lang.String)  
+	* @Function: UserScoreServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public UserScoreBean getUserScoresTotal(String userKey) {
 		return userScoreDao.findUserScores(userKey);
 	}
 
-
+	/**
+	 * 
+	* @see com.ehs.eam.scores.service.UserScoreService#getUserScoresByYearAndMonth(java.lang.String, int[], int[])  
+	* @Function: UserScoreServiceImpl.java
+	*
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public UserScoreBean getUserScoresByYearAndMonth(String userKey,int[] years, int[] months) {
 		return userScoreDao.findUserScores(years,months,userKey);
 	}
 
+	/**
+	 * 
+	* @see com.ehs.eam.scores.service.UserScoreService#getAllUserScores(int[], int[], com.ehs.common.oper.bean.PageBody)  
+	* @Function: UserScoreServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean getAllUserScores(int[] years, int[] months,PageBody pageBody) {
 		PageRequest pageRequest =PageRequest.of(pageBody.getPage()-1, pageBody.getSize());

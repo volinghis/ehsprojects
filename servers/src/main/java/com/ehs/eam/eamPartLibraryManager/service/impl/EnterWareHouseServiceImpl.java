@@ -21,7 +21,6 @@ import com.ehs.common.flow.service.FlowBaseService;
 import com.ehs.common.flow.service.FlowProcessInfoService;
 import com.ehs.eam.eamPartLibraryManager.bean.WareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
-import com.ehs.eam.eamPartLibraryManager.dao.EnterWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
 import com.ehs.eam.eamPartLibraryManager.entity.EnterWareHouse;
@@ -30,12 +29,23 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsExtends;
 import com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService;
 import com.ehs.eam.eamPartLibraryManager.service.PartsAccountService;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: EnterWareHouseServiceImpl.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午9:43:26 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @Service
 public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseServiceImpl.class);
-	
-	@Resource
-	private EnterWareHouseDao ewhDao;
 	
 	@Resource
 	private PartsAccountDao partsAccountDao;
@@ -55,6 +65,16 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService#saveEnterWareHouse(com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean)  
+	* @Function: EnterWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void saveEnterWareHouse(EnterWareHouserBean wareHouserBean) {
@@ -85,6 +105,16 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 		}
 	}
 	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService#updatePartsAccount(com.ehs.common.flow.entity.impl.FlowProcessInfo)  
+	* @Function: EnterWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void updatePartsAccount(FlowProcessInfo flowProcessInfo) {
@@ -130,6 +160,16 @@ public class EnterWareHouseServiceImpl implements EnterWareHouseService {
 		logger.info("========保存备件台账---完成=========");
 	}
 
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.EnterWareHouseService#getEnterWareHouseFlowBean(java.lang.String)  
+	* @Function: EnterWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public WareHouseFlowBean getEnterWareHouseFlowBean(String key) {
 		EnterWareHouse ewh = baseCommonService.findByKey(EnterWareHouse.class, key);

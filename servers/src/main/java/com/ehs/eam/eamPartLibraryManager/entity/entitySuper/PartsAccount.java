@@ -22,7 +22,10 @@ public abstract class PartsAccount extends PartsExtends {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String DUMMY_AMOUNT = "dummyAmount";
-
+	
+	/**
+	 * 虚拟库存
+	 */
 	private Integer dummyAmount;
 
 	public Integer getDummyAmount() {

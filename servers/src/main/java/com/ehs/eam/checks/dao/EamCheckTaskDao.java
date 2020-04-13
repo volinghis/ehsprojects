@@ -14,12 +14,43 @@ import com.ehs.common.flow.entity.impl.FlowProcessInfo;
 import com.ehs.common.flow.utils.FlowConstans;
 import com.ehs.common.organization.entity.entitysuper.OrganizationInfo;
 import com.ehs.eam.checks.bean.CheckTaskAnalysisBean;
-import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.entity.EamCheckTask;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: EamCheckTaskDao.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午10:56:37 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @Repository
 public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 
+	/**
+	 * 
+	* @Function: EamCheckTaskDao.java
+	* @Description: 查询检修任务
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:56:56 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query(" select t from EamCheckTask t left join EamCheckPlan eamCheckPlan on t."+EamCheckTask.PLAN_KEY+"=eamCheckPlan."+BaseEntity.KEY+" left join FlowProcessInfo flowProcessInfo on t."+BaseEntity.KEY+"=flowProcessInfo."+FlowProcessInfo.BUSINESS_ENTITY_KEY
 			+" where t."+BaseEntity.DELETED+" =0 "
 			+" and ( 'ALL'=:times "
@@ -64,6 +95,24 @@ public interface EamCheckTaskDao extends JpaRepository<EamCheckTask, String>{
 			@Param("executeResult") String executeResult,
 			Pageable pageable);
 	
+	/**
+	 * 
+	* @Function: EamCheckTaskDao.java
+	* @Description:部门任务统计
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:57:14 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query(" select new com.ehs.eam.checks.bean.CheckTaskAnalysisBean(o."+BaseEntity.KEY+",o."+OrganizationInfo.NAME+","
 			+ "SUM((case when ISNULL(t."+BaseEntity.KEY+")=1 then 0 else 1 end) )"
 			+" ) from OrganizationInfo o "

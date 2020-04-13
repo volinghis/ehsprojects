@@ -29,6 +29,24 @@ import com.ehs.eam.eamPartLibraryManager.entity.PartsAccount;
 @Repository
 public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 	
+	/**
+	 * 
+	* @Function: PartsAccountDao.java
+	* @Description: 根据不同条件查询备件台账
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:51:57 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query("select p from PartsAccount p where p."+BaseEntity.DELETED+" =0 "
 			+ "and ( p."+PartsAccount.WAREHOUSE_CODE+" like %:query% "
 			+ "or p."+PartsAccount.DEVICE_CODE+" like %:query% "
@@ -49,9 +67,45 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 											 @Param("reserve") String reserve,
 											 Pageable pb);
 
+	/**
+	 * 
+	* @Function: PartsAccountDao.java
+	* @Description: 根据备件编号查询所有台账
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:52:26 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query(" select p from PartsAccount p where p."+PartsAccount.DEVICE_CODE+"=?1 and p."+BaseEntity.DELETED+" = 0 order by "+BaseEntity.BASE_SORT_NUM+" desc")
 	public List<PartsAccount> findByDeviceCode(String deviceCode);
 
+	/**
+	 * 
+	* @Function: PartsAccountDao.java
+	* @Description: 根据不同条件查询备件台账
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:53:02 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query("select p from PartsAccount p where p."+BaseEntity.DELETED+" =0 "
 			+ "and (p."+PartsAccount.DEVICE_CODE+" like %:query% "
 			+ "or p."+PartsAccount.DEVICE_NAME+" like %:query% "
@@ -61,6 +115,24 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 			+ "")
 	public Page<PartsAccount> getAllPartsAccount(String query, String flag,Pageable pb);
 	
+	/**
+	 * 
+	* @Function: PartsAccountDao.java
+	* @Description: 根据所在仓库和备件编号查询所有台账
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午9:53:49 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Query("select p from PartsAccount p where p."+PartsAccount.WAREHOUSE+" = ?1"
 			+ " and p."+PartsAccount.DEVICE_CODE+" = ?2 "
 			+ " and p."+BaseEntity.DELETED+" =0"

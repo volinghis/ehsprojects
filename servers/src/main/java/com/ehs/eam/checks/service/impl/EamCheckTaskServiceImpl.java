@@ -48,11 +48,6 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 	* @Function: EamCheckTaskServiceImpl.java
 	* @Description: 该函数的功能描述
 	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
 	* @author: chentm
 	* @date: 2020年3月17日 上午11:17:28 
 	*
@@ -97,10 +92,8 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 					}
 					baseCommonService.saveOrUpdate(d);
 				}
-				
 			}
 		}
-
 		
 		List<EamCheckRepair> ecr=t.getEamCheckRepair();
 		if(ecr!=null&&!ecr.isEmpty()) {
@@ -127,11 +120,9 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 					}
 					baseCommonService.saveOrUpdate(r);
 				}
-
 			}
 		}
 
-		
 		List<EamCheckReserveUsed> eru=t.getEamCheckReserveUsed();
 		if(eru!=null&&!eru.isEmpty()) {
 			for(EamCheckReserveUsed u:eru) {
@@ -156,10 +147,8 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 					}
 					baseCommonService.saveOrUpdate(u);
 				}
-
 			}
 		}
-
 		flowBaseService.startProcess(t, t.getFlowProcessInfo());
 	}
 
@@ -167,12 +156,6 @@ public class EamCheckTaskServiceImpl implements EamCheckTaskService {
 	 * 
 	* @see com.ehs.eam.checks.service.EamCheckTaskService#findAll(com.ehs.eam.checks.bean.CheckTaskQueryBean)  
 	* @Function: EamCheckTaskServiceImpl.java
-	* @Description: 该函数的功能描述
-	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
 	* @version: v1.0.0
 	* @author: chentm
 	* @date: 2020年3月17日 上午11:17:33 

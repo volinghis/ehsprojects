@@ -5,6 +5,20 @@ import javax.persistence.MappedSuperclass;
 
 import com.ehs.common.base.entity.BaseEntity;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: UserScoreSuper.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午11:16:52 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @MappedSuperclass
 public abstract class UserScoreSuper extends BaseEntity {
 

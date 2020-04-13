@@ -1,10 +1,23 @@
 package com.ehs.eam.checks.entity.entitysuper;
 
-
 import javax.persistence.MappedSuperclass;
 
 import com.ehs.common.flow.entity.FlowBaseEntity;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: EamCheckTaskSuper.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午11:11:58 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @MappedSuperclass
 public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 
@@ -27,7 +40,6 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	public final static String RESERVES="reserves";
 	public final static String RESULT="result";
 	public final static String ORG="org";
-	
 	
 	public String getOrgName() {
 		return orgName;
@@ -95,7 +107,5 @@ public abstract class EamCheckTaskSuper extends FlowBaseEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 	
 }

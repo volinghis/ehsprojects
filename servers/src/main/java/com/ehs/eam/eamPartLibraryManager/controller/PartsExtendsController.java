@@ -49,6 +49,24 @@ public class PartsExtendsController {
 	@Resource
 	private PartsExtendsDao partsDao;
 	
+	/**
+	 * 
+	* @Function: PartsExtendsController.java
+	* @Description: 根据入库Key查询所有备件信息
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:05:21 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getExtendsByKey")
 	public String getExtendsByKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
@@ -58,6 +76,24 @@ public class PartsExtendsController {
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
+	/**
+	 * 
+	* @Function: PartsExtendsController.java
+	* @Description: 根据流程key查询所有备件信息
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:06:36 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getExtendsByWarehouseKey")
 	public String getExtendsByWarehouseKey(QueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
@@ -73,6 +109,24 @@ public class PartsExtendsController {
 		return "[]";
 	}
 	
+	/**
+	 * 
+	* @Function: PartsExtendsController.java
+	* @Description: 查询所有入库备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:05:57 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllEnterWareHouseParts")
 	public String getAllEnterWareHouseParts(@RequestBody EnterWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {
@@ -88,6 +142,24 @@ public class PartsExtendsController {
 		return "[]";
 	}
 	
+	/**
+	 * 
+	* @Function: PartsExtendsController.java
+	* @Description: 查询所有出库备件
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:06:13 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAllOutWareHouseParts")
 	public String getAllOutWareHouseParts(@RequestBody OutWarehouseQueryBean queryBean,HttpServletRequest request,HttpServletResponse response) {

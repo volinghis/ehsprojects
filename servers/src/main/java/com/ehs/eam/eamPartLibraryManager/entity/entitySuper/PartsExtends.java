@@ -78,13 +78,7 @@ public abstract class PartsExtends extends BaseEntity{
 	 */
 	private String wareHouse;
 	private String wareHouseName;
-//	
-//	/**
-//	 * 入库日期
-//	 */
-//	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
-//	private Timestamp inboundDate;
-//	
+	
 	/**
 	 * 入库类型
 	 */

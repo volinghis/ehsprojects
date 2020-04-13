@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.eamPartLibraryManager.bean.PartsAccountQueryBean;
 import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
@@ -41,14 +40,6 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 	* @Function: EamPartLibraryServiceImpl.java
 	* @Description: 查询所有备件
 	*
-	* @param:描述1描述
-	* @return：返回结果描述
-	* @throws：异常描述
-	*
-	* @version: v1.0.0
-	* @author: zhaol
-	* @date: 2019年12月30日 下午4:09:59 
-	*
 	* Modification History:
 	* Date         Author          Version            Description
 	*---------------------------------------------------------*
@@ -63,7 +54,6 @@ public class PartsAccountServiceImpl implements PartsAccountService{
 					queryBean.getWarehouseNames(),
 					queryBean.getReserve(),
 					pb);
-			System.out.println("account====="+JsonUtils.toJsonString(account.getContent()));
 			if(account != null) {
 				PageInfoBean pib=new PageInfoBean();
 				pib.setDataList(account.getContent());

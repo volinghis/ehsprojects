@@ -20,10 +20,6 @@ import com.ehs.eam.eamPartLibraryManager.bean.EnterWareHouserBean;
 */
 public interface EnterWareHouseService {
 	
-//	public PageInfoBean findAllTask(QueryBean queryBean);
-//
-//	public PageInfoBean findAll(QueryBean queryBean);
-
 	/**
 	 * 
 	* @Function: EnterWareHouseService.java

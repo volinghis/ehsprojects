@@ -22,7 +22,6 @@ import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.eamPartLibraryManager.bean.WareHouseFlowBean;
 import com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean;
-import com.ehs.eam.eamPartLibraryManager.dao.OutWareHouseDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsAccountDao;
 import com.ehs.eam.eamPartLibraryManager.dao.PartsExtendsDao;
 import com.ehs.eam.eamPartLibraryManager.entity.OutWareHouse;
@@ -59,34 +58,21 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 	private FlowBaseService flowBaseService;
 	
 	@Resource
-	private OutWareHouseDao owhDao;
-	
-	@Resource
 	private PartsExtendsDao partsExtendsDao;
 	
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 	
-//	@Override
-//	public PageInfoBean findAll(QueryBean queryBean) {
-//		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
-//		Page<OutWareHouse> outWareHouses = owhDao.findAll(pageRequest);
-//		if (outWareHouses!=null) {
-//			List<OutWareHouse> outWareHouseList  = outWareHouses.getContent();
-//			for (OutWareHouse owh : outWareHouseList) {
-//				FlowProcessInfo fpi=flowProcessInfoService.findProcessInfoByEntityKey(owh.getKey());
-//				if(fpi!=null) {
-//					owh.setStatus(fpi.getFlowCurrentStepName());
-//				}
-//			}
-//			PageInfoBean pb=new PageInfoBean();
-//			pb.setDataList(outWareHouseList);
-//			pb.setTotalCount(outWareHouses.getTotalElements());
-//			return pb;
-//		}
-//		return null;
-//	}
-	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService#saveOutWareHouse(com.ehs.eam.eamPartLibraryManager.bean.OutWareHouserBean)  
+	* @Function: OutWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void saveOutWareHouse(OutWareHouserBean wareHouserBean) {
@@ -173,6 +159,16 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		}
 	}
 	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService#updatePartsAccount(com.ehs.common.flow.entity.impl.FlowProcessInfo)  
+	* @Function: OutWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void updatePartsAccount(FlowProcessInfo flowProcessInfo) {
@@ -207,47 +203,16 @@ public class OutWareHouseServiceImpl implements OutWareHouseService {
 		}
 	}
 	
-//	public void savePartAccount(OutWareHouse eHouse, PartsExtends pExtends) {
-//		try {
-//			PartsAccount account = new PartsAccount();
-//			//仓库信息存入备件台账表
-//			account.setWareHouseCode(eHouse.getOutWarehouseCode());
-//			account.setWareHouseName(eHouse.getOutWarehouseName());
-//			account.setInboundType(eHouse.getOutBoundType());
-//			account.setInboundDate(eHouse.getOutBoundDate());
-//			//备件扩展表存入备件台账
-//			account.setDeviceCode(pExtends.getDeviceCode());
-//			account.setDeviceName(pExtends.getDeviceName());
-//			account.setNorm(pExtends.getNorm());
-//			account.setMaterialCode(pExtends.getMaterialCode());
-//			account.setMaterialType(pExtends.getMaterialType());
-//			account.setWarningValue(pExtends.getWarningValue());
-//			account.setManufacturer(pExtends.getManufacturer());
-//			account.setLeaveFactoryCode(pExtends.getLeaveFactoryCode());
-//			account.setLeaveFactoryDate(pExtends.getLeaveFactoryDate());
-//			account.setSupplier(pExtends.getSupplier());
-//			account.setUnit(pExtends.getUnit());
-//			account.setPrice(pExtends.getPrice());
-//			account.setAmount(pExtends.getAmount());
-//			account.setTotalPrice(pExtends.getTotalPrice());
-//			baseCommonService.saveOrUpdate(account);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
-//	@Override
-//	public int validAmount(String amount, String deviceCode, String price) {
-//		Assert.notNull(amount, "数量不能为空");
-//		Assert.notNull(deviceCode, "备件编码不能为空");
-//		Assert.notNull(price, "价格不能为空");
-//		BigDecimal newPrice = new BigDecimal(price);
-//		PartsAccount partsAccount = partsAccountDao.findPartsAccount(deviceCode,newPrice);
-//		int totalAmount = partsAccount.getAmount().intValue() + Integer.valueOf(amount).intValue();
-//		System.out.println("totalAmount====="+totalAmount);
-//		return totalAmount;
-//	}
-
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.OutWareHouseService#getOutWareHouseFlowBean(java.lang.String)  
+	* @Function: OutWareHouseServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public WareHouseFlowBean getOutWareHouseFlowBean(String key) {
 		OutWareHouse outWareHouse = baseCommonService.findByKey(OutWareHouse.class, key);

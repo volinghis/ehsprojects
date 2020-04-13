@@ -20,12 +20,44 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.eam.scores.bean.UserScoreBean;
 import com.ehs.eam.scores.service.UserScoreService;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: UserScoreController.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年4月13日 上午10:45:31 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年4月13日     zhaol           v1.0.0               修改原因
+*/
 @RestController
 public class UserScoreController {
 
 	@Resource
 	private UserScoreService userScoreService;
 	
+	/**
+	 * 
+	* @Function: UserScoreController.java
+	* @Description: 查询一个月的所有人员的分数
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:45:40 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/scores/userscore/getAllUserScoresByMonth")
 	public String getAllUserScoresByMonth(HttpServletRequest request, @RequestBody PageBody pageBody) {
@@ -37,6 +69,24 @@ public class UserScoreController {
 		return ubPage==null?"[]":JsonUtils.toJsonString(ubPage);
 	}
 	
+	/**
+	 * 
+	* @Function: UserScoreController.java
+	* @Description: 查询用户分数
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月13日 上午10:46:10 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/scores/userscore/getUserScores")
 	public String getUserScores(HttpServletRequest request) {
@@ -69,8 +119,6 @@ public class UserScoreController {
 		usb1.setTime("prevMonth");
 		usbList.add(usb1);
 		
-		
-		
 		Calendar prevQuarter=Calendar.getInstance();
 		Integer m=prevQuarter.get(Calendar.MONTH)+1;
 		if(m>=1&&m<=3) {
@@ -95,7 +143,6 @@ public class UserScoreController {
 		usb2.setLabel("上季度");
 		usb2.setTime("prevQuarter");
 		usbList.add(usb2);
-		
 		
 		Calendar prevYearCl=Calendar.getInstance();
 		prevYearCl.add(Calendar.YEAR,-1);
@@ -122,7 +169,6 @@ public class UserScoreController {
 		usbList.add(usb4);
 		
 		return JsonUtils.toJsonString(usbList);
-		
 	}
 
 }

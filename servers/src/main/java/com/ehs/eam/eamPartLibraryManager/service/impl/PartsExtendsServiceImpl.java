@@ -54,6 +54,16 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 	@Resource
 	private BaseCommonService baseCommonService;
 
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService#getExtendsByKey(com.ehs.eam.eamPartLibraryManager.bean.QueryBean, java.lang.String)  
+	* @Function: PartsExtendsServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean getExtendsByKey(QueryBean queryBean, String key) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage()-1, queryBean.getSize());
@@ -66,7 +76,17 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 		}
 		return null;
 	}
-
+	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService#getAllEnterWareHouseParts(com.ehs.eam.eamPartLibraryManager.bean.EnterWarehouseQueryBean)  
+	* @Function: PartsExtendsServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean getAllEnterWareHouseParts(EnterWarehouseQueryBean queryBean) {
 		logger.info("====查询所有入库备件------开始====");
@@ -132,6 +152,17 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 		return null;
 	}
 	
+	/**
+	 * 
+	* @see com.ehs.eam.eamPartLibraryManager.service.PartsExtendsService#getAllOutWareHouseParts(com.ehs.eam.eamPartLibraryManager.bean.OutWarehouseQueryBean)  
+	* @Function: PartsExtendsServiceImpl.java
+	* @Description: 该函数的功能描述
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean getAllOutWareHouseParts(OutWarehouseQueryBean queryBean) {
 		logger.info("查询所有出库备件-----开始");
@@ -186,7 +217,6 @@ public class PartsExtendsServiceImpl implements PartsExtendsService{
 						}
 					}
 				}
-//				list.addAll(parts);
 				PageInfoBean pib=new PageInfoBean();
 				pib.setDataList(list);
 				pib.setTotalCount(list.size());
