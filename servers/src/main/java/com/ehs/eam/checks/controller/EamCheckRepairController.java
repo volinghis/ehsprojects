@@ -28,9 +28,9 @@ public class EamCheckRepairController {
 	/**
 	 * 
 	* @Function: EamCheckRepairController.java
-	* @Description: 该函数的功能描述
+	* @Description: 根据检修任务获取检修详情
 	*
-	* @param:描述1描述
+	* @param:queryBean 查询对象
 	* @return：返回结果描述
 	* @throws：异常描述
 	*

@@ -24,9 +24,9 @@ import com.ehs.eam.eamLedgerManager.entity.EamScrap;
  * @author: qjj
  * @date: 2020年1月8日 下午6:53:09
  *
- *        Modification History: Date Author Version Description
- *        ---------------------------------------------------------* 2020年1月8日
- *        qjj v1.0.0 修改原因
+ * Modification History: Date Author Version Description
+ * ---------------------------------------------------------* 2020年1月8日
+ * qjj v1.0.0 修改原因
  */
 public class EamScrapRequestBean {
 

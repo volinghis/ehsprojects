@@ -25,10 +25,10 @@ public class EamCheckDefectController {
 	/**
 	 * 
 	* @Function: EamCheckRepairController.java
-	* @Description: 该函数的功能描述
+	* @Description: 根据巡检任务获取其所有缺陷记录
 	*
-	* @param:描述1描述
-	* @return：返回结果描述
+	* @param:taskKey 巡检任务唯一标识
+	* @return：json格式缺陷记录集合
 	* @throws：异常描述
 	*
 	* @version: v1.0.0

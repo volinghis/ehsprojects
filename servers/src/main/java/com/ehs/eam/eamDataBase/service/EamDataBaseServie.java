@@ -9,7 +9,7 @@ public interface EamDataBaseServie {
 
 	/**   
 	* @Function: EamDataBaseServie.java
-	* @Description: 该函数的功能描述
+	* @Description: 保存文件信息接口
 	*
 	* @param:描述1描述
 	* @return：返回结果描述

@@ -1,17 +1,11 @@
 package com.ehs.eam.checks.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hpsf.Array;
-import org.omg.CORBA.FREE_MEM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,12 +17,10 @@ import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.common.organization.entity.OrganizationInfo;
 import com.ehs.eam.checks.bean.CheckPlanQueryBean;
 import com.ehs.eam.checks.entity.EamCheckPlan;
 import com.ehs.eam.checks.service.EamCheckPlanService;
-import com.ehs.eam.eamPartLibraryManager.bean.QueryBean;
 
 /**
  * 
@@ -196,9 +188,9 @@ public class EamCheckPlanController {
 	/**
 	 * 
 	* @Function: EamCheckPlanController.java
-	* @Description: 该函数的功能描述
+	* @Description: 计划延期
 	*
-	* @param:描述1描述
+	* @param:newDate 目标时间
 	* @return：返回结果描述
 	* @throws：异常描述
 	*
@@ -224,7 +216,23 @@ public class EamCheckPlanController {
 		return JsonUtils.toJsonString(resultBean.error("延期失败"));
 	}
 	
-	
+	/**
+	 * 
+	* @Function:sendTask 
+	* @Description: 按照计划执行任务
+	* @param eamCheckPlan
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午11:11:17 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys ={"eamCheckPlan"})
 	@RequestMapping(value = "/eam/checks/plan/sendTask")
 	public String sendTask(@RequestBody EamCheckPlan eamCheckPlan, HttpServletRequest request) {

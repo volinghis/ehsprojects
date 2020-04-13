@@ -40,6 +40,22 @@ public class EamDataBaseController {
 	@Resource
 	private DataDictionaryService dataDictService;
 
+	/**
+	 * 
+	* @Function:getFileInfoList 
+	* @Description: 获取资料管理列表信息
+	* @param querybean
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:45:33 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping("/getFileInfoList")
 	public String getFileInfoList(@RequestBody EamDataBaseQuery querybean) {
@@ -47,7 +63,6 @@ public class EamDataBaseController {
 		try {
 			pageBean = eamDataBaseServie.findEamDataBaseList(querybean);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
@@ -97,6 +112,22 @@ public class EamDataBaseController {
 		return JsonUtils.toJsonString(resultList);
 	}
 	
+	/**
+	 * 
+	* @Function:saveDataFileInfo 
+	* @Description:保存资料
+	* @param fileId 当前的文件唯一标识
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:46:28 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { "dataBase" })
 	@RequestMapping("/saveDataFileInfo")
 	public String saveDataFileInfo(@RequestParam String fileId ) {
@@ -111,6 +142,21 @@ public class EamDataBaseController {
 		
 	}
 	
+	/**
+	 * 
+	* @Function:getFileCategories 
+	* @Description: 获取文件类型数据
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:47:14 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getFileCategories")
 	public String getFileCategories() {

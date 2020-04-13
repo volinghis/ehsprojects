@@ -327,7 +327,7 @@ public class EamLedgerController {
 	 * 
 	* @Function:getEamLedgersNotInFlow 
 	* @Description: 获取不在流程中的设备
-	* @param querybean
+	* @param querybean 
 	* @return
 	* @throws：异常描述
 	* @version: v1.0.0
@@ -346,6 +346,22 @@ public class EamLedgerController {
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
 	
+	/**
+	 * 
+	* @Function:updateEamLedgerAfterFlow 
+	* @Description: 设备更新流程结束后的处理
+	* @param flowProcessInfo
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:24:36 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = {"eamLedger"})
 	@RequestMapping(value = "/updateEamLedgerAfterFlow")
 	public String updateEamLedgerAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo){

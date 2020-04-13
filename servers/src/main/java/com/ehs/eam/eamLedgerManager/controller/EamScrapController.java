@@ -97,7 +97,6 @@ public class EamScrapController {
 		try {
 			eamScrapService.saveEamScrap(reqBean);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return JsonUtils.toJsonString(resultBean.error("保存失败"));
 		}
 		return JsonUtils.toJsonString(resultBean.ok("保存成功"));
@@ -152,6 +151,22 @@ public class EamScrapController {
 		return eamScrapFlowBean != null ? JsonUtils.toJsonString(eamScrapFlowBean) : "{}";
 	}
 
+	/**
+	 * 
+	* @Function:getEamLedgerByScrapKey 
+	* @Description: 获取报废申请关联的设备
+	* @param key 报废信息的唯一标识
+	* @return json 格式的设备数据
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:41:05 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY  })
 	@RequestMapping(value = "/getEamLedgerByScrapKey")
 	public String getEamLedgerByScrapKey(@RequestParam String key) {
@@ -167,7 +182,7 @@ public class EamScrapController {
 	 * 
 	* @Function:updateAfterFlow 
 	* @Description:报废流程结束后的数据更新
-	* @param flowProcessInfo
+	* @param flowProcessInfo 
 	* @return
 	* @throws：异常描述
 	* @version: v1.0.0

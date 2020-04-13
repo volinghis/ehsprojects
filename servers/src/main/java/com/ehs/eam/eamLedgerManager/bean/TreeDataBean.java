@@ -15,7 +15,7 @@ import java.util.List;
 /**   
 * Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
 * @ClassName: TreeDataBean.java
-* @Description: 该类的功能描述
+* @Description:封装树结构的数据对象
 *
 * @version: v1.0.0
 * @author: qjj

@@ -8,7 +8,6 @@
  */
 package com.ehs.common.base.utils;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
@@ -20,9 +19,6 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.context.support.StaticApplicationContext;
-
-import net.bytebuddy.asm.Advice.This;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

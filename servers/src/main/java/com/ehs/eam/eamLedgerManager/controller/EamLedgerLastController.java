@@ -31,11 +31,24 @@ public class EamLedgerLastController {
 	
 	@Resource
 	private BaseCommonService baseCommonService;
+	
+	
 	/**
-	 * 设备台账记录
-	 * @param querybean
-	 * @param request
-	 * @return
+	 * 
+	* @Function:getEamLedgerLastList 
+	* @Description: 设备台账列表数据
+	* @param querybean
+	* @param request
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:39:20 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
 	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getLastList")
@@ -44,7 +57,21 @@ public class EamLedgerLastController {
 		return pageBean == null ? "[]" : JsonUtils.toJsonString(pageBean);
 	}
 	
-	
+	/**
+	 * 
+	* @Function:getLastSuggestions 
+	* @Description: 该函数的功能描述
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午9:38:38 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getLastSuggestions")
 	public String getLastSuggestions() {

@@ -34,7 +34,7 @@
             <el-date-picker v-model="eam_Inspectors.sel['serverTime']"
                             value-format="yyyy-MM-dd"
                             type="date"
-                            style="width:88%;"
+                            style="width:90%;"
                             size="mini"
                             placeholder="选择日期">
             </el-date-picker>
@@ -50,7 +50,7 @@
           <span v-if="scope.row.isSet">
             <el-date-picker v-model="eam_Inspectors.sel['departureTime']"
                             type="date"
-                            style="width:88%;"
+                            style="width:90%;"
                             value-format="yyyy-MM-dd"
                             size="mini"
                             placeholder="选择日期">

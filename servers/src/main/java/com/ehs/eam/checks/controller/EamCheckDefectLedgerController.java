@@ -59,6 +59,22 @@ public class EamCheckDefectLedgerController {
 	@Resource
 	private FlowProcessInfoService flowProcessInfoService;
 
+	/**
+	 * 
+	* @Function:getDefectLedgerList 
+	* @Description: 获取缺陷信息所有记录
+	* @param defectLedgerBean
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午10:41:53 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getDefectLedgerList")
 	public String getDefectLedgerList(@RequestBody CheckDefectLedgerBean defectLedgerBean) {
@@ -72,6 +88,21 @@ public class EamCheckDefectLedgerController {
 		return "[]";
 	}
 	
+	/**
+	 * 
+	* @Function:addDatasAfterFlow 
+	* @Description: 巡检任务结束后缺陷记录插入
+	* @param flowProcessInfo 流程信息对象
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午10:42:59 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = {"defectLedger"})
 	@RequestMapping(value = "/addDatasAfterFlow")
 	public void addDatasAfterFlow(@RequestBody FlowProcessInfo flowProcessInfo) {
@@ -83,6 +114,22 @@ public class EamCheckDefectLedgerController {
 		
 	}
 	
+	/**
+	 * 
+	* @Function:defectAnalysisForIndexPage 
+	* @Description: 封装缺陷统计数据
+	* @param type
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午10:45:03 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys ={AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/defectAnalysisForIndexPage")
 	public String defectAnalysisForIndexPage(@RequestParam String type) {
@@ -114,7 +161,24 @@ public class EamCheckDefectLedgerController {
 		return "[]";
 	}
 
-	
+	/**
+	 * 
+	* @Function:getAnalysisByType 
+	* @Description: 根据类型获取缺陷数据
+	* @param type (deviceProfessiona或deviceSystem)
+	* @param onlyMajor
+	* @param onlyStatusError
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午10:46:42 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getAnalysisByType")
 	public String getAnalysisByType(@RequestParam String type,@RequestParam boolean onlyMajor, @RequestParam boolean onlyStatusError) {
@@ -122,6 +186,22 @@ public class EamCheckDefectLedgerController {
 		return JsonUtils.toJsonString(analysisBeans);
 	}
 	
+	/**
+	 * 
+	* @Function:getFlowProcessInfoByBusinessKey 
+	* @Description: 根据businessKey获取流程对象
+	* @param key businessKey
+	* @return
+	* @throws：异常描述
+	* @version: v1.0.0
+	* @author: qjj
+	* @date: 2020年4月13日 上午10:56:11 
+	*
+	* Modification History:
+	* Date        Author        Version      Description
+	*---------------------------------------------------------*
+	* 2020年4月13日     qjj        v1.0.0            修改原因
+	 */
 	@RequestAuth(menuKeys = {AuthConstants.GLOBAL_MENU_KEY})
 	@RequestMapping(value = "/getFlowProcessInfoByBusinessKey")
 	public String getFlowProcessInfoByBusinessKey(@RequestParam String key) {
