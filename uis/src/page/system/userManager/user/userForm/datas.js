@@ -114,25 +114,15 @@ export default {
           { required: true, message: '请选择性别', trigger: 'blur' }
         ],
         position: [
-          { required: true, message: '请输入职务', trigger: 'change' }
+          { required: true, message: '请输入职务', trigger: 'blur' }
         ],
-        telephone: [{
-          required: true,
-          message: '请输入手机号',
-          trigger: 'blur'
-        },
-        {
-          validator: checkMobile,
-          message: '请输入正确的手机号码',
-          trigger: 'blur'
-        }
+        telephone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, message: '请输入正确的手机号码', trigger: 'blur' }
         ],
         email: [
-          {
-            validator: checkEmail,
-            message: '请输入正确的邮箱地址',
-            trigger: ['blur', 'change']
-          }
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { validator: checkEmail, message: '请输入正确的邮箱地址', trigger: 'blur' }
         ]
       }
     }
