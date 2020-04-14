@@ -14,17 +14,17 @@
 	</orgs> 
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
-			<menu dataCode="HOME" key="HOME" name="首页" url="/protal/index" icon="fa-users"    sort="0" ></menu>
-			<menu dataCode="MENU_COMP_NEWS" key="MENU_COMP_NEWS" name="公司新闻" url="/system/userManager/user/index" icon="fa-users"    sort="10" ></menu>
-			<menu dataCode="MENU_TRADE_NEWS" key="MENU_TRADE_NEWS" name="行业新闻" url="/system/userManager/user/index" icon="fa-users"    sort="20" ></menu>
-			<menu dataCode="MENU_BIDS_NOTICE" key="MENU_BIDS_NOTICE" name="招标公告" url="/system/userManager/user/index" icon="fa-users"    sort="30" ></menu>
-			<menu dataCode="MENU_COMP_NOTICE" key="MENU_COMP_NOTICE" name="公司公告" url="/system/userManager/user/index" icon="fa-users"    sort="40" ></menu>
-			<menu dataCode="MENU_PROFESSIONAL_NEWS" key="MENU_PROFESSIONAL_NEWS" name="专题报道" url="/system/userManager/user/index" icon="fa-users"    sort="50" ></menu>
-			<menu dataCode="MENU_MEDIA_NEWS" key="MENU_MEDIA_NEWS" name="媒体聚焦" url="/system/userManager/user/index" icon="fa-users"    sort="60" ></menu>
-			<menu dataCode="pictureManager" key="pictureManager" name="图片管理" url="/system/userManager/user/index" icon="fa-users"    sort="70" ></menu>
-			<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users"    sort="80" ></menu>
-			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user"    sort="90" ></menu>
-			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug"    sort="100" ></menu>
+			<menu dataCode="HOME" key="HOME" name="首页" url="/protal/index" icon="fa-users" sort="0" ></menu>
+			<menu dataCode="MENU_COMP_NEWS" key="MENU_COMP_NEWS" name="公司新闻" url="/web/newsManager/index" icon="fa-id-card-o" sort="10" ></menu>
+			<menu dataCode="MENU_TRADE_NEWS" key="MENU_TRADE_NEWS" name="行业新闻" url="/web/newsManager/index" icon="fa-newspaper-o" sort="20" ></menu>
+			<menu dataCode="MENU_BIDS_NOTICE" key="MENU_BIDS_NOTICE" name="招标公告" url="/web/newsManager/index" icon="fa-gavel " sort="30" ></menu>
+			<menu dataCode="MENU_COMP_NOTICE" key="MENU_COMP_NOTICE" name="公司公告" url="/web/newsManager/index" icon="fa-bullhorn" sort="40" ></menu>
+			<menu dataCode="MENU_PROFESSIONAL_NEWS" key="MENU_PROFESSIONAL_NEWS" name="专题报道" url="/web/newsManager/index" icon="fa-globe" sort="50" ></menu>
+			<menu dataCode="MENU_MEDIA_NEWS" key="MENU_MEDIA_NEWS" name="媒体聚焦" url="/web/newsManager/index" icon="fa-eye" sort="60" ></menu>
+			<menu dataCode="pictureManager" key="pictureManager" name="图片管理" url="/web/pictureManager/index" icon="fa-picture-o" sort="70" ></menu>
+			<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users" sort="80" ></menu>
+			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user" sort="90" ></menu>
+			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug" sort="100" ></menu>
 	</menus>
 	
 	<DataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">
