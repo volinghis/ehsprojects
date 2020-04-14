@@ -9,41 +9,32 @@
 	</users>
 	
 	<orgs targetClass="com.ehs.common.organization.entity.OrganizationInfo">
-		<org dataCode="rootOrg" key="rootOrg" name="东恒软件" sort="0">
-			<org dataCode="equipmentDivision" key="equipmentDivision" name="设备部" parentKey="rootOrg" sort="1"></org>
+		<org dataCode="rootOrg" key="rootOrg" name="大唐韩城第二发电厂" sort="0">
 		</org>
 	</orgs> 
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
-		<menu dataCode="sampleEdit" key="sampleEdit" name="流程案例" url="/flow/sample/index"  sort="9999"  business="true" ></menu>
-		<menu dataCode="personJob" key="personJob" name="工作台" url="" icon="fa-television" leaf="false" sort="5">
-			<menu dataCode="userApproves" key="userApproves" name="我的待办" url="/system/account/approves/index" icon="fa-list" parentKey="personJob" sort="10"></menu>
-			<menu dataCode="userDones" key="userDones" name="我的已办" url="/system/account/dones/index" icon="fa-database" parentKey="personJob" sort="20"></menu>
-			<menu dataCode="userApplys" key="userApplys" name="我的申请" url="/system/account/applys/index" icon="fa-sitemap" parentKey="personJob" sort="30"></menu>
-		
-		</menu>
-		<!-- 系统管理 -->
-		<menu dataCode="systemManager" key="systemManager" name="系统管理" url="" icon="fa-cog" leaf="false" sort="9999" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'>
-			<menu dataCode="orgManager" key="orgManager" name="部门管理" url="/system/orgManager/index" icon="fa-sitemap"  parentKey="systemManager"  sort="39" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users"  parentKey="systemManager"  sort="40" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user"  parentKey="systemManager"  sort="42" ></menu>
-			<menu dataCode="roleManager" key="roleManager" name="角色管理" url="/system/roleManager/index" icon="fa-user"  parentKey="systemManager"  sort="43" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			<menu dataCode="menuManager" key="menuManager" name="菜单授权" url="/system/menuManager/index" icon="fa-list"  parentKey="systemManager"  sort="44" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			<menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="数据字典" url="/system/dataDictionaryManager/index" icon="fa-database"  parentKey="systemManager"  sort="45" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug"  parentKey="systemManager"  sort="46" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-		</menu>
+			<menu dataCode="HOME" key="HOME" name="首页" url="/protal/index" icon="fa-users"    sort="0" ></menu>
+			<menu dataCode="MENU_COMP_NEWS" key="MENU_COMP_NEWS" name="公司新闻" url="/system/userManager/user/index" icon="fa-users"    sort="10" ></menu>
+			<menu dataCode="MENU_TRADE_NEWS" key="MENU_TRADE_NEWS" name="行业新闻" url="/system/userManager/user/index" icon="fa-users"    sort="20" ></menu>
+			<menu dataCode="MENU_BIDS_NOTICE" key="MENU_BIDS_NOTICE" name="招标公告" url="/system/userManager/user/index" icon="fa-users"    sort="30" ></menu>
+			<menu dataCode="MENU_COMP_NOTICE" key="MENU_COMP_NOTICE" name="公司公告" url="/system/userManager/user/index" icon="fa-users"    sort="40" ></menu>
+			<menu dataCode="MENU_PROFESSIONAL_NEWS" key="MENU_PROFESSIONAL_NEWS" name="专题报道" url="/system/userManager/user/index" icon="fa-users"    sort="50" ></menu>
+			<menu dataCode="MENU_MEDIA_NEWS" key="MENU_MEDIA_NEWS" name="媒体聚焦" url="/system/userManager/user/index" icon="fa-users"    sort="60" ></menu>
+			<menu dataCode="pictureManager" key="pictureManager" name="图片管理" url="/system/userManager/user/index" icon="fa-users"    sort="70" ></menu>
+			<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users"    sort="80" ></menu>
+			<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user"    sort="90" ></menu>
+			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug"    sort="100" ></menu>
 	</menus>
 	
 	<DataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">
-		<DataDictionary dataCode ="position" key="position" text="职务" parentKey="dataDict" systemCode="dataDict" sort="1">
-			<DataDictionary dataCode="Aposition" key="Aposition" text="厂长" sort="1" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Bposition" key="Bposition" text="副厂长" sort="2" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Cposition" key="Cposition" text="主任" sort="3" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Dposition" key="Dposition" text="副主任" sort="4" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Eposition" key="Eposition" text="高管" sort="5" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Fposition" key="Fposition" text="组长" sort="6" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Gposition" key="Gposition" text="班长" sort="7" parentKey="position" systemCode="dataDict" />
-			<DataDictionary dataCode="Hposition" key="Hposition" text="员工" sort="8" parentKey="position" systemCode="dataDict" />
+		<DataDictionary dataCode ="NEWS_TYPE" key="NEWS_TYPE" text="公告类型" parentKey="dataDict" systemCode="dataDict" sort="1">
+			<DataDictionary dataCode="COMP_NEWS" key="COMP_NEWS" text="公司新闻" sort="1" parentKey="NEWS_TYPE" systemCode="dataDict" />
+			<DataDictionary dataCode="TRADE_NEWS" key="TRADE_NEWS" text="行业新闻" sort="20" parentKey="NEWS_TYPE" systemCode="dataDict" />
+			<DataDictionary dataCode="BIDS_NOTICE" key="BIDS_NOTICE" text="招标公告" sort="30" parentKey="NEWS_TYPE" systemCode="dataDict" />
+			<DataDictionary dataCode="COMP_NOTICE" key="COMP_NOTICE" text="公司公告" sort="40" parentKey="NEWS_TYPE" systemCode="dataDict" />
+			<DataDictionary dataCode="PROFESSIONAL_NEWS" key="PROFESSIONAL_NEWS" text="专题报道" sort="50" parentKey="NEWS_TYPE" systemCode="dataDict" />
+			<DataDictionary dataCode="MEDIA_NEWS" key="MEDIA_NEWS" text="媒体聚焦" sort="60" parentKey="NEWS_TYPE" systemCode="dataDict" />
 		</DataDictionary>
 	</DataDictionarys>
 </root>
