@@ -72,8 +72,8 @@ function isGlobalRoutes (to) {
       return true
     }
   }
-  for (var i in portalRoutes) {
-    if (portalRoutes[i].name === to.name) {
+  for (var j in portalRoutes) {
+    if (portalRoutes[j].name === to.name) {
       return true
     }
   }
