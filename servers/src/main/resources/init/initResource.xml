@@ -28,6 +28,7 @@
 		<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users" sort="80" ></menu>
 		<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user" sort="90" ></menu>
 		<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug" sort="100" ></menu>
+
 	</menus>
 	
 	<DataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">

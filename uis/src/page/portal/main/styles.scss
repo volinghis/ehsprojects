@@ -1,0 +1,29 @@
+
+.pagePanel{
+  width: $bodyMinWidth !important;
+  margin:0 auto;
+  .headerPanel{
+    border-bottom: solid 1px #e6e6e6 !important;
+    .topleft{
+      height: $headerHeight !important;
+      line-height: $headerHeight !important;
+      vertical-align: middle;
+      float: left;
+
+    }
+
+    .topright {
+      float: right;
+    }
+    .titlespan{
+      font-size: 20px !important;
+      color: #646669;
+    }
+  }
+  .footerPanel{
+    position:fixed !important;
+    bottom:0px !important;
+    text-align: center;
+    width: $bodyMinWidth !important;
+  }
+}

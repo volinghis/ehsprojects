@@ -20,24 +20,51 @@ function _import (file) {
     return _import('/404')
   }
 }
+const flowMainRoutes = {
+  path: '/flow', component: _import('/flow/index'), name: 'flow', meta: { title: '流程' }
+}
+const adminRoutes = {
+  path: '/admin', component: _import('/layout/container/index'), name: 'index', meta: { title: '管理后台' }
+}
+const loginRoutes = {
+  path: '/login', component: _import('/user/login/index'), name: 'login', meta: { title: '登录', business: true }
+}
+const portalRoutes = [
+  {
+    path: '/', component: _import('/portal/home/index'), name: 'portalhome', meta: { title: '首页' }
+  }
+]
+const portalMainRoutes = {
+  path: '/', component: _import('/portal/main/index'), name: 'portalmain', meta: { title: '门户' }, children: portalRoutes
+}
+
+const enterRoutes = [{
+  path: '/',
+  component: _import('/main/index'),
+  name: 'enterPage',
+  meta: { title: '入口' },
+  children: [
+    flowMainRoutes,
+    adminRoutes,
+    loginRoutes,
+    portalMainRoutes
+  ]
+}]
 // 全局路由(无需嵌套)
 const globalRoutes = [
-  { path: '/404', component: _import('/404'), name: '404', meta: { title: '404', business: true } },
-  { path: '/user/login', component: _import('/user/login/index'), name: 'login', meta: { title: '登录', business: true } }
+  loginRoutes
 ]
+
 // 主入口路由(需嵌套整体布局页面)
-const mainRoutes = {
-  path: '/', component: _import('/layout/container/index'), name: 'index', meta: { title: '门户' }, children: []
-}
-const flowMainRoutes = {
-  path: '/flow', component: _import('/flow/index'), name: 'flow', meta: { title: '流程' }, children: []
-}
+
 const vueRouter = new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
   scrollBehavior: () => ({ x: 0, y: 0 }),
   isAdd: false
 })
+vueRouter.addRoutes(enterRoutes)
+
 // 判断当前是否全局路由
 function isGlobalRoutes (to) {
   for (var i in globalRoutes) {
@@ -45,6 +72,12 @@ function isGlobalRoutes (to) {
       return true
     }
   }
+  for (var i in portalRoutes) {
+    if (portalRoutes[i].name === to.name) {
+      return true
+    }
+  }
+
   return false
 }
 // 添加动态(菜单)路， 参数menu：菜单列表
@@ -65,14 +98,16 @@ function addDynamicMenu (routes, md, type) {
   }
 }
 function toDoPage (from, to, next) {
-  if (isGlobalRoutes(to) || vueRouter.options.isAdd) {
+  if (isGlobalRoutes(to)) {
+    next({ replace: true })
+  } else if (vueRouter.options.isAdd) {
     if (to.name && to.name !== 'index') {
       next({ replace: true })
     } else {
       if (to.path.startsWith('/flow')) {
         next({ path: to.path, replace: true })
       } else {
-        next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })
+        next({ name: (adminRoutes.children.length > 0 ? adminRoutes.children[0].name : adminRoutes.name), replace: true })
       }
     }
   } else {
@@ -81,30 +116,34 @@ function toDoPage (from, to, next) {
       Store.state.menuDatas = res.data
       var routes = []
       addDynamicMenu(routes, Store.state.menuDatas, '')
-      mainRoutes.children = routes
+      adminRoutes.children = routes
       var flows = []
       addDynamicMenu(flows, Store.state.menuDatas, 'flow')
       flowMainRoutes.children = flows
-      vueRouter.addRoutes([// vue-routers2.2版本以上才支持。
-        mainRoutes,
-        flowMainRoutes,
-        { path: '*', redirect: { name: '404' } }
-      ])
+
+      for (var i in enterRoutes) {
+        if (enterRoutes[i].name === 'index') {
+          enterRoutes[i] = adminRoutes
+        }
+        if (enterRoutes[i].name === 'flow') {
+          enterRoutes[i] = flowMainRoutes
+        }
+      }
+      vueRouter.addRoutes(enterRoutes)
       vueRouter.options.isAdd = true
       if (to.name && to.name !== 'index') {
         next({ replace: true })
       } else {
         if (to.path.startsWith('/flow')) {
-          console.log(1)
           next({ path: to.path, replace: true })
         } else {
-          next({ name: (mainRoutes.children.length > 0 ? mainRoutes.children[0].name : mainRoutes.name), replace: true })
+          next({ name: (adminRoutes.children.length > 0 ? adminRoutes.children[0].name : adminRoutes.name), replace: true })
         }
       }
     })
   }
 }
-vueRouter.addRoutes(globalRoutes)
+
 vueRouter.afterEach(function (to, from) {
   if (!to.meta.business) {
     Store.dispatch(GlobalVars.addTabsMethodName, to)
@@ -113,6 +152,7 @@ vueRouter.afterEach(function (to, from) {
   NProgress.done()
 })
 vueRouter.beforeEach((to, from, next) => { // 添加动态(菜单)路由
+  console.log(to.name)
   NProgress.start()
   const token = sessionStorage.getItem(GlobalVars.userToken)
   if (!token) {
