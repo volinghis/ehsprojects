@@ -9,7 +9,7 @@
             <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 25px;"></el-image>
           </div>
           <div style="float:right;">
-            <span class="titlespan"><b>东恒快速开发平台</b></span>
+            <span class="titlespan"><b>&nbsp;大&nbsp;唐&nbsp;电&nbsp;力</b></span>
           </div>
         </div>
         <div class="topright">

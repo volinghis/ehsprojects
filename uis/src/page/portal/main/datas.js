@@ -1,7 +1,7 @@
 export default {
   data () {
     return {
-      dhUrl: require('@/assets/logo.svg')
+      dhUrl: require('@/assets/logo.png')
     }
   },
 

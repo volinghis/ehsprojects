@@ -2,7 +2,28 @@
 .el-form-item__label{
   @include font-styles;
 }
+.el-card{
+  .el-table{
+     height: 200px !important;
+    .el-table__header{
+      display: none;
+    }
+  }
 
+  background-color: #ce0000;
+  .el-card__body{
+    background-color: white;
+  }
+  .el-card__header{
+    height: 30px !important;
+    padding-top : 4px !important;
+    span{
+      font-size: 16px !important;
+      color: white;
+    }
+
+  }
+}
 .el-table {
   th{
     .cell{
