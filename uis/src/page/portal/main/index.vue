@@ -7,7 +7,7 @@
         <div class="headerPanel">
         <div class="topleft">
           <div style="float:left;">
-            <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;margin-left: 25px;"></el-image>
+            <el-image :src="dhUrl" style="width: 40px; height: 40px; vertical-align: middle;"></el-image>
           </div>
           <div style="float:right;">
             <span class="titlespan"><b>&nbsp;大&nbsp;唐&nbsp;电&nbsp;力</b></span>
@@ -48,7 +48,7 @@
       </div>
       </el-header>
       <el-main><router-view></router-view></el-main>
-      <el-footer class="footerPanel">东恒鑫源软件开发优先公司版权所有@copyritht<br>京备pc1231212号</el-footer>
+      <el-footer class="footerPanel">东恒鑫源软件开发有限公司版权所有Copyright © 2020 <br>京备pc1231212号</el-footer>
     </el-container>
   </div>
 </template>

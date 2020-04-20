@@ -186,8 +186,20 @@ export default {
 }
 .el-card {
   border-radius: 0px;
-  // border: 1px solid #EBEEF5;
-  // overflow: hidden;
-  // color: #303133;
+}
+/deep/.el-card__body {
+  padding: 10px 10px 20px 10px;
+}
+/deep/.el-table__row{
+  height: 30px !important;
+}
+/deep/.el-table td {
+  padding: 0px;
+}
+/deep/.el-table::before {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /* height: 1px; */
 }
 </style>
