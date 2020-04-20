@@ -30,9 +30,9 @@ const loginRoutes = {
   path: '/login', component: _import('/user/login/index'), name: 'login', meta: { title: '登录', business: true }
 }
 const portalRoutes = [
-  {
-    path: '/', component: _import('/portal/home/index'), name: 'portalhome', meta: { title: '首页' }
-  }
+  { path: '/', component: _import('/portal/home/index'), name: 'portalhome', meta: { title: '首页' } },
+  { path: '/portal/news/list/index', component: _import('/portal/news/list/index'), name: 'newsList', meta: { title: '新闻列表', business: true } },
+  { path: '/portal/news/view/index', component: _import('/portal/news/view/index'), name: 'newsView', meta: { title: '新闻详情', business: true } }
 ]
 const portalMainRoutes = {
   path: '/', component: _import('/portal/main/index'), name: 'portalmain', meta: { title: '门户' }, children: portalRoutes

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
+import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.web.news.entity.News;
 
 /**   
@@ -26,7 +27,7 @@ import com.ehs.web.news.entity.News;
 @Repository
 public interface NewsDao extends JpaRepository<News, String>{
 
-	@Query(" select n from News n where n."+News.NEWS_TITLE+" like %?1% and n."+News.DATA_CODE+" = ?2 and n."+BaseEntity.DELETED+"=0 order by n."+BaseEntity.CREATION_TIME+" desc" )
+	@Query(" select n from News n where n."+BaseEntity.DELETED+"=0 and (isnull("+News.NEWS_TITLE+")=0 or LENGTH(trim(?1))>0 or n."+News.NEWS_TITLE+" like %?1% ) and n."+News.DATA_CODE+" = ?2 order by n."+BaseEntity.CREATION_TIME+" desc" )
 	public Page<News> findAllNews(String query, String dataCode,PageRequest pageRequest); 
 
 }

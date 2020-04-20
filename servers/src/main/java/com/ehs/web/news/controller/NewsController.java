@@ -33,6 +33,7 @@ import com.ehs.web.news.service.NewsService;
 * 2020年4月15日     zhaol           v1.0.0               修改原因
 */
 @RestController
+@RequestMapping({"/portal/web/news","/web/news"})
 public class NewsController {
 	private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 	
@@ -40,15 +41,28 @@ public class NewsController {
 	private NewsService newsService;
 	
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/web/news/getAllNews")
+	@RequestMapping(value = "/getAllNews")
 	public String getAllNews(@RequestBody QueryBean queryBean) {
 		 PageInfoBean pb = newsService.getAllNews(queryBean);
 		 return (pb==null?"[]":JsonUtils.toJsonString(pb));
 		
 	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/getNewsList")
+	public String getNewsList(@RequestParam String dataCode) {
+		System.out.println("dataCode========="+dataCode);
+		QueryBean queryBean = new QueryBean();
+		queryBean.setDataCode(dataCode);
+		queryBean.setPage(1);
+		queryBean.setSize(5);
+		PageInfoBean pb = newsService.getAllNews(queryBean);
+		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+		
+	}
 
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/web/news/saveNews")
+	@RequestMapping(value = "/saveNews")
 	public String saveNews(@RequestBody News news) {
 		ResultBean resultBean = new ResultBean();
 		try {
@@ -61,7 +75,7 @@ public class NewsController {
 	}
 	
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping(value = "/web/news/deleteNews")
+	@RequestMapping(value = "/deleteNews")
 	public String deleteNews(@RequestParam String key) {
 		ResultBean resultBean = new ResultBean();
 		try {

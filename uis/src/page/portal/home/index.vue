@@ -3,7 +3,7 @@
     <div class="block">
        <el-carousel :interval="4000"  height="200px" >
          <el-carousel-item v-for="item in picList" :key="item.key">
-          <img :src="item.fileId===''?'':GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + item.fileId + '&resoureMenuKey=ALL'"
+            <img :src="item.fileId===''?'':GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + item.fileId + '&resoureMenuKey=ALL'"
               width="100%"
                height="200" />
         </el-carousel-item>
@@ -12,42 +12,54 @@
     <el-row :gutter="10" style="margin-bottom:10px;">
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>公司新闻</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NEWS')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="compNewsData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
       </el-col>
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>公司公告</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NOTICE')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="compNoticeData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
       </el-col>
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>专题报道</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_PROFESSIONAL_NEWS')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="professionalNewsData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
@@ -56,42 +68,54 @@
     <el-row :gutter="10">
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>行业新闻</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_TRADE_NEWS')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="tradeNewsData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
       </el-col>
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>招标公告</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_BIDS_NOTICE')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="bidsNoticeData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
       </el-col>
       <el-col :span="8">
         <template>
-          <el-card>
+          <el-card shadow="never">
             <div slot="header" class="clearfix">
               <span>媒体聚焦</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList">更多</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_MEDIA_NEWS')">更多</el-button>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" > </el-table-column>
-              <el-table-column prop="name" > </el-table-column>
+            <el-table :data="mediaNewsData" style="width: 100%">
+              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
+                </template>
+              </el-table-column>
+              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
             </el-table>
           </el-card>
         </template>
@@ -103,7 +127,12 @@
 export default {
   data () {
     return {
-      tableData: [],
+      compNewsData: [],
+      tradeNewsData: [],
+      bidsNoticeData: [],
+      compNoticeData: [],
+      professionalNewsData: [],
+      mediaNewsData: [],
       picList: [],
       queryBean: {
         page: 1,
@@ -114,16 +143,37 @@ export default {
   },
   mounted () {
     this.getPicList()
+    this.initData()
   },
   methods: {
-    goNewsList () {
-      // this.$router.push('/portal/main/index')
+    initData () {
+      var that = this
+      this.$axios.all([
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_COMP_NEWS'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_TRADE_NEWS'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_BIDS_NOTICE'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_COMP_NOTICE'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_PROFESSIONAL_NEWS'),
+        this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/web/news/getNewsList?dataCode=MENU_MEDIA_NEWS')
+      ]).then(this.$axios.spread(function (compNews, tradeNews, bidsNotice, compNotice, professionalNews, mediaNews) {
+        that.compNewsData = compNews.data.dataList
+        that.tradeNewsData = tradeNews.data.dataList
+        that.bidsNoticeData = bidsNotice.data.dataList
+        that.compNoticeData = compNotice.data.dataList
+        that.professionalNewsData = professionalNews.data.dataList
+        that.mediaNewsData = mediaNews.data.dataList
+      }))
+    },
+    goNewsList (v) {
+      this.$router.push({ name: 'newsList', query: { dataCode: v } })
+    },
+    handleView (row) {
+      this.$router.push({ name: 'newsView', query: { data: row } })
     },
     getPicList () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/portal/web/pictures/getPicturesList', this.queryBean)
         .then(res => {
-          var resData = res.data.dataList
-          console.log(resData)
+          var resData = res.data.data.dataList
           this.picList = resData
         })
     }
@@ -133,5 +183,11 @@ export default {
 <style lang="scss" scoped>
 .el-carousel{
   margin-bottom: 15px;
+}
+.el-card {
+  border-radius: 0px;
+  // border: 1px solid #EBEEF5;
+  // overflow: hidden;
+  // color: #303133;
 }
 </style>
