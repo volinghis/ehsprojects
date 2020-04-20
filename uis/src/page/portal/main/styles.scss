@@ -1,5 +1,14 @@
 
 .pagePanel{
+  .lineDiv{
+    height: 3px;
+    width: 100%;
+    background-color: #ce0000;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    top: $headerHeight - 2px ;
+  }
   width: $bodyMinWidth !important;
   margin:0 auto;
   .headerPanel{
@@ -13,6 +22,8 @@
     }
 
     .topright {
+
+
       float: right;
     }
     .titlespan{

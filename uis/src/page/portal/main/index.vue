@@ -1,6 +1,7 @@
 <template>
-
   <div class="pagePanel">
+    <div class="lineDiv"></div>
+
     <el-container>
       <el-header>
         <div class="headerPanel">
