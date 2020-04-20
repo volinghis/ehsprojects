@@ -3,7 +3,7 @@
     <div class="block">
        <el-carousel :interval="4000"  height="200px" >
          <el-carousel-item v-for="item in picList" :key="item.key">
-          <img :src="item.fileId===''?'':GlobalVars.globalServiceServlet + '/data/file/downloadFile?fileId=' + item.fileId + '&resoureMenuKey=ALL'"
+          <img :src="item.fileId===''?'':GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + item.fileId + '&resoureMenuKey=ALL'"
               width="100%"
                height="200" />
         </el-carousel-item>

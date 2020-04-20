@@ -108,7 +108,7 @@ public class DataFileInfoController {
 	
 
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
-	@RequestMapping("/data/file/downloadFile")
+	@RequestMapping({"/data/file/downloadFile","/portal/data/file/downloadFile"})
 	public void downloadFile(@RequestParam("fileId") String fileId,HttpServletRequest request,
             HttpServletResponse response) {
 		GridFSFile gridFSFile = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(fileId)));
