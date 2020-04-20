@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
-import com.ehs.common.organization.entity.OrgUser;
 import com.ehs.web.news.entity.News;
 
 /**   
