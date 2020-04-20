@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/web/pictures")
+@RequestMapping({"/portal/web/pictures","/web/pictures"})
 public class PicturesController {
 
     private static final Logger logger=LoggerFactory.getLogger(PicturesController.class);
@@ -49,7 +49,7 @@ public class PicturesController {
 
     /*
       * @Function: savePictureInfo
-      * @Description: TODO 
+      * @Description: 保存图片信息
       * @param:[fileId, fileName] 
       * @return:java.lang.String 
       * @throws: 
