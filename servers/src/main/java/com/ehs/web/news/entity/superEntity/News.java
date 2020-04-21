@@ -27,6 +27,7 @@ public abstract class News extends BaseEntity{
 	public static final String DATA_CODE="dataCode";
 	public static final String NEWS_TITLE="newsTitle";
 	public static final String NEWS_CONTENT="newsContent";
+	public static final String MAJOR="major";
 
 	/**
 	 * 编码
@@ -48,6 +49,11 @@ public abstract class News extends BaseEntity{
 	 * 排序
 	 */
 	private Integer sort;
+	
+	/**
+	 * 是否为重大新闻
+	 */
+	private boolean major = false;
 
 	public String getDataCode() {
 		return dataCode;
@@ -79,6 +85,14 @@ public abstract class News extends BaseEntity{
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	public boolean isMajor() {
+		return major;
+	}
+
+	public void setMajor(boolean major) {
+		this.major = major;
 	}
 	
 }
