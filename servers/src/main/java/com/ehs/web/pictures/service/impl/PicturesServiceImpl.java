@@ -42,7 +42,6 @@ public class PicturesServiceImpl implements PicturesService {
     public void savePictureInfo(String fileId, String fileName,int order) {
         Pictures pic = new Pictures();
         pic.setFileId(fileId);
-        pic.setIsShow(false);
         pic.setPicName(fileName);
         pic.setPicOrder(order);
         baseCommonService.saveOrUpdate(pic);

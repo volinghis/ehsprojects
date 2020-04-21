@@ -84,6 +84,7 @@ export default {
     loginForm
   },
   mounted () {
+    this.visiteLogs = JSON.parse(localStorage.getItem('visiteLogs'))
     this.initData()
   },
   methods: {

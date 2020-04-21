@@ -15,22 +15,9 @@ public abstract class Pictures extends BaseEntity {
     private String fileId;
 
     /**
-     * 是否显示
-     */
-    private Boolean isShow;
-
-    /**
      * 图片顺序
      */
     private Integer picOrder;
-
-    public Boolean getShow() {
-        return isShow;
-    }
-
-    public void setIsShow(Boolean show) {
-        isShow = show;
-    }
 
     public Integer getPicOrder() {
         return picOrder;
