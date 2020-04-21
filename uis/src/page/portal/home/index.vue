@@ -1,18 +1,11 @@
 <template>
   <div>
-    <div class="block">
-       <el-carousel :interval="4000"  height="280px" >
-        <el-carousel-item  v-for="(item,index) in picList" :key="index">
-          <img :src="findUrl(item)" width="100%" height="280"/>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
     <el-row :gutter="10">
       <el-col :span="10">
         <el-row style="margin-bottom:10px;">
           <el-col>
             <el-card shadow="never">
-            <div slot="header" class="clearfix">
+            <div slot="header" >
               <span>公司新闻</span>
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NEWS')">更多</el-button>
             </div>
@@ -26,7 +19,7 @@
         <el-row>
           <el-col>
             <el-card shadow="never">
-            <div slot="header" class="clearfix">
+            <div slot="header" >
               <span>公司公告</span>
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NOTICE')">更多</el-button>
             </div>
@@ -42,8 +35,32 @@
         我是中间的
       </el-col>
       <el-col :span="4">
-        <el-card shadow="never" >
+        <el-card shadow="never">
+          <div slot="header" >
+              <span>后台登陆</span>
+            </div>
           <loginForm/>
+        </el-card>
+        <el-card shadow="never" >
+         <div slot="header" >
+              <span>精华推荐</span>
+            </div>
+            <div class="visite">
+            <ul>
+              <li><a>疫情影响</a></li>
+              <li><a>五一放假通知</a></li>
+            </ul>
+            </div>
+        </el-card>
+        <el-card shadow="never" >
+          <div slot="header" >
+              <span>最近访问</span>
+            </div>
+            <div class="visite">
+              <ul>
+                <li v-for="(item,index) in visiteLogs " :key=index ><router-link :to="{path:item.path,query:item.query}">{{item.title}}</router-link></li>
+              </ul>
+            </div>
         </el-card>
       </el-col>
     </el-row>
@@ -60,25 +77,16 @@ export default {
       compNoticeData: [],
       professionalNewsData: [],
       mediaNewsData: [],
-      picList: [],
-      queryBean: {
-        page: 1,
-        size: 5,
-        query: ''
-      }
+      visiteLogs: []
     }
   },
   components: {
     loginForm
   },
   mounted () {
-    this.getPicList()
     this.initData()
   },
   methods: {
-    findUrl(item){
-      return this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + item.fileId
-    },
     initData () {
       var that = this
       this.$axios.all([
@@ -102,25 +110,13 @@ export default {
     },
     handleView (row) {
       this.$router.push({ name: 'newsView', query: { data: row } })
-    },
-    getPicList () {
-      this.$axios.post(this.GlobalVars.globalServiceServlet + '/portal/web/pictures/getPicturesList', this.queryBean)
-        .then(res => {
-          this.picList = res.data.dataList
-          console.log(this.picList);
-          // resData.forEach(async e => {
-          //   let res = await this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + e.fileId, { responseType: 'blob' })
-          //   console.log(URL.createObjectURL(res.data))
-          //   this.picList.push(URL.createObjectURL(res.data))
-          // })
-        })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.el-carousel{
-  margin-bottom: 15px;
+.visite >ul{
+  padding-left:15px;line-height: 20px;
 }
 .el-card {
   border-radius: 0px;

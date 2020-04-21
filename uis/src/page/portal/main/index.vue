@@ -29,7 +29,16 @@
         </div>
       </div>
       </el-header>
-      <el-main><router-view></router-view></el-main>
+      <el-main>
+        <div class="block">
+       <el-carousel :interval="4000"  height="280px" >
+        <el-carousel-item  v-for="(item,index) in picList" :key="index">
+          <img :src="findUrl(item)" width="100%" height="280"/>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <router-view></router-view>
+    </el-main>
       <el-footer class="footerPanel">东恒鑫源软件开发有限公司版权所有Copyright © 2020 <br>京备pc1231212号</el-footer>
     </el-container>
   </div>

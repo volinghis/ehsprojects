@@ -20,7 +20,8 @@ export default {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/auth/login/doLogout').then(res => {
         if (res.data.resultType === 'ok') {
           sessionStorage.removeItem(this.GlobalVars.userToken)
-          location.reload()
+          // location.reload()
+          this.$router.push('/')
         }
       })
     },

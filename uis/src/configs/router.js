@@ -151,8 +151,13 @@ vueRouter.afterEach(function (to, from) {
   }
   NProgress.done()
 })
+var logs = []
 vueRouter.beforeEach((to, from, next) => { // 添加动态(菜单)路由
   console.log(to.name)
+  // 记录路由到浏览历史
+  let vLog = { 'title': to.meta.title, 'path': to.path, 'query': to.query }
+  logs.push(vLog)
+  localStorage.setItem('visiteLogs', JSON.stringify(logs))
   NProgress.start()
   const token = sessionStorage.getItem(GlobalVars.userToken)
   if (!token) {
