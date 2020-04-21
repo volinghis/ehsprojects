@@ -14,16 +14,16 @@
           </div>
         </div>
         <div class="topright">
-          <el-menu  mode="horizontal" >
-            <el-menu-item index="1">首页</el-menu-item>
+          <el-menu  mode="horizontal" @select="menuSelect">
+            <el-menu-item index="home">首页</el-menu-item>
             <el-menu-item index="2">公司新闻</el-menu-item>
             <el-menu-item index="3">公司公告</el-menu-item>
             <el-menu-item index="4">专题报道</el-menu-item>
             <el-menu-item index="5">行业新闻</el-menu-item>
             <el-menu-item index="6">招标公告</el-menu-item>
-            <el-menu-item index="6">媒体聚焦</el-menu-item>
-            <el-menu-item index="7">党政工作</el-menu-item>
-            <el-menu-item index="8">公司活动</el-menu-item>
+            <el-menu-item index="7">媒体聚焦</el-menu-item>
+            <el-menu-item index="8">党政工作</el-menu-item>
+            <el-menu-item index="9">公司活动</el-menu-item>
 
           </el-menu>
         </div>

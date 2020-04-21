@@ -3,7 +3,7 @@
     <div class="block">
        <el-carousel :interval="4000"  height="280px" >
         <el-carousel-item  v-for="(item,index) in picList" :key="index">
-          <img :src="item" width="100%" height="280"/>
+          <img :src="findUrl(item)" width="100%" height="280"/>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -76,6 +76,9 @@ export default {
     this.initData()
   },
   methods: {
+    findUrl(item){
+      return this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + item.fileId
+    },
     initData () {
       var that = this
       this.$axios.all([
@@ -103,12 +106,13 @@ export default {
     getPicList () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/portal/web/pictures/getPicturesList', this.queryBean)
         .then(res => {
-          const resData = res.data.dataList
-          resData.forEach(async e => {
-            let res = await this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + e.fileId, { responseType: 'blob' })
-            console.log(URL.createObjectURL(res.data))
-            this.picList.push(URL.createObjectURL(res.data))
-          })
+          this.picList = res.data.dataList
+          console.log(this.picList);
+          // resData.forEach(async e => {
+          //   let res = await this.$axios.get(this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?fileId=' + e.fileId, { responseType: 'blob' })
+          //   console.log(URL.createObjectURL(res.data))
+          //   this.picList.push(URL.createObjectURL(res.data))
+          // })
         })
     }
   }
