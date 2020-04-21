@@ -42,7 +42,7 @@
             </el-submenu>
             <el-menu-item index="6">党政工作</el-menu-item>
             <el-menu-item index="7">公司活动</el-menu-item>
-            <el-menu-item index="8">后台管理</el-menu-item>
+            <!-- <el-menu-item index="8">后台管理</el-menu-item> -->
           </el-menu>
         </div>
       </div>
