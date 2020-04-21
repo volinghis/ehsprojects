@@ -1,0 +1,97 @@
+<template>
+    <div>
+         <p><span>用户登录 / </span><span>USER LOGIN</span></p>
+        <el-form ref="loginForm"
+                   :rules="rules"
+                   :model="loginForm">
+            <el-form-item prop="account">
+              <el-input v-model="loginForm.account"
+                        placeholder="请输入账号"><template slot="prepend"><i class="el-icon-user-solid"></i></template></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input v-model="loginForm.password"
+                        placeholder="请输入密码" type="password"><template slot="prepend"><i class="fa fa-key"></i></template></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary"
+                         @click="login"
+                         size="mini"
+                         :loading="loading"
+                         long>登录</el-button>
+              <el-checkbox v-model="remeberAccount">记住账号</el-checkbox>
+            </el-form-item>
+          </el-form>
+    </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      remeberAccount: true,
+      result: { message: '' },
+      loginForm: {
+        account: localStorage.getItem(this.GlobalVars.userLocal) ? localStorage.getItem(this.GlobalVars.userLocal) : '',
+        password: ''
+      },
+      loading: false,
+      rules: {
+        account: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 4, max: 18, message: '长度在 4 到 18 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    login () {
+      var current = this
+      current.result.message = ''
+      current.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          current.loading = true
+
+          current.$axios.post(current.GlobalVars.globalServiceServlet + '/auth/login/doLogin', current.loginForm)
+            .then(res => {
+              // 成功了, 更新数据(成功)
+              console.log(res.data)
+              if (res.data.resultType === 'ok') {
+                // 数据存储
+                if (current.remeberAccount) {
+                  localStorage.setItem(
+                    current.GlobalVars.userLocal,
+                    current.loginForm.account
+                  )
+                } else {
+                  localStorage.removeItem(current.GlobalVars.userLocal)
+                }
+                current.$store.dispatch(current.GlobalVars.setResourceMenuKeyMethod, 'login')
+                current.$axios.get(current.GlobalVars.globalServiceServlet + '/base/user/getCurrentUser')
+                  .then(res => {
+                    sessionStorage.setItem(
+                      current.GlobalVars.userToken,
+                      JSON.stringify(res.data)
+                    )
+                    current.$router.push({ name: 'index', replace: true })
+                  })
+              } else {
+                this.loading = false
+                current.result.message = res.data.message
+              }
+            }).catch(function () {
+              current.loading = false
+            })
+        }
+      })
+    }
+  }
+}
+</script>
+<style scoped>
+.el-checkbox{
+  float: left;
+}
+</style>
