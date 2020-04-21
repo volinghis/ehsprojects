@@ -18,12 +18,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NEWS')">更多</el-button>
             </div>
             <el-table :data="compNewsData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
@@ -36,12 +36,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_COMP_NOTICE')">更多</el-button>
             </div>
             <el-table :data="compNoticeData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
@@ -54,12 +54,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_PROFESSIONAL_NEWS')">更多</el-button>
             </div>
             <el-table :data="professionalNewsData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
@@ -74,12 +74,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_TRADE_NEWS')">更多</el-button>
             </div>
             <el-table :data="tradeNewsData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
@@ -92,12 +92,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_BIDS_NOTICE')">更多</el-button>
             </div>
             <el-table :data="bidsNoticeData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
@@ -110,12 +110,12 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="goNewsList('MENU_MEDIA_NEWS')">更多</el-button>
             </div>
             <el-table :data="mediaNewsData" style="width: 100%">
-              <el-table-column prop="newsTitle" label="标题" min-width="80" align="center">
-                <template slot-scope="scope">
+              <el-table-column prop="newsTitle" show-overflow-tooltip label="标题" min-width="80" >
+                <!-- <template slot-scope="scope">
                   <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column prop="creationTime" label="发布日期" min-width="70" align="center"></el-table-column>
+              <!-- <el-table-column prop="creationTime" label="发布日期" min-width="70" ></el-table-column> -->
             </el-table>
           </el-card>
         </template>
