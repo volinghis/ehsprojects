@@ -80,4 +80,24 @@ public interface NewsService {
 	 */
 	public void deleteNews(String key);
 
+	/**
+	 * 
+	* @Function: NewsService.java
+	* @Description: 查询全部新闻
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年4月21日 上午11:17:26 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月21日     zhaol           v1.0.0               修改原因
+	 */
+	public PageInfoBean getALLNewsList(QueryBean queryBean);
+
 }

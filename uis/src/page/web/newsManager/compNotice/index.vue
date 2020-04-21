@@ -17,8 +17,18 @@
             <el-link type="primary" @click="handleView(scope.row)">{{scope.row.newsTitle}}</el-link>
           </template>
         </el-table-column>
-        <el-table-column prop="creationTime" label="发布日期" min-width="100" align="center"></el-table-column>
-        <el-table-column label="操作" min-width="110" align="center">
+        <el-table-column prop="major" label="是否重大" min-width="50" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.major === false">
+              <el-tag size="medium" type="info">{{ '不重大' }}</el-tag>
+            </template>
+            <template v-else>
+              <el-tag size="medium">{{ '重大' }}</el-tag>
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column prop="creationTime" label="发布日期" min-width="80" align="center"></el-table-column>
+        <el-table-column label="操作" min-width="80" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="primary" size="mini">编辑</el-button>
             <el-button @click="handleDelete(scope.row)" type="danger" size="mini">删除</el-button>

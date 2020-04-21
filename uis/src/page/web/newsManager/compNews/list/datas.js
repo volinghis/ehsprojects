@@ -25,6 +25,7 @@ export default {
     initNewsData () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/web/news/getAllNews', this.queryParam).then(res => {
         this.newsData = res.data.dataList
+        console.log(this.newsData)
         this.queryParam.totalCount = res.data.totalCount
       })
     },

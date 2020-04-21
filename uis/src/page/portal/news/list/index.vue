@@ -1,11 +1,11 @@
 <template>
   <div style="margin-left:10px;">
     <div>
-      <div style="float:left;margin-bottom: 5px;">
+      <!-- <div style="float:left;margin-bottom: 5px;">
         <el-input :size="GlobalCss.controlSize" v-model="queryParam.query" placeholder="请输入标题名称">
           <el-button slot="append" @click="initNewsData" icon="el-icon-search"></el-button>
         </el-input>
-      </div>
+      </div> -->
       <!-- <div style="float:right;margin-bottom: 5px;">
         <el-button type="primary" :size="GlobalCss.controlSize" icon="fa fa-plus" @click="handleAdd"> 新增</el-button>
       </div> -->

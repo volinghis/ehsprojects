@@ -31,8 +31,23 @@
           </el-col>
         </el-row>
       </el-col>
-      <el-col :span="10">
-        我是中间的
+      <el-col :span="10" style="padding-left: 0px;padding-right: 0px;height: 535px;">
+        <div>
+          <template>
+            <el-tabs v-model="activeName">
+              <el-tab-pane label="最新要闻" name="news">
+                <ul class="middle_content">
+                  <template>
+                    <li v-for="news in allNewsData" :key="news.key" @click="handleView(news)">
+                      <template v-if="news.major===false" ><div class="normalTitle" >{{news.newsTitle}}</div></template>
+                      <template v-else ><div class="majorTitle">{{news.newsTitle}}</div></template>
+                    </li>
+                  </template>
+                </ul>
+              </el-tab-pane>
+            </el-tabs>
+          </template>
+        </div>
       </el-col>
       <el-col :span="4">
         <el-card shadow="never">
@@ -58,7 +73,9 @@
             </div>
             <div class="visite">
               <ul>
-                <li v-for="(item,index) in visiteLogs " :key=index ><router-link :to="{path:item.path,query:item.query}">{{item.title}}</router-link></li>
+                <li v-for="(item,index) in visiteLogs " :key=index >
+                  <router-link :to="{path:item.path,query:item.query}">{{item.title}}</router-link>
+                </li>
               </ul>
             </div>
         </el-card>
@@ -71,13 +88,19 @@ import loginForm from '../login/loginForm'
 export default {
   data () {
     return {
+      activeName: 'news',
+      allNewsData: [],
       compNewsData: [],
       tradeNewsData: [],
       bidsNoticeData: [],
       compNoticeData: [],
       professionalNewsData: [],
       mediaNewsData: [],
-      visiteLogs: []
+      visiteLogs: [],
+      queryParam: {
+        age: 1,
+        size: 10
+      }
     }
   },
   components: {
@@ -86,6 +109,7 @@ export default {
   mounted () {
     this.visiteLogs = JSON.parse(localStorage.getItem('visiteLogs'))
     this.initData()
+    this.getAllNewsData()
   },
   methods: {
     initData () {
@@ -105,6 +129,11 @@ export default {
         that.professionalNewsData = professionalNews.data.dataList
         that.mediaNewsData = mediaNews.data.dataList
       }))
+    },
+    getAllNewsData () {
+      this.$axios.post(this.GlobalVars.globalServiceServlet + '/portal/web/news/getALLNewsList', this.queryParam).then(res => {
+        this.allNewsData = res.data.dataList
+      })
     },
     goNewsList (v) {
       this.$router.push({ name: 'newsList', query: { dataCode: v } })
@@ -136,5 +165,52 @@ export default {
     bottom: 0;
     width: 100%;
     /* height: 1px; */
+}
+/deep/.el-tabs__active-bar{
+  background-color: #ce0000;
+  margin-left: 10px;
+}
+/deep/.el-tabs__item.is-active{
+  color: #ce0000;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+}
+/deep/.el-table thead {
+  display: none;
+}
+/deep/.el-tabs__header {
+  margin: 0 0 10px;
+}
+/deep/.el-tabs__item {
+  line-height: 32px;
+}
+// /deep/.el-table td {
+//   border-bottom: 1px solid #ffffff;
+// }
+.normalTitle {
+  font-size:16px;
+  color:#404040;
+}
+.normalTitle:hover, .normalTitle:active{
+  color: #ce0000;
+  cursor: pointer;
+}
+.majorTitle{
+  font-weight: bold;
+  font-size:18px;
+  color:#404040;
+}
+.majorTitle:hover, .majorTitle:active{
+  color: #ce0000;
+  cursor: pointer;
+}
+.middle_content>li{
+  color:#ccd0dc;
+  line-height: 36px;
+  width: 450px;
+  // text-overflow: clip;
+  // white-space: nowrap;
+  // overflow: hidden;
 }
 </style>

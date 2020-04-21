@@ -59,6 +59,14 @@ public class NewsController {
 		return (pb==null?"[]":JsonUtils.toJsonString(pb));
 		
 	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/getALLNewsList")
+	public String getALLNewsList(@RequestBody QueryBean queryBean) {
+		PageInfoBean pb = newsService.getALLNewsList(queryBean);
+		return (pb==null?"[]":JsonUtils.toJsonString(pb));
+		
+	}
 
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/saveNews")

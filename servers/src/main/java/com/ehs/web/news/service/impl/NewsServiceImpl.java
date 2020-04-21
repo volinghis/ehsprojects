@@ -97,5 +97,28 @@ public class NewsServiceImpl implements NewsService{
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 
+	* @see com.ehs.web.news.service.NewsService#getALLNewsList(com.ehs.web.news.bean.QueryBean)  
+	* @Function: NewsServiceImpl.java
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年4月21日     zhaol           v1.0.0               修改原因
+	 */
+	@Override
+	public PageInfoBean getALLNewsList(QueryBean queryBean) {
+		PageRequest pageRequest = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize());
+		Page<News> news = newsDao.getALLNewsList(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
+		if (news != null) {
+			PageInfoBean pb = new PageInfoBean();
+			pb.setDataList(news.getContent());
+			pb.setTotalCount(news.getTotalElements());
+			return pb;
+		}
+		return null;
+	}
 	
 }

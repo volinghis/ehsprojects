@@ -27,7 +27,10 @@ import com.ehs.web.news.entity.News;
 public interface NewsDao extends JpaRepository<News, String>{
 
 	@Query(" select n from News n where n."+BaseEntity.DELETED+"=0 and (isnull("+News.NEWS_TITLE+")=0 or LENGTH(trim(?1))>0 or n."+News.NEWS_TITLE+" like %?1% ) and n."+News.DATA_CODE+" = ?2 order by n."+BaseEntity.CREATION_TIME+" desc" )
-	public Page<News> findAllNews(String query, String dataCode,PageRequest pageRequest); 
+	public Page<News> findAllNews(String query, String dataCode,PageRequest pageRequest);
+
+	@Query(" select n from News n where n."+BaseEntity.DELETED+"=0 order by n."+BaseEntity.CREATION_TIME+" desc" )
+	public Page<News> getALLNewsList(String query, String dataCode, PageRequest pageRequest); 
 
 }
 

@@ -27,7 +27,8 @@ export default {
       infoForm: {
         dataCode: '',
         newsTitle: '',
-        newsContent: ''
+        newsContent: '',
+        major: false
       },
       rules: {
         newsTitle: [
@@ -62,7 +63,9 @@ export default {
       this.$refs.infoForm.validate((valid) => {
         if (this.infoForm.newsContent === '') {
           this.$message.error('请输入详细内容')
+          return
         }
+        console.log(this.infoForm)
         this.$axios.post(this.GlobalVars.globalServiceServlet + '/web/news/saveNews', this.infoForm).then(res => {
           if (res.data.resultType === 'ok') {
             this.$message({
