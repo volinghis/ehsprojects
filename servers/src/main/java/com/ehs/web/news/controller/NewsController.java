@@ -51,7 +51,6 @@ public class NewsController {
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getNewsList")
 	public String getNewsList(@RequestParam String dataCode) {
-		System.out.println("dataCode========="+dataCode);
 		QueryBean queryBean = new QueryBean();
 		queryBean.setDataCode(dataCode);
 		queryBean.setPage(1);
