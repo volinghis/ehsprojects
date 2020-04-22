@@ -14,6 +14,7 @@ export default {
   },
   created () {
     // 得到菜单的dataCode
+    console.log(this.$router.currentRoute.name)
     this.queryParam.dataCode = this.$router.currentRoute.name
     this.initNewsData()
   },

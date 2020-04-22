@@ -30,7 +30,6 @@ export default {
         })
     },
     menuSelect (index, leaf, e) {
-      console.log('index====' + index)
       // if (index === 'home') {
       //   this.$router.push({ name: 'portalhome' })
       // }
@@ -55,6 +54,12 @@ export default {
           break
         case '7':
           this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_MEDIA_NEWS' } })
+          break
+        case '8':
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_PARTY_POLICY' } })
+          break
+        case '9':
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_COMP_ACTIVITIES' } })
           break
 
         default:

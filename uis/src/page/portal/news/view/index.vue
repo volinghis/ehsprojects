@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="title">{{data.newsTitle}}</el-row>
+    <el-row class="title">{{data.newsTitle}}<br><div class="creationTime">{{data.creationTime}}</div></el-row>
     <el-divider></el-divider>
     <el-row>
       <div class="content" v-html="data.newsContent"></div>
@@ -13,12 +13,14 @@ export default {
     return {
       data: {
         newsTitle: '',
-        newsContent: ''
+        newsContent: '',
+        creationTime: ''
       }
     }
   },
   mounted () {
     this.data = this.$router.currentRoute.query.data
+    console.log(this.$router.currentRoute.query.data)
   }
 }
 </script>
@@ -30,5 +32,10 @@ export default {
   }
   .content{
     text-align: left;
+  }
+  .creationTime{
+    font-size: 12px;
+    text-align: right;
+    color: #a9a9a9;
   }
 </style>
