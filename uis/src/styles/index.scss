@@ -36,7 +36,7 @@ body {
   padding: 0 0 0 0px;
   margin: 0 0 0 0px;
   text-rendering: optimizeLegibility;
-  overflow: hidden;
+  overflow: auto;
   @include font-styles;
 }
 .ehs_form_item_message{

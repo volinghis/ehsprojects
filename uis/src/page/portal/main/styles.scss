@@ -1,5 +1,9 @@
 
 .pagePanel{
+  .el-container{
+    height: 100%;
+
+  }
   .el-main{
     padding-top: 0px !important;
     padding-bottom: 0px !important;
@@ -36,8 +40,8 @@
     }
   }
   .footerPanel{
-    position:fixed !important;
-    bottom:-30px !important;
+    position:relative !important;
+    bottom: 0px !important;
     text-align: center;
     width: $bodyMinWidth !important;
   }
