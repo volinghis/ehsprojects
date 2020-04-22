@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="topright">
-          <el-menu  mode="horizontal" @select="menuSelect">
+          <el-menu mode="horizontal" @select="menuSelect" background-color="#ffffff" active-text-color="#ffffff">
             <el-menu-item index="home">首页</el-menu-item>
             <el-menu-item index="2">公司新闻</el-menu-item>
             <el-menu-item index="3">公司公告</el-menu-item>

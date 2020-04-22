@@ -30,8 +30,35 @@ export default {
         })
     },
     menuSelect (index, leaf, e) {
-      if (index === 'home') {
-        this.$router.push({ name: 'portalhome' })
+      console.log('index====' + index)
+      // if (index === 'home') {
+      //   this.$router.push({ name: 'portalhome' })
+      // }
+      switch (index) {
+        case 'home':
+          this.$router.push({ name: 'portalhome' })
+          break
+        case '2':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_COMP_NEWS' } })
+          break
+        case '3':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_COMP_NOTICE' } })
+          break
+        case '4':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_PROFESSIONAL_NEWS' } })
+          break
+        case '5':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_TRADE_NEWS' } })
+          break
+        case '6':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_BIDS_NOTICE' } })
+          break
+        case '7':
+          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_MEDIA_NEWS' } })
+          break
+
+        default:
+          break
       }
       // if (leaf) {
       //   var lis = document.querySelectorAll('li')

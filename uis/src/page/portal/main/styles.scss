@@ -45,3 +45,13 @@
     margin:15px 0;
   }
 }
+.el-menu--horizontal > .el-menu-item:not(.is-disabled):hover{
+  background-color: #ce0000;
+  color: #ffffff;
+}
+ .el-menu-item:hover{
+  background: #ce0000 !important;
+}
+ .el-menu-item.is-active {
+  background: #ce0000 !important;
+}

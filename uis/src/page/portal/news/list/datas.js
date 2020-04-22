@@ -13,7 +13,11 @@ export default {
     }
   },
   created () {
+    console.log('datacode====', this.$router.currentRoute)
+    console.log('datacode====' + this.$router.currentRoute.params.dataCode)
+    // console.log('datacode====' + this.$router.currentRoute.query.dataCode)
     this.queryParam.dataCode = this.$router.currentRoute.query.dataCode
+    console.log('datacode====' + this.queryParam.dataCode)
     this.initNewsData()
   },
   methods: {
