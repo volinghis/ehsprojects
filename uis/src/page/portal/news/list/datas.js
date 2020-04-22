@@ -12,12 +12,16 @@ export default {
       }
     }
   },
+  watch: {
+    '$route' (to, from) { // 监听路由是否变化
+      if (to.query.dataCode !== this.queryParam.dataCode) {
+        this.queryParam.dataCode = to.query.dataCode
+        this.initNewsData()// 重新加载数据
+      }
+    }
+  },
   created () {
-    console.log('datacode====', this.$router.currentRoute)
-    console.log('datacode====' + this.$router.currentRoute.params.dataCode)
-    // console.log('datacode====' + this.$router.currentRoute.query.dataCode)
     this.queryParam.dataCode = this.$router.currentRoute.query.dataCode
-    console.log('datacode====' + this.queryParam.dataCode)
     this.initNewsData()
   },
   methods: {

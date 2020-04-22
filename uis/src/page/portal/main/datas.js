@@ -39,22 +39,22 @@ export default {
           this.$router.push({ name: 'portalhome' })
           break
         case '2':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_COMP_NEWS' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_COMP_NEWS' } })
           break
         case '3':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_COMP_NOTICE' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_COMP_NOTICE' } })
           break
         case '4':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_PROFESSIONAL_NEWS' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_PROFESSIONAL_NEWS' } })
           break
         case '5':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_TRADE_NEWS' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_TRADE_NEWS' } })
           break
         case '6':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_BIDS_NOTICE' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_BIDS_NOTICE' } })
           break
         case '7':
-          this.$router.push({ name: 'newsList', params: { dataCode: 'MENU_MEDIA_NEWS' } })
+          this.$router.push({ name: 'newsList', query: { dataCode: 'MENU_MEDIA_NEWS' } })
           break
 
         default:
