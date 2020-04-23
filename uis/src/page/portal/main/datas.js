@@ -14,9 +14,6 @@ export default {
     this.getPicList()
   },
   methods: {
-    findUrl (item) {
-      return this.GlobalVars.globalServiceServlet + '/portal/data/file/downloadFile?resoureMenuKey=ALL&fileId=' + item.fileId
-    },
     getPicList () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/portal/web/pictures/getPicturesList', this.queryBean)
         .then(res => {
