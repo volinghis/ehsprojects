@@ -1,6 +1,5 @@
 @mixin font-styles {
-  font-size: $fontSize !important;
-
-  font-family: '微软雅黑 ', '微软雅黑 Regular', '微软雅黑' !important;
+  font-size: $fontSize ;
+  font-family: '微软雅黑 ', '微软雅黑 Regular', '微软雅黑' ;
   font-weight:400 !important;
 }
