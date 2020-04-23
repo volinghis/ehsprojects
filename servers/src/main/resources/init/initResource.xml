@@ -14,7 +14,7 @@
 	</orgs> 
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
-		<menu dataCode="HOME" key="HOME" name="首页" url="/protal/index" icon="fa-home" sort="0" ></menu>
+		<menu dataCode="HOME" key="HOME" name="首页" url="/protal/welcome/index" icon="fa-home" sort="0" ></menu>
 		<menu dataCode="MENU_COMP_NEWS" key="MENU_COMP_NEWS" name="公司新闻" url="/web/newsManager/compNews/list/index" icon="fa-id-card-o" sort="10" >
 			<menu dataCode="MENU_COMP_NEWS_EDIT" key="MENU_COMP_NEWS_EDIT" name="公司新闻编辑" url="/web/newsManager/compNews/edit/index" business="true" sort="10" ></menu>
 			<menu dataCode="MENU_COMP_NEWS_VIEW" key="MENU_COMP_NEWS_VIEW" name="公司新闻查看" url="/web/newsManager/compNews/view/index" business="true" sort="20" ></menu>
