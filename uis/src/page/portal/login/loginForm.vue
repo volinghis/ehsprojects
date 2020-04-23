@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="remeberAccount">记住账号</el-checkbox>
-        <el-button type="primary"
+        <el-button type="danger"
                    @click="login"
                    size="mini"
                    :loading="loading"
@@ -93,7 +93,27 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.el-button {
-  float: right;
+$bg-color:#ce0000;
+/deep/.el-input-group__prepend{
+  padding: 0 10px;
+}
+.el-button{
+   float: right;
+  background-color:$bg-color;
+  border-color:$bg-color;
+}
+.el-button:hover{
+  background-color:$bg-color;
+  border-color:$bg-color;
+}
+/deep/.el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color:$bg-color;
+  border-color:$bg-color;
+}
+/deep/.el-checkbox__input.is-checked + .el-checkbox__label{
+ color:$bg-color;
+}
+.el-checkbox__inner:hover{
+border-color:$bg-color;
 }
 </style>

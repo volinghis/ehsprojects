@@ -58,12 +58,12 @@
         </el-card>
         <el-card shadow="never" >
          <div slot="header" >
-              <span>精华推荐</span>
+              <span>快速链接</span>
             </div>
             <div class="visite">
             <ul>
-              <li><a>疫情影响</a></li>
-              <li><a>五一放假通知</a></li>
+              <li><a href="http://39.100.35.3:8014">东恒鑫源MIS管理系统</a></li>
+              <li><a href="http://www.china-cdt.com">中国大唐集团官网</a></li>
             </ul>
             </div>
         </el-card>
@@ -74,7 +74,7 @@
             <div class="visite">
               <ul>
                 <li v-for="(item,index) in visiteLogs " :key=index >
-                  <router-link :to="{path:item.path,query:item.query}">{{item.title}}</router-link>
+                  <router-link :to="{name:item.path,query:{data:item.query}}">{{item.title}}</router-link>
                 </li>
               </ul>
             </div>
@@ -85,6 +85,7 @@
 </template>
 <script>
 import loginForm from '../login/loginForm'
+var logs = []
 export default {
   data () {
     return {
@@ -139,6 +140,12 @@ export default {
       this.$router.push({ name: 'newsList', query: { dataCode: v } })
     },
     handleView (row) {
+      // 记录路由到浏览历史
+      console.log(row)
+      let vLog = { 'title': row.newsTitle, 'path': 'newsView', query: row }
+      logs.unshift(vLog)
+      logs = [...new Set(logs)]// 去重
+      localStorage.setItem('visiteLogs', JSON.stringify(logs))
       this.$router.push({ name: 'newsView', query: { data: row } })
     }
   }
