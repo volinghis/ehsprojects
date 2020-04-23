@@ -62,8 +62,8 @@
             </div>
             <div class="visite">
             <ul>
-              <li><a href="http://39.100.35.3:8014">东恒鑫源MIS管理系统</a></li>
-              <li><a href="http://www.china-cdt.com">中国大唐集团官网</a></li>
+              <li><a href="http://39.100.35.3:8014" target="_blank" >东恒鑫源MIS管理系统</a></li>
+              <li><a href="http://www.china-cdt.com" target="_blank">中国大唐集团官网</a></li>
             </ul>
             </div>
         </el-card>
@@ -141,10 +141,9 @@ export default {
     },
     handleView (row) {
       // 记录路由到浏览历史
-      console.log(row)
+      logs = logs.filter(item => item.title !== row.newsTitle)
       let vLog = { 'title': row.newsTitle, 'path': 'newsView', query: row }
       logs.unshift(vLog)
-      logs = [...new Set(logs)]// 去重
       localStorage.setItem('visiteLogs', JSON.stringify(logs))
       this.$router.push({ name: 'newsView', query: { data: row } })
     }
