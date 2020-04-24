@@ -1,5 +1,6 @@
 // vue.config.js
 // const CompressionPlugin = require('compression-webpack-plugin')
+const webpack = require('webpack')
 const path = require('path')// 引入path模块
 function resolve (dir) {
   return path.join(__dirname, dir)// path.join(__dirname)设置绝对路径
@@ -37,6 +38,11 @@ module.exports = {
       '@': resolve('./src'),
       '@components': resolve('./src/components')
     }
+  },
+  chainWebpack: config => {
+    config.plugin('provide').use(webpack.ProvidePlugin, [{
+      'window.Quill': 'quill/dist/quill.js',
+      'Quill': 'quill/dist/quill.js'
+    }])
   }
-
 }

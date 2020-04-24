@@ -32,7 +32,7 @@ export default {
       })
     },
     handleView: function (row) {
-      this.$router.push({ name: 'newsView', query: { data: row } })
+      this.$router.push({ name: 'newsView', query: { key: row.key } })
     },
     handleCurrentChange (val) {
       this.queryParam.page = val

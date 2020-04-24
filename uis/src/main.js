@@ -7,6 +7,7 @@ import ECharts from 'vue-echarts/components/ECharts'
 import ElementUI from 'element-ui'
 import './styles/element-variables.scss'
 import './styles/index.scss' // global css
+import './styles/font.scss' // 富文本编辑字体样式
 import './styles/font-awesome-4.7.0/scss/font-awesome.scss'
 import GlobalCss from './styles/variables.scss'
 import GlobalVars from './components/global/globalVars.js'

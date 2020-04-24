@@ -25,7 +25,6 @@ export default {
     initNewsData () {
       this.$axios.post(this.GlobalVars.globalServiceServlet + '/web/news/getAllNews', this.queryParam).then(res => {
         this.newsData = res.data.dataList
-        console.log(this.newsData)
         this.queryParam.totalCount = res.data.totalCount
       })
     },
@@ -33,10 +32,10 @@ export default {
       this.$router.push({ name: 'MENU_COMP_NEWS_EDIT', params: { code: this.queryParam.dataCode, flag: 'add' } })
     },
     handleEdit (row) {
-      this.$router.push({ name: 'MENU_COMP_NEWS_EDIT', params: { data: row, flag: 'edit' } })
+      this.$router.push({ name: 'MENU_COMP_NEWS_EDIT', params: { key: row.key, flag: 'edit' } })
     },
     handleView: function (row) {
-      this.$router.push({ name: 'MENU_COMP_NEWS_EDIT', params: { data: row, flag: 'view' } })
+      this.$router.push({ name: 'MENU_COMP_NEWS_EDIT', params: { key: row.key, flag: 'view' } })
     },
     handleDelete (row) {
       this.$confirm('此操作将删除该条记录及相关信息, 是否继续?', '提示', {

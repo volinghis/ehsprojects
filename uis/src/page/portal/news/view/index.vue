@@ -7,35 +7,12 @@
     </el-row>
   </div>
 </template>
+
 <script>
-export default {
-  data () {
-    return {
-      data: {
-        newsTitle: '',
-        newsContent: '',
-        creationTime: ''
-      }
-    }
-  },
-  mounted () {
-    this.data = this.$router.currentRoute.query.data
-    console.log(this.$router.currentRoute.query.data)
-  }
-}
+import datas from './datas.js'
+export default datas
 </script>
-<style scoped>
-  .title{
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 20px;
-  }
-  .content{
-    text-align: left;
-  }
-  .creationTime{
-    font-size: 12px;
-    text-align: right;
-    color: #a9a9a9;
-  }
+
+<style lang="scss" scoped>
+@import "./styles.scss";
 </style>

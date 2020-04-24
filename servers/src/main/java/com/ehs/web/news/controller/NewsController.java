@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ehs.common.auth.config.AuthConstants;
 import com.ehs.common.auth.interfaces.RequestAuth;
+import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.base.utils.JsonUtils;
 import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
@@ -39,6 +40,9 @@ public class NewsController {
 	
 	@Resource
 	private NewsService newsService;
+	
+	@Resource
+	private BaseCommonService baseCommonService;
 	
 	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
 	@RequestMapping(value = "/getAllNews")
@@ -92,5 +96,12 @@ public class NewsController {
 			logger.error("删除方法--异常信息===="+e.getMessage());
 		}
 		return JsonUtils.toJsonString(resultBean.error("删除失败"));
+	}
+	
+	@RequestAuth(menuKeys = { AuthConstants.GLOBAL_MENU_KEY })
+	@RequestMapping(value = "/getNewsByKey")
+	public String getNewsByKey(@RequestParam String key) {
+		News news = baseCommonService.findByKey(News.class, key);
+		return news==null?"{}":JsonUtils.toJsonString(news);
 	}
 }

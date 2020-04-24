@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ehs.common.base.service.BaseCommonService;
 import com.ehs.common.oper.bean.PageInfoBean;
+import com.ehs.web.news.bean.NewsBean;
 import com.ehs.web.news.bean.QueryBean;
 import com.ehs.web.news.dao.NewsDao;
 import com.ehs.web.news.entity.News;
@@ -53,7 +54,7 @@ public class NewsServiceImpl implements NewsService{
 	@Override
 	public PageInfoBean getAllNews(QueryBean queryBean) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize());
-		Page<News> news = newsDao.findAllNews(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
+		Page<NewsBean> news = newsDao.findAllNews(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
 		if (news != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(news.getContent());
@@ -111,7 +112,9 @@ public class NewsServiceImpl implements NewsService{
 	@Override
 	public PageInfoBean getALLNewsList(QueryBean queryBean) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize());
-		Page<News> news = newsDao.getALLNewsList(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
+		System.out.println("queryBean.getQuery()===="+queryBean.getQuery());
+		System.out.println("queryBean.getDataCode()==="+queryBean.getDataCode());
+		Page<NewsBean> news = newsDao.getALLNewsList(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
 		if (news != null) {
 			PageInfoBean pb = new PageInfoBean();
 			pb.setDataList(news.getContent());

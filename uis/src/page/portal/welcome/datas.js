@@ -1,7 +1,7 @@
 export default {
 
   methods: {
-    loginUser(){
+    loginUser () {
       var currUser = JSON.parse(sessionStorage.getItem(this.GlobalVars.userToken))
 
       return currUser.username

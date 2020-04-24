@@ -13,7 +13,6 @@
             <div class="edit_container">
               <quill-editor :disabled="inputDisable" v-model="infoForm.newsContent" ref="myQuillEditor" class="editer"
                   :options="editorOption" @ready="onEditorReady($event)" style="height: 400px;margin-bottom:40px;">
-                <!-- 自定义toolar -->
               </quill-editor>
             </div>
           </el-form-item>

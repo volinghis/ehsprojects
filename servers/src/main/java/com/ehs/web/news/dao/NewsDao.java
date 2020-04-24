@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ehs.common.base.entity.BaseEntity;
+import com.ehs.web.news.bean.NewsBean;
 import com.ehs.web.news.entity.News;
 
 /**   
@@ -26,11 +27,11 @@ import com.ehs.web.news.entity.News;
 @Repository
 public interface NewsDao extends JpaRepository<News, String>{
 
-	@Query(" select n from News n where n."+BaseEntity.DELETED+"=0 and (isnull("+News.NEWS_TITLE+")=0 or LENGTH(trim(?1))>0 or n."+News.NEWS_TITLE+" like %?1% ) and n."+News.DATA_CODE+" = ?2 order by n."+BaseEntity.CREATION_TIME+" desc" )
-	public Page<News> findAllNews(String query, String dataCode,PageRequest pageRequest);
+	@Query(" select new com.ehs.web.news.bean.NewsBean(n."+BaseEntity.KEY+",n."+News.NEWS_TITLE+",n."+News.MAJOR+",n."+BaseEntity.CREATION_TIME+") from News n where n."+BaseEntity.DELETED+"=0 and (isnull("+News.NEWS_TITLE+")=0 or LENGTH(trim(?1))>0 or n."+News.NEWS_TITLE+" like %?1% ) and n."+News.DATA_CODE+" = ?2 order by n."+BaseEntity.CREATION_TIME+" desc" )
+	public Page<NewsBean> findAllNews(String query, String dataCode,PageRequest pageRequest);
 
-	@Query(" select n from News n where n."+BaseEntity.DELETED+"=0 order by n."+BaseEntity.CREATION_TIME+" desc" )
-	public Page<News> getALLNewsList(String query, String dataCode, PageRequest pageRequest); 
+	@Query(" select new com.ehs.web.news.bean.NewsBean(n."+BaseEntity.KEY+",n."+News.NEWS_TITLE+",n."+News.MAJOR+",n."+BaseEntity.CREATION_TIME+") from News n where n."+BaseEntity.DELETED+"=0 order by n."+BaseEntity.CREATION_TIME+" desc" )
+	public Page<NewsBean> getALLNewsList(String query, String dataCode, PageRequest pageRequest); 
 
 }
 

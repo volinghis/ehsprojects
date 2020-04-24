@@ -1,18 +1,20 @@
-import { Quill, quillEditor } from 'vue-quill-editor'
-// import { quillEditor } from 'vue-quill-editor'
+import { quillEditor } from 'vue-quill-editor'
+import * as Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // 引入font.css
-// import './styles.scss'
+import './styles.scss' // 引入编辑器
+import ImageResize from 'quill-image-resize-module'
+Quill.register('modules/imageResize', ImageResize)
 
 // 自定义字体大小
 let Size = Quill.import('attributors/style/size')
-Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px']
+Size.whitelist = [false, '10px', '12px', '14px', '16px', '20px', '24px', '36px']
 Quill.register(Size, true)
 
 // // 自定义字体类型
-var fonts = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif', '宋体', '黑体']
+var fonts = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif']
 var Font = Quill.import('formats/font')
 Font.whitelist = fonts
 Quill.register(Font, true)
@@ -26,15 +28,64 @@ const toolbarOptions = [
   [{ 'header': 1 }, { 'header': 2 }], // 标题，键值对的形式；1、2表示字体大小
   [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
   [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
-  [{ 'direction': 'rtl' }], // 文本方向
-  [{ 'size': ['small', false, 'large', 'huge'] }], // 字体大小
+  [{ 'font': fonts }], // 字体
+  [{ 'size': Size.whitelist }], // 字体大小
   [{ 'header': [1, 2, 3, 4, 5, false] }], // 几级标题
   [{ 'color': [] }, { 'background': [] }], // 字体颜色，字体背景颜色
-  [{ 'font': ['Microsoft-YaHei', 'Arial'] }], // 字体
   [{ 'align': [] }], // 对齐方式
   ['image'], // 上传图片
   ['clean'] // 清除字体样式
 ]
+const handlers = {
+  image: function image () {
+    let self = this
+    var fileInput = this.container.querySelector('input.ql-image[type=file]')
+    if (fileInput === null) {
+      fileInput = document.createElement('input')
+      fileInput.setAttribute('type', 'file')
+      // 可设置上传图片的格式
+      fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg')
+      fileInput.classList.add('ql-image')
+      // 监听选择文件
+      fileInput.addEventListener('change', function () {
+        // console.log(fileInput.files[0])
+        let file = fileInput.files[0]
+        if (!/image\/\w+/.test(file.type)) {
+          // console.log('图片格式不正确')
+          return false
+        }
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+          let img = new Image()
+          img.src = this.result
+          img.onload = function () {
+            let that = this
+            let scale = 1000 / that.width
+            let w = 1000
+            let h = that.height * scale
+            let canvas = document.createElement('canvas')
+            let ctx = canvas.getContext('2d')
+            let anw = document.createAttribute('width')
+            anw.nodeValue = w
+            let anh = document.createAttribute('height')
+            anh.nodeValue = h
+            canvas.setAttributeNode(anw)
+            canvas.setAttributeNode(anh)
+            ctx.drawImage(that, 0, 0, w, h)
+            let base64 = canvas.toDataURL('image/jpeg', 0.5)
+            // console.log(base64)
+            let length = self.quill.getSelection(true).index
+            self.quill.insertEmbed(length, 'image', base64)
+            self.quill.setSelection(length + 1)
+          }
+        }
+      })
+      this.container.appendChild(fileInput)
+    }
+    fileInput.click()
+  }
+}
 export default {
   components: { quillEditor },
   data () {
@@ -54,14 +105,23 @@ export default {
         ]
       },
       editorOption: {
-        placeholder: '请输入 ...',
-        theme: 'snow',
         modules: {
           toolbar: {
             container: toolbarOptions,
-            imageResize: {}
+            handlers: handlers
+          },
+          imageResize: {
+            // displaySize: true,
+            displayStyles: { // 添加
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white'
+            },
+            modules: ['Resize', 'DisplaySize', 'Toolbar']
           }
-        }
+        },
+        placeholder: '请输入内容 ...',
+        theme: 'snow'
       }
     }
   },
@@ -70,11 +130,16 @@ export default {
     this.infoForm.dataCode = object.code
     this.flag = this.$route.params.flag
     if (this.$route.params.flag === 'edit') {
-      this.infoForm = this.$route.params.data
+      this.getNews(this.$route.params.key)
     } else if (this.$route.params.flag === 'view') {
-      this.infoForm = this.$route.params.data
+      this.getNews(this.$route.params.key)
       this.inputDisable = true
       this.buttonDisable = false
+    }
+  },
+  computed: {
+    editor () {
+      return this.$refs.myQuillEditor.quill
     }
   },
   methods: {
@@ -84,28 +149,31 @@ export default {
           this.$message.error('请输入详细内容')
           return
         }
-        console.log(this.infoForm)
-        // this.$axios.post(this.GlobalVars.globalServiceServlet + '/web/news/saveNews', this.infoForm).then(res => {
-        //   if (res.data.resultType === 'ok') {
-        //     this.$message({
-        //       message: res.data.message,
-        //       type: 'success'
-        //     })
-        //     this.$router.push({ name: this.infoForm.dataCode })
-        //   } else {
-        //     this.$message.error(res.data.message)
-        //   }
-        // })
+        this.$axios.post(this.GlobalVars.globalServiceServlet + '/web/news/saveNews', this.infoForm).then(res => {
+          if (res.data.resultType === 'ok') {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            })
+            this.$router.push({ name: this.infoForm.dataCode })
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
       })
     },
     onEditorReady () {
 
     },
+    getNews (key) {
+      this.$axios.get(this.GlobalVars.globalServiceServlet + '/web/news/getNewsByKey', { params: { key: key } }).then(res => {
+        this.infoForm = res.data
+      })
+    },
     reset () {
       this.infoForm = {}
     },
     goBack () {
-      // this.$router.push({ name: 'MENU_COMP_NEWS' })
       this.$router.go(-1)
     }
   }

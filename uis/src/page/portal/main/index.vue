@@ -44,7 +44,8 @@
     </el-container>
   </div>
 </template>
-<script>import datas from './datas.js'
+<script>
+import datas from './datas.js'
 export default datas
 </script>
 <style lang="scss" scoped>
