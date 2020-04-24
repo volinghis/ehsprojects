@@ -170,7 +170,7 @@ export default {
     beforeUpload (file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
-      const isLt1M = file.size / 1024 / 1024 < 1
+      const isLt1M = file.size / 1024 / 1024 < 2
 
       if (!isJPG && !isPNG) {
         this.$message.error('上传图片只能是 JPG或PNG 格式!')

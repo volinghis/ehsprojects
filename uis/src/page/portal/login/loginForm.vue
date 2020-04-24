@@ -30,7 +30,6 @@ export default {
   data () {
     return {
       remeberAccount: true,
-      result: { message: '' },
       loginForm: {
         account: localStorage.getItem(this.GlobalVars.userLocal) ? localStorage.getItem(this.GlobalVars.userLocal) : '',
         password: ''
@@ -51,7 +50,6 @@ export default {
   methods: {
     login () {
       var current = this
-      current.result.message = ''
       current.$refs['loginForm'].validate(valid => {
         if (valid) {
           current.loading = true
@@ -81,7 +79,7 @@ export default {
                   })
               } else {
                 this.loading = false
-                current.result.message = res.data.message
+                this.$notify.error(res.data.message)
               }
             }).catch(function () {
               current.loading = false
@@ -115,5 +113,8 @@ $bg-color:#ce0000;
 }
 .el-checkbox__inner:hover{
 border-color:$bg-color;
+}
+p{
+  color:$bg-color;
 }
 </style>
