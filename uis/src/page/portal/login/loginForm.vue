@@ -57,7 +57,6 @@ export default {
           current.$axios.post(current.GlobalVars.globalServiceServlet + '/auth/login/doLogin', current.loginForm)
             .then(res => {
               // 成功了, 更新数据(成功)
-              console.log(res.data)
               if (res.data.resultType === 'ok') {
                 // 数据存储
                 if (current.remeberAccount) {
@@ -75,6 +74,7 @@ export default {
                       current.GlobalVars.userToken,
                       JSON.stringify(res.data)
                     )
+                    current.$store.dispatch(this.GlobalVars.removeTabsMethodName, current.$route.name)
                     current.$router.push({ name: 'index', replace: true })
                   })
               } else {
