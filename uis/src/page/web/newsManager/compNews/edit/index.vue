@@ -7,7 +7,7 @@
             <el-input v-model="infoForm.newsTitle" :disabled="inputDisable" size="samll"></el-input>
           </el-form-item>
           <el-form-item label="是否重大">
-            <el-switch v-model="infoForm.major" active-text="重大" inactive-text="不重大"></el-switch>
+            <el-switch v-model="infoForm.major" active-text="重大" inactive-text="不重大" :disabled="disabled"></el-switch>
           </el-form-item>
           <el-form-item label="详细" prop="newsContent">
             <div class="edit_container">

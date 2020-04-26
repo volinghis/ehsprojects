@@ -91,6 +91,7 @@ export default {
   data () {
     return {
       flag: '',
+      disabled: false,
       buttonDisable: true,
       inputDisable: false,
       infoForm: {
@@ -132,6 +133,7 @@ export default {
     if (this.$route.params.flag === 'edit') {
       this.getNews(this.$route.params.key)
     } else if (this.$route.params.flag === 'view') {
+      this.disabled = true
       this.getNews(this.$route.params.key)
       this.inputDisable = true
       this.buttonDisable = false
