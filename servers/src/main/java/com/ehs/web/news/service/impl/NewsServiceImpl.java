@@ -112,8 +112,6 @@ public class NewsServiceImpl implements NewsService{
 	@Override
 	public PageInfoBean getALLNewsList(QueryBean queryBean) {
 		PageRequest pageRequest = PageRequest.of(queryBean.getPage() - 1, queryBean.getSize());
-		System.out.println("queryBean.getQuery()===="+queryBean.getQuery());
-		System.out.println("queryBean.getDataCode()==="+queryBean.getDataCode());
 		Page<NewsBean> news = newsDao.getALLNewsList(queryBean.getQuery(),queryBean.getDataCode(), pageRequest);
 		if (news != null) {
 			PageInfoBean pb = new PageInfoBean();
