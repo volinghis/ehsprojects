@@ -74,7 +74,6 @@ export default {
                       current.GlobalVars.userToken,
                       JSON.stringify(res.data)
                     )
-                    current.$store.dispatch(this.GlobalVars.removeTabsMethodName, current.$route.name)
                     current.$router.push({ name: 'index', replace: true })
                   })
               } else {

@@ -25,10 +25,10 @@ export default {
     handleRemove (row) {
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/web/pictures/deletePictureInfo', { params: { key: row.key } })
         .then(res => {
-          console.log(res.data)
           this.getPicturesList()
         }).catch(error => {
           console.log(error)
+          this.$message(error)
         })
     },
     handleSuccess (res, file) {
@@ -41,10 +41,9 @@ export default {
       }
       this.$axios.get(this.GlobalVars.globalServiceServlet + '/web/pictures/savePictureInfo', { params: { fileId: res.entityKey, fileName: file.name, order: maxOrder + 1 } })
         .then(res => {
-          console.log(res.data)
           this.getPicturesList()
         }).catch(error => {
-          console.log(error)
+          this.$message(error)
         })
     },
     handleRowDown (row, index) {
