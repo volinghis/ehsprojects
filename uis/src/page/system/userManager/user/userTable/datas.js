@@ -127,7 +127,7 @@ export default {
     addUser: function () {
       this.userFlag = 'add'
       this.buttonShow = true
-      if (this.organizationName === '' || this.organizationKey === 'rootOrg') {
+      if (this.organizationName === '') {
         this.$message({
           message: '请选择部门',
           type: 'warning'

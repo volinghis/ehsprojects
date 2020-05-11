@@ -9,8 +9,7 @@
 	</users>
 	
 	<orgs targetClass="com.ehs.common.organization.entity.OrganizationInfo">
-		<org dataCode="rootOrg" key="rootOrg" name="大唐韩城第二发电厂" sort="0">
-		</org>
+		<org dataCode="rootOrg" key="rootOrg" name="XXXX第二发电厂" sort="0"></org>
 	</orgs> 
 	
 	<menus targetClass="com.ehs.common.auth.entity.SysMenu">
@@ -24,22 +23,34 @@
 		<menu dataCode="MENU_COMP_NOTICE" key="MENU_COMP_NOTICE" name="公司公告" url="/web/newsManager/compNotice/index" icon="fa-bullhorn" sort="40" ></menu>
 		<menu dataCode="MENU_PROFESSIONAL_NEWS" key="MENU_PROFESSIONAL_NEWS" name="专题报道" url="/web/newsManager/professionalNews/index" icon="fa-globe" sort="50" ></menu>
 		<menu dataCode="MENU_MEDIA_NEWS" key="MENU_MEDIA_NEWS" name="媒体聚焦" url="/web/newsManager/mediaNews/index" icon="fa-eye" sort="60" ></menu>
-		<menu dataCode="MENU_PARTY_POLICY" key="MENU_PARTY_POLICY" name="党政工作" url="/web/newsManager/partyPolicy/index" icon="fa-eye" sort="61" ></menu>
-		<menu dataCode="MENU_COMP_ACTIVITIES" key="MENU_COMP_ACTIVITIES" name="公司活动" url="/web/newsManager/compActivities/index" icon="fa-eye" sort="62" ></menu>
+		<menu dataCode="MENU_PARTY_POLICY" key="MENU_PARTY_POLICY" name="党政工作" url="/web/newsManager/partyPolicy/index" icon="fa-podcast" sort="61" ></menu>
+		<menu dataCode="MENU_COMP_ACTIVITIES" key="MENU_COMP_ACTIVITIES" name="公司活动" url="/web/newsManager/compActivities/index" icon="fa-futbol-o" sort="62" ></menu>
 		<menu dataCode="pictureManager" key="pictureManager" name="图片管理" url="/web/pictureManager/index" icon="fa-picture-o" sort="70" ></menu>
+		<menu dataCode="orgManager" key="orgManager" name="部门管理" url="/system/orgManager/index" icon="fa-sitemap" sort="71"></menu>
 		<menu dataCode="userManager" key="userManager" name="人员管理" url="/system/userManager/user/index" icon="fa-users" sort="80" ></menu>
 		<menu dataCode="useretting" key="useretting" name="个人设置" url="/system/account/setting/index" icon="fa-user" sort="90" ></menu>
+		<menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="数据字典" url="/system/dataDictionaryManager/index" icon="fa-database" sort="91"></menu>
 		<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug" sort="100" ></menu>
 	</menus>
 	
 	<DataDictionarys targetClass="com.ehs.common.data.entity.DataDictionary">
-		<DataDictionary dataCode ="NEWS_TYPE" key="NEWS_TYPE" text="公告类型" parentKey="dataDict" systemCode="dataDict" sort="1">
+		<!-- <DataDictionary dataCode ="NEWS_TYPE" key="NEWS_TYPE" text="公告类型" parentKey="dataDict" systemCode="dataDict" sort="1">
 			<DataDictionary dataCode="COMP_NEWS" key="COMP_NEWS" text="公司新闻" sort="1" parentKey="NEWS_TYPE" systemCode="dataDict" />
 			<DataDictionary dataCode="TRADE_NEWS" key="TRADE_NEWS" text="行业新闻" sort="20" parentKey="NEWS_TYPE" systemCode="dataDict" />
 			<DataDictionary dataCode="BIDS_NOTICE" key="BIDS_NOTICE" text="招标公告" sort="30" parentKey="NEWS_TYPE" systemCode="dataDict" />
 			<DataDictionary dataCode="COMP_NOTICE" key="COMP_NOTICE" text="公司公告" sort="40" parentKey="NEWS_TYPE" systemCode="dataDict" />
 			<DataDictionary dataCode="PROFESSIONAL_NEWS" key="PROFESSIONAL_NEWS" text="专题报道" sort="50" parentKey="NEWS_TYPE" systemCode="dataDict" />
 			<DataDictionary dataCode="MEDIA_NEWS" key="MEDIA_NEWS" text="媒体聚焦" sort="60" parentKey="NEWS_TYPE" systemCode="dataDict" />
+		</DataDictionary> -->
+		<DataDictionary dataCode ="position" key="position" text="职务" parentKey="dataDict" systemCode="dataDict" sort="1">
+			<DataDictionary dataCode="Aposition" key="Aposition" text="厂长" sort="1" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Bposition" key="Bposition" text="副厂长" sort="2" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Cposition" key="Cposition" text="主任" sort="3" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Dposition" key="Dposition" text="副主任" sort="4" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Eposition" key="Eposition" text="高管" sort="5" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Fposition" key="Fposition" text="组长" sort="6" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Gposition" key="Gposition" text="班长" sort="7" parentKey="position" systemCode="dataDict" />
+			<DataDictionary dataCode="Hposition" key="Hposition" text="员工" sort="8" parentKey="position" systemCode="dataDict" />
 		</DataDictionary>
 	</DataDictionarys>
 </root>
