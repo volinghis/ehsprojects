@@ -24,7 +24,6 @@ public class JobsApplicationTests {
 	@Test
 	public void contextLoads() {
 
-
 	}
 
 }
