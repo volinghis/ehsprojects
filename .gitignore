@@ -1,15 +1,10 @@
 .DS_Store
-/uis/node_modules
-/uis/target
+node_modules/
 /uis/src/main/resources/static
 /uis/dist
-/servers/target/
-/servers/.settings/org.eclipse.core.resources.prefs
-/servers/.settings/org.eclipse.jdt.core.prefs
-/servers/.settings/org.eclipse.m2e.core.prefs
-/uis/.settings/org.eclipse.core.resources.prefs
-/uis/.settings/org.eclipse.jdt.core.prefs
-/uis/.settings/org.eclipse.m2e.core.prefs
+.mvn/
+target/
+.settings/
 # local env files
 .env.local
 .env.*.local
