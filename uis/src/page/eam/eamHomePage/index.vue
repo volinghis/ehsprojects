@@ -1,7 +1,5 @@
 <template>
-
   <div class="panel">
-
       <el-row  :gutter="10" >
       <el-col :span="16" >
         <el-card>
@@ -18,25 +16,24 @@
             </div> -->
          <el-card >
           <div slot="header" class="clearfix">
-
             <span>我的绩效</span>
           </div>
-           <Rates></Rates>
+          <Rates></Rates>
         </el-card>
       </el-col>
 
     </el-row>
     <el-row  :gutter="10" >
-      <el-col :span="12" >
+      <!-- <el-col :span="12" >
        <el-card>
           <div slot="header" class="clearfix">
             <span>设备资料完整度</span>
           </div>
           <Devices></Devices>
         </el-card>
-      </el-col>
+      </el-col> -->
 
-      <el-col :span="7" class="paddingStyle">
+      <el-col :span="16" class="paddingStyle">
         <!-- <div class="block-title"
                  style="background: #67C23A;">
               <label>设备资料完整度</label>
@@ -48,8 +45,7 @@
           <Notices></Notices>
         </el-card>
       </el-col>
-       <el-col :span="5"  class="paddingStyle">
-
+       <el-col :span="8"  class="paddingStyle">
         <!-- <div class="block-title"
                  style="background: #66b1ff;">
               <label>上月榜单（仅展示前10名）</label>

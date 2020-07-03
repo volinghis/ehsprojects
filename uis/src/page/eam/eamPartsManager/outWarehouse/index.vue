@@ -1,6 +1,6 @@
 <template>
-<!-- <el-card> -->
   <div class="cardHeight">
+    <el-card shadow="hover" style="margin-bottom:20px;">
      <div class="queryBodys">
       <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini" label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
         <el-form-item label="查询" >
@@ -36,6 +36,8 @@
       2)在该页面可以根据各种条件进行查询。<br />
       3)黄色代表已经驳回的任务，红色代表超过7天未处理的任务，申请日期起超过7天未处理为逾期。
     </div>
+    </el-card>
+    <el-card shadow="hover">
     <div class="operate">
        <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>
        <!-- <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button> -->
@@ -76,6 +78,7 @@
         </el-pagination>
       </div>
     </template>
+    </el-card>
   </div>
 <!-- </el-card> -->
 </template>

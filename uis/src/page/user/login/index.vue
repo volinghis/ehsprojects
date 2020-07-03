@@ -6,8 +6,8 @@
         <el-col :span="12">
           <p><el-image :src="dhUrl" style="width: 100px; height: 100px"></el-image></p>
           <p>
-            <span>东恒鑫源MIS管理系统</span><br>
-            <span>Dongheng XinYuan MIS Management System</span>
+            <span>仓储管理系统</span><br>
+            <span>WareHouse Management System</span>
           </p>
         </el-col>
         <el-col :span="12">
@@ -30,7 +30,7 @@
                          :loading="loading"
                          long>登录</el-button>
               <el-checkbox v-model="remeberAccount">记住账号</el-checkbox>
-              <el-link type="primary">忘记密码?</el-link>
+              <el-link type="primary" @click="forgetPassword">忘记密码?</el-link>
             </el-form-item>
           </el-form>
         </el-col>

@@ -70,6 +70,12 @@ export default {
             })
         }
       })
+    },
+    forgetPassword () {
+      this.$message({
+        message: '请联系管理员',
+        type: 'warning'
+      })
     }
   },
   mounted () {

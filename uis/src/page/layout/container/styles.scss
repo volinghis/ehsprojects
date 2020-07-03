@@ -1,25 +1,21 @@
 .el-header:not(.tabHeader){
   height: $headerHeight !important;
   overflow: hidden;
-
-
-  background-color:#1e90ff ;
-
+  background-color:#0d3154;
   padding: 0 0 0 0px !important;
-
 }
 .pagePanel{
-  width: $bodyMinWidth !important;
-  margin:0 auto; 
+  // width: $bodyMinWidth !important;
+  // margin:0 auto; 
 }
 
 .tabHeader{
   height: $tabHeight !important;
-  width: $bodyMinWidth - $siderWidth  ;
+  // width: $bodyMinWidth - $siderWidth  ;
 }
 .el-main{
   padding: 0px;
-  width: $bodyMinWidth - $siderWidth - 10;
+  // width: $bodyMinWidth - $siderWidth - 10;
   overflow: auto !important;
   padding: 0 0 0 0px !important;
   padding-top: 10px !important;

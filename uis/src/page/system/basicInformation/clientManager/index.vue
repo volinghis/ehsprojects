@@ -1,15 +1,11 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5">
-        <el-tree :props="props" ref="tree" node-key="id" :load="loadNode" lazy highlight-current @node-click="handleNodeClick"></el-tree>
-        <!-- </el-card> -->
-      </el-col>
-      <el-col :span="18" :push="1" style="border-left:1px solid #DCDFE6;">
+      <el-card>
+      <el-col :span="24">
         <div class="container">
-          <!-- <el-card style="margin-right:10px;"> -->
           <div class="operation">
-            <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="dictionaryAdd"> 新增</el-button>
+            <el-button type="primary" :size="GlobalCss.buttonSize" icon="fa fa-plus" @click="handlAdd"> 新增</el-button>
           </div>
           <div class="refRoleTable" style="margin-left:10px;">
             <template>
@@ -59,6 +55,7 @@
         </div>
         <!-- </el-card> -->
       </el-col>
+      </el-card>
     </el-row>
   </div>
 </template>

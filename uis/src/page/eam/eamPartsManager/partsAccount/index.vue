@@ -1,8 +1,8 @@
 <template>
-<!-- <el-card> -->
   <div>
+    <el-card shadow="hover" style="margin-bottom:20px;">
     <div class="queryBodys">
-      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini" label-width="100px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
+      <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini" label-width="110px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
         <el-form-item label="查询" >
           <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
             <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
@@ -27,10 +27,12 @@
       1)该列表显示展示所有备件信息。<br />
       2)在该页面可以根据各种条件进行查询。<br />
     </div>
+    </el-card>
     <!-- <div class="operate">
        <el-button type="primary" icon="el-icon-plus" :size="GlobalCss.controlSize" @click="handleAdd()">新增</el-button>
        <el-button type="success" icon="el-icon-download" class="buttonHeight" :size="GlobalCss.controlSize" @click="exportExcel()">导出</el-button>
     </div> -->
+    <el-card shadow="hover">
     <template>
       <el-table :data="tableData" ref="multipleTable" resizable border highlight-current-row :size="GlobalCss.buttonSize">
         <el-table-column fixed="left" type="index" width="50" align="center"></el-table-column>
@@ -68,8 +70,8 @@
         </div>
       </div>
     </template>
+    </el-card>
   </div>
-<!-- </el-card> -->
 </template>
 <script>
 import datas from './datas'

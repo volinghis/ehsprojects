@@ -73,9 +73,9 @@ export default {
 </script>
 <style lang="scss" scoped>
   /deep/.el-input-group__append {
-    background-color: #409eff;
-    border: 1px solid #409eff;
+    background-color: #0d3154;
+    border: 1px solid #0d3154;
     color: #fff;
   }
 
-</style>>
+</style>
