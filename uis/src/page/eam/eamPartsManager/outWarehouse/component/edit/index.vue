@@ -56,12 +56,12 @@
         </el-row>
       </div>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerSelect" v-show="showButton">添加备件</el-button>
-    <!--添加备件-->
+    <el-button type="primary" icon="el-icon-plus" class="buttonHeight" :size="GlobalCss.buttonSize" @click="handlerSelect" v-show="showButton">添加商品</el-button>
+    <!--添加商品-->
     <div class="tableHeight" :style="{height:tableHeight}">
       <TablePart ref="table" :flag="showFlag" :parts="parts" :partsTable="partsTable" @tableParams="tableParams" :totalCounts="totalCount"></TablePart>
     </div>
-    <el-dialog title="选择备件" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close :key="key">
+    <el-dialog title="选择商品" :visible.sync="dialogVisible" width="70%" :before-close="handleClose" destroy-on-close :key="key">
       <el-divider></el-divider>
       <div style="text-align:center;">
         <AddPart :selectWareHouseFlag="selectFlag" @partsData="partsData"></AddPart>

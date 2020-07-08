@@ -9,6 +9,11 @@
   margin-bottom: 5px;
   text-align:right;
 }
+/deep/.el-input-group__append {
+  background-color: #0d3154;
+  border: 1px solid #0d3154;
+  color:#fff
+}
 /deep/.dialog-footer{
   text-align: center;
 }

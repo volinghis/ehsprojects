@@ -2,12 +2,12 @@
   <div>
     <el-table :data="tableData" resizable highlight-current-row border @row-dblclick="handleClick" @cell-click="handleCurrentChange"
               :size="GlobalCss.buttonSize" :summary-method="getSummaries" show-summary style="width: 100%;" class="tb-edit">
-      <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center">
+      <el-table-column prop="deviceCode" label="商品编号" show-overflow-tooltip min-width="100" align="center">
         <template slot-scope="scope">
             <el-link type="primary" @click="handleRowClick(scope.row)">{{scope.row.deviceCode}}</el-link>
           </template>
       </el-table-column>
-      <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+      <el-table-column prop="deviceName" label="商品名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
       <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
       <el-table-column prop="leaveFactoryCode" label="出厂编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
       <el-table-column prop="unit" label="单位" show-overflow-tooltip min-width="70" align="center"></el-table-column>
@@ -34,7 +34,7 @@
     <!-- <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
                    :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination> -->
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="60%" >
+    <el-drawer title="商品编辑" :visible.sync="drawer" :direction="direction" destroy-on-close :wrapperClosable="false" size="60%" >
       <el-divider></el-divider>
       <editPart ref="partData" :flag="flagMark" :partsForm="partsFormEdit"></editPart>
       <div style="text-align:center;">
@@ -42,7 +42,7 @@
         <el-button :size="GlobalCss.buttonSize" @click="handleClose" v-if="flagBotton">取 消</el-button>
       </div>
     </el-drawer>
-    <el-dialog width="50%" title="备件详情" :visible.sync="dialogVisible" append-to-body>
+    <el-dialog width="50%" title="商品详情" :visible.sync="dialogVisible" append-to-body>
        <div class="pageClass">
         <el-row :gutter="10">
           <el-col :span="5">
@@ -54,10 +54,10 @@
               <el-row >
                 <el-form label-suffix="：" label-width="80px">
                   <el-col :span="8">
-                      <el-form-item label="备件编码">
+                      <el-form-item label="商品编码">
                         <span class="info-content">{{ form.deviceCode }}</span>
                       </el-form-item>
-                      <el-form-item label="备件名称">
+                      <el-form-item label="商品名称">
                         <span class="info-content">{{ form.deviceName }}</span>
                       </el-form-item>
                       <el-form-item label="规格型号">

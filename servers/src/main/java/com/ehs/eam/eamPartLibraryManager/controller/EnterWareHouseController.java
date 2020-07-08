@@ -73,11 +73,11 @@ public class EnterWareHouseController {
 		ResultBean resultBean=new ResultBean();
 		try {
 			ewhService.saveEnterWareHouse(wareHouserBean);
-			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件入库流程创建成功 ！"));
+			return JsonUtils.toJsonString(resultBean.ok("祝贺你，商品入库流程创建成功 ！"));
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件入库流程创建失败！"));
+		return JsonUtils.toJsonString(resultBean.error("很遗憾，商品入库流程创建失败！"));
 	}
 	
 	/**

@@ -2,7 +2,7 @@
   <div class="divStyle">
     <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-position="right" :size="GlobalCss.controlSize">
       <el-row>
-        <el-divider content-position="left"><span style="color:#409EFF">基础信息</span></el-divider>
+        <el-divider content-position="left"><span style="color:#0d3154">基础信息</span></el-divider>
         <el-col :span="12">
           <el-form-item label="工号：" prop="dataCode">
               <el-input v-model="form.dataCode" :disabled="inputShow"></el-input>
@@ -34,7 +34,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-divider content-position="left"><span style="color:#409EFF">辅助信息</span></el-divider>
+        <el-divider content-position="left"><span style="color:#0d3154">辅助信息</span></el-divider>
         <el-col :span="12">
           <el-form-item label="学历：" prop="education" >
             <el-input v-model="form.education" :disabled="inputShow"></el-input>

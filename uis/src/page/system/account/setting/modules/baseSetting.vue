@@ -8,7 +8,7 @@
                  :size="GlobalCss.buttonSize"
                  label-width="100px"
                  :rules="rules">
-          <el-divider content-position="center"><span style="color:#409EFF">基本信息</span></el-divider>
+          <el-divider content-position="center"><span style="color:#0d3154">基本信息</span></el-divider>
           <el-form-item label="账 号："
                         prop="dataCode">
             <el-input v-model="form.dataCode"
@@ -47,7 +47,7 @@
                         prop="telephone">
             <el-input v-model="form.telephone"></el-input>
           </el-form-item>
-          <el-divider content-position="center"><span style="color:#409EFF">辅助信息</span></el-divider>
+          <el-divider content-position="center"><span style="color:#0d3154">辅助信息</span></el-divider>
           <el-form-item label="员工学历："
                         prop="education">
             <el-input v-model="form.education"></el-input>
@@ -249,7 +249,7 @@ export default {
 }
 
 /deep/.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
+  border-color: #0d3154;
 }
 
 /deep/.avatar-uploader .el-upload {
@@ -267,6 +267,6 @@ export default {
 }
 
 .el-divider {
-  background-color: #3a8ee6;
+  background-color: #0d3154;
 }
 </style>

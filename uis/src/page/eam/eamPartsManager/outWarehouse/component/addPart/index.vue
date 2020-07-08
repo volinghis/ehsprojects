@@ -8,12 +8,12 @@
     <template>
       <el-table :data="tableData" border ref="multipleTable" @selection-change="handleSelectionChange" :size="GlobalCss.controlSize">
         <el-table-column type="selection" show-overflow-tooltip min-width="100" align="center"></el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center">
+        <el-table-column prop="deviceCode" label="商品编号" show-overflow-tooltip min-width="100" align="center">
           <template slot-scope="scope">
             <el-link type="primary" @click="handleRowClick(scope.row)">{{scope.row.deviceCode}}</el-link>
           </template>
         </el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceName" label="商品名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseCode" label="入库编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseName" label="所在仓库" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
@@ -31,7 +31,7 @@
       <el-pagination style="text-align:right;" :current-page.sync="queryBean.page" :page-size="queryBean.size"
             @current-change="changePage" layout="total, prev, pager, next" :total="queryBean.totalCount"></el-pagination>
     </template>
-     <el-dialog width="50%" title="备件详情" :visible.sync="innerVisible" append-to-body>
+     <el-dialog width="50%" title="商品详情" :visible.sync="innerVisible" append-to-body>
        <div class="pageClass">
         <el-row :gutter="10">
           <el-col :span="5">
@@ -43,10 +43,10 @@
               <el-row >
                 <el-form label-suffix="：" label-width="80px">
                   <el-col :span="8">
-                      <el-form-item label="备件编码">
+                      <el-form-item label="商品编码">
                         <span class="info-content">{{ form.deviceCode }}</span>
                       </el-form-item>
-                      <el-form-item label="备件名称">
+                      <el-form-item label="商品名称">
                         <span class="info-content">{{ form.deviceName }}</span>
                       </el-form-item>
                       <el-form-item label="规格型号">

@@ -60,11 +60,11 @@ public class OutWareHouseController {
 		ResultBean resultBean=new ResultBean();
 		try {
 			owhService.saveOutWareHouse(wareHouserBean);
-			return JsonUtils.toJsonString(resultBean.ok("祝贺你，备件出库流程创建成功 ！"));
+			return JsonUtils.toJsonString(resultBean.ok("祝贺你，商品出库流程创建成功 ！"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return JsonUtils.toJsonString(resultBean.error("很遗憾，备件出库流程创建失败！"));
+		return JsonUtils.toJsonString(resultBean.error("很遗憾，商品出库流程创建失败！"));
 	}
 
 	@RequestAuth(menuKeys = {"outWarehouseEdit",AuthConstants.GLOBAL_MENU_KEY})

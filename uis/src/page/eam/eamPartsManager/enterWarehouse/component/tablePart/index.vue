@@ -2,8 +2,8 @@
   <div>
     <el-table :data="tableData" resizable  highlight-current-row border @row-dblclick="handleClick"
       :size="GlobalCss.buttonSize" :summary-method="getSummaries" show-summary style="width: 100%;">
-      <el-table-column prop="deviceCode" label="备件编号" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="deviceName" label="备件名称" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="deviceCode" label="商品编号" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="deviceName" label="商品名称" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="norm" label="规格型号" min-width="110" sortable show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="leaveFactoryCode" label="出厂编号" min-width="110" sortable show-overflow-tooltip align="center"></el-table-column>
       <!-- <el-table-column prop="leaveFactoryDate" label="出厂日期" width="100" sortable show-overflow-tooltip align="center"></el-table-column> -->
@@ -22,7 +22,7 @@
     <!-- <el-pagination class="pageHeight" background style="text-align:right;" :current-page.sync="form.page"
       :page-size="form.size" layout="total, prev, pager, next" :total="totalCount">
     </el-pagination> -->
-    <el-drawer title="备件编辑" :visible.sync="drawer" :direction="direction" :destroy-on-close="true" :wrapperClosable="false" size="60%">
+    <el-drawer title="商品编辑" :visible.sync="drawer" :direction="direction" :destroy-on-close="true" :wrapperClosable="false" size="60%">
       <el-divider></el-divider>
       <editPart ref="partData" :partsForm="partsFormEdit" :flag="editPartFlag"></editPart>
       <div style="text-align:center;">

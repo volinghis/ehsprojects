@@ -10,10 +10,10 @@
           <div class="ehs_form_item_message" style="text-align:center;">
            <el-row style="width:50%;margin-left:32%;">
              <el-form label-suffix="：" label-width="80px">
-               <el-form-item label="备件编码">
+               <el-form-item label="商品编码">
                  <span class="info-content">{{ form.deviceCode }}</span>
                </el-form-item>
-               <el-form-item label="备件名称">
+               <el-form-item label="商品名称">
                  <span class="info-content">{{ form.deviceName }}</span>
                </el-form-item>
                <el-form-item label="规格型号">

@@ -4,7 +4,7 @@
     <div class="queryBodys">
       <el-form ref="ruleForm" style="width:700px;" label-suffix="：" label-position="right" size="mini"  label-width="80px" :inline-message="true" :status-icon="true" class="demo-ruleForm">
         <el-form-item label="查询" >
-          <el-input size="small" v-model="queryBean.query" placeholder="请输入备件名称、编号、规格、物资编码、物资类型" style="width:61%;">
+          <el-input size="small" v-model="queryBean.query" placeholder="请输入商品名称、编号、规格、物资编码、物资类型" style="width:61%;">
             <el-button slot="append" @click="getTableData" icon="el-icon-search"></el-button>
           </el-input>
         </el-form-item>
@@ -32,7 +32,7 @@
       </el-form>
     </div>
     <div class="ehs_form_item_message">
-      1)该列表显示展示所有备件信息。<br />
+      1)该列表显示展示所有商品信息。<br />
       2)在该页面可以根据各种条件进行查询。<br />
       3)黄色代表已经驳回的任务，红色代表超过7天未处理的任务，申请日期起超过7天未处理为逾期。
     </div>
@@ -52,8 +52,8 @@
             <el-link type="primary" @click="handleClick(scope.row)">{{scope.row.wareHouseCode}}</el-link>
           </template>
         </el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" min-width="120" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="deviceCode" label="商品编号" min-width="100" sortable show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="deviceName" label="商品名称" min-width="120" sortable show-overflow-tooltip align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" width="100" sortable show-overflow-tooltip align="center"></el-table-column>
         <!-- <el-table-column prop="leaveFactoryCode" label="出厂编号" sortable show-overflow-tooltip align="center"></el-table-column>
         <el-table-column prop="leaveFactoryDate" label="出厂日期" sortable show-overflow-tooltip align="center"></el-table-column>

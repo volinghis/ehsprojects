@@ -61,6 +61,7 @@ public interface PartsAccountDao extends JpaRepository<PartsAccount, String> {
 			+" or ('ENOUGH'=:reserve and p."+PartsAccount.AMOUNT+" >= 0 and p."+PartsAccount.WARNING_VALUE+" >=0 and p."+PartsAccount.AMOUNT+" > p."+PartsAccount.WARNING_VALUE+")"
 			+" or ('NOENOUGH'=:reserve and p."+PartsAccount.AMOUNT+" >= 0 and p."+PartsAccount.WARNING_VALUE+" >=0 and p."+PartsAccount.AMOUNT+" <= p."+PartsAccount.WARNING_VALUE+")"
 			+ " ) "
+			+" and "+PartsAccount.WAREHOUSE_CODE+" is not null"
 			+ "")
 	public Page<PartsAccount> findAllAccount(@Param("query")String query,
 											 @Param("warehouseNames") String warehouseNames,

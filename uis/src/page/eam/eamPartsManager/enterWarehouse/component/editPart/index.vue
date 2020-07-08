@@ -16,8 +16,8 @@
           <div class="item-block">
             <el-row >
               <el-col :span="8">
-                <el-form-item label="备件编码" prop="deviceCode">
-                  <el-input v-model="form.deviceCode" placeholder="请填写备件编码" :disabled="partFlag"></el-input>
+                <el-form-item label="商品编码" prop="deviceCode">
+                  <el-input v-model="form.deviceCode" placeholder="请填写商品编码" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="物资编码" prop="materialCode">
                   <el-input v-model="form.materialCode" placeholder="请填写物资编码" :disabled="partFlag"></el-input>
@@ -34,8 +34,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="备件名称" prop="deviceName">
-                  <el-input v-model="form.deviceName" placeholder="请填写备件名称" :disabled="partFlag"></el-input>
+                <el-form-item label="商品名称" prop="deviceName">
+                  <el-input v-model="form.deviceName" placeholder="请填写商品名称" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="物资类别" prop="materialType">
                   <el-input v-model="form.materialType" placeholder="请填写物资类别" :disabled="partFlag"></el-input>
@@ -50,7 +50,7 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="规格型号" prop="norm">
-                  <el-input v-model="form.norm" placeholder="请填写备件型号" :disabled="partFlag"></el-input>
+                  <el-input v-model="form.norm" placeholder="请填写商品型号" :disabled="partFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="生产厂家" prop="manufacturer">
                   <el-input v-model="form.manufacturer" placeholder="请填写生产厂家" :disabled="partFlag"></el-input>

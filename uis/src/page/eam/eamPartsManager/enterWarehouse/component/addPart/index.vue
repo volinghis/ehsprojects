@@ -10,8 +10,8 @@
         <el-table-column type="selection" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseCode" label="入库编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="wareHouseName" label="所在仓库" show-overflow-tooltip min-width="100" align="center"></el-table-column>
-        <el-table-column prop="deviceCode" label="备件编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
-        <el-table-column prop="deviceName" label="备件名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceCode" label="商品编号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
+        <el-table-column prop="deviceName" label="商品名称" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="norm" label="规格型号" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="materialType" label="物资类别" show-overflow-tooltip min-width="100" align="center"></el-table-column>
         <el-table-column prop="amount" label="数量" show-overflow-tooltip min-width="70" align="center"></el-table-column>

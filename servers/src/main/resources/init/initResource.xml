@@ -70,8 +70,8 @@
 				<menu dataCode="partsBaseInfoEdit" key="partsBaseInfoEdit" name="备件台账编辑" url="/eam/eamPartsManager/partsBaseInfo/component/edit/index" business="true" sort="351"></menu>
 				<menu dataCode="partsBaseInfoDetails" key="partsBaseInfoDetails" name="备件台账详情" url="/eam/eamPartsManager/partsBaseInfo/component/details/index" business="true" sort="352"></menu>
 			</menu> -->
-			<menu dataCode="partsAccount" key="partsAccount" name="备件台账" icon="fa-align-justify" url="/eam/eamPartsManager/partsAccount/index"  sort="31">
-				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="备件台账详情页面 " url="/eam/eamPartsManager/partsAccount/component/details/index" business="true" sort="311"></menu>
+			<menu dataCode="partsAccount" key="partsAccount" name="商品台账" icon="fa-align-justify" url="/eam/eamPartsManager/partsAccount/index"  sort="31">
+				<menu dataCode="partsAccountDetails" key="partsAccountDetails" name="商品台账详情页面 " url="/eam/eamPartsManager/partsAccount/component/details/index" business="true" sort="311"></menu>
 			</menu>
 			<menu dataCode="enterWarehouse" key="enterWarehouse" name="入库管理" url="/eam/eamPartsManager/enterWarehouse/index" icon="fa-indent" sort="32">
 				<menu dataCode="enterWarehouseEdit" key="enterWarehouseEdit" name="入库编辑" url="/eam/eamPartsManager/enterWarehouse/component/edit/index" business="true" sort="321"></menu>
@@ -112,18 +112,21 @@
 		</menu> -->
 		
 		
-		<menu dataCode="eamDataBaseInfo" key="eamDataBaseInfo" name="合同管理" url="/eam/eamDataBase/index" icon="fa-file-o" sort="45"></menu>
-		<menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="业务维护" url="" icon="fa-database" leaf="false" sort="61">
-			<menu dataCode="contractType" key="contractType" parentKey="dataDictionaryManager" name="合同类型" url="/system/dataDictionaryManager/contractType/index" icon=""></menu>
+		 <menu dataCode="eamDataBaseInfo" key="eamDataBaseInfo" name="合同管理" url="/eam/eamDataBase/index" icon="fa-file-o" sort="45"></menu>
+		<!-- <menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="业务维护" url="" icon="fa-database" leaf="false" sort="61">
+			<menu dataCode="edmEquipmentInfo" key="edmEquipmentInfo" parentKey="dataDictionaryManager" name="合同类型" url="/system/dataDictionaryManager/contractType/index" icon=""></menu>
 			<menu dataCode="wareHouse" key="wareHouse" parentKey="dataDictionaryManager" name="仓库维护" url="/system/dataDictionaryManager/warehouseMaintenance/index" icon=""></menu>
 			<menu dataCode="outBoundType" key="outBoundType" parentKey="dataDictionaryManager" name="出库类型" url="/system/dataDictionaryManager/outType/index" icon=""></menu>
 			<menu dataCode="inBoundType" key="inBoundType" parentKey="dataDictionaryManager" name="入库类型" url="/system/dataDictionaryManager/intoType/index" icon=""></menu>
-		</menu>
+			<menu dataCode="clientType" key="clientType" parentKey="dataDictionaryManager" name="客户类型" url="/system/dataDictionaryManager/clientType/index" icon=""></menu>
+			<menu dataCode="clientLevel" key="clientLevel" parentKey="dataDictionaryManager" name="客户等级" url="/system/dataDictionaryManager/clientLevel/index" icon=""></menu>
+			<menu dataCode="supplierType" key="supplierType" parentKey="dataDictionaryManager" name="供应商类型" url="/system/dataDictionaryManager/supplierType/index" icon=""></menu>
+		</menu> -->
 		
-		<menu dataCode="basicInformation" key="basicInformation" name="基础资料" url="" icon="" leaf="false" sort="62">
-			<menu dataCode="clientManager" key="clientManager" name="客户管理" url="/system/basicInformation/clientManager/index" icon="" parentKey="basicInformation" sort="1"></menu>
-			<menu dataCode="supplier" key="supplier" name="供应商管理" url="/system/basicInformation/supplier/index" icon="" parentKey="basicInformation"  sort="2"></menu>
-			<menu dataCode="commodity" key="commodity" name="商品管理" url="/system/basicInformation/commodity/index" icon="" parentKey="basicInformation"  sort="3"></menu>
+		<menu dataCode="basicInformation" key="basicInformation" name="基础资料" url="" icon="fa-microchip" leaf="false" sort="62">
+			<menu dataCode="clientManager" key="clientManager" name="客户管理" url="/system/basicInformation/clientManager/index" icon="fa-id-card-o" parentKey="basicInformation" sort="1"></menu>
+			<menu dataCode="supplier" key="supplier" name="供应商管理" url="/system/basicInformation/supplier/index" icon="fa-address-card-o" parentKey="basicInformation"  sort="2"></menu>
+			<menu dataCode="commodity" key="commodity" name="商品管理" url="/system/basicInformation/commodity/index" icon="fa-cart-plus" parentKey="basicInformation"  sort="3"></menu>
 		</menu>
 		
 		
@@ -137,8 +140,8 @@
 
 			<menu dataCode="roleManager" key="roleManager" name="角色管理" url="/system/roleManager/index" icon="fa-user"  parentKey="systemManager"  sort="43" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 			<menu dataCode="menuManager" key="menuManager" name="菜单授权" url="/system/menuManager/index" icon="fa-list"  parentKey="systemManager"  sort="44" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
-<!-- 			<menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="数据字典" url="/system/dataDictionaryManager/index" icon="fa-database"  parentKey="systemManager"  sort="45" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
- -->			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug"  parentKey="systemManager"  sort="46" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
+			<menu dataCode="dataDictionaryManager" key="dataDictionaryManager" name="数据字典" url="/system/dataDictionaryManager/index" icon="fa-database"  parentKey="systemManager"  sort="45" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
+			<menu dataCode="loginLogManager" key="loginLogManager" name="登录日志" url="/system/loginLogManager/index" icon="fa-bug"  parentKey="systemManager"  sort="46" roles='[{"roleType":"ROLE","roleKey":"sysAdminRoleKey"}]'></menu>
 
 		</menu>
 	</menus>
@@ -166,5 +169,8 @@
 		<DataDictionary dataCode ="inBoundType" key="inBoundType" text="入库类型" parentKey="dataDict" systemCode="dataDict" sort="60">
 			<DataDictionary dataCode ="add" key="add" text="新增入库" parentKey="inBoundType" systemCode="dataDict" sort="61"></DataDictionary>
 		</DataDictionary>
+		<DataDictionary dataCode ="clientType" key="clientType" text="客户类型" parentKey="dataDict" systemCode="dataDict" sort="62"/>
+		<DataDictionary dataCode ="clientLevel" key="clientLevel" text="客户等级" parentKey="dataDict" systemCode="dataDict" sort="63"/>
+		<DataDictionary dataCode ="supplierType" key="supplierType" text="供应商类型" parentKey="dataDict" systemCode="dataDict" sort="64"/>
 	</DataDictionarys>
 </root>
