@@ -43,6 +43,20 @@ public class CommodityServiceImpl implements CommodityService{
 	@Resource
 	private CommodityDao commodityDao;	
 	
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.CommodityService#saveCommodity(com.ehs.eam.eamPartLibraryManager.entity.PartsAccount)  
+	* @Function: CommodityServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:38 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void saveCommodity(PartsAccount partsAccount) {
@@ -59,6 +73,20 @@ public class CommodityServiceImpl implements CommodityService{
 		}
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.CommodityService#findCommodities(com.ehs.common.basicInfo.bean.CommodityQueryBean)  
+	* @Function: CommodityServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:44 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean findCommodities(CommodityQueryBean commodityQueryBean) {
 		PageRequest pageRequest = PageRequest.of(commodityQueryBean.getPage() - 1, commodityQueryBean.getSize());
@@ -72,6 +100,20 @@ public class CommodityServiceImpl implements CommodityService{
 		return null;
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.CommodityService#deleteCommodity(java.lang.String)  
+	* @Function: CommodityServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:50 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void deleteCommodity(String key) {

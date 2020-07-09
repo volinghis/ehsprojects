@@ -38,6 +38,24 @@ public class ContactController {
 	@Resource
 	private ContactInfoDao contactInfoDao;
 	
+	/**
+	 * 
+	* @Function: ContactController.java
+	* @Description: 查找
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:04:48 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"clientManager"})
 	@RequestMapping(value = "/getContacts")
 	public String getContacts(HttpServletRequest request){

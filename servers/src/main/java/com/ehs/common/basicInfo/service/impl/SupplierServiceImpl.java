@@ -23,9 +23,22 @@ import com.ehs.common.basicInfo.service.SupplierService;
 import com.ehs.common.data.entity.DataDictionary;
 import com.ehs.common.oper.bean.PageInfoBean;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: SupplierServiceImpl.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年7月9日 上午11:09:04 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年7月9日     zhaol           v1.0.0               修改原因
+*/
 @Service
 public class SupplierServiceImpl implements SupplierService{
-	
 
 	private static final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 	
@@ -38,6 +51,20 @@ public class SupplierServiceImpl implements SupplierService{
 	@Resource
 	private ContactInfoDao contactInfoDao;
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.SupplierService#saveSupplier(com.ehs.common.basicInfo.bean.SupplierBean)  
+	* @Function: SupplierServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:09:09 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void saveSupplier(SupplierBean supplierBean) {
@@ -61,6 +88,20 @@ public class SupplierServiceImpl implements SupplierService{
 		
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.SupplierService#findSuppliers(com.ehs.common.basicInfo.bean.SupplierQueryBean)  
+	* @Function: SupplierServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:09:16 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean findSuppliers(SupplierQueryBean supplierQueryBean) {
 		PageRequest pageRequest = PageRequest.of(supplierQueryBean.getPage() - 1, supplierQueryBean.getSize());
@@ -74,6 +115,20 @@ public class SupplierServiceImpl implements SupplierService{
 		return null;
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.SupplierService#deleteSupplierByKey(java.lang.String)  
+	* @Function: SupplierServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:09:22 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void deleteSupplierByKey(String key) {
@@ -92,6 +147,20 @@ public class SupplierServiceImpl implements SupplierService{
 		}
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.SupplierService#changeState(com.ehs.common.basicInfo.entity.SupplierInfo)  
+	* @Function: SupplierServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:09:28 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public SupplierInfo changeState(SupplierInfo supplierInfo) {

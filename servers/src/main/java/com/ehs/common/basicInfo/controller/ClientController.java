@@ -20,6 +20,20 @@ import com.ehs.common.oper.bean.PageInfoBean;
 import com.ehs.common.oper.bean.ResultBean;
 import com.ehs.eam.eamPartLibraryManager.controller.EnterWareHouseController;
 
+/**   
+* Copyright: Copyright (c) 2020 西安东恒鑫源软件开发有限公司
+* @ClassName: ClientController.java
+* @Description: 该类的功能描述
+*
+* @version: v1.0.0
+* @author: zhaol
+* @date: 2020年7月9日 上午11:03:08 
+*
+* Modification History:
+* Date         Author          Version            Description
+*---------------------------------------------------------*
+* 2020年7月9日     zhaol           v1.0.0               修改原因
+*/
 @RestController
 @RequestMapping(value = "/basicInfo/clientManager")
 public class ClientController {
@@ -29,6 +43,24 @@ public class ClientController {
 	@Resource
 	private ClientService clientService;
 	
+	/**
+	 * 
+	* @Function: ClientController.java
+	* @Description: 保存
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:03:15 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"clientManager"})
 	@RequestMapping(value = "/saveClient")
 	public String saveClient(@RequestBody ClientBean clientBean){
@@ -43,6 +75,24 @@ public class ClientController {
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，客户信息创建失败！"));
 	}
 	
+	/**
+	 * 
+	* @Function: ClientController.java
+	* @Description: 查找
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:03:24 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"clientManager"})
 	@RequestMapping(value = "/getClients")
 	public String getClients(@RequestBody(required = false) ClientQueryBean clientQueryBean){
@@ -50,6 +100,24 @@ public class ClientController {
 		 return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
+	/**
+	 * 
+	* @Function: ClientController.java
+	* @Description: 删除
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:03:35 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"clientManager"})
 	@RequestMapping(value = "/deleteClient")
 	public String deleteClient(HttpServletRequest request) {
@@ -59,6 +127,24 @@ public class ClientController {
 		return JsonUtils.toJsonString(resultBean.ok("客户删除成功"));
 	}
 	
+	/**
+	 * 
+	* @Function: ClientController.java
+	* @Description: 修改状态
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:03:44 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"clientManager"})
 	@RequestMapping(value = "/changeState")
 	@ResponseBody

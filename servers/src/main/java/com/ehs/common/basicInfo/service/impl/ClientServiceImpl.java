@@ -51,6 +51,20 @@ public class ClientServiceImpl implements ClientService{
 	@Resource
 	private ContactInfoDao contactInfoDao;
 	
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.ClientService#saveClient(com.ehs.common.basicInfo.bean.ClientBean)  
+	* @Function: ClientServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:07:56 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void saveClient(ClientBean clientBean) {
@@ -79,6 +93,19 @@ public class ClientServiceImpl implements ClientService{
 		}
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.ClientService#findClients(com.ehs.common.basicInfo.bean.ClientQueryBean)  
+	* @Function: ClientServiceImpl.java
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:07 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	public PageInfoBean findClients(ClientQueryBean clientQueryBean) {
 		PageRequest pageRequest = PageRequest.of(clientQueryBean.getPage() - 1, clientQueryBean.getSize());
@@ -92,6 +119,20 @@ public class ClientServiceImpl implements ClientService{
 		return null;
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.ClientService#deleteClientByKey(java.lang.String)  
+	* @Function: ClientServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:14 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public void deleteClientByKey(String key) {
@@ -110,6 +151,20 @@ public class ClientServiceImpl implements ClientService{
 		}
 	}
 
+	/**
+	 * 
+	* @see com.ehs.common.basicInfo.service.ClientService#changeState(com.ehs.common.basicInfo.entity.ClientInfo)  
+	* @Function: ClientServiceImpl.java
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:08:19 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@Override
 	@Transactional
 	public ClientInfo changeState(ClientInfo clientInfo) {

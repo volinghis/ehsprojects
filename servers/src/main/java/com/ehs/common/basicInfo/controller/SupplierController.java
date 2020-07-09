@@ -43,6 +43,24 @@ private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseContr
 	@Resource
 	private SupplierService supplierService;
 	
+	/**
+	 * 
+	* @Function: SupplierController.java
+	* @Description: 保存
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:05:41 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"supplier"})
 	@RequestMapping(value = "/saveSupplier")
 	public String saveSupplier(@RequestBody SupplierBean supplierBean){
@@ -57,6 +75,24 @@ private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseContr
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，供应商信息创建失败！"));
 	}
 	
+	/**
+	 * 
+	* @Function: SupplierController.java
+	* @Description: 查找
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:05:33 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"supplier"})
 	@RequestMapping(value = "/getSuppliers")
 	public String getSuppliers(@RequestBody(required = false) SupplierQueryBean supplierQueryBean){
@@ -64,6 +100,24 @@ private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseContr
 		 return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
+	/**
+	 * 
+	* @Function: SupplierController.java
+	* @Description: 删除
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:05:25 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"supplier"})
 	@RequestMapping(value = "/deleteSupplier")
 	public String deleteSupplier(HttpServletRequest request) {
@@ -73,6 +127,24 @@ private static final Logger logger = LoggerFactory.getLogger(EnterWareHouseContr
 		return JsonUtils.toJsonString(resultBean.ok("客户删除成功"));
 	}
 	
+	/**
+	 * 
+	* @Function: SupplierController.java
+	* @Description: 修改状态
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:05:16 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"supplier"})
 	@RequestMapping(value = "/changeState")
 	@ResponseBody

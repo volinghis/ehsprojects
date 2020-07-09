@@ -40,6 +40,24 @@ public class CommodityController {
 	@Resource
 	private CommodityService commodityService;
 
+	/**
+	 * 
+	* @Function: CommodityController.java
+	* @Description: 保存
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:04:09 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"commodity"})
 	@RequestMapping(value = "/saveCommodity")
 	public String saveCommodity(@RequestBody PartsAccount partsAccount) {
@@ -54,6 +72,24 @@ public class CommodityController {
 		return JsonUtils.toJsonString(resultBean.error("很遗憾，商品信息创建失败！"));
 	}
 	
+	/**
+	 * 
+	* @Function: CommodityController.java
+	* @Description: 查找
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:04:18 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"commodity"})
 	@RequestMapping(value = "/getCommodities")
 	public String getCommodities(@RequestBody(required = false) CommodityQueryBean commodityQueryBean) {
@@ -61,7 +97,24 @@ public class CommodityController {
 		 return (pb==null?"[]":JsonUtils.toJsonString(pb));
 	}
 	
-	
+	/**
+	 * 
+	* @Function: CommodityController.java
+	* @Description: 删除
+	*
+	* @param:描述1描述
+	* @return：返回结果描述
+	* @throws：异常描述
+	*
+	* @version: v1.0.0
+	* @author: zhaol
+	* @date: 2020年7月9日 上午11:04:27 
+	*
+	* Modification History:
+	* Date         Author          Version            Description
+	*---------------------------------------------------------*
+	* 2020年7月9日     zhaol           v1.0.0               修改原因
+	 */
 	@RequestAuth(menuKeys = {"commodity"})
 	@RequestMapping(value = "/deleteCommodity")
 	public String deleteCommodity(HttpServletRequest request) {
