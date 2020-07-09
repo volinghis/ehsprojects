@@ -6,8 +6,8 @@
         <el-col :span="12">
           <p><el-image :src="dhUrl" style="width: 100px; height: 100px"></el-image></p>
           <p>
-            <span>东恒鑫源仓储管理系统</span><br>
-            <span>DongHeng XinYuan WareHouse Management System</span>
+            <span>东恒鑫源智能仓储管理系统</span><br>
+            <span>DongHeng XinYuan Intelligent WareHouse Management System</span>
           </p>
         </el-col>
         <el-col :span="12">
