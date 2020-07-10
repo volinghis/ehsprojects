@@ -83,13 +83,15 @@ export default {
       })
     },
     tableRowClassName ({ row, rowIndex }) {
-      var date = new Date(row.creationTime.replace(/-/g, '/'))
-      if (this.nowTime >= (date.getTime() + 604800000) && row.status !== 'END') {
-        return 'ehs-message-info-error'
-      } else if (row.status === 'usertask1') {
-        return 'ehs-message-info-yellow'
+      if (row != null) {
+        var date = new Date(row.creationTime.replace(/-/g, '/'))
+        if (this.nowTime >= (date.getTime() + 604800000) && row.status !== 'END') {
+          return 'ehs-message-info-error'
+        } else if (row.status === 'usertask1') {
+          return 'ehs-message-info-yellow'
+        }
+        return ''
       }
-      return ''
     }
   }
 }
